@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://vvviceversa.com/sitemap.xml
