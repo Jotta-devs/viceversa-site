@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Chaves — NUNCA comitar. Use os Secrets do GitHub.
+.env
+*.key
