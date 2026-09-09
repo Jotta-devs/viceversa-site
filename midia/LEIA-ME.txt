@@ -1,0 +1,1 @@
+Imagens dos posts, baixadas automaticamente das Issues pelo automacao/posts.py. Não edite à mão.
