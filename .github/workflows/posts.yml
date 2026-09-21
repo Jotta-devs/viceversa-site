@@ -1,0 +1,68 @@
+name: Publicar posts (Issues + X -> site)
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled, deleted]
+  schedule:
+    - cron: "0 */6 * * *"    # rede de segurança, caso um evento de Issue falhe
+  workflow_dispatch:
+
+concurrency:
+  group: publicar-posts
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write     # para comentar o botão na Issue
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      # Fonte confiável: as Issues. Monta a base do feed.
+      - name: Ler as Issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python automacao/posts.py
+
+      # Comenta na Issue com o link que abre o X já preenchido. Custo zero:
+      # não usa a API paga do X, só o endpoint público de intenção.
+      - name: Gerar o botão de publicação no X
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python automacao/botao-x.py
+
+      - name: Regerar o site
+        run: python montar.py
+
+      - name: Publicar
+        run: |
+          git config user.name "viceversa-bot"
+          git config user.email "bot@viceversa"
+          git add feed.json midia/ docs/
+          if git diff --cached --quiet; then
+            echo "nada mudou, nada a publicar."
+            exit 0
+          fi
+          git commit -m "posts: atualiza o painel de noticias"
+          # o repositorio pode ter recebido outro commit enquanto isto rodava;
+          # sincroniza antes de enviar e tenta de novo em caso de conflito
+          for tentativa in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push; then
+              echo "publicado."
+              exit 0
+            fi
+            echo "tentativa $tentativa falhou; repetindo em 5s..."
+            sleep 5
+          done
+          echo "nao consegui publicar apos 3 tentativas."
+          exit 1

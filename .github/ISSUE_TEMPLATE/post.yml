@@ -1,0 +1,35 @@
+name: Novo post
+description: Publica um card no site e gera o link pronto para o X
+title: "Título do post aqui"
+labels: ["post"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        O **título** desta Issue vira o título do card no site e a primeira
+        linha do post no X. Escreva ele no campo lá em cima.
+
+  - type: textarea
+    id: texto
+    attributes:
+      label: Texto do post
+      description: >
+        Aparece no card do site e no post do X. Para caber no X, título e texto
+        somados devem ficar em até 280 caracteres — o robô avisa se passar.
+        PARA ADICIONAR IMAGEM: arraste o arquivo para dentro deste campo. Ela
+        aparece no card do site automaticamente. No X, você precisa anexá-la à
+        mão na hora de publicar.
+      placeholder: Vehicles become your mini depot for weapons and items.
+    validations:
+      required: true
+
+  - type: input
+    id: link_x
+    attributes:
+      label: Link do post no X (opcional)
+      description: >
+        Deixe em branco agora. Depois de publicar no X, volte aqui e cole o link
+        para o card do site apontar para o tweet.
+      placeholder: https://x.com/vvviceversaa/status/123456789
+    validations:
+      required: false

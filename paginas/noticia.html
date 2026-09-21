@@ -1,0 +1,33 @@
+<main class="artigo">
+  <a class="artigo__voltar" href="{{__news__}}">{{ar01}}</a>
+  <article>
+    <p class="artigo__meta">{{ar08}} <time datetime="{{__art_iso__}}">{{__art_data__}}</time></p>
+    <h1>{{__art_titulo__}}</h1>
+    <div class="artigo__corpo">
+{{__art_html__}}
+    </div>
+  </article>
+
+  <div class="compartilhar">
+    <span class="compartilhar__rotulo">{{ar03}}</span>
+    <a class="zap" href="https://wa.me/?text={{__art_share_txt__}}" target="_blank" rel="noopener">WhatsApp</a>
+    <a href="https://x.com/intent/post?text={{__art_share_titulo__}}&amp;url={{__art_share_url__}}&amp;via=vvviceversaa" target="_blank" rel="noopener">X</a>
+    <a href="https://t.me/share/url?url={{__art_share_url__}}&amp;text={{__art_share_titulo__}}" target="_blank" rel="noopener">Telegram</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{__art_share_url__}}" target="_blank" rel="noopener">Facebook</a>
+    <button type="button" data-copiar="{{__canonical__}}" data-ok="{{ar05}}">{{ar04}}</button>
+    <button type="button" data-compartilhar="{{__canonical__}}">↗</button>
+  </div>
+
+  <div class="artigo__cta">
+    <p>{{ar06}}</p>
+    <a class="painel__link" href="https://x.com/vvviceversaa" target="_blank" rel="noopener">{{ar07}}</a>
+    {{__art_link_x__}}
+  </div>
+
+  <section class="artigo__mais" style="padding:0 0 4rem">
+    <div class="secao__cabeca"><h2>{{ar02}}</h2></div>
+    <ul class="artigo__relacionadas">
+{{__art_relacionadas__}}
+    </ul>
+  </section>
+</main>
