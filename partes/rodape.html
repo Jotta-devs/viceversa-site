@@ -351,8 +351,7 @@
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: o vetor recriado (Noite/Dia) e o original para comparar ── */
-    const original = L.imageOverlay(cfg.original, limites, {className: "atlas-original"});
+    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
     let vetor = null;
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
@@ -363,15 +362,13 @@
       vetor = L.svgOverlay(el, limites, {interactive: false, className: "atlas-vetor"}).addTo(mapa);
       vetor.bringToBack();
       aplicarEstilo(estiloAtual);
-    }).catch(function(){ aplicarEstilo("original"); });
+    });
 
     let estiloAtual = "noite";
     function aplicarEstilo(estilo){
       estiloAtual = estilo;
-      caixa.classList.remove("atlas--noite", "atlas--dia", "atlas--original");
+      caixa.classList.remove("atlas--noite", "atlas--dia");
       caixa.classList.add("atlas--" + estilo);
-      if(estilo === "original"){ original.addTo(mapa); original.bringToBack(); }
-      else if(mapa.hasLayer(original)) mapa.removeLayer(original);
       document.querySelectorAll("#atlas-estilos [data-estilo]").forEach(function(b){
         b.setAttribute("aria-pressed", b.dataset.estilo === estilo ? "true" : "false");
       });
@@ -379,7 +376,7 @@
     }
     try {
       const salvo = localStorage.getItem("viceversa_mapa_estilo");
-      if(salvo === "dia" || salvo === "noite" || salvo === "original") estiloAtual = salvo;
+      if(salvo === "dia" || salvo === "noite") estiloAtual = salvo;
     } catch(e){}
     aplicarEstilo(estiloAtual);
     document.querySelectorAll("#atlas-estilos [data-estilo]").forEach(function(b){

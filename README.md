@@ -134,10 +134,9 @@ O vetor traz: mar em 4 profundidades, relevo em 3 níveis, pântanos, praias,
 áreas industriais, cidades com quarteirões e prédios, e a rede de vias
 redesenhada em rodovias, estradas e ruas (as ruas e os prédios ganham destaque
 ao aproximar). Em cima disso o site oferece os estilos **Noite** e **Dia** (as
-cores estão em `partes/cabeca.html`, seção "ATLAS recriado"), **Original** (o
-mapa da comunidade sem alterações, para comparar), **grade de referência**
-A1…H11, nomes das regiões e locais nos três idiomas, busca, link direto para
-cada local e tela cheia.
+cores estão em `partes/cabeca.html`, seção "ATLAS recriado"), **grade de
+referência** A1…H11, nomes das regiões e locais nos três idiomas, busca, link
+direto para cada local e tela cheia.
 
 Nos locais, a tag "Nome descritivo" marca nomes dados por nós (ex.: "Ilha
 portuária") e "Nome especulativo" marca apelidos da comunidade que a Rockstar

@@ -664,7 +664,6 @@ def config_mapa(mapa, cod, textos, prefixo):
     config = {
         "info": mapa["info"],
         "svg": f"{prefixo}map-data/leonida.svg?v={versao}",
-        "original": f"{prefixo}map-data/original.webp?v={versao}",
         "atribuicao": atribuicao,
         "pontos": pontos,
         "rotulos": rotulos,
@@ -818,12 +817,14 @@ def montar():
         if (RAIZ / nome).exists():
             shutil.copy(RAIZ / nome, SAIDA / nome)
 
-    # mapa de Leonida recriado (vetor) + o original recortado, e bibliotecas do próprio site
+    # mapa de Leonida recriado (vetor), e bibliotecas do próprio site
     if mapa:
         (SAIDA / "map-data").mkdir(exist_ok=True)
-        for nome in ("leonida.svg", "original.webp"):
-            if (PASTA_MAPA / nome).exists():
-                shutil.copy(PASTA_MAPA / nome, SAIDA / "map-data" / nome)
+        if (PASTA_MAPA / "leonida.svg").exists():
+            shutil.copy(PASTA_MAPA / "leonida.svg", SAIDA / "map-data" / "leonida.svg")
+        velho = SAIDA / "map-data" / "original.webp"
+        if velho.exists():
+            velho.unlink()     # não usamos mais a visualização "Original"
         print("  ✓ map-data/ (mapa recriado)")
     if PASTA_VENDOR.is_dir():
         shutil.copytree(PASTA_VENDOR, SAIDA / "vendor")

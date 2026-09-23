@@ -1299,8 +1299,6 @@
   .atlas{--traco:1}
   .atlas--noite{--atlas-mar:#07112A}
   .atlas--dia{--atlas-mar:#2B8FC4}
-  .atlas--original{--atlas-mar:#2C68A6}
-  .atlas--original .atlas-vetor{display:none}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
@@ -1364,7 +1362,6 @@
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
   .atlas--dia .atlas-regiao b{color:#0B0414;text-shadow:0 0 3px #FFF3E4,0 0 3px #FFF3E4,0 0 1px #FFF3E4}
   .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFF3E4,0 0 2px #FFF3E4}
-  .atlas--original .atlas-regiao,.atlas--original .atlas-rotulo{display:none!important}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1886,8 +1883,7 @@ In the gameplay shown to the newspaper, Jason picks up a cup of coffee, drinks i
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: o vetor recriado (Noite/Dia) e o original para comparar ── */
-    const original = L.imageOverlay(cfg.original, limites, {className: "atlas-original"});
+    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
     let vetor = null;
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
@@ -1898,15 +1894,13 @@ In the gameplay shown to the newspaper, Jason picks up a cup of coffee, drinks i
       vetor = L.svgOverlay(el, limites, {interactive: false, className: "atlas-vetor"}).addTo(mapa);
       vetor.bringToBack();
       aplicarEstilo(estiloAtual);
-    }).catch(function(){ aplicarEstilo("original"); });
+    });
 
     let estiloAtual = "noite";
     function aplicarEstilo(estilo){
       estiloAtual = estilo;
-      caixa.classList.remove("atlas--noite", "atlas--dia", "atlas--original");
+      caixa.classList.remove("atlas--noite", "atlas--dia");
       caixa.classList.add("atlas--" + estilo);
-      if(estilo === "original"){ original.addTo(mapa); original.bringToBack(); }
-      else if(mapa.hasLayer(original)) mapa.removeLayer(original);
       document.querySelectorAll("#atlas-estilos [data-estilo]").forEach(function(b){
         b.setAttribute("aria-pressed", b.dataset.estilo === estilo ? "true" : "false");
       });
@@ -1914,7 +1908,7 @@ In the gameplay shown to the newspaper, Jason picks up a cup of coffee, drinks i
     }
     try {
       const salvo = localStorage.getItem("viceversa_mapa_estilo");
-      if(salvo === "dia" || salvo === "noite" || salvo === "original") estiloAtual = salvo;
+      if(salvo === "dia" || salvo === "noite") estiloAtual = salvo;
     } catch(e){}
     aplicarEstilo(estiloAtual);
     document.querySelectorAll("#atlas-estilos [data-estilo]").forEach(function(b){
