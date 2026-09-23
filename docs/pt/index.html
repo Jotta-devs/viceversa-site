@@ -1286,8 +1286,6 @@
   .atlas__lista button small{grid-column:2;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--creme-40)}
   .atlas__lista button:hover,.atlas__lista li.ativo button{background:rgba(47,230,200,.1)}
   .atlas__vazio{padding:.8rem .9rem;font-size:.82rem;color:var(--creme-40)}
-  .atlas__credito{max-width:1320px;margin:1rem auto 0;font-size:.8rem;color:var(--creme-70);text-align:center;line-height:1.7}
-  .atlas__credito a{color:var(--agua)}
 
   /* tela cheia (também funciona onde a API de fullscreen não existe, como no iPhone) */
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;margin:0;padding:.6rem;gap:.6rem;
@@ -1487,8 +1485,8 @@
   <div class="contagem subir d4" role="timer" aria-label="Contagem regressiva para o lançamento de GTA VI">
     <span class="contagem__label">Faltam para 19 · NOV · 2026</span>
     <div><b id="cd-dias">56</b><small>dias</small></div>
-    <div><b id="cd-horas">12</b><small>horas</small></div>
-    <div><b id="cd-min">02</b><small>min</small></div>
+    <div><b id="cd-horas">10</b><small>horas</small></div>
+    <div><b id="cd-min">15</b><small>min</small></div>
     <div><b id="cd-seg">00</b><small>seg</small></div>
   </div>
 
@@ -2032,9 +2030,8 @@
   })();
 
   /* ---- Mapa de Leonida (recriado em vetor pelo VICEVERSA, Leaflet) ----
-     Base: "YANIS GTA VI Community Map" (Mapping Community), recriado no estilo
-     do site com autorização do autor — ver mapa/recriar_mapa.py. O SVG não traz
-     cores: a paleta (Noite/Dia) vem do CSS. Pontos e rótulos: mapa/pontos.json. */
+     Ver mapa/recriar_mapa.py. O SVG não traz cores: a paleta (Noite/Dia) vem
+     do CSS. Pontos e rótulos: mapa/pontos.json. */
   (function(){
     const alvo = document.getElementById("atlas-mapa");
     const cfgEl = document.getElementById("atlas-config");
@@ -2076,7 +2073,6 @@
     function paraFracao(latlng){ const p = mapa.project(latlng, Z); return [p.x / W, p.y / H]; }
     const limites = L.latLngBounds(paraLatLng(0, 1), paraLatLng(1, 0));
     mapa.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
-    mapa.attributionControl.addAttribution(cfg.atribuicao);
     mapa.setMaxBounds(limites.pad(0.2));
     function enquadrar(){ mapa.fitBounds(limites, {padding:[8, 8]}); }
     enquadrar();

@@ -14,3 +14,7 @@ Thumbs.db
 
 # cópias entregues pelo Claude (não fazem parte do site)
 Claude outputs/
+
+# imagem-base do mapa: fica só no computador, não vai para o repositório
+mapa/base/
+mapa/original.webp

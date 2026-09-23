@@ -292,9 +292,8 @@
   })();
 
   /* ---- Mapa de Leonida (recriado em vetor pelo VICEVERSA, Leaflet) ----
-     Base: "YANIS GTA VI Community Map" (Mapping Community), recriado no estilo
-     do site com autorização do autor — ver mapa/recriar_mapa.py. O SVG não traz
-     cores: a paleta (Noite/Dia) vem do CSS. Pontos e rótulos: mapa/pontos.json. */
+     Ver mapa/recriar_mapa.py. O SVG não traz cores: a paleta (Noite/Dia) vem
+     do CSS. Pontos e rótulos: mapa/pontos.json. */
   (function(){
     const alvo = document.getElementById("atlas-mapa");
     const cfgEl = document.getElementById("atlas-config");
@@ -336,7 +335,6 @@
     function paraFracao(latlng){ const p = mapa.project(latlng, Z); return [p.x / W, p.y / H]; }
     const limites = L.latLngBounds(paraLatLng(0, 1), paraLatLng(1, 0));
     mapa.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
-    mapa.attributionControl.addAttribution(cfg.atribuicao);
     mapa.setMaxBounds(limites.pad(0.2));
     function enquadrar(){ mapa.fitBounds(limites, {padding:[8, 8]}); }
     enquadrar();

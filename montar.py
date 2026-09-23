@@ -40,7 +40,7 @@ PARTES = RAIZ / "partes"
 PAGINAS = RAIZ / "paginas"
 PASTA_IDIOMAS = RAIZ / "idiomas"
 PASTA_INSTITUCIONAL = RAIZ / "institucional"
-PASTA_MAPA = RAIZ / "mapa"          # tiles e pontos do mapa de Leonida (ver mapa/gerar_tiles.py)
+PASTA_MAPA = RAIZ / "mapa"          # imagem-base, vetor e pontos do mapa de Leonida
 PASTA_VENDOR = RAIZ / "vendor"      # bibliotecas de terceiros servidas pelo próprio site (Leaflet)
 SAIDA = RAIZ / "docs"   # o GitHub Pages serve a raiz ou /docs
 ESTATICOS = ["ebook-capa-en.png", "ebook-capa-pt.png", "ebook-capa-es.png",
@@ -50,11 +50,6 @@ ESTATICOS = ["ebook-capa-en.png", "ebook-capa-pt.png", "ebook-capa-es.png",
 # ── troque pelo endereço real antes de publicar ─────────────────────
 DOMINIO = "https://vvviceversa.com"
 NOME_SITE = "VICEVERSA"
-
-# Mapa de Leonida: "YANIS GTA VI Community Map", da Mapping Community, usado com
-# autorização do autor (Yanis) e sem alterações. Os créditos abaixo são obrigatórios.
-MAPA_SITE = "https://map.stateofleonida.net/"
-MAPA_DISCORD = ""     # cole aqui o convite do Discord da Mapping Community (ex.: https://discord.gg/xxxx)
 
 IDIOMAS = {
     # código: (pasta, hreflang, og:locale, rótulo, é o padrão?, checkout do ebook)
@@ -658,13 +653,10 @@ def config_mapa(mapa, cod, textos, prefixo):
                             "nome": texto_idioma(r.get("nome"), cod)})
         except (KeyError, TypeError, ValueError):
             print(f"  ! rótulo do mapa ignorado (faltam id/x/y): {r}")
-    atribuicao = (f'{textos.get("mp11", "Map")}: VICEVERSA · {textos.get("mp21", "based on")} '
-                  f'<a href="{MAPA_SITE}" target="_blank" rel="noopener">YANIS · Mapping Community</a>')
     versao = int((PASTA_MAPA / "leonida.svg").stat().st_mtime)     # evita cache velho após atualizar
     config = {
         "info": mapa["info"],
         "svg": f"{prefixo}map-data/leonida.svg?v={versao}",
-        "atribuicao": atribuicao,
         "pontos": pontos,
         "rotulos": rotulos,
         "textos": {"video": textos.get("mp06", ""), "copiar": textos.get("mp07", ""),
@@ -672,13 +664,6 @@ def config_mapa(mapa, cod, textos, prefixo):
                    "editar": textos.get("mp12", ""), "quadrante": textos.get("mp19", "")},
     }
     return json.dumps(config, ensure_ascii=False).replace("</", "<\\/")
-
-
-def discord_mapa(textos):
-    if not MAPA_DISCORD:
-        return ""
-    return (f' {textos.get("mp13", "")} <a href="{esc(MAPA_DISCORD)}" target="_blank" '
-            f'rel="noopener">Discord</a>.')
 
 
 # ── o gerador ───────────────────────────────────────────────────────
@@ -742,8 +727,6 @@ def montar():
                 extras["__mapa_config__"] = (
                     lambda pref, cod=cod, textos=textos: config_mapa(mapa, cod, textos, pref)
                     if mapa else "null")
-                extras["__mapa_site__"] = MAPA_SITE
-                extras["__mapa_discord__"] = discord_mapa(textos)
             elif pagina in INSTITUCIONAIS:
                 fonte = PASTA_INSTITUCIONAL / cod / f"{pagina}.html"
                 if not fonte.exists():

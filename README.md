@@ -117,15 +117,13 @@ cadastre o site e aponte os três `feed.xml`.
 
 ## Mapa de Leonida
 
-A página `/map/` (e `/pt/mapa/`, `/es/mapa/`) mostra Leonida **recriada pelo
-VICEVERSA** a partir do **YANIS — GTA VI Community Map**, da Mapping Community
-(map.stateofleonida.net). Yanis autorizou o uso, a modificação e a recriação no
-nosso estilo, com crédito — guarde os prints da autorização. Os créditos na
-página e na atribuição do mapa são obrigatórios: não remova.
+A página `/map/` (e `/pt/mapa/`, `/es/mapa/`) mostra Leonida **recriada em
+vetor, no estilo do VICEVERSA**, a partir de uma imagem-base do mapa de
+Leonida.
 
 ```
-mapa/base/            a imagem original do mapa (a maior resolução disponível)
-mapa/recriar_mapa.py  redesenha o mapa em vetor → mapa/leonida.svg (+ original.webp, leonida.json)
+mapa/base/            a imagem-base do mapa (só no seu computador — fica fora do Git)
+mapa/recriar_mapa.py  redesenha o mapa em vetor → mapa/leonida.svg, mapa/leonida.json
 mapa/pontos.json      pontos clicáveis (regiões, marcos, trailers, vida real) e rótulos
 vendor/leaflet/       a biblioteca do mapa (Leaflet, licença BSD), servida pelo próprio site
 ```
@@ -159,11 +157,6 @@ textos e a grade do original são apagados automaticamente.
 **Adicionar ou ajustar pontos:** abra `/map/?editar=1` no site, clique no lugar
 exato — a posição `"x": …, "y": …` é copiada — e cole em `mapa/pontos.json`.
 Pontos de trailer podem levar `"video"` (id do YouTube) e `"t"` (segundo da cena).
-
-Para o link do Discord aparecer nos créditos, preencha `MAPA_DISCORD` no `montar.py`.
-
-As pastas `mapa/tiles/` e `mapa/gerar_tiles.py`, da versão anterior do mapa, não
-são mais usadas e podem ser apagadas.
 
 ## O robô
 

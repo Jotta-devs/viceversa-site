@@ -3,9 +3,8 @@
 VICEVERSA — recria o mapa de Leonida em vetor, no estilo do site
 =================================================================
 
-Base: "YANIS GTA VI Community Map" (V16), da Mapping Community
-(map.stateofleonida.net). Yanis autorizou o VICEVERSA a usar, modificar e
-recriar o mapa no nosso estilo, com crédito. Guarde os prints da autorização.
+Parte de uma imagem-base do mapa de Leonida (a mais recente em mapa/base/) e
+redesenha tudo no estilo do VICEVERSA.
 
 O que o script faz
 ------------------
@@ -47,8 +46,6 @@ PASTA = Path(__file__).parent
 BASE = PASTA / "base"
 SAIDA = PASTA / "leonida.svg"
 INFO = PASTA / "leonida.json"
-ORIGINAL = PASTA / "original.webp"     # o original recortado, para o botão "Original"
-LADO_ORIGINAL = 2400                    # maior lado do original.webp (px)
 COLUNAS = 8                             # grade de referência do VICEVERSA: colunas A, B, C…
 
 # ── ajustes da imagem V16 (em pixels da versão de 2048 px de largura) ──
@@ -276,11 +273,6 @@ def main():
     img = img[y0:y1, x0:x1].copy()
     h, w = img.shape[:2]
     print(f"Imagem: {origem} · mapa recortado {w}×{h} px")
-
-    # cópia do original recortado (sem alterações), para quem quiser comparar
-    reduz = min(1.0, LADO_ORIGINAL / max(h, w))
-    copia = cv2.resize(img, None, fx=reduz, fy=reduz, interpolation=cv2.INTER_AREA) if reduz < 1 else img
-    cv2.imwrite(str(ORIGINAL), cv2.cvtColor(copia, cv2.COLOR_RGB2BGR), [cv2.IMWRITE_WEBP_QUALITY, 86])
 
     limpa = apagar_grade_e_textos(img, k)
     m = classificar(limpa)
