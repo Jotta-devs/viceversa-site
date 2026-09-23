@@ -9,12 +9,19 @@ trocando os {{marcadores}} pelos textos de idiomas/<codigo>.json.
 
     python3 montar.py
 
-Resultado (inglês na raiz):
-    site/index.html        site/news/          site/map/
-    site/pt/               site/pt/noticias/   site/pt/mapa/
-    site/es/               site/es/noticias/   site/es/mapa/
+Resultado (inglês na raiz), dentro de docs/:
+    index.html              news/               map/          about/ contact/ ...
+    pt/                     pt/noticias/        pt/mapa/      pt/sobre/ ...
+    es/                     es/noticias/        es/mapa/      es/sobre/ ...
+    news/<slug>/            uma página por notícia (feed.json)
+    pt/noticias/<slug>/     versão em português, quando a Issue tem tradução
+    es/noticias/<slug>/     versão em espanhol, idem
+    feed.xml, pt/feed.xml, es/feed.xml      RSS por idioma
+    sitemap.xml, news-sitemap.xml, robots.txt
 
-Para mudar textos edite os JSON — nunca a pasta docs/, que é apagada e regerada.
+Para mudar textos edite os JSON (e institucional/ para as páginas Sobre,
+Contato, Privacidade e Política editorial) — nunca a pasta docs/, que é
+apagada e regerada.
 """
 
 import html as html_lib
@@ -25,12 +32,14 @@ import sys
 import unicodedata
 import urllib.parse
 from datetime import datetime, timedelta, timezone
+from email.utils import format_datetime
 from pathlib import Path
 
 RAIZ = Path(__file__).parent
 PARTES = RAIZ / "partes"
 PAGINAS = RAIZ / "paginas"
 PASTA_IDIOMAS = RAIZ / "idiomas"
+PASTA_INSTITUCIONAL = RAIZ / "institucional"
 SAIDA = RAIZ / "docs"   # o GitHub Pages serve a raiz ou /docs
 ESTATICOS = ["ebook-capa-en.png", "ebook-capa-pt.png", "ebook-capa-es.png",
              "og-image-en.png", "og-image-pt.png", "og-image-es.png",
@@ -38,6 +47,7 @@ ESTATICOS = ["ebook-capa-en.png", "ebook-capa-pt.png", "ebook-capa-es.png",
 
 # ── troque pelo endereço real antes de publicar ─────────────────────
 DOMINIO = "https://vvviceversa.com"
+NOME_SITE = "VICEVERSA"
 
 IDIOMAS = {
     # código: (pasta, hreflang, og:locale, rótulo, é o padrão?, checkout do ebook)
@@ -45,15 +55,33 @@ IDIOMAS = {
     "pt-BR": ("pt", "pt-BR", "pt_BR", "PT", False, "https://pay.kiwify.com.br/f6pNg7O"),
     "es":    ("es", "es",    "es_ES", "ES", False, "https://pay.kiwify.com/0xSU59u"),
 }
+# sufixo usado no feed.json para as traduções (titulo_pt, html_es...)
+SUFIXO_POST = {"pt-BR": "pt", "es": "es"}
+# idioma no formato do Google Notícias
+IDIOMA_NEWS = {"en": "en", "pt-BR": "pt", "es": "es"}
 
 # página: (arquivo em paginas/, slug por idioma)
 PAGINAS_SITE = {
-    "home":     ("home.html",     {"en": "",     "pt-BR": "",         "es": ""}),
-    "noticias": ("noticias.html", {"en": "news", "pt-BR": "noticias", "es": "noticias"}),
-    "mapa":     ("mapa.html",     {"en": "map",  "pt-BR": "mapa",     "es": "mapa"}),
+    "home":        ("home.html",          {"en": "",                 "pt-BR": "",                   "es": ""}),
+    "noticias":    ("noticias.html",      {"en": "news",             "pt-BR": "noticias",           "es": "noticias"}),
+    "mapa":        ("mapa.html",          {"en": "map",              "pt-BR": "mapa",               "es": "mapa"}),
+    "sobre":       ("institucional.html", {"en": "about",            "pt-BR": "sobre",              "es": "sobre"}),
+    "contato":     ("institucional.html", {"en": "contact",          "pt-BR": "contato",            "es": "contacto"}),
+    "privacidade": ("institucional.html", {"en": "privacy",          "pt-BR": "privacidade",        "es": "privacidad"}),
+    "editorial":   ("institucional.html", {"en": "editorial-policy", "pt-BR": "politica-editorial", "es": "politica-editorial"}),
+}
+INSTITUCIONAIS = ("sobre", "contato", "privacidade", "editorial")
+
+LANCAMENTO = datetime(2026, 11, 19, 3, 0, tzinfo=timezone.utc)   # 19/11 00:00 em Brasília
+CARDS_NOTICIAS = 20     # cards completos na página de notícias; o resto vai para o arquivo
+MESES = {
+    "en": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "pt-BR": ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
+    "es": ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
 }
 
 
+# ── caminhos ────────────────────────────────────────────────────────
 def caminho(codigo, pagina):
     pasta = IDIOMAS[codigo][0]
     slug = PAGINAS_SITE[pagina][1][codigo]
@@ -65,21 +93,11 @@ def url(codigo, pagina):
     return f"{DOMINIO}/" + (f"{c}/" if c else "")
 
 
-def profundidade(codigo, pagina):
-    c = caminho(codigo, pagina)
-    return len(c.split("/")) if c else 0
+def url_rel(rel):
+    return f"{DOMINIO}/" + (f"{rel}/" if rel else "")
 
 
-# ── notícias (feed.json) ────────────────────────────────────────────
-LANCAMENTO = datetime(2026, 11, 19, 3, 0, tzinfo=timezone.utc)   # 19/11 00:00 em Brasília
-PASTA_POSTS = "news"          # cada notícia vira /news/<slug>/ (os posts são escritos em inglês)
-MESES = {
-    "en": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    "pt-BR": ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
-    "es": ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
-}
-
-
+# ── utilidades de texto ─────────────────────────────────────────────
 def esc(texto):
     return html_lib.escape(texto or "", quote=True)
 
@@ -106,13 +124,11 @@ def slugificar(texto, limite=70):
     return t or "post"
 
 
-def data_post(p):
-    for campo, formato in (("criado", "%Y-%m-%dT%H:%M:%SZ"), ("data", "%d/%m/%Y %H:%M UTC")):
-        try:
-            return datetime.strptime(p.get(campo, ""), formato).replace(tzinfo=timezone.utc)
-        except ValueError:
-            pass
-    return None
+def ler_data(valor, formato):
+    try:
+        return datetime.strptime(valor or "", formato).replace(tzinfo=timezone.utc)
+    except ValueError:
+        return None
 
 
 def data_legivel(quando, codigo):
@@ -124,9 +140,7 @@ def data_legivel(quando, codigo):
     return f"{quando.day} {mes} {quando.year}"
 
 
-def primeira_imagem(p):
-    m = re.search(r'<img[^>]+src="([^"]+)"', p.get("html", ""), re.I)
-    src = m.group(1) if m else p.get("imagem")
+def imagem_absoluta(src):
     if not src:
         return None
     if src.startswith("/"):
@@ -134,8 +148,31 @@ def primeira_imagem(p):
     return src if src.startswith(("http://", "https://")) else None
 
 
+def primeira_imagem(html):
+    m = re.search(r'<img[^>]+src="([^"]+)"', html or "", re.I)
+    return imagem_absoluta(m.group(1)) if m else None
+
+
+def html_de_texto(texto):
+    return "".join(f"<p>{esc(par)}</p>" for par in (texto or "").split("\n\n") if par.strip())
+
+
+def preparar_html(html):
+    # imagens preguiçosas: o texto aparece antes, a página fica mais leve
+    return re.sub(r"<img(?![^>]*loading=)", '<img loading="lazy" decoding="async"', html or "")
+
+
+# ── notícias (feed.json) ────────────────────────────────────────────
 def carregar_posts():
-    """Lê feed.json e prepara cada notícia (slug, datas, resumo, imagem)."""
+    """Lê feed.json e prepara cada notícia com suas versões por idioma.
+
+    Cada post fica assim:
+        slug, quando, atualizado, imagem, link_x
+        versoes = {"en": {...}, "pt-BR": {...}?, "es": {...}?}
+    onde cada versão tem titulo, html, resumo, descricao, imagem.
+    O inglês (título da Issue + "Texto do post") sempre existe; português e
+    espanhol só quando a Issue traz título E texto traduzidos.
+    """
     arq = RAIZ / "feed.json"
     try:
         brutos = json.loads(arq.read_text(encoding="utf-8"))
@@ -143,52 +180,87 @@ def carregar_posts():
         return []
     if not isinstance(brutos, list):
         return []
+
     posts, usados = [], set()
     for p in brutos:
         titulo = (p.get("titulo") or "").strip()
         if not titulo:
             continue
-        corpo = texto_puro(p.get("html") or p.get("texto") or "")
-        quando = data_post(p)
-        # o slug junta título + começo do texto: títulos curtos ("Confirmed!")
-        # sozinhos não dizem nada ao Google
+        html_en = p.get("html") or html_de_texto(p.get("texto"))
+        corpo = texto_puro(html_en)
+        quando = ler_data(p.get("criado"), "%Y-%m-%dT%H:%M:%SZ") or ler_data(p.get("data"), "%d/%m/%Y %H:%M UTC")
+        atualizado = ler_data(p.get("atualizado"), "%Y-%m-%dT%H:%M:%SZ") or quando
+
+        # o slug junta data + título + começo do texto em inglês: títulos curtos
+        # ("Confirmed!") sozinhos não dizem nada ao Google. A data de criação da
+        # Issue nunca muda, e o mesmo slug serve às três línguas.
         palavras = " ".join(corpo.split()[:8])
-        # a data de criação da Issue não muda quando o post é editado: mantém o endereço estável
         prefixo = quando.strftime("%Y%m%d") if quando else ""
         slug = slugificar(f"{prefixo} {titulo} {palavras}")
         base, n = slug, 2
         while slug in usados:
             slug, n = f"{base}-{n}", n + 1
         usados.add(slug)
-        html_corpo = p.get("html") or "".join(
-            f"<p>{esc(par)}</p>" for par in (p.get("texto") or "").split("\n\n") if par.strip())
-        # imagens preguiçosas: o texto aparece antes, a página fica mais leve
-        html_corpo = re.sub(r"<img(?![^>]*loading=)", '<img loading="lazy" decoding="async"', html_corpo)
+
+        imagem = primeira_imagem(html_en) or imagem_absoluta(p.get("imagem"))
+        versoes = {"en": {"titulo": titulo, "html": preparar_html(html_en),
+                          "resumo": resumo(corpo), "descricao": resumo(corpo, 155)}}
+
+        for cod, suf in SUFIXO_POST.items():
+            t_tr = (p.get(f"titulo_{suf}") or "").strip()
+            h_tr = p.get(f"html_{suf}") or html_de_texto(p.get(f"texto_{suf}"))
+            if not (t_tr and texto_puro(h_tr)):
+                continue
+            # tradução sem imagem: reaproveita a imagem principal no topo
+            if imagem and "<img" not in h_tr:
+                h_tr = f'<p><img src="{esc(imagem)}" alt=""></p>\n' + h_tr
+            c_tr = texto_puro(h_tr)
+            versoes[cod] = {"titulo": t_tr, "html": preparar_html(h_tr),
+                            "resumo": resumo(c_tr), "descricao": resumo(c_tr, 155)}
+
+        link = p.get("link") or ""
         posts.append({
-            "titulo": titulo,
             "slug": slug,
             "quando": quando,
-            "resumo": resumo(corpo),
-            "descricao": resumo(corpo, 155),
-            "imagem": primeira_imagem(p),
-            "html": html_corpo,
-            "link_x": p.get("link") if re.match(r"^https?://(x|twitter)\.com/", p.get("link") or "") else None,
+            "atualizado": atualizado,
+            "imagem": imagem,
+            "link_x": link if re.match(r"^https?://(www\.)?(x|twitter)\.com/", link) else None,
+            "versoes": versoes,
         })
     posts.sort(key=lambda q: q["quando"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
     return posts
 
 
-def url_post(post):
-    return f"{DOMINIO}/{PASTA_POSTS}/{post['slug']}/"
+def versao(post, cod):
+    """(código efetivo, versão): a do idioma pedido ou, se não houver, a inglesa."""
+    if cod in post["versoes"]:
+        return cod, post["versoes"][cod]
+    return "en", post["versoes"]["en"]
 
 
-def link_post(post, prefixo):
-    return f"{prefixo}{PASTA_POSTS}/{post['slug']}/"
+def rel_post(post, cod):
+    efetivo, _ = versao(post, cod)
+    return f"{caminho(efetivo, 'noticias')}/{post['slug']}"
 
 
-def cartao_feed(post, prefixo, codigo, textos):
+def url_post(post, cod):
+    return url_rel(rel_post(post, cod))
+
+
+def link_post(post, cod, prefixo):
+    return f"{prefixo}{rel_post(post, cod)}/"
+
+
+def atributo_lang(post, cod):
+    """lang="en" num card em inglês dentro de página pt/es (leitor de tela pronuncia certo)."""
+    efetivo, _ = versao(post, cod)
+    return f' lang="{IDIOMAS[efetivo][1]}"' if efetivo != cod else ""
+
+
+def cartao_feed(post, prefixo, cod, textos):
     """Card do Plantão (página de notícias): miniatura, resumo e link para a matéria."""
-    link = link_post(post, prefixo)
+    _, v = versao(post, cod)
+    link = link_post(post, cod, prefixo)
     thumb = ""
     if post["imagem"]:
         thumb = (f'<a class="post-auto__thumb" href="{link}" tabindex="-1" aria-hidden="true">'
@@ -198,23 +270,40 @@ def cartao_feed(post, prefixo, codigo, textos):
         acoes += f'<a href="{esc(post["link_x"])}" target="_blank" rel="noopener">{textos.get("fd01", "")}</a>'
     classe = "post-auto post-auto--img" if thumb else "post-auto"
     iso = post["quando"].isoformat() if post["quando"] else ""
-    return (f'      <article class="{classe}">{thumb}'
-            f'<time datetime="{iso}">{data_legivel(post["quando"], codigo)}</time>'
-            f'<h4><a href="{link}">{esc(post["titulo"])}</a></h4>'
-            f'<p>{esc(post["resumo"])}</p>'
+    return (f'      <article class="{classe}"{atributo_lang(post, cod)}>{thumb}'
+            f'<time datetime="{iso}">{data_legivel(post["quando"], cod)}</time>'
+            f'<h4><a href="{link}">{esc(v["titulo"])}</a></h4>'
+            f'<p>{esc(v["resumo"])}</p>'
             f'<div class="post-auto__acoes">{acoes}</div></article>')
 
 
-def cartao_home(post, prefixo, codigo, textos, destaque=False):
-    link = link_post(post, prefixo)
+def cartao_home(post, prefixo, cod, textos, destaque=False):
+    _, v = versao(post, cod)
+    link = link_post(post, cod, prefixo)
     img = (f'<img class="noticia__img" src="{esc(post["imagem"])}" alt="" loading="lazy" decoding="async">'
            if post["imagem"] else "")
     classe = "noticia revela tilt" + (" noticia--destaque" if destaque else "")
-    return (f'    <article class="{classe}"><a class="noticia-link" href="{link}">{img}'
+    return (f'    <article class="{classe}"{atributo_lang(post, cod)}><a class="noticia-link" href="{link}">{img}'
             f'<span class="noticia__risco"></span>'
-            f'<span class="noticia__meta">{data_legivel(post["quando"], codigo)}</span>'
-            f'<h3>{esc(post["titulo"])}</h3><p>{esc(post["resumo"])}</p>'
+            f'<span class="noticia__meta">{data_legivel(post["quando"], cod)}</span>'
+            f'<h3>{esc(v["titulo"])}</h3><p>{esc(v["resumo"])}</p>'
             f'<span class="noticia__ler">{textos.get("ul04", "")}</span></a></article>')
+
+
+def item_lista(post, prefixo, cod):
+    _, v = versao(post, cod)
+    return (f'      <li{atributo_lang(post, cod)}><a href="{link_post(post, cod, prefixo)}">'
+            f'<time>{data_legivel(post["quando"], cod)}</time>{esc(v["titulo"])}</a></li>')
+
+
+def arquivo_html(posts, prefixo, cod, textos):
+    """Lista compacta das notícias mais antigas: nenhuma sai do site."""
+    antigos = posts[CARDS_NOTICIAS:]
+    if not antigos:
+        return ""
+    itens = "\n".join(item_lista(p, prefixo, cod) for p in antigos)
+    return (f'    <div class="arquivo">\n      <p class="painel__titulo">{textos.get("ar09", "")}</p>\n'
+            f'      <ul class="artigo__relacionadas">\n{itens}\n      </ul>\n    </div>')
 
 
 def contagem():
@@ -226,6 +315,7 @@ def contagem():
             str(falta.seconds % 3600 // 60).zfill(2))
 
 
+# ── dados estruturados ──────────────────────────────────────────────
 def jsonld(obj):
     corpo = json.dumps(obj, ensure_ascii=False, indent=2).replace("</", "<\\/")
     return f'<script type="application/ld+json">\n{corpo}\n</script>'
@@ -243,63 +333,86 @@ def jsonld_faq(textos):
     return jsonld({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": perguntas})
 
 
-def jsonld_artigo(post, textos_en):
+def organizacao(cod):
+    return {"@type": "Organization", "name": NOME_SITE, "url": url(cod, "sobre"),
+            "logo": {"@type": "ImageObject", "url": DOMINIO + "/og-image-en.png"}}
+
+
+def jsonld_artigo(post, cod, textos):
+    _, v = versao(post, cod)
+    endereco = url_post(post, cod)
     obj = {
         "@context": "https://schema.org",
         "@type": "NewsArticle",
-        "headline": post["titulo"][:110],
-        "description": post["descricao"],
-        "mainEntityOfPage": url_post(post),
-        "url": url_post(post),
-        "inLanguage": "en",
-        "author": {"@type": "Organization", "name": "VICEVERSA", "url": DOMINIO + "/"},
-        "publisher": {"@type": "Organization", "name": "VICEVERSA",
-                      "logo": {"@type": "ImageObject", "url": DOMINIO + "/og-image-en.png"}},
+        "headline": v["titulo"][:110],
+        "description": v["descricao"],
+        "mainEntityOfPage": endereco,
+        "url": endereco,
+        "inLanguage": IDIOMAS[cod][1],
+        "author": organizacao(cod),
+        "publisher": organizacao(cod),
         "image": [post["imagem"] or DOMINIO + "/og-image-en.png"],
     }
     if post["quando"]:
-        obj["datePublished"] = obj["dateModified"] = post["quando"].isoformat()
+        obj["datePublished"] = post["quando"].isoformat()
+        obj["dateModified"] = (post["atualizado"] or post["quando"]).isoformat()
     migalhas = {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "VICEVERSA", "item": DOMINIO + "/"},
-            {"@type": "ListItem", "position": 2, "name": textos_en.get("nav02", "News"),
-             "item": url("en", "noticias")},
-            {"@type": "ListItem", "position": 3, "name": post["titulo"], "item": url_post(post)},
+            {"@type": "ListItem", "position": 1, "name": NOME_SITE, "item": url(cod, "home")},
+            {"@type": "ListItem", "position": 2, "name": textos.get("nav02", "News"),
+             "item": url(cod, "noticias")},
+            {"@type": "ListItem", "position": 3, "name": v["titulo"], "item": endereco},
         ]}
     return jsonld(obj) + "\n" + jsonld(migalhas)
 
 
-def bloco_hreflang(pagina):
+# ── idioma: hreflang e seletor ──────────────────────────────────────
+def bloco_hreflang(alternativas):
+    """alternativas: {codigo: rel}. Só versões que existem de verdade entram."""
     linhas = []
-    for cod, (_, hl, _, _, padrao, _) in IDIOMAS.items():
-        linhas.append(f'<link rel="alternate" hreflang="{hl}" href="{url(cod, pagina)}">')
+    for cod, rel in alternativas.items():
+        hl, padrao = IDIOMAS[cod][1], IDIOMAS[cod][4]
+        linhas.append(f'<link rel="alternate" hreflang="{hl}" href="{url_rel(rel)}">')
         if padrao:
-            linhas.append(f'<link rel="alternate" hreflang="x-default" href="{url(cod, pagina)}">')
+            linhas.append(f'<link rel="alternate" hreflang="x-default" href="{url_rel(rel)}">')
     return "\n".join(linhas)
 
 
-def links_idioma(atual, pagina, prefixo, classe_ativa="idioma-atual"):
+def links_idioma(atual, alternativas, prefixo, classe_ativa="idioma-atual"):
     itens = []
     for cod, (_, hl, _, rotulo, _, _) in IDIOMAS.items():
-        c = caminho(cod, pagina)
-        destino = prefixo + (c + "/" if c else "")
-        destino = destino or "./"
+        rel = alternativas.get(cod)
+        if rel is None:               # sem tradução: leva à página de notícias do idioma
+            rel = caminho(cod, "noticias")
+        destino = (prefixo + (rel + "/" if rel else "")) or "./"
         classe = classe_ativa if cod == atual else ""
         aria = ' aria-current="true"' if cod == atual else ""
         itens.append(f'<a class="{classe}" href="{destino}" hreflang="{hl}" lang="{hl}"{aria}>{rotulo}</a>')
     return itens
 
 
-def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, extras):
+def alternativas_pagina(pagina):
+    return {cod: caminho(cod, pagina) for cod in IDIOMAS}
+
+
+def alternativas_post(post):
+    return {cod: rel_post(post, cod) for cod in IDIOMAS if cod in post["versoes"]}
+
+
+# ── montagem de uma página ──────────────────────────────────────────
+def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, extras,
+                  alternativas=None):
     """Junta cabeça + corpo + rodapé e troca os marcadores.
 
-    rel         caminho da página a partir da raiz ("" para a home em inglês)
-    pagina_nav  qual item do menu fica marcado (home, noticias, mapa)
-    extras      marcadores gerados (conteúdo das notícias etc.) — trocados por último,
-                para que o texto de um post nunca seja confundido com um marcador
+    rel           caminho da página a partir da raiz ("" para a home em inglês)
+    pagina_nav    qual item do menu fica marcado (home, noticias, mapa)
+    extras        marcadores gerados (conteúdo das notícias etc.) — trocados por último,
+                  para que o texto de um post nunca seja confundido com um marcador
+    alternativas  {codigo: rel} das versões em outros idiomas (padrão: a mesma página)
     """
     hl, locale = IDIOMAS[cod][1], IDIOMAS[cod][2]
+    alternativas = alternativas or alternativas_pagina(pagina_nav)
     html = cabeca + "\n" + corpo + "\n" + rodape
 
     faltando = []
@@ -315,29 +428,32 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
     prefixo = "../" * (len(rel.split("/")) if rel else 0)
     atual = {p: (' aria-current="page"' if p == pagina_nav else "") for p in PAGINAS_SITE}
     casa = caminho(cod, "home")
-    canonical = f"{DOMINIO}/" + (f"{rel}/" if rel else "")
 
     padrao = {
         "__ogtype__": "website",
         "__ogimage_url__": DOMINIO + "/og-image-%s.png" % cod.split("-")[0],
-        "__hreflang__": bloco_hreflang(pagina_nav),
+        "__hreflang__": bloco_hreflang(alternativas),
         "__jsonld_extra__": "",
     }
     padrao.update({k: v for k, v in extras.items() if k in padrao})
 
+    pasta = IDIOMAS[cod][0]
+    rss = f"{DOMINIO}/" + (f"{pasta}/" if pasta else "") + "feed.xml"
+
     html = (html
             .replace("{{__lang__}}", hl)
             .replace("{{__locale__}}", locale)
-            .replace("{{__canonical__}}", canonical)
+            .replace("{{__canonical__}}", url_rel(rel))
             .replace("{{__siteroot__}}", url(cod, "home"))
+            .replace("{{__rss__}}", rss)
             .replace("{{__base_url__}}", DOMINIO + "/")
             .replace("{{__base__}}", prefixo)
             .replace("{{__ogimage__}}", "og-image-%s.png" % cod.split("-")[0])
             .replace("{{__ebookcapa__}}", "ebook-capa-%s.png" % cod.split("-")[0])
             .replace("{{__seletor__}}",
                      '  <nav class="seletor-idioma" aria-label="Idioma / Language">\n    '
-                     + "\n    ".join(links_idioma(cod, pagina_nav, prefixo)) + "\n  </nav>")
-            .replace("{{__idiomas_menu__}}", "".join(links_idioma(cod, pagina_nav, prefixo)))
+                     + "\n    ".join(links_idioma(cod, alternativas, prefixo)) + "\n  </nav>")
+            .replace("{{__idiomas_menu__}}", "".join(links_idioma(cod, alternativas, prefixo)))
             .replace("{{__ebook_link__}}", IDIOMAS[cod][5])
             .replace("{{__home__}}", (prefixo + (casa + "/" if casa else "")) or "./")
             .replace("{{__news__}}", prefixo + caminho(cod, "noticias") + "/")
@@ -345,6 +461,8 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
             .replace("{{__at_home__}}", atual["home"])
             .replace("{{__at_news__}}", atual["noticias"])
             .replace("{{__at_map__}}", atual["mapa"]))
+    for pagina in INSTITUCIONAIS:
+        html = html.replace("{{__link_%s__}}" % pagina, prefixo + caminho(cod, pagina) + "/")
 
     m = re.search(r'<div class="footer-social">([\s\S]*?)</div>', html)
     html = html.replace("{{__social_menu__}}",
@@ -354,7 +472,12 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
     for chave, valor in list(padrao.items()) + [(k, v) for k, v in extras.items() if k not in padrao]:
         html = html.replace("{{%s}}" % chave, valor(prefixo) if callable(valor) else valor)
 
-    restantes = set(re.findall(r"\{\{__[^}]+\}\}|\{\{[a-z]+\d+\}\}", html))
+    # bloco de anúncio sem ID (data-ad-slot vazio) sairia como uma caixa tracejada
+    # vazia na página: some do HTML até o bloco ser criado no AdSense
+    html = re.sub(r'<div class="anuncio[^"]*" data-anuncio="\w+">(?:(?!</div>).)*?'
+                  r'data-ad-slot=""(?:(?!</div>).)*?</div>\s*', "", html, flags=re.S)
+
+    restantes = set(re.findall(r"\{\{__[^}]+\}\}|\{\{[a-z]+\d+\}\}|\{\{inst_[^}]+\}\}", html))
     if restantes:
         print(f"  ! {rel or '/'}: marcadores não substituídos: {restantes}")
 
@@ -364,10 +487,121 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
     return faltando
 
 
+def extras_comuns(posts, cod, textos):
+    """Faixa do topo e barra "última notícia", presentes em todas as páginas."""
+    if not posts:
+        return {"__ticker_posts__": "",
+                "__ultima_titulo__": textos.get("t009", ""),
+                "__ultima_link__": lambda pref, cod=cod: pref + caminho(cod, "noticias") + "/"}
+    ultima = posts[0]
+    return {
+        "__ticker_posts__": "\n    ".join(
+            f"<span>◆ {esc(versao(p, cod)[1]['titulo'])}</span>" for p in posts[:3]),
+        "__ultima_titulo__": esc(versao(ultima, cod)[1]["titulo"]),
+        "__ultima_link__": lambda pref, ultima=ultima, cod=cod: link_post(ultima, cod, pref),
+    }
+
+
+# ── RSS e sitemaps ──────────────────────────────────────────────────
+def data_rss(quando):
+    return format_datetime(quando or datetime.now(timezone.utc))
+
+
+def gerar_rss(posts, cod, textos):
+    """feed.xml do idioma: versões traduzidas quando existem, senão a inglesa."""
+    itens = []
+    for post in posts[:50]:
+        efetivo, v = versao(post, cod)
+        link = url_post(post, cod)
+        imagem = ""
+        if post["imagem"]:
+            imagem = f'\n      <media:content url="{esc(post["imagem"])}" medium="image"/>'
+        conteudo = v["html"].replace("]]>", "]]]]><![CDATA[>")
+        itens.append(f"""    <item>
+      <title>{esc(v["titulo"])}</title>
+      <link>{link}</link>
+      <guid isPermaLink="true">{link}</guid>
+      <pubDate>{data_rss(post["quando"])}</pubDate>
+      <dc:creator>{NOME_SITE}</dc:creator>
+      <dc:language>{IDIOMAS[efetivo][1]}</dc:language>
+      <description>{esc(v["resumo"])}</description>
+      <content:encoded><![CDATA[{conteudo}]]></content:encoded>{imagem}
+    </item>""")
+    pasta = IDIOMAS[cod][0]
+    proprio = f"{DOMINIO}/" + (f"{pasta}/" if pasta else "") + "feed.xml"
+    ultimo = data_rss(posts[0]["quando"]) if posts else data_rss(None)
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>{esc(textos.get("t001", NOME_SITE))}</title>
+    <link>{url(cod, "noticias")}</link>
+    <description>{esc(textos.get("meta_desc", ""))}</description>
+    <language>{IDIOMAS[cod][1]}</language>
+    <lastBuildDate>{ultimo}</lastBuildDate>
+    <atom:link href="{proprio}" rel="self" type="application/rss+xml"/>
+    <image><url>{DOMINIO}/og-image-{cod.split("-")[0]}.png</url><title>{NOME_SITE}</title><link>{url(cod, "home")}</link></image>
+{chr(10).join(itens)}
+  </channel>
+</rss>
+"""
+
+
+def gerar_news_sitemap(posts):
+    """Sitemap do Google Notícias: só matérias das últimas 48 horas (regra do Google)."""
+    limite = datetime.now(timezone.utc) - timedelta(hours=48)
+    urls = []
+    for post in posts:
+        if not post["quando"] or post["quando"] < limite:
+            continue
+        for cod in post["versoes"]:
+            v = post["versoes"][cod]
+            urls.append(f"""  <url>
+    <loc>{url_post(post, cod)}</loc>
+    <news:news>
+      <news:publication><news:name>{NOME_SITE}</news:name><news:language>{IDIOMA_NEWS[cod]}</news:language></news:publication>
+      <news:publication_date>{post["quando"].isoformat()}</news:publication_date>
+      <news:title>{esc(v["titulo"])}</news:title>
+    </news:news>
+  </url>""")
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+            'xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n'
+            + "\n".join(urls) + ("\n" if urls else "") + "</urlset>\n")
+
+
+def gerar_sitemap(posts, hoje):
+    ultima = posts[0]["quando"].strftime("%Y-%m-%d") if posts and posts[0]["quando"] else hoje
+    urls = ""
+    for cod in IDIOMAS:
+        for pagina in PAGINAS_SITE:
+            alt = "".join(
+                f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url(o, pagina)}"/>'
+                for o in IDIOMAS)
+            mod = ultima if pagina in ("home", "noticias") else hoje
+            urls += f"\n  <url><loc>{url(cod, pagina)}</loc><lastmod>{mod}</lastmod>{alt}\n  </url>"
+    for post in posts:
+        mod = (post["atualizado"] or post["quando"])
+        mod = mod.strftime("%Y-%m-%d") if mod else hoje
+        alternativas = alternativas_post(post)
+        for cod in post["versoes"]:
+            alt = ""
+            if len(alternativas) > 1:
+                alt = "".join(
+                    f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url_rel(r)}"/>'
+                    for o, r in alternativas.items())
+            urls += f"\n  <url><loc>{url_post(post, cod)}</loc><lastmod>{mod}</lastmod>{alt}\n  </url>"
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+            'xmlns:xhtml="http://www.w3.org/1999/xhtml">' + urls + "\n</urlset>\n")
+
+
+# ── o gerador ───────────────────────────────────────────────────────
 def montar():
     cabeca = (PARTES / "cabeca.html").read_text(encoding="utf-8")
     rodape = (PARTES / "rodape.html").read_text(encoding="utf-8")
     base = json.loads((PASTA_IDIOMAS / "pt-BR.json").read_text(encoding="utf-8"))
+    corpo_post = (PAGINAS / "noticia.html").read_text(encoding="utf-8")
     posts = carregar_posts()
     dias, horas, minutos = contagem()
     hoje = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -388,7 +622,7 @@ def montar():
     (SAIDA / ".nojekyll").write_text("", encoding="utf-8")
 
     total = 0
-    textos_por_idioma = {}
+    paginas_post = 0
     for cod, (pasta, hl, locale, rotulo, padrao, link_ebook) in IDIOMAS.items():
         arq = PASTA_IDIOMAS / f"{cod}.json"
         if not arq.exists():
@@ -396,12 +630,13 @@ def montar():
             continue
         textos = dict(base)
         textos.update(json.loads(arq.read_text(encoding="utf-8")))
-        textos_por_idioma[cod] = textos
 
+        # ── páginas fixas ──
         for pagina, (arquivo, _) in PAGINAS_SITE.items():
             corpo = (PAGINAS / arquivo).read_text(encoding="utf-8")
             rel = caminho(cod, pagina)
             extras = extras_comuns(posts, cod, textos)
+            textos_pagina = textos
             if pagina == "home":
                 extras["__cd_dias__"] = dias
                 extras["__cd_horas__"] = horas
@@ -411,55 +646,80 @@ def montar():
                     "\n".join(cartao_home(p, pref, cod, textos, destaque=(i == 0))
                               for i, p in enumerate(posts[:4]))
                     or f'    <p class="feed-vazio">{textos.get("t124", "")}</p>')
-            if pagina == "noticias":
+            elif pagina == "noticias":
                 extras["__feed_html__"] = lambda pref, cod=cod, textos=textos: (
-                    "\n".join(cartao_feed(p, pref, cod, textos) for p in posts[:30])
+                    "\n".join(cartao_feed(p, pref, cod, textos) for p in posts[:CARDS_NOTICIAS])
                     or f'      <p class="feed-vazio">{textos.get("t124", "")}</p>')
-            faltando = montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina, rel, extras)
+                extras["__arquivo_html__"] = lambda pref, cod=cod, textos=textos: arquivo_html(
+                    posts, pref, cod, textos)
+            elif pagina in INSTITUCIONAIS:
+                fonte = PASTA_INSTITUCIONAL / cod / f"{pagina}.html"
+                if not fonte.exists():
+                    fonte = PASTA_INSTITUCIONAL / "pt-BR" / f"{pagina}.html"
+                titulo = textos.get(f"inst_{pagina}_t", pagina)
+                descricao = textos.get(f"inst_{pagina}_d", "")
+                textos_pagina = dict(textos)
+                textos_pagina.update({
+                    "t001": esc(f"{titulo} — {NOME_SITE}"),
+                    "meta_desc": esc(descricao), "og_desc": esc(descricao), "tw_desc": esc(descricao),
+                    "og_title": esc(f"{titulo} — {NOME_SITE}"), "tw_title": esc(f"{titulo} — {NOME_SITE}"),
+                })
+                extras["__inst_titulo__"] = esc(titulo)
+                extras["__inst_html__"] = fonte.read_text(encoding="utf-8")
+            faltando = montar_pagina(cabeca, rodape, corpo, base, textos_pagina, cod, pagina, rel, extras)
             total += 1
             aviso = f" ({len(faltando)} sem tradução)" if faltando else ""
             print(f"  ✓ {(rel + '/' if rel else '')}index.html{aviso}")
 
-    # uma página por notícia, em /news/<slug>/ (os posts são escritos em inglês)
-    corpo_post = (PAGINAS / "noticia.html").read_text(encoding="utf-8")
-    textos_en = textos_por_idioma.get("en", base)
-    for i, post in enumerate(posts):
-        outros = [q for q in posts if q is not post][:5]
-        rel = f"{PASTA_POSTS}/{post['slug']}"
-        endereco = url_post(post)
-        titulo_q = urllib.parse.quote(post["titulo"])
-        extras = extras_comuns(posts, "en", textos_en)
-        textos = dict(textos_en)
-        # título, descrição e cartões de compartilhamento próprios de cada notícia
-        textos.update({
-            "t001": esc(f"{post['titulo']} — GTA VI | VICEVERSA"),
-            "meta_desc": esc(post["descricao"]),
-            "og_title": esc(post["titulo"]), "tw_title": esc(post["titulo"]),
-            "og_desc": esc(post["descricao"]), "tw_desc": esc(post["descricao"]),
-            "og_alt": esc(post["titulo"]),
-        })
-        extras.update({
-            "__ogtype__": "article",
-            "__ogimage_url__": esc(post["imagem"]) if post["imagem"] else DOMINIO + "/og-image-en.png",
-            "__hreflang__": f'<link rel="alternate" hreflang="en" href="{endereco}">',
-            "__jsonld_extra__": jsonld_artigo(post, textos_en),
-            "__art_titulo__": esc(post["titulo"]),
-            "__art_data__": data_legivel(post["quando"], "en"),
-            "__art_iso__": post["quando"].isoformat() if post["quando"] else "",
-            "__art_share_url__": urllib.parse.quote(endereco, safe=""),
-            "__art_share_titulo__": titulo_q,
-            "__art_share_txt__": urllib.parse.quote(f"{post['titulo']} {endereco}"),
-            "__art_link_x__": (f'<a class="painel__link" href="{esc(post["link_x"])}" target="_blank" '
-                               f'rel="noopener">{textos_en.get("fd01", "")}</a>') if post["link_x"] else "",
-            "__art_relacionadas__": lambda pref, outros=outros: "\n".join(
-                f'      <li><a href="{link_post(q, pref)}"><time>{data_legivel(q["quando"], "en")}</time>'
-                f'{esc(q["titulo"])}</a></li>' for q in outros),
-            "__art_html__": post["html"],
-        })
-        montar_pagina(cabeca, rodape, corpo_post, base, textos, "en", "noticias", rel, extras)
-        total += 1
+        # ── uma página por notícia, só nos idiomas em que ela existe ──
+        for post in posts:
+            if cod not in post["versoes"]:
+                continue
+            v = post["versoes"][cod]
+            rel = rel_post(post, cod)
+            endereco = url_post(post, cod)
+            mesmo_idioma = [q for q in posts if q is not post and cod in q["versoes"]]
+            outros = (mesmo_idioma + [q for q in posts if q is not post and cod not in q["versoes"]])[:5]
+            extras = extras_comuns(posts, cod, textos)
+            textos_post = dict(textos)
+            # título, descrição e cartões de compartilhamento próprios de cada notícia
+            textos_post.update({
+                "t001": esc(f"{v['titulo']} — GTA VI | {NOME_SITE}"),
+                "meta_desc": esc(v["descricao"]),
+                "og_title": esc(v["titulo"]), "tw_title": esc(v["titulo"]),
+                "og_desc": esc(v["descricao"]), "tw_desc": esc(v["descricao"]),
+                "og_alt": esc(v["titulo"]),
+            })
+            extras.update({
+                "__ogtype__": "article",
+                "__ogimage_url__": esc(post["imagem"]) if post["imagem"] else DOMINIO + "/og-image-%s.png" % cod.split("-")[0],
+                "__jsonld_extra__": jsonld_artigo(post, cod, textos),
+                "__art_titulo__": esc(v["titulo"]),
+                "__art_data__": data_legivel(post["quando"], cod),
+                "__art_iso__": post["quando"].isoformat() if post["quando"] else "",
+                "__art_share_url__": urllib.parse.quote(endereco, safe=""),
+                "__art_share_titulo__": urllib.parse.quote(v["titulo"]),
+                "__art_share_txt__": urllib.parse.quote(f"{v['titulo']} {endereco}"),
+                "__art_link_x__": (f'<a class="painel__link" href="{esc(post["link_x"])}" target="_blank" '
+                                   f'rel="noopener">{textos.get("fd01", "")}</a>') if post["link_x"] else "",
+                "__art_relacionadas__": lambda pref, outros=outros, cod=cod: "\n".join(
+                    item_lista(q, pref, cod) for q in outros),
+                "__art_html__": v["html"],
+            })
+            montar_pagina(cabeca, rodape, corpo_post, base, textos_post, cod, "noticias", rel, extras,
+                          alternativas=alternativas_post(post))
+            total += 1
+            paginas_post += 1
+
+        # ── RSS do idioma ──
+        destino_rss = SAIDA / pasta if pasta else SAIDA
+        destino_rss.mkdir(parents=True, exist_ok=True)
+        (destino_rss / "feed.xml").write_text(gerar_rss(posts, cod, textos), encoding="utf-8")
+
     if posts:
-        print(f"  ✓ {PASTA_POSTS}/<slug>/index.html ({len(posts)} notícia(s) com página própria)")
+        traduzidas = sum(1 for p in posts for c in p["versoes"] if c != "en")
+        print(f"  ✓ {paginas_post} página(s) de notícia ({len(posts)} em inglês, {traduzidas} traduzida(s))")
+    print("  ✓ feed.xml, pt/feed.xml, es/feed.xml")
 
     for nome in ESTATICOS:
         if (RAIZ / nome).exists():
@@ -471,41 +731,15 @@ def montar():
         shutil.copytree(midia, SAIDA / "midia", dirs_exist_ok=True)
         print(f"  ✓ midia/ ({len(list(midia.iterdir()))} arquivo(s))")
 
-    # sitemap com lastmod: diz ao Google o que mudou e quando
-    ultima = posts[0]["quando"].strftime("%Y-%m-%d") if posts and posts[0]["quando"] else hoje
-    urls = ""
-    for cod in IDIOMAS:
-        for pagina in PAGINAS_SITE:
-            alt = "".join(
-                f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url(o, pagina)}"/>'
-                for o in IDIOMAS)
-            mod = ultima if pagina in ("home", "noticias") else hoje
-            urls += f"\n  <url><loc>{url(cod, pagina)}</loc><lastmod>{mod}</lastmod>{alt}\n  </url>"
-    for post in posts:
-        mod = post["quando"].strftime("%Y-%m-%d") if post["quando"] else hoje
-        urls += f"\n  <url><loc>{url_post(post)}</loc><lastmod>{mod}</lastmod></url>"
-    (SAIDA / "sitemap.xml").write_text(
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
-        'xmlns:xhtml="http://www.w3.org/1999/xhtml">' + urls + "\n</urlset>\n", encoding="utf-8")
+    # sitemaps: o geral (com lastmod) e o do Google Notícias (últimas 48 h)
+    (SAIDA / "sitemap.xml").write_text(gerar_sitemap(posts, hoje), encoding="utf-8")
+    (SAIDA / "news-sitemap.xml").write_text(gerar_news_sitemap(posts), encoding="utf-8")
     (SAIDA / "robots.txt").write_text(
-        f"User-agent: *\nAllow: /\n\nSitemap: {DOMINIO}/sitemap.xml\n", encoding="utf-8")
+        f"User-agent: *\nAllow: /\n\nSitemap: {DOMINIO}/sitemap.xml\n"
+        f"Sitemap: {DOMINIO}/news-sitemap.xml\n", encoding="utf-8")
+    print("  ✓ sitemap.xml, news-sitemap.xml, robots.txt")
 
     print(f"\n{total} páginas geradas em docs/. Faça commit e push.")
-
-
-def extras_comuns(posts, cod, textos):
-    """Faixa do topo e barra "última notícia", presentes em todas as páginas."""
-    if not posts:
-        return {"__ticker_posts__": "",
-                "__ultima_titulo__": textos.get("t009", ""),
-                "__ultima_link__": lambda pref, cod=cod: pref + caminho(cod, "noticias") + "/"}
-    ultima = posts[0]
-    return {
-        "__ticker_posts__": "\n    ".join(f"<span>◆ {esc(p['titulo'])}</span>" for p in posts[:3]),
-        "__ultima_titulo__": esc(ultima["titulo"]),
-        "__ultima_link__": lambda pref, ultima=ultima: link_post(ultima, pref),
-    }
 
 
 if __name__ == "__main__":

@@ -11,3 +11,6 @@ Thumbs.db
 # Chaves — NUNCA comitar. Use os Secrets do GitHub.
 .env
 *.key
+
+# cópias entregues pelo Claude (não fazem parte do site)
+Claude outputs/

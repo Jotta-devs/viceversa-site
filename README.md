@@ -19,7 +19,8 @@ paginas/*.html       o miolo de cada página (home, noticias, mapa)
 idiomas/*.json       TODOS os textos, um arquivo por idioma
 *.png                imagens de origem (capas do ebook e capas de compartilhamento)
 gerador-capas-ebook.py  refaz as capas traduzidas a partir de ebook-capa-original.png
-automacao/           o robô que busca notícias, escreve com IA e posta no X
+automacao/           o robô que transforma Issues em notícias e prepara o post do X
+institucional/       textos de Sobre, Contato, Privacidade e Política editorial
 docs/                ← O SITE GERADO. É esta pasta que vai ao ar. Não edite à mão.
 ```
 
@@ -83,6 +84,36 @@ O `montar.py` também:
 - gera o `FAQPage` da home e o `sitemap.xml` com `lastmod` e todas as notícias.
 
 Tudo se atualiza sozinho a cada Issue publicada, editada ou fechada.
+
+### Notícias em português e espanhol
+
+O formulário "Novo post" tem campos opcionais de título e texto em português e
+em espanhol. Preenchidos (título **e** texto), a notícia ganha também
+`/pt/noticias/<slug>/` e `/es/noticias/<slug>/`, ligadas entre si por `hreflang`.
+Sem tradução, as páginas em pt/es mostram o card da versão em inglês.
+
+### Arquivo permanente
+
+Todas as Issues abertas com o rótulo `post` ficam no site, sem limite. As 20 mais
+recentes aparecem como cards na página de notícias; as demais, numa lista
+"Arquivo" logo abaixo. **Fechar a Issue ainda tira a notícia do ar** — faça isso
+só para posts errados, nunca para "limpar" os antigos: o link deixaria de funcionar.
+
+### Google Notícias, RSS e páginas institucionais
+
+- `feed.xml`, `pt/feed.xml`, `es/feed.xml` — RSS por idioma (use no Google
+  Notícias, Flipboard, newsletters e automações).
+- `news-sitemap.xml` — só as notícias das últimas 48 horas, no formato do Google
+  Notícias. Já está declarado no `robots.txt`.
+- Sobre, Contato, Política editorial e Privacidade, nos três idiomas. O texto fica
+  em `institucional/<idioma>/<página>.html` — edite ali e rode `python3 montar.py`.
+  Para colocar um e-mail de contato, acrescente-o em `institucional/*/contato.html`.
+- Blocos de anúncio sem ID (`ad_slot_a/b/c` vazios) não aparecem mais no HTML;
+  surgem sozinhos quando os IDs forem preenchidos.
+
+**Depois de publicar, uma vez só:** no Google Search Console envie `sitemap.xml` e
+`news-sitemap.xml`; no Google Publisher Center (publishercenter.google.com)
+cadastre o site e aponte os três `feed.xml`.
 
 ## O robô
 

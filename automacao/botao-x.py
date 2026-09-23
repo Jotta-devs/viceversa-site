@@ -19,6 +19,8 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+from formulario import ler_post
+
 LIMITE_X = 280
 MARCA = "<!-- viceversa-botao-x -->"   # identifica o comentário do robô
 
@@ -35,13 +37,14 @@ def evento():
 
 
 def montar_texto(titulo, corpo):
-    """Título + texto, sem URLs (que no X viram links encurtados e ocupam espaço)."""
-    corpo = corpo or ""
-    # remove a seção do formulário com o link do X e quaisquer URLs
-    corpo = re.sub(r"###\s*Link do post no X.*?(?=###|\Z)", "", corpo, flags=re.S | re.I)
-    corpo = re.sub(r"###\s*Texto do post\s*", "", corpo, flags=re.I)
-    corpo = re.sub(r"^\s*_No response_\s*$", "", corpo, flags=re.M)
-    corpo = re.sub(r"^\s*X\s*:\s*https?://\S+\s*$", "", corpo, flags=re.I | re.M)
+    """Título + texto principal, sem URLs (que no X viram links encurtados e ocupam espaço).
+
+    Só o texto principal vai para o X: as versões em português e espanhol do
+    formulário ficam no site.
+    """
+    corpo = ler_post(corpo)["texto"]
+    corpo = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", corpo)          # imagens em Markdown
+    corpo = re.sub(r"<img\b[^>]*>", "", corpo, flags=re.I)       # imagens em HTML
     corpo = re.sub(r"https?://\S+", "", corpo)
     corpo = re.sub(r"\n{3,}", "\n\n", corpo).strip()
 

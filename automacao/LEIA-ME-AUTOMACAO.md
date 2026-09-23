@@ -18,6 +18,13 @@ Volte na Issue, clique em editar e cole o link do tweet no campo
 **"Link do post no X"**. O card do site passa a apontar para o tweet.
 Esse passo é opcional — sem ele, o card aponta para a própria Issue.
 
+## Português e espanhol (opcional)
+
+O formulário tem campos de **título e texto em português** e **em espanhol**.
+Preencha os dois campos de um idioma e a notícia ganha página própria nele
+(/pt/noticias/... ou /es/noticias/...). As traduções não entram no post do X.
+Se não traduzir, tudo bem: as páginas em pt/es mostram a versão em inglês.
+
 ## Limite de caracteres
 
 O X aceita 280 caracteres. O robô soma título + texto e avisa no comentário:

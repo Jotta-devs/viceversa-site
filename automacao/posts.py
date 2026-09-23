@@ -16,14 +16,19 @@ Abra uma Issue no repositório com o rótulo `post`:
     Título da Issue  ->  título do card no site
     Corpo da Issue   ->  texto do card
 
-Para o card ganhar um botão "Ver no X", inclua no corpo uma linha começando com
-`X:` seguida do link do tweet. Ela é removida do texto e vira o link do botão:
+O formulário "Novo post" também tem campos opcionais de título e texto em
+português e em espanhol. Quando preenchidos, a notícia ganha página própria em
+/pt/noticias/... e /es/noticias/..., ligada à versão em inglês.
 
-    X: https://x.com/vvviceversaa/status/123456789
-
-Sem essa linha o card não tem botão — o leitor nunca é mandado para o GitHub.
+O link do tweet (campo "Link do post no X", ou uma linha `X: https://...` no
+texto) vira o botão "Ver no X" do card. Sem link, não há botão — o leitor nunca
+é mandado para o GitHub.
 
 Feche a Issue para tirar o post do site. Reabra para trazê-lo de volta.
+
+Todas as Issues abertas entram no feed, sem limite: cada notícia tem página
+própria e endereço permanente, e apagar as antigas quebraria links já
+indexados pelo Google e compartilhados nas redes.
 """
 
 import hashlib
@@ -36,12 +41,13 @@ import urllib.request
 from datetime import datetime
 from pathlib import Path
 
+from formulario import ler_post
+
 RAIZ = Path(__file__).parent
 REPO = RAIZ.parent
 ARQ_FEED = REPO / "feed.json"
 
 ROTULO = "post"      # só Issues com este rótulo viram publicação
-MAX_FEED = 30        # itens mantidos no feed
 
 
 def log(msg):
@@ -56,18 +62,26 @@ def buscar_issues():
         log("GITHUB_REPOSITORY ausente — rodando fora do Actions?")
         return []
 
-    url = (f"https://api.github.com/repos/{repositorio}/issues"
-           f"?state=open&labels={ROTULO}&per_page=50&sort=created&direction=desc")
-    req = urllib.request.Request(url, headers={
-        "Accept": "application/vnd.github+json",
-        "User-Agent": "viceversa-bot",
-        **({"Authorization": f"Bearer {token}"} if token else {}),
-    })
-    with urllib.request.urlopen(req, timeout=30) as r:
-        dados = json.loads(r.read().decode("utf-8"))
+    # a API entrega no máximo 100 por página: percorre todas
+    todas, pagina = [], 1
+    while True:
+        url = (f"https://api.github.com/repos/{repositorio}/issues"
+               f"?state=open&labels={ROTULO}&per_page=100&page={pagina}"
+               f"&sort=created&direction=desc")
+        req = urllib.request.Request(url, headers={
+            "Accept": "application/vnd.github+json",
+            "User-Agent": "viceversa-bot",
+            **({"Authorization": f"Bearer {token}"} if token else {}),
+        })
+        with urllib.request.urlopen(req, timeout=30) as r:
+            dados = json.loads(r.read().decode("utf-8"))
+        todas.extend(dados)
+        if len(dados) < 100 or pagina >= 50:
+            break
+        pagina += 1
 
     # a API devolve pull requests junto com issues; descarta os PRs
-    return [i for i in dados if "pull_request" not in i]
+    return [i for i in todas if "pull_request" not in i]
 
 
 TAGS_PERMITIDAS = {
@@ -206,28 +220,6 @@ def extrair_imagem(corpo):
     return m.group(1) if m else None
 
 
-def separar_link(corpo):
-    """Tira a linha 'X: <link>' do corpo e devolve (texto, link)."""
-    corpo = corpo or ""
-    # as imagens PERMANECEM no texto, na posição original — quem renderiza
-    # é o GitHub, e o card reproduz o mesmo resultado do preview da Issue.
-    # tira os cabeçalhos do formulário de Issue e os campos vazios
-    corpo = re.sub(r"^###\s*Texto do post\s*$", "", corpo, flags=re.I | re.M)
-    corpo = re.sub(r"^###\s*Link do post no X.*$", "", corpo, flags=re.I | re.M)
-    corpo = re.sub(r"^\s*_No response_\s*$", "", corpo, flags=re.M)
-    link = None
-    linhas = []
-    for linha in corpo.splitlines():
-        m = re.match(r"\s*X\s*:\s*(https?://\S+)\s*$", linha, re.I)
-        if m and not link:
-            link = m.group(1)
-        else:
-            linhas.append(linha)
-    texto = "\n".join(linhas).strip()
-    texto = re.sub(r"\n{3,}", "\n\n", texto)
-    return texto, link
-
-
 def main():
     repositorio = os.environ.get("GITHUB_REPOSITORY", "")
     token = os.environ.get("GITHUB_TOKEN")
@@ -241,7 +233,8 @@ def main():
 
     itens = []
     for issue in issues:
-        texto, link = separar_link(issue.get("body"))
+        campos = ler_post(issue.get("body"))
+        texto = campos["texto"]
         if not texto:
             log(f"Issue #{issue['number']} sem corpo; pulando.")
             continue
@@ -254,6 +247,8 @@ def main():
 
         item = {
             "data": data,
+            "criado": criado,
+            "atualizado": issue.get("updated_at", ""),
             "titulo": (issue.get("title") or "").strip(),
             "texto": texto,          # versão em texto puro (reserva)
         }
@@ -266,21 +261,50 @@ def main():
         except Exception as exc:
             log(f"Issue #{issue['number']}: falha ao renderizar ({exc}); "
                 "usando texto puro.")
+
+        # versões traduzidas (opcionais): só entram se tiverem título E texto
+        for sufixo in ("pt", "es"):
+            titulo_tr = campos[f"titulo_{sufixo}"]
+            texto_tr = campos[f"texto_{sufixo}"]
+            if not (titulo_tr and texto_tr):
+                continue
+            item[f"titulo_{sufixo}"] = titulo_tr
+            item[f"texto_{sufixo}"] = texto_tr
+            try:
+                html_tr = renderizar_markdown(texto_tr, repositorio, token)
+                if html_tr:
+                    item[f"html_{sufixo}"] = html_tr
+            except Exception as exc:
+                log(f"Issue #{issue['number']}: falha ao renderizar {sufixo} ({exc}).")
+
         # o botão "Ver no X" só existe se houver mesmo um link do X.
         # Sem ele, nenhum botão — nunca apontamos o leitor para o GitHub.
-        if link:
-            item["link"] = link
+        if campos["link"]:
+            item["link"] = campos["link"]
         # se a renderização falhar, ainda mostramos a imagem pelo campo antigo
         if "html" not in item:
-            imagem = extrair_imagem(issue.get("body"))
+            imagem = extrair_imagem(texto)
             if imagem:
                 item["imagem"] = imagem
         itens.append(item)
 
+    # proteção: se a API respondeu sem nenhuma Issue mas o site tinha posts,
+    # é mais provável um problema (rótulo renomeado, falha temporária) do que
+    # todos os posts terem sido fechados de uma vez. Mantém o feed atual.
+    if not itens and ARQ_FEED.exists():
+        try:
+            anteriores = json.loads(ARQ_FEED.read_text(encoding="utf-8"))
+        except ValueError:
+            anteriores = []
+        if anteriores:
+            log("nenhuma Issue encontrada, mas o feed tinha posts; mantendo o feed atual. "
+                "Se você fechou todos os posts de propósito, apague o conteúdo do feed.json à mão.")
+            return 0
+
     ARQ_FEED.write_text(
-        json.dumps(itens[:MAX_FEED], ensure_ascii=False, indent=2),
+        json.dumps(itens, ensure_ascii=False, indent=2),
         encoding="utf-8")
-    log(f"feed.json escrito com {len(itens[:MAX_FEED])} item(ns).")
+    log(f"feed.json escrito com {len(itens)} item(ns).")
     return 0
 
 

@@ -262,5 +262,19 @@
   "ar05": "Link copiado!",
   "ar06": "Receba as próximas notícias antes de todo mundo",
   "ar07": "Siga @vvviceversaa no X",
-  "ar08": "Publicado em"
+  "ar08": "Publicado em",
+  "ar09": "Arquivo",
+  "ft00": "Institucional",
+  "ft01": "Sobre",
+  "ft02": "Contato",
+  "ft03": "Política editorial",
+  "ft04": "Privacidade",
+  "inst_sobre_t": "Sobre o VICEVERSA",
+  "inst_sobre_d": "Quem somos, o que cobrimos e como o VICEVERSA funciona: um portal de fãs de GTA VI em português, inglês e espanhol.",
+  "inst_contato_t": "Contato",
+  "inst_contato_d": "Fale com a redação do VICEVERSA: sugestões de pauta, correções, imprensa e parcerias.",
+  "inst_privacidade_t": "Política de privacidade",
+  "inst_privacidade_d": "Quais dados o VICEVERSA e seus parceiros coletam, para quê, e como você controla isso.",
+  "inst_editorial_t": "Política editorial",
+  "inst_editorial_d": "Como o VICEVERSA apura, separa fato de rumor, trata vazamentos e corrige erros."
 }

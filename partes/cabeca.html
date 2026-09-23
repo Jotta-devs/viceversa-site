@@ -19,6 +19,7 @@
 <meta name="description" content="{{meta_desc}}">
 {{__hreflang__}}
 <link rel="canonical" href="{{__canonical__}}">
+<link rel="alternate" type="application/rss+xml" title="VICEVERSA" href="{{__rss__}}">
 <meta name="theme-color" content="#120720">
 <meta name="robots" content="index, follow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23120720'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FF8A3D'/%3E%3Cstop offset='1' stop-color='%23FF3D8A'/%3E%3C/linearGradient%3E%3Cmask id='m'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Crect y='7' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='12.4' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='17.8' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='23.2' width='32' height='2.6' fill='%23fff'/%3E%3C/mask%3E%3C/defs%3E%3Ccircle cx='16' cy='17' r='10.5' fill='url(%23g)' mask='url(%23m)'/%3E%3C/svg%3E">
@@ -1093,7 +1094,7 @@
   .noticia__ler{display:inline-block;margin-top:.8rem;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--agua)}
   .ultimas__mais{text-align:center;margin-top:2rem}
 
-  .artigo{max-width:760px;margin:0 auto;padding-top:3rem}
+  .artigo{max-width:calc(760px + 2.4rem);margin:0 auto;padding:3rem 1.2rem 0}
   .artigo__voltar{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.12em;color:var(--agua)}
   .artigo__meta{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--laranja);margin:1.6rem 0 .6rem}
   .artigo h1{font-family:var(--font-display,inherit);font-size:clamp(2rem,5vw,3.2rem);line-height:1.08;margin-bottom:1.4rem}
@@ -1118,6 +1119,17 @@
   .artigo__relacionadas a{display:block;border:1px solid var(--linha);border-radius:10px;padding:.9rem 1.1rem;background:var(--card);color:var(--creme);text-decoration:none}
   .artigo__relacionadas a:hover{border-color:var(--agua)}
   .artigo__relacionadas time{display:block;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;color:var(--agua);margin-bottom:.2rem}
+
+  /* ---- arquivo de notícias, rodapé institucional e páginas institucionais ---- */
+  .arquivo{margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--linha)}
+  .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1.4rem;margin:1.4rem 0 .6rem;
+    font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
+  .footer-links a{color:var(--creme-70);text-decoration:none}
+  .footer-links a:hover{color:var(--agua)}
+  .institucional .artigo__corpo h2{font-family:var(--font-body);font-size:1.25rem;font-weight:700;color:var(--creme);margin:2.2rem 0 .8rem;letter-spacing:0}
+  .institucional .artigo__corpo h2::after{display:none}
+  .institucional .artigo__corpo li{margin-bottom:.5rem}
+  .institucional .atualizado{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--laranja)}
 </style>
 </head>
 <body>
