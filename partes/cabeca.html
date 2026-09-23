@@ -1181,6 +1181,9 @@
 
   /* lateral */
   .atlas__lado{display:flex;flex-direction:column;gap:.9rem;position:sticky;top:90px;max-height:calc(100vh - 110px)}
+  .atlas__lado > *{flex-shrink:0}
+  .atlas__palco{isolation:isolate}   /* controles do mapa não passam por cima do cabeçalho */
+  .atlas__lado > .atlas__lista, .atlas__lado > #atlas-lista{flex-shrink:1;min-height:120px}
   @media(max-width:960px){.atlas__lado{position:static;max-height:none}}
   .atlas__busca input{
     width:100%;font:inherit;font-size:.9rem;color:var(--creme);
@@ -1234,8 +1237,8 @@
 
   /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
   .atlas{--traco:1}
-  .atlas--noite{--atlas-mar:#08142A}
-  .atlas--dia{--atlas-mar:#2E9CCB}
+  .atlas--noite{--atlas-mar:#07112A}
+  .atlas--dia{--atlas-mar:#2B8FC4}
   .atlas--original{--atlas-mar:#2C68A6}
   .atlas--original .atlas-vetor{display:none}
   .atlas-vetor .grade{display:none}
@@ -1243,33 +1246,44 @@
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
   .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
 
-  .atlas--noite .c-mar{fill:#08142A}
-  .atlas--noite .c-raso2{fill:#0B2440}
-  .atlas--noite .c-raso1{fill:#0F3556}
-  .atlas--noite .c-terra{fill:#1E1233}
-  .atlas--noite .c-floresta{fill:#1B2E36}
+  .atlas--noite .c-mar{fill:#07112A}
+  .atlas--noite .c-raso3{fill:#0A1B38}
+  .atlas--noite .c-raso2{fill:#0C2646}
+  .atlas--noite .c-raso1{fill:#10385A}
+  .atlas--noite .c-terra{fill:#24163F}
+  .atlas--noite .c-colina{fill:#2B1A4B}
+  .atlas--noite .c-floresta{fill:#332058}
   .atlas--noite .c-pantano{fill:#123C44}
+  .atlas--noite .c-industrial{fill:#3A2A48}
   .atlas--noite .c-areia{fill:#4A2A3C}
-  .atlas--noite .c-urbana{fill:#35214F}
-  .atlas--noite .l-ruas{stroke:#7F58B0;stroke-width:calc(var(--traco) * .75px)}
-  .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1.1px)}
-  .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 2.2px);filter:drop-shadow(0 0 2px #FF3D8A)}
+  .atlas--noite .c-urbana{fill:#3A2458}
+  .atlas--noite .c-predio{fill:#56397F}
+  .atlas--noite .l-ruas{stroke:#8A62C0;stroke-width:calc(var(--traco) * .6px)}
+  .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
+  .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
   .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
   .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
 
-  .atlas--dia .c-mar{fill:#2E9CCB}
-  .atlas--dia .c-raso2{fill:#4DB8D9}
-  .atlas--dia .c-raso1{fill:#7FD3E4}
+  .atlas--dia .c-mar{fill:#2B8FC4}
+  .atlas--dia .c-raso3{fill:#3AA4D2}
+  .atlas--dia .c-raso2{fill:#56BADD}
+  .atlas--dia .c-raso1{fill:#86D6E6}
   .atlas--dia .c-terra{fill:#F3E3C3}
-  .atlas--dia .c-floresta{fill:#B9D69A}
+  .atlas--dia .c-colina{fill:#E4DDB2}
+  .atlas--dia .c-floresta{fill:#C9D9A0}
   .atlas--dia .c-pantano{fill:#8FCFB4}
+  .atlas--dia .c-industrial{fill:#EBD3B8}
   .atlas--dia .c-areia{fill:#FFE9A6}
-  .atlas--dia .c-urbana{fill:#F6C4D2}
-  .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .8px)}
-  .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.2px)}
-  .atlas--dia .l-vias-largas{stroke:#FF6F61;stroke-width:calc(var(--traco) * 2.3px)}
+  .atlas--dia .c-urbana{fill:#F7D3DD}
+  .atlas--dia .c-predio{fill:#E7A9BE}
+  .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .7px)}
+  .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.1px)}
+  .atlas--dia .l-vias-largas{stroke:#FF6F61;stroke-width:calc(var(--traco) * 2px)}
   .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
   .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
+  /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
+  .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
+  .atlas[data-zoom="longe"] .atlas-vetor .c-predio{display:none}
 
   /* seletor de estilo */
   .atlas__estilos{display:flex;border:1px solid var(--linha);border-radius:999px;overflow:hidden}

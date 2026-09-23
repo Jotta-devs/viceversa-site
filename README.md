@@ -130,22 +130,32 @@ mapa/pontos.json      pontos clicáveis (regiões, marcos, trailers, vida real) 
 vendor/leaflet/       a biblioteca do mapa (Leaflet, licença BSD), servida pelo próprio site
 ```
 
-O que o site oferece em cima do vetor: estilos **Noite** e **Dia** (as cores estão
-em `partes/cabeca.html`, seção "ATLAS recriado"), **Original** (o mapa da
-comunidade sem alterações, para comparar), **grade de referência** A1…H12, nomes
-das regiões nos três idiomas, busca, link direto para cada local e tela cheia.
+O vetor traz: mar em 4 profundidades, relevo em 3 níveis, pântanos, praias,
+áreas industriais, cidades com quarteirões e prédios, e a rede de vias
+redesenhada em rodovias, estradas e ruas (as ruas e os prédios ganham destaque
+ao aproximar). Em cima disso o site oferece os estilos **Noite** e **Dia** (as
+cores estão em `partes/cabeca.html`, seção "ATLAS recriado"), **Original** (o
+mapa da comunidade sem alterações, para comparar), **grade de referência**
+A1…H11, nomes das regiões e locais nos três idiomas, busca, link direto para
+cada local e tela cheia.
+
+Nos locais, a tag "Nome descritivo" marca nomes dados por nós (ex.: "Ilha
+portuária") e "Nome especulativo" marca apelidos da comunidade que a Rockstar
+não confirmou (em vermelho no mapa original).
 
 **Refazer com a versão em alta resolução ou uma versão nova (V17…):**
 
 ```bash
-# coloque o PNG em mapa/base/ (pode apagar o antigo)
+# coloque a imagem (PNG ou JPG) em mapa/base/ — vale a mais recente; pode apagar as antigas
 pip install opencv-python-headless numpy     # só na primeira vez
 python mapa/recriar_mapa.py
 python montar.py
 ```
 
-Se o layout da imagem nova for diferente (legenda em outro lugar, rótulos em
-outras posições), ajuste `RECORTE` e `ROTULOS` no começo do `recriar_mapa.py`.
+O script está calibrado para o pôster V16 (legenda à esquerda, mapa à direita);
+com uma imagem maior do mesmo pôster ele escala tudo sozinho. Se o layout for
+outro, ajuste `RECORTE` e `PASSO_GRADE` no começo do `recriar_mapa.py`. Os
+textos e a grade do original são apagados automaticamente.
 
 **Adicionar ou ajustar pontos:** abra `/map/?editar=1` no site, clique no lugar
 exato — a posição `"x": …, "y": …` é copiada — e cole em `mapa/pontos.json`.

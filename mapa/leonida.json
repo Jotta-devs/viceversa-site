@@ -1,20 +1,20 @@
 {
-  "largura": 768,
-  "altura": 1080,
-  "origem": "yanis-community-map-v16.png",
+  "largura": 1462,
+  "altura": 1951,
+  "origem": "yanis-community-map-v16-2048.jpg",
   "recorte": [
-    312,
+    586,
     0,
-    1080,
-    1080
+    2048,
+    1951
   ],
   "imagem": [
-    1080,
-    1080
+    2048,
+    1951
   ],
   "grade": {
     "colunas": 8,
-    "linhas": 12,
-    "celula": 96.0
+    "linhas": 11,
+    "celula": 182.75
   }
 }
