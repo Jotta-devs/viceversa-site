@@ -1,0 +1,19 @@
+{
+  "_leia": "Pontos e rótulos do mapa. x e y são frações do mapa recriado (0 = esquerda/topo, 1 = direita/base). Para achar a posição, abra /map/?editar=1 no site e clique no lugar. 'ficha' usa os textos já traduzidos em idiomas/*.json (m10…m67). Pontos novos levam 'nome', 'desc' e 'real' por idioma (en, pt-BR, es; o que faltar cai para o inglês). Categorias: regiao (vira o nome grande da região, clicável), marco, trailer, real. Pontos de trailer podem ter 'video' (id do YouTube) e 't' (segundo da cena). 'rotulos' são só nomes no mapa (água, bairros), sem painel.",
+  "pontos": [
+    {"id": "vice-city",        "cat": "regiao", "x": 0.7539, "y": 0.5120, "ficha": "vice"},
+    {"id": "grassrivers",      "cat": "regiao", "x": 0.4766, "y": 0.7620, "ficha": "grass"},
+    {"id": "leonida-keys",     "cat": "regiao", "x": 0.4453, "y": 0.8769, "ficha": "keys"},
+    {"id": "port-gellhorn",    "cat": "regiao", "x": 0.2461, "y": 0.3380, "ficha": "gellhorn"},
+    {"id": "ambrosia",         "cat": "regiao", "x": 0.5013, "y": 0.3259, "ficha": "ambrosia"},
+    {"id": "mount-kalaga",     "cat": "regiao", "x": 0.4727, "y": 0.2491, "ficha": "kalaga"},
+    {"id": "aeroporto",        "cat": "marco",  "x": 0.5417, "y": 0.5537, "ficha": "aeroporto"},
+    {"id": "porto-gellhorn",   "cat": "marco",  "x": 0.1953, "y": 0.3565, "ficha": "porto"},
+    {"id": "praias-vice-city", "cat": "marco",  "x": 0.8438, "y": 0.5000, "ficha": "praia"},
+    {"id": "pantanos",         "cat": "marco",  "x": 0.5378, "y": 0.7407, "ficha": "pantano"}
+  ],
+  "rotulos": [
+    {"id": "lago-leonida", "tipo": "agua", "x": 0.6029, "y": 0.3102,
+     "nome": {"en": "Lake Leonida", "pt-BR": "Lago Leonida", "es": "Lago Leonida"}}
+  ]
+}

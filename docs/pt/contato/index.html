@@ -1133,6 +1133,177 @@
   .institucional .artigo__corpo h2::after{display:none}
   .institucional .artigo__corpo li{margin-bottom:.5rem}
   .institucional .atualizado{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--laranja)}
+
+  /* ---- ATLAS: mapa de Leonida com zoom (Leaflet) ---- */
+  .visualmente-oculto{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .atlas{
+    display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:1.2rem;
+    max-width:1320px;margin:0 auto;align-items:start;
+  }
+  @media(max-width:960px){.atlas{grid-template-columns:1fr}}
+  .atlas__palco{position:relative;border:1px solid var(--linha);border-radius:16px;overflow:hidden;background:var(--atlas-mar)}
+  .atlas{--atlas-mar:#2C68A6}
+  .atlas__mapa{height:min(82vh,880px);min-height:420px;font-family:var(--font-body)}
+  .atlas .leaflet-container{background:var(--atlas-mar)}
+  .atlas [hidden]{display:none!important}
+  @media(max-width:960px){.atlas__mapa{height:68vh}}
+  .atlas__barra{position:absolute;top:.7rem;right:.7rem;z-index:500;display:flex;flex-direction:column;gap:.35rem}
+  .atlas__barra button{
+    width:36px;height:36px;border-radius:8px;cursor:pointer;
+    background:rgba(11,4,20,.8);border:1px solid var(--linha);color:var(--creme);
+    font-size:1rem;line-height:1;display:grid;place-items:center;transition:border-color .2s,background .2s;
+  }
+  .atlas__barra button:hover{border-color:var(--agua);background:rgba(47,230,200,.18)}
+  .atlas__coord{
+    position:absolute;left:50%;transform:translateX(-50%);top:.7rem;z-index:500;margin:0;white-space:nowrap;
+    font-family:var(--font-mono);font-size:.72rem;background:rgba(11,4,20,.85);color:var(--agua);
+    border:1px solid var(--agua);border-radius:8px;padding:.4rem .7rem;
+  }
+  /* controles do Leaflet no tema do site */
+  .atlas .leaflet-bar{border:1px solid var(--linha);border-radius:8px;overflow:hidden;box-shadow:none}
+  .atlas .leaflet-bar a{background:rgba(11,4,20,.8);color:var(--creme);border-bottom-color:var(--linha)}
+  .atlas .leaflet-bar a:hover{background:rgba(47,230,200,.18);color:var(--creme)}
+  .atlas .leaflet-container .leaflet-control-attribution{background:rgba(11,4,20,.78);color:var(--creme-70);font-size:.66rem;padding:.2rem .5rem}
+  .atlas .leaflet-container .leaflet-control-attribution a{color:var(--agua)}
+  .atlas .leaflet-container a.leaflet-popup-close-button{color:var(--creme-70)}
+  .atlas .leaflet-popup-content-wrapper,.atlas .leaflet-popup-tip{background:#120720;color:var(--creme)}
+  .atlas-dica{background:rgba(11,4,20,.92);color:var(--creme);border:1px solid var(--linha);font-family:var(--font-body);font-weight:600;font-size:.78rem;box-shadow:none}
+  .atlas-dica::before{display:none}
+
+  /* marcadores */
+  .atlas-pino span{
+    display:block;width:22px;height:22px;border-radius:50%;
+    background:var(--cor);border:3px solid #0B0414;
+    box-shadow:0 0 0 2px var(--cor),0 0 16px var(--cor);
+    transition:transform .2s;
+  }
+  .atlas-pino:hover span,.atlas-pino:focus span,.atlas-pino.ativo span{transform:scale(1.35)}
+  .atlas-pino.ativo span{animation:atlas-pulso 1.4s ease-in-out infinite}
+  @keyframes atlas-pulso{50%{box-shadow:0 0 0 6px var(--cor),0 0 26px var(--cor)}}
+  @media (prefers-reduced-motion: reduce){.atlas-pino.ativo span{animation:none}}
+
+  /* lateral */
+  .atlas__lado{display:flex;flex-direction:column;gap:.9rem;position:sticky;top:90px;max-height:calc(100vh - 110px)}
+  @media(max-width:960px){.atlas__lado{position:static;max-height:none}}
+  .atlas__busca input{
+    width:100%;font:inherit;font-size:.9rem;color:var(--creme);
+    background:var(--card);border:1px solid var(--linha);border-radius:10px;padding:.7rem .9rem;
+  }
+  .atlas__busca input:focus{outline:none;border-color:var(--agua)}
+  .atlas__camadas{display:flex;flex-wrap:wrap;gap:.35rem}
+  .atlas__camadas button{
+    display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;
+    font-family:var(--font-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+    background:var(--card);border:1px solid var(--linha);color:var(--creme);
+    border-radius:999px;padding:.35rem .7rem;transition:opacity .2s,border-color .2s;
+  }
+  .atlas__camadas button[aria-pressed="false"]{opacity:.45}
+  .atlas__camadas button:hover{border-color:var(--agua)}
+  .ponto-cor{display:inline-block;width:10px;height:10px;border-radius:50%;flex:none}
+  .ponto-cor--regiao{background:#FF3D8A}.ponto-cor--marco{background:#2FE6C8}
+  .ponto-cor--trailer{background:#FF8A3D}.ponto-cor--real{background:#FFD98A}
+  .atlas__painel{position:static;padding:1.2rem}
+  .atlas__acoes{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+  .atlas__acoes a,.atlas__acoes button{
+    font-family:var(--font-mono);font-size:.66rem;letter-spacing:.08em;cursor:pointer;text-decoration:none;
+    border:1px solid var(--linha);background:transparent;color:var(--agua);border-radius:999px;padding:.35rem .8rem;
+  }
+  .atlas__acoes a:hover,.atlas__acoes button:hover{border-color:var(--agua)}
+  .atlas__lista{list-style:none;margin:0;padding:0;overflow:auto;min-height:0;flex:1;
+    border:1px solid var(--linha);border-radius:12px;background:var(--card)}
+  @media(max-width:960px){.atlas__lista{max-height:320px}}
+  .atlas__lista li + li{border-top:1px solid rgba(255,61,138,.12)}
+  .atlas__lista button{
+    width:100%;display:grid;grid-template-columns:auto 1fr;column-gap:.6rem;align-items:center;text-align:left;
+    background:transparent;border:0;color:var(--creme);font:inherit;font-size:.86rem;padding:.6rem .9rem;cursor:pointer;
+  }
+  .atlas__lista button small{grid-column:2;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--creme-40)}
+  .atlas__lista button:hover,.atlas__lista li.ativo button{background:rgba(47,230,200,.1)}
+  .atlas__vazio{padding:.8rem .9rem;font-size:.82rem;color:var(--creme-40)}
+  .atlas__credito{max-width:1320px;margin:1rem auto 0;font-size:.8rem;color:var(--creme-70);text-align:center;line-height:1.7}
+  .atlas__credito a{color:var(--agua)}
+
+  /* tela cheia (também funciona onde a API de fullscreen não existe, como no iPhone) */
+  .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;margin:0;padding:.6rem;gap:.6rem;
+    background:#0B0414;grid-template-columns:minmax(0,1fr) 320px}
+  .atlas--cheia .atlas__mapa{height:calc(100vh - 1.2rem)}
+  .atlas--cheia .atlas__lado{max-height:calc(100vh - 1.2rem);top:0}
+  @media(max-width:960px){
+    .atlas--cheia{grid-template-columns:1fr;grid-template-rows:1fr}
+    .atlas--cheia .atlas__lado{display:none}
+    .atlas--cheia .atlas__mapa{height:calc(100vh - 1.2rem)}
+  }
+  body.atlas-aberto{overflow:hidden}
+
+  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
+  .atlas{--traco:1}
+  .atlas--noite{--atlas-mar:#08142A}
+  .atlas--dia{--atlas-mar:#2E9CCB}
+  .atlas--original{--atlas-mar:#2C68A6}
+  .atlas--original .atlas-vetor{display:none}
+  .atlas-vetor .grade{display:none}
+  .atlas--grade .atlas-vetor .grade{display:inline}
+  .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
+
+  .atlas--noite .c-mar{fill:#08142A}
+  .atlas--noite .c-raso2{fill:#0B2440}
+  .atlas--noite .c-raso1{fill:#0F3556}
+  .atlas--noite .c-terra{fill:#1E1233}
+  .atlas--noite .c-floresta{fill:#1B2E36}
+  .atlas--noite .c-pantano{fill:#123C44}
+  .atlas--noite .c-areia{fill:#4A2A3C}
+  .atlas--noite .c-urbana{fill:#35214F}
+  .atlas--noite .l-ruas{stroke:#7F58B0;stroke-width:calc(var(--traco) * .75px)}
+  .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1.1px)}
+  .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 2.2px);filter:drop-shadow(0 0 2px #FF3D8A)}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
+  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
+
+  .atlas--dia .c-mar{fill:#2E9CCB}
+  .atlas--dia .c-raso2{fill:#4DB8D9}
+  .atlas--dia .c-raso1{fill:#7FD3E4}
+  .atlas--dia .c-terra{fill:#F3E3C3}
+  .atlas--dia .c-floresta{fill:#B9D69A}
+  .atlas--dia .c-pantano{fill:#8FCFB4}
+  .atlas--dia .c-areia{fill:#FFE9A6}
+  .atlas--dia .c-urbana{fill:#F6C4D2}
+  .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .8px)}
+  .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.2px)}
+  .atlas--dia .l-vias-largas{stroke:#FF6F61;stroke-width:calc(var(--traco) * 2.3px)}
+  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
+  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
+
+  /* seletor de estilo */
+  .atlas__estilos{display:flex;border:1px solid var(--linha);border-radius:999px;overflow:hidden}
+  .atlas__estilos button{
+    flex:1;cursor:pointer;background:transparent;border:0;color:var(--creme-70);display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:.62rem;line-height:1;letter-spacing:.1em;text-transform:uppercase;padding:.6rem .4rem;
+  }
+  .atlas__estilos button + button{border-left:1px solid var(--linha)}
+  .atlas__estilos button[aria-pressed="true"]{background:var(--magenta);color:var(--noite)}
+  .ponto-cor--grade{background:transparent;border:1px dashed var(--agua);border-radius:2px}
+
+  /* nomes das regiões (clicáveis) e rótulos de água */
+  .atlas-regiao{display:flex!important;flex-direction:column;align-items:center;transform:translate(-50%,-50%);
+    width:auto!important;height:auto!important;margin:0!important;cursor:pointer;white-space:nowrap;text-align:center}
+  .atlas-regiao b{font-family:var(--font-display);font-weight:400;letter-spacing:.08em;line-height:1;
+    font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
+  .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
+    color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
+  .atlas--dia .atlas-regiao b{color:#0B0414;text-shadow:0 0 3px #FFF3E4,0 0 3px #FFF3E4,0 0 1px #FFF3E4}
+  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFF3E4,0 0 2px #FFF3E4}
+  .atlas--original .atlas-regiao,.atlas--original .atlas-rotulo{display:none!important}
+  .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
+  .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
+  .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
+  .atlas[data-zoom="longe"] .atlas-regiao small{display:none}
+  .atlas[data-zoom="perto"] .atlas-regiao b{font-size:1.7rem}
+  .atlas-rotulo{width:auto!important;height:auto!important;margin:0!important;transform:translate(-50%,-50%);
+    white-space:nowrap;pointer-events:none;font-family:var(--font-mono);font-style:italic;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase}
+  .atlas-rotulo--agua{color:#6FD6F0;text-shadow:0 0 2px #08142A}
+  .atlas--dia .atlas-rotulo--agua{color:#0E4C73;text-shadow:0 0 2px #BFEFF7}
+  .atlas[data-zoom="longe"] .atlas-rotulo{display:none}
 </style>
 </head>
 <body>
@@ -1546,131 +1717,284 @@
     prontos.forEach(function(s){ obs.observe(s); });
   })();
 
-  /* ---- Mapa interativo de Leonida ---- */
+  /* ---- Mapa de Leonida (recriado em vetor pelo VICEVERSA, Leaflet) ----
+     Base: "YANIS GTA VI Community Map" (Mapping Community), recriado no estilo
+     do site com autorização do autor — ver mapa/recriar_mapa.py. O SVG não traz
+     cores: a paleta (Noite/Dia) vem do CSS. Pontos e rótulos: mapa/pontos.json. */
   (function(){
-    const svg = document.getElementById("mapa-svg");
-    const palco = document.getElementById("mapa-palco");
-    if(!svg || !palco) return;
+    const alvo = document.getElementById("atlas-mapa");
+    const cfgEl = document.getElementById("atlas-config");
+    const caixa = document.getElementById("atlas");
+    if(!alvo || !cfgEl || !caixa || typeof L === "undefined") return;
 
-    /* fichas vindas do HTML (traduzidas pelo gerador) */
-    const dados = {};
-    document.querySelectorAll("#mapa-dados > div").forEach(function(d){
-      dados[d.dataset.r] = {
-        nome: d.dataset.nome, real: d.dataset.real,
-        tags: (d.dataset.tags || "").split("|").filter(Boolean),
-        desc: d.textContent.trim()
+    let cfg;
+    try { cfg = JSON.parse(cfgEl.textContent); } catch(e){ return; }
+    if(!cfg || !cfg.info) return;
+    const info = cfg.info, pontos = cfg.pontos || [], txt = cfg.textos || {};
+    const W = info.largura, H = info.altura;
+    const CORES = {regiao:"#FF3D8A", marco:"#2FE6C8", trailer:"#FF8A3D", real:"#FFD98A"};
+
+    /* fichas já traduzidas pelo gerador (textos m10…m67) */
+    const fichas = {};
+    document.querySelectorAll("#mapa-dados [data-r]").forEach(function(el){
+      fichas[el.dataset.r] = {
+        nome: el.dataset.nome, real: el.dataset.real,
+        tags: (el.dataset.tags || "").split("|").filter(Boolean),
+        desc: el.textContent.trim()
       };
     });
-    const painel = {
-      cor:  document.getElementById("mapa-cor"),
-      nome: document.getElementById("mapa-nome"),
-      real: document.getElementById("mapa-real"),
-      desc: document.getElementById("mapa-desc"),
-      tags: document.getElementById("mapa-tags")
-    };
-    const alvos = svg.querySelectorAll(".regiao, .marco");
+    pontos.forEach(function(p){
+      const f = p.ficha && fichas[p.ficha];
+      if(f){
+        p.nome = p.nome || f.nome; p.real = p.real || f.real;
+        p.desc = p.desc || f.desc; p.tags = p.tags || f.tags;
+      }
+      p.tags = p.tags || [];
+    });
 
-    function mostrar(el){
-      const d = dados[el.dataset.r];
-      if(!d || !painel.nome) return;
-      alvos.forEach(function(a){ a.classList.toggle("ativa", a === el); });
-      painel.cor.style.background = el.dataset.cor || "var(--agua)";
-      painel.nome.textContent = d.nome;
-      painel.real.textContent = d.real;
-      painel.desc.textContent = d.desc;
-      painel.tags.innerHTML = "";
-      d.tags.forEach(function(t){
-        const s = document.createElement("span");
-        s.textContent = t;
-        painel.tags.appendChild(s);
+    /* ── mapa em pixels (CRS.Simple): 1 unidade = 1 px do mapa no zoom Z ── */
+    const Z = Math.max(0, Math.ceil(Math.log2(Math.max(W, H) / 256)));
+    const mapa = L.map(alvo, {
+      crs: L.CRS.Simple, zoomSnap: 0.25, zoomDelta: 0.5, wheelPxPerZoomLevel: 90,
+      attributionControl: true, zoomControl: true, maxBoundsViscosity: 0.8
+    });
+    function paraLatLng(fx, fy){ return mapa.unproject([fx * W, fy * H], Z); }
+    function paraFracao(latlng){ const p = mapa.project(latlng, Z); return [p.x / W, p.y / H]; }
+    const limites = L.latLngBounds(paraLatLng(0, 1), paraLatLng(1, 0));
+    mapa.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
+    mapa.attributionControl.addAttribution(cfg.atribuicao);
+    mapa.setMaxBounds(limites.pad(0.2));
+    function enquadrar(){ mapa.fitBounds(limites, {padding:[8, 8]}); }
+    enquadrar();
+    mapa.setMinZoom(mapa.getZoom() - 0.5);
+    mapa.setMaxZoom(Z + 3);
+
+    /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
+    function porZoom(){
+      const rel = mapa.getZoom() - mapa.getMinZoom();
+      caixa.style.setProperty("--traco", (0.7 + rel * 0.35).toFixed(2));
+      caixa.dataset.zoom = rel < 1.2 ? "longe" : rel < 2.6 ? "medio" : "perto";
+    }
+    mapa.on("zoomend", porZoom); porZoom();
+
+    /* ── base: o vetor recriado (Noite/Dia) e o original para comparar ── */
+    const original = L.imageOverlay(cfg.original, limites, {className: "atlas-original"});
+    let vetor = null;
+    fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
+      const tmp = document.createElement("div");
+      tmp.innerHTML = t;
+      const el = tmp.querySelector("svg");
+      if(!el) return;
+      el.setAttribute("preserveAspectRatio", "none");
+      vetor = L.svgOverlay(el, limites, {interactive: false, className: "atlas-vetor"}).addTo(mapa);
+      vetor.bringToBack();
+      aplicarEstilo(estiloAtual);
+    }).catch(function(){ aplicarEstilo("original"); });
+
+    let estiloAtual = "noite";
+    function aplicarEstilo(estilo){
+      estiloAtual = estilo;
+      caixa.classList.remove("atlas--noite", "atlas--dia", "atlas--original");
+      caixa.classList.add("atlas--" + estilo);
+      if(estilo === "original"){ original.addTo(mapa); original.bringToBack(); }
+      else if(mapa.hasLayer(original)) mapa.removeLayer(original);
+      document.querySelectorAll("#atlas-estilos [data-estilo]").forEach(function(b){
+        b.setAttribute("aria-pressed", b.dataset.estilo === estilo ? "true" : "false");
+      });
+      try { localStorage.setItem("viceversa_mapa_estilo", estilo); } catch(e){}
+    }
+    try {
+      const salvo = localStorage.getItem("viceversa_mapa_estilo");
+      if(salvo === "dia" || salvo === "noite" || salvo === "original") estiloAtual = salvo;
+    } catch(e){}
+    aplicarEstilo(estiloAtual);
+    document.querySelectorAll("#atlas-estilos [data-estilo]").forEach(function(b){
+      b.addEventListener("click", function(){ aplicarEstilo(b.dataset.estilo); });
+    });
+
+    /* ── grade de referência (A1…H12) ── */
+    const botaoGrade = document.querySelector("#atlas-camadas [data-grade]");
+    const cel = info.grade ? info.grade.celula : 0;
+    function quadrante(p){
+      if(!cel) return "";
+      const col = Math.min(info.grade.colunas - 1, Math.floor(p.x * W / cel));
+      const lin = Math.min(info.grade.linhas - 1, Math.floor(p.y * H / cel));
+      return String.fromCharCode(65 + col) + (lin + 1);
+    }
+    if(botaoGrade){
+      if(!cel) botaoGrade.hidden = true;
+      botaoGrade.addEventListener("click", function(){
+        const ligada = botaoGrade.getAttribute("aria-pressed") === "true";
+        botaoGrade.setAttribute("aria-pressed", ligada ? "false" : "true");
+        caixa.classList.toggle("atlas--grade", !ligada);
       });
     }
 
-    /* ---- zoom e arrasto pelo viewBox ---- */
-    const BASE = {x:0, y:0, w:620, h:900};
-    let vista = Object.assign({}, BASE);
-    const MIN_W = 155, MAX_W = 620;
-
-    function aplicar(){
-      svg.setAttribute("viewBox", vista.x.toFixed(1)+" "+vista.y.toFixed(1)+" "+
-                                  vista.w.toFixed(1)+" "+vista.h.toFixed(1));
-    }
-    function limitar(){
-      vista.w = Math.min(MAX_W, Math.max(MIN_W, vista.w));
-      vista.h = vista.w * (BASE.h / BASE.w);
-      vista.x = Math.min(BASE.w - vista.w, Math.max(0, vista.x));
-      vista.y = Math.min(BASE.h - vista.h, Math.max(0, vista.y));
-    }
-    function zoom(fator, fx, fy){
-      const px = vista.x + vista.w * fx;
-      const py = vista.y + vista.h * fy;
-      vista.w = vista.w * fator;
-      vista.h = vista.w * (BASE.h / BASE.w);
-      vista.x = px - vista.w * fx;
-      vista.y = py - vista.h * fy;
-      limitar(); aplicar();
-    }
-
-    svg.addEventListener("wheel", function(ev){
-      ev.preventDefault();
-      const r = svg.getBoundingClientRect();
-      zoom(ev.deltaY > 0 ? 1.18 : 0.85,
-           (ev.clientX - r.left) / r.width,
-           (ev.clientY - r.top) / r.height);
-    }, {passive:false});
-
-    palco.querySelectorAll("[data-zoom]").forEach(function(b){
-      b.addEventListener("click", function(){
-        const acao = b.dataset.zoom;
-        if(acao === "reset"){ vista = Object.assign({}, BASE); aplicar(); }
-        else zoom(acao === "mais" ? 0.75 : 1.33, .5, .5);
-      });
+    /* ── marcadores: regiões viram nomes grandes; o resto, pinos ── */
+    const camadas = {};
+    const marcadores = {};
+    function escapar(s){ const d = document.createElement("div"); d.textContent = s || ""; return d.innerHTML; }
+    pontos.forEach(function(p){
+      const cat = p.cat || "marco";
+      if(!camadas[cat]) camadas[cat] = L.layerGroup().addTo(mapa);
+      let icone;
+      if(cat === "regiao"){
+        icone = L.divIcon({
+          className: "atlas-regiao",
+          html: '<b>' + escapar(p.nome) + '</b><small>' + escapar(p.real) + '</small>',
+          iconSize: null
+        });
+      } else {
+        icone = L.divIcon({
+          className: "atlas-pino atlas-pino--" + cat,
+          html: '<span style="--cor:' + (CORES[cat] || CORES.marco) + '"></span>',
+          iconSize: [22, 22], iconAnchor: [11, 11]
+        });
+      }
+      const m = L.marker(paraLatLng(p.x, p.y), {icon: icone, title: p.nome, keyboard: true, riseOnHover: true});
+      m.on("click", function(){ selecionar(p, true); });
+      if(cat !== "regiao") m.bindTooltip(p.nome, {direction: "top", offset: [0, -10], className: "atlas-dica"});
+      m.addTo(camadas[cat]);
+      marcadores[p.id] = m;
+    });
+    /* rótulos soltos (água etc.): só texto, sem clique */
+    const rotulos = L.layerGroup().addTo(mapa);
+    (cfg.rotulos || []).forEach(function(r){
+      L.marker(paraLatLng(r.x, r.y), {
+        interactive: false, keyboard: false,
+        icon: L.divIcon({className: "atlas-rotulo atlas-rotulo--" + r.tipo, html: escapar(r.nome), iconSize: null})
+      }).addTo(rotulos);
     });
 
-    let arrastando = false, ini = null, moveu = 0;
-    svg.addEventListener("pointerdown", function(ev){
-      arrastando = true; moveu = 0;
-      ini = {cx: ev.clientX, cy: ev.clientY, vx: vista.x, vy: vista.y};
-      palco.classList.add("arrastando");
-      svg.setPointerCapture(ev.pointerId);
-    });
-    svg.addEventListener("pointermove", function(ev){
-      if(!arrastando) return;
-      const r = svg.getBoundingClientRect();
-      const dx = ev.clientX - ini.cx, dy = ev.clientY - ini.cy;
-      moveu = Math.max(moveu, Math.abs(dx) + Math.abs(dy));
-      vista.x = ini.vx - dx * (vista.w / r.width);
-      vista.y = ini.vy - dy * (vista.h / r.height);
-      limitar(); aplicar();
-    });
-    function soltar(ev){
-      if(!arrastando) return;
-      arrastando = false;
-      palco.classList.remove("arrastando");
-      try{ svg.releasePointerCapture(ev.pointerId); }catch(e){}
-    }
-    svg.addEventListener("pointerup", soltar);
-    svg.addEventListener("pointercancel", soltar);
-
-    /* ---- seleção (ignora clique que na verdade foi arrasto) ---- */
-    alvos.forEach(function(el){
-      el.addEventListener("click", function(){ if(moveu < 6) mostrar(el); });
-      el.addEventListener("mouseenter", function(){ if(!arrastando) mostrar(el); });
-      el.addEventListener("focus", function(){ mostrar(el); });
-      el.addEventListener("keydown", function(ev){
-        if(ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); mostrar(el); }
-      });
-    });
-
-    /* ---- camadas ligáveis ---- */
-    palco.querySelectorAll("[data-camada]").forEach(function(b){
+    document.querySelectorAll("#atlas-camadas [data-cat]").forEach(function(b){
+      const cat = b.dataset.cat;
+      if(!camadas[cat]){ b.hidden = true; return; }
       b.addEventListener("click", function(){
         const ligada = b.getAttribute("aria-pressed") === "true";
         b.setAttribute("aria-pressed", ligada ? "false" : "true");
-        const c = svg.querySelector("." + b.dataset.camada);
-        if(c) c.style.display = ligada ? "none" : "";
+        if(ligada) mapa.removeLayer(camadas[cat]); else mapa.addLayer(camadas[cat]);
+        if(cat === "regiao"){ if(ligada) mapa.removeLayer(rotulos); else mapa.addLayer(rotulos); }
+        filtrarLista();
       });
     });
+
+    /* ── painel lateral ── */
+    const el = {
+      cor: document.getElementById("mapa-cor"), nome: document.getElementById("mapa-nome"),
+      real: document.getElementById("mapa-real"), desc: document.getElementById("mapa-desc"),
+      tags: document.getElementById("mapa-tags"), acoes: document.getElementById("atlas-acoes")
+    };
+    function selecionar(p, voar){
+      el.cor.style.background = CORES[p.cat] || CORES.marco;
+      el.nome.textContent = p.nome || "";
+      const q = quadrante(p);
+      el.real.textContent = (p.real || "") + (q ? "  ·  " + txt.quadrante + " " + q : "");
+      el.desc.textContent = p.desc || "";
+      el.tags.innerHTML = "";
+      p.tags.forEach(function(t){ const s = document.createElement("span"); s.textContent = t; el.tags.appendChild(s); });
+      el.acoes.innerHTML = "";
+      if(p.video){
+        const a = document.createElement("a");
+        a.href = "https://www.youtube.com/watch?v=" + encodeURIComponent(p.video) + (p.t ? "&t=" + parseInt(p.t, 10) + "s" : "");
+        a.target = "_blank"; a.rel = "noopener"; a.textContent = txt.video;
+        el.acoes.appendChild(a);
+      }
+      const copiar = document.createElement("button");
+      copiar.type = "button"; copiar.textContent = txt.copiar;
+      copiar.addEventListener("click", function(){
+        const link = location.href.split("#")[0] + "#" + p.id;
+        if(navigator.clipboard) navigator.clipboard.writeText(link).then(function(){
+          copiar.textContent = txt.copiado;
+          setTimeout(function(){ copiar.textContent = txt.copiar; }, 2000);
+        }).catch(function(){});
+      });
+      el.acoes.appendChild(copiar);
+      document.querySelectorAll(".atlas .ativo").forEach(function(n){ n.classList.remove("ativo"); });
+      const m = marcadores[p.id];
+      if(m && m._icon) m._icon.classList.add("ativo");
+      document.querySelectorAll("#atlas-lista li").forEach(function(li){
+        li.classList.toggle("ativo", li.dataset.id === p.id);
+      });
+      if(voar) mapa.flyTo(paraLatLng(p.x, p.y), Math.max(mapa.getZoom(), mapa.getMinZoom() + 2), {duration: .6});
+      if(history.replaceState) history.replaceState(null, "", "#" + p.id);
+    }
+
+    /* ── lista + busca ── */
+    const lista = document.getElementById("atlas-lista");
+    const busca = document.getElementById("atlas-busca");
+    function normalizar(s){ return (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+    pontos.slice().sort(function(a, b){ return (a.nome || "").localeCompare(b.nome || ""); }).forEach(function(p){
+      const li = document.createElement("li");
+      li.dataset.id = p.id; li.dataset.cat = p.cat;
+      const b = document.createElement("button");
+      b.type = "button";
+      b.innerHTML = '<i class="ponto-cor ponto-cor--' + p.cat + '"></i>';
+      const nome = document.createElement("span"); nome.textContent = p.nome || p.id;
+      const real = document.createElement("small"); real.textContent = [p.real, quadrante(p)].filter(Boolean).join(" · ");
+      b.appendChild(nome); b.appendChild(real);
+      b.addEventListener("click", function(){ selecionar(p, true); });
+      li.appendChild(b);
+      li._busca = normalizar([p.nome, p.real, p.desc, p.tags.join(" "), quadrante(p)].join(" "));
+      lista.appendChild(li);
+    });
+    const vazio = document.createElement("li");
+    vazio.className = "atlas__vazio"; vazio.textContent = txt.nada; vazio.hidden = true;
+    lista.appendChild(vazio);
+    function filtrarLista(){
+      const q = normalizar(busca.value.trim());
+      let visiveis = 0;
+      lista.querySelectorAll("li[data-id]").forEach(function(li){
+        const ligada = camadas[li.dataset.cat] && mapa.hasLayer(camadas[li.dataset.cat]);
+        const ok = ligada && (!q || li._busca.indexOf(q) !== -1);
+        li.hidden = !ok; if(ok) visiveis++;
+      });
+      vazio.hidden = visiveis > 0;
+    }
+    busca.addEventListener("input", filtrarLista);
+    busca.addEventListener("keydown", function(e){
+      if(e.key !== "Enter") return;
+      const primeiro = lista.querySelector("li[data-id]:not([hidden]) button");
+      if(primeiro){ e.preventDefault(); primeiro.click(); }
+    });
+
+    /* ── tela cheia e enquadrar ── */
+    document.getElementById("atlas-enquadrar").addEventListener("click", enquadrar);
+    document.getElementById("atlas-tela").addEventListener("click", function(){
+      const cheia = caixa.classList.toggle("atlas--cheia");
+      document.body.classList.toggle("atlas-aberto", cheia);
+      if(cheia && caixa.requestFullscreen) caixa.requestFullscreen().catch(function(){});
+      if(!cheia && document.fullscreenElement) document.exitFullscreen().catch(function(){});
+      setTimeout(function(){ mapa.invalidateSize(); }, 200);
+    });
+    document.addEventListener("fullscreenchange", function(){
+      if(!document.fullscreenElement && caixa.classList.contains("atlas--cheia")){
+        caixa.classList.remove("atlas--cheia");
+        document.body.classList.remove("atlas-aberto");
+        setTimeout(function(){ mapa.invalidateSize(); }, 200);
+      }
+    });
+
+    /* ── link direto: /map/#vice-city abre já no local ── */
+    function abrirDoEndereco(){
+      const id = decodeURIComponent(location.hash.replace("#", ""));
+      const p = pontos.find(function(q){ return q.id === id; });
+      if(p) selecionar(p, true);
+    }
+    abrirDoEndereco();
+    window.addEventListener("hashchange", abrirDoEndereco);
+
+    /* ── modo de edição: /map/?editar=1 mostra a posição de cada clique ── */
+    if(/[?&]editar=1/.test(location.search)){
+      const coord = document.getElementById("atlas-coord");
+      coord.hidden = false; coord.textContent = txt.editar;
+      mapa.on("click", function(e){
+        const f = paraFracao(e.latlng);
+        const linha = '"x": ' + f[0].toFixed(4) + ', "y": ' + f[1].toFixed(4);
+        coord.textContent = linha;
+        L.popup().setLatLng(e.latlng).setContent("<code>" + linha + "</code>").openOn(mapa);
+        if(navigator.clipboard) navigator.clipboard.writeText(linha).catch(function(){});
+      });
+    }
   })();
 
   /* ---- Plantão: os cards são gerados pelo montar.py (HTML estático, indexável).

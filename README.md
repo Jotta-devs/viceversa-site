@@ -115,6 +115,47 @@ só para posts errados, nunca para "limpar" os antigos: o link deixaria de funci
 `news-sitemap.xml`; no Google Publisher Center (publishercenter.google.com)
 cadastre o site e aponte os três `feed.xml`.
 
+## Mapa de Leonida
+
+A página `/map/` (e `/pt/mapa/`, `/es/mapa/`) mostra Leonida **recriada pelo
+VICEVERSA** a partir do **YANIS — GTA VI Community Map**, da Mapping Community
+(map.stateofleonida.net). Yanis autorizou o uso, a modificação e a recriação no
+nosso estilo, com crédito — guarde os prints da autorização. Os créditos na
+página e na atribuição do mapa são obrigatórios: não remova.
+
+```
+mapa/base/            a imagem original do mapa (a maior resolução disponível)
+mapa/recriar_mapa.py  redesenha o mapa em vetor → mapa/leonida.svg (+ original.webp, leonida.json)
+mapa/pontos.json      pontos clicáveis (regiões, marcos, trailers, vida real) e rótulos
+vendor/leaflet/       a biblioteca do mapa (Leaflet, licença BSD), servida pelo próprio site
+```
+
+O que o site oferece em cima do vetor: estilos **Noite** e **Dia** (as cores estão
+em `partes/cabeca.html`, seção "ATLAS recriado"), **Original** (o mapa da
+comunidade sem alterações, para comparar), **grade de referência** A1…H12, nomes
+das regiões nos três idiomas, busca, link direto para cada local e tela cheia.
+
+**Refazer com a versão em alta resolução ou uma versão nova (V17…):**
+
+```bash
+# coloque o PNG em mapa/base/ (pode apagar o antigo)
+pip install opencv-python-headless numpy     # só na primeira vez
+python mapa/recriar_mapa.py
+python montar.py
+```
+
+Se o layout da imagem nova for diferente (legenda em outro lugar, rótulos em
+outras posições), ajuste `RECORTE` e `ROTULOS` no começo do `recriar_mapa.py`.
+
+**Adicionar ou ajustar pontos:** abra `/map/?editar=1` no site, clique no lugar
+exato — a posição `"x": …, "y": …` é copiada — e cole em `mapa/pontos.json`.
+Pontos de trailer podem levar `"video"` (id do YouTube) e `"t"` (segundo da cena).
+
+Para o link do Discord aparecer nos créditos, preencha `MAPA_DISCORD` no `montar.py`.
+
+As pastas `mapa/tiles/` e `mapa/gerar_tiles.py`, da versão anterior do mapa, não
+são mais usadas e podem ser apagadas.
+
 ## O robô
 
 `.github/workflows/plantao.yml` roda a cada 6 horas: busca notícias de GTA VI em feeds
