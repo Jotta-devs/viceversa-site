@@ -1159,6 +1159,35 @@
   .seguinte__titulo{font-weight:700;font-size:1.12rem;line-height:1.3;padding:.45rem 1.2rem .3rem 0}
   .seguinte__resumo{font-size:.86rem;color:var(--creme-70);padding:0 1.2rem 1.1rem 0}
   .seguinte--sem-img{grid-template-columns:1fr;padding-left:1.2rem}
+  /* ---- locais do mapa: lista na página do mapa e página de cada local ---- */
+  .locais{max-width:1080px;margin:3rem auto 0;text-align:left}
+  .locais h3{font-family:var(--font-display);font-weight:400;font-size:clamp(1.6rem,3.4vw,2.2rem);letter-spacing:.04em;margin-bottom:.3rem}
+  .locais > p{color:var(--creme-70);font-size:.9rem;margin-bottom:1.2rem}
+  .locais__grade{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.7rem}
+  .local-card{display:flex;flex-direction:column;gap:.15rem;height:100%;border:1px solid var(--linha);border-left:3px solid var(--agua);
+    border-radius:10px;padding:.8rem 1rem;background:var(--card);color:var(--creme);text-decoration:none;transition:border-color .2s,transform .2s}
+  .local-card--regiao{border-left-color:var(--magenta)}
+  .local-card:hover{border-color:var(--agua);transform:translateY(-2px)}
+  .local-card__cat{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--agua)}
+  .local-card--regiao .local-card__cat{color:#FF6FA6}
+  .local-card strong{font-weight:700;font-size:1rem;line-height:1.3}
+  .local-card small{font-size:.78rem;color:var(--creme-70)}
+  .local__trilha{display:flex;flex-wrap:wrap;gap:.5rem;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.12em;color:var(--creme-70)}
+  .local__trilha a{color:var(--agua)}
+  .selo--local-regiao{color:#FF6FA6;background:rgba(255,61,138,.1)}
+  .selo--local-marco{color:var(--agua);background:rgba(47,230,200,.09)}
+  .local__mapa{margin:0 0 1.6rem}
+  .local__mapa img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--linha);background:#07112A}
+  .local__mapa figcaption{margin-top:.8rem;text-align:center}
+  .local__abrir{margin:0 0 1.6rem}
+  .local__real{font-size:1.05rem;color:var(--creme);margin:0 0 1.2rem}
+  .local__real span{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--laranja);margin-right:.5rem}
+  .local__tags{margin:.4rem 0 1rem}
+  .local__noticias{margin:0 0 2.4rem}
+  .local__noticias h2,.local__mais h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.5rem,3vw,2rem);letter-spacing:.04em;margin-bottom:1rem}
+  .local__mais{padding-bottom:4rem}
+  .local__todos{margin-top:1.2rem;font-family:var(--font-mono);font-size:.74rem;letter-spacing:.1em}
+
   @media (max-width:600px){
     .seguinte{grid-template-columns:1fr}
     .seguinte img{grid-row:auto;aspect-ratio:16/9;min-height:0}
@@ -1540,7 +1569,9 @@
     } catch(e){}
   }
   const artigoAtual = document.querySelector(".artigo[data-post]");
-  const idPost = artigoAtual ? artigoAtual.dataset.post : undefined;
+  const localAtual = document.querySelector(".artigo[data-local]");
+  const idPost = artigoAtual ? artigoAtual.dataset.post : (localAtual ? localAtual.dataset.local : undefined);
+  const tipoConteudo = artigoAtual ? "noticia" : (localAtual ? "local_mapa" : "pagina");
 
   /* ---- Sugestão de idioma (detecção do navegador, não força nada) ---- */
   (function(){
@@ -1999,6 +2030,12 @@
         }).catch(function(){});
       });
       el.acoes.appendChild(copiar);
+      if(p.url && txt.pagina){
+        const pagina = document.createElement("a");
+        pagina.href = p.url; pagina.textContent = txt.pagina;
+        pagina.dataset.evento = "pagina_local"; pagina.dataset.local = "painel_mapa";
+        el.acoes.appendChild(pagina);
+      }
       document.querySelectorAll(".atlas .ativo").forEach(function(n){ n.classList.remove("ativo"); });
       const m = marcadores[p.id];
       if(m && m._icon) m._icon.classList.add("ativo");
@@ -2110,7 +2147,7 @@
   document.querySelectorAll("[data-compartilhar]").forEach(function(b){
     if(!navigator.share){ b.style.display = "none"; return; }
     b.addEventListener("click", function(){
-      evento("share", {method: "nativo", content_type: "noticia", item_id: idPost});
+      evento("share", {method: "nativo", content_type: tipoConteudo, item_id: idPost});
       navigator.share({title: document.title, url: b.dataset.compartilhar}).catch(function(){});
     });
   });
@@ -2121,7 +2158,7 @@
         b.textContent = b.dataset.ok || original;
         setTimeout(function(){ b.textContent = original; }, 2000);
       };
-      evento("share", {method: "copiar_link", content_type: "noticia", item_id: idPost});
+      evento("share", {method: "copiar_link", content_type: tipoConteudo, item_id: idPost});
       if(navigator.clipboard){
         navigator.clipboard.writeText(b.dataset.copiar).then(pronto).catch(function(){});
       }
@@ -2138,7 +2175,7 @@
     if(!el) return;
     const href = el.getAttribute("href") || "";
     if(el.dataset.rede && el.closest(".compartilhar")){
-      evento("share", {method: el.dataset.rede, content_type: "noticia", item_id: idPost});
+      evento("share", {method: el.dataset.rede, content_type: tipoConteudo, item_id: idPost});
     } else if(el.dataset.evento){
       evento(el.dataset.evento, {canal: el.dataset.canal, local: el.dataset.local, item_id: idPost});
     } else if(/kiwify\.com/i.test(href)){

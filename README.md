@@ -117,6 +117,14 @@ mostra o selo.
   Pillow (`pip install pillow`); o robô já instala. Sem ele, o site sai normalmente e
   o compartilhamento usa a foto da notícia.
 
+### Fotos das notícias mais leves
+
+Ao baixar as imagens das Issues, o robô reduz as fotos para no máximo 1600 px de
+largura e converte para WebP (`automacao/posts.py`, função `otimizar`). As capturas
+dos trailers chegam em 4K: cada uma caía de ~900 KB para ~80 KB. Se o WebP não
+ajudar (imagem pequena que já é leve), fica o arquivo original. GIF animado não é
+convertido.
+
 ### Notícias em português e espanhol
 
 O formulário "Novo post" tem campos opcionais de título e texto em português e
@@ -181,6 +189,8 @@ Leonida.
 mapa/base/            a imagem-base do mapa (só no seu computador — fica fora do Git)
 mapa/recriar_mapa.py  redesenha o mapa em vetor → mapa/leonida.svg, mapa/leonida.json
 mapa/pontos.json      pontos clicáveis (regiões, marcos, trailers, vida real) e rótulos
+mapa/gerar_previa.py  "foto" do mapa no estilo Noite → mapa/leonida-noite.webp
+mapa/leonida-noite.webp  usada para recortar a imagem de cada página de local
 vendor/leaflet/       a biblioteca do mapa (Leaflet, licença BSD), servida pelo próprio site
 ```
 
@@ -195,6 +205,29 @@ direto para cada local e tela cheia.
 Nos locais, a tag "Nome descritivo" marca nomes dados por nós (ex.: "Ilha
 portuária") e "Nome especulativo" marca apelidos da comunidade que a Rockstar
 não confirmou (em vermelho no mapa original).
+
+**Uma página para cada local.** Todo ponto do `mapa/pontos.json` que tem nome
+ganha uma página própria, nos 3 idiomas: `/map/vice-beach/`, `/pt/mapa/vice-beach/`,
+`/es/mapa/vice-beach/`. O título segue a busca que as pessoas fazem ("Onde fica
+Vice Beach em GTA 6") e a página traz o recorte do mapa com o local marcado, o
+quadrante, a inspiração na vida real, a descrição, os locais mais próximos e as
+notícias que citam o local. O endereço usa o `id` do ponto: **não mude o `id` de um
+ponto que já existe**, senão o link antigo quebra. A página do mapa lista todos os
+locais embaixo (o Google precisa desses links para achar as páginas), o painel do
+mapa ganhou o botão "Ver página do local" e as páginas entram no `sitemap.xml`.
+
+Quanto mais completa a descrição (`desc` no `pontos.json`, ou os textos `m…` em
+`idiomas/*.json` para os pontos com `ficha`), melhor a página se sai no Google.
+
+O recorte vem de `mapa/leonida-noite.webp`. Quando o mapa mudar (depois do
+`recriar_mapa.py`) ou as cores do estilo Noite mudarem, refaça essa imagem:
+
+```bash
+pip install playwright pillow
+python -m playwright install chromium
+python mapa/gerar_previa.py
+python montar.py
+```
 
 **Refazer com a versão em alta resolução ou uma versão nova (V17…):**
 

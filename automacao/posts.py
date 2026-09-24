@@ -32,6 +32,7 @@ indexados pelo Google e compartilhados nas redes.
 """
 
 import hashlib
+import io
 import json
 import os
 import re
@@ -186,8 +187,44 @@ def absolutizar(html):
 
 
 PASTA_MIDIA = REPO / "midia"
+LARGURA_MAX = 1600      # fotos maiores são reduzidas (chegam em 4K dos trailers)
 EXTENSOES = {"image/jpeg": ".jpg", "image/png": ".png", "image/gif": ".gif",
              "image/webp": ".webp", "image/avif": ".avif"}
+
+
+def otimizar(dados, nome_base):
+    """Reduz para no máximo 1600 px e converte para WebP (fica ~8x menor).
+
+    Devolve o nome do arquivo gravado em midia/, ou None se não deu para
+    otimizar (sem Pillow, GIF animado, formato estranho) — aí o original é usado.
+    Fica com o original quando o WebP não ajuda (imagem pequena já leve).
+    """
+    try:
+        from PIL import Image, ImageOps
+    except ImportError:
+        return None
+    destino = PASTA_MIDIA / f"{nome_base}.webp"
+    if destino.exists():
+        return destino.name
+    try:
+        with Image.open(io.BytesIO(dados)) as im:
+            if getattr(im, "is_animated", False):
+                return None
+            im = ImageOps.exif_transpose(im)
+            reduzida = im.width > LARGURA_MAX
+            if reduzida:
+                im = im.resize((LARGURA_MAX, round(im.height * LARGURA_MAX / im.width)), Image.LANCZOS)
+            im = im.convert("RGBA" if im.mode in ("RGBA", "LA", "P") else "RGB")
+            saida = io.BytesIO()
+            im.save(saida, "WEBP", quality=80, method=6)
+    except Exception as exc:
+        log(f"não consegui otimizar uma imagem ({exc}); usando o original.")
+        return None
+    if not reduzida and saida.tell() >= len(dados):
+        return None
+    destino.write_bytes(saida.getvalue())
+    log(f"imagem otimizada: midia/{destino.name} ({len(dados)//1024} KB -> {saida.tell()//1024} KB)")
+    return destino.name
 
 
 def baixar_imagens(html, token):
@@ -229,11 +266,19 @@ def baixar_imagens(html, token):
         ext = EXTENSOES.get(tipo, "")
         if not ext:
             ext = os.path.splitext(urllib.parse.urlparse(url).path)[1][:5] or ".img"
-        nome = hashlib.sha1(dados).hexdigest()[:16] + ext
-        destino = PASTA_MIDIA / nome
-        if not destino.exists():
-            destino.write_bytes(dados)
-            log(f"imagem salva: midia/{nome} ({len(dados)//1024} KB)")
+        base = hashlib.sha1(dados).hexdigest()[:16]
+        nome = otimizar(dados, base)
+        if nome:
+            # a versão antiga, sem otimizar, não é mais usada
+            antigo = PASTA_MIDIA / (base + ext)
+            if ext != ".webp" and antigo.exists():
+                antigo.unlink()
+        else:
+            nome = base + ext
+            destino = PASTA_MIDIA / nome
+            if not destino.exists():
+                destino.write_bytes(dados)
+                log(f"imagem salva: midia/{nome} ({len(dados)//1024} KB)")
         # caminho absoluto a partir da raiz do site: funciona em qualquer página
         return f'{m.group(1)}="/midia/{nome}"'
 

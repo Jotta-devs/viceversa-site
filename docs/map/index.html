@@ -1159,6 +1159,35 @@
   .seguinte__titulo{font-weight:700;font-size:1.12rem;line-height:1.3;padding:.45rem 1.2rem .3rem 0}
   .seguinte__resumo{font-size:.86rem;color:var(--creme-70);padding:0 1.2rem 1.1rem 0}
   .seguinte--sem-img{grid-template-columns:1fr;padding-left:1.2rem}
+  /* ---- locais do mapa: lista na página do mapa e página de cada local ---- */
+  .locais{max-width:1080px;margin:3rem auto 0;text-align:left}
+  .locais h3{font-family:var(--font-display);font-weight:400;font-size:clamp(1.6rem,3.4vw,2.2rem);letter-spacing:.04em;margin-bottom:.3rem}
+  .locais > p{color:var(--creme-70);font-size:.9rem;margin-bottom:1.2rem}
+  .locais__grade{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.7rem}
+  .local-card{display:flex;flex-direction:column;gap:.15rem;height:100%;border:1px solid var(--linha);border-left:3px solid var(--agua);
+    border-radius:10px;padding:.8rem 1rem;background:var(--card);color:var(--creme);text-decoration:none;transition:border-color .2s,transform .2s}
+  .local-card--regiao{border-left-color:var(--magenta)}
+  .local-card:hover{border-color:var(--agua);transform:translateY(-2px)}
+  .local-card__cat{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--agua)}
+  .local-card--regiao .local-card__cat{color:#FF6FA6}
+  .local-card strong{font-weight:700;font-size:1rem;line-height:1.3}
+  .local-card small{font-size:.78rem;color:var(--creme-70)}
+  .local__trilha{display:flex;flex-wrap:wrap;gap:.5rem;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.12em;color:var(--creme-70)}
+  .local__trilha a{color:var(--agua)}
+  .selo--local-regiao{color:#FF6FA6;background:rgba(255,61,138,.1)}
+  .selo--local-marco{color:var(--agua);background:rgba(47,230,200,.09)}
+  .local__mapa{margin:0 0 1.6rem}
+  .local__mapa img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--linha);background:#07112A}
+  .local__mapa figcaption{margin-top:.8rem;text-align:center}
+  .local__abrir{margin:0 0 1.6rem}
+  .local__real{font-size:1.05rem;color:var(--creme);margin:0 0 1.2rem}
+  .local__real span{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--laranja);margin-right:.5rem}
+  .local__tags{margin:.4rem 0 1rem}
+  .local__noticias{margin:0 0 2.4rem}
+  .local__noticias h2,.local__mais h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.5rem,3vw,2rem);letter-spacing:.04em;margin-bottom:1rem}
+  .local__mais{padding-bottom:4rem}
+  .local__todos{margin-top:1.2rem;font-family:var(--font-mono);font-size:.74rem;letter-spacing:.1em}
+
   @media (max-width:600px){
     .seguinte{grid-template-columns:1fr}
     .seguinte img{grid-row:auto;aspect-ratio:16/9;min-height:0}
@@ -1518,8 +1547,36 @@
     <div data-r="pantano"   data-nome="Wetlands and airboats" data-real="Grassrivers" data-tags="Airboat|Gators|Mangroves">The flooded heart of the Grassrivers, where airboats arrive as a vehicle class built for shallow water. Gators and dangerous wildlife off the main road.</div>
   </div>
 
-  <script type="application/json" id="atlas-config">{"info": {"largura": 1462, "altura": 1951, "origem": "leonida-mapa-v16.jpg", "recorte": [586, 0, 2048, 1951], "imagem": [2048, 1951], "grade": {"colunas": 8, "linhas": 11, "celula": 182.75}}, "svg": "../map-data/leonida.svg?v=1790250015", "pontos": [{"id": "vice-city", "cat": "regiao", "x": 0.7547, "y": 0.5117, "ficha": "vice"}, {"id": "grassrivers", "cat": "regiao", "x": 0.4784, "y": 0.7617, "ficha": "grass"}, {"id": "leonida-keys", "cat": "regiao", "x": 0.4472, "y": 0.8766, "ficha": "keys"}, {"id": "port-gellhorn", "cat": "regiao", "x": 0.2487, "y": 0.3377, "ficha": "gellhorn"}, {"id": "ambrosia", "cat": "regiao", "x": 0.503, "y": 0.3256, "ficha": "ambrosia"}, {"id": "mount-kalaga", "cat": "regiao", "x": 0.4745, "y": 0.2488, "ficha": "kalaga"}, {"id": "aeroporto", "cat": "marco", "x": 0.5438, "y": 0.5782, "ficha": "aeroporto"}, {"id": "porto-gellhorn", "cat": "marco", "x": 0.2353, "y": 0.2973, "ficha": "porto"}, {"id": "praias-vice-city", "cat": "marco", "x": 0.8687, "y": 0.5192, "ficha": "praia"}, {"id": "pantanos", "cat": "marco", "x": 0.4774, "y": 0.6776, "ficha": "pantano"}, {"id": "vice-beach", "cat": "marco", "x": 0.8317, "y": 0.5064, "nome": "Vice Beach", "real": "Miami Beach", "desc": "The barrier island across the bay from downtown: a dense grid of streets, the oceanfront strip and a long park in the middle. Vice City's postcard.", "tags": ["Vice City"]}, {"id": "centro-vice-city", "cat": "marco", "x": 0.6717, "y": 0.5684, "nome": "Downtown Vice City", "real": "Downtown Miami", "desc": "The tightest street grid on the map, on the west shore of the bay, crossed by the highway that runs north–south through the city.", "tags": ["Vice City", "Descriptive name"]}, {"id": "area-portuaria", "cat": "marco", "x": 0.7873, "y": 0.5766, "nome": "Port island", "real": "PortMiami (Dodge Island)", "desc": "Artificial island in the bay, linked to downtown by a bridge, with docks and large terminal buildings.", "tags": ["Vice City", "Descriptive name"]}, {"id": "watson-bay", "cat": "marco", "x": 0.3858, "y": 0.715, "nome": "Watson Bay", "desc": "Coastal town on the western edge of the Grassrivers, with a small grid of streets facing the water.", "tags": ["Grassrivers"]}, {"id": "key-lento", "cat": "marco", "x": 0.5568, "y": 0.8488, "nome": "Key Lento", "real": "Key Largo", "desc": "The biggest town in the Leonida Keys: a long, narrow island packed with streets, reached by the highway coming down from the mainland.", "tags": ["Leonida Keys"]}, {"id": "aeroporto-keys", "cat": "marco", "x": 0.2565, "y": 0.8765, "nome": "Keys airport", "desc": "An island almost entirely taken up by two crossing runways, at the western tip of the Keys.", "tags": ["Leonida Keys", "Descriptive name"]}, {"id": "ponte-keys", "cat": "marco", "x": 0.3509, "y": 0.9, "nome": "Keys sea bridge", "real": "Seven Mile Bridge", "desc": "The long bridge that hops from island to island between Key Lento and the airport island.", "tags": ["Leonida Keys", "Descriptive name"]}, {"id": "aerodromo-gellhorn", "cat": "marco", "x": 0.2435, "y": 0.386, "nome": "Port Gellhorn airstrip", "desc": "A single runway on the peninsula south of Port Gellhorn.", "tags": ["Port Gellhorn", "Descriptive name"]}, {"id": "industria-ambrosia", "cat": "marco", "x": 0.5417, "y": 0.3742, "nome": "Ambrosia industrial zone", "desc": "Rows of large sheds along the railway just south of Ambrosia's center, between the river and the lake.", "tags": ["Ambrosia", "Descriptive name"]}, {"id": "st-joseph", "cat": "marco", "x": 0.6922, "y": 0.2153, "nome": "St. Joseph", "desc": "Small town on the northeast coast, next to the beach. The name is a community guess, not confirmed by Rockstar.", "tags": ["Speculative name"]}, {"id": "redhill", "cat": "marco", "x": 0.4747, "y": 0.1779, "nome": "Redhill", "desc": "A spot by the northern highway, at the foot of Mount Kalaga. The name is a community guess, not confirmed by Rockstar.", "tags": ["Mount Kalaga", "Speculative name"]}], "rotulos": [{"id": "lago-leonida", "tipo": "agua", "x": 0.6042, "y": 0.3099, "nome": "Lake Leonida"}], "textos": {"video": "Watch the scene in the trailer ↗", "copiar": "Copy link to this place", "copiado": "Link copied!", "nada": "No places found.", "editar": "Edit mode: click the map to copy the position (x, y)", "quadrante": "Square"}}</script>
+  <script type="application/json" id="atlas-config">{"info": {"largura": 1462, "altura": 1951, "origem": "leonida-mapa-v16.jpg", "recorte": [586, 0, 2048, 1951], "imagem": [2048, 1951], "grade": {"colunas": 8, "linhas": 11, "celula": 182.75}}, "svg": "../map-data/leonida.svg?v=1790250015", "pontos": [{"id": "vice-city", "cat": "regiao", "x": 0.7547, "y": 0.5117, "ficha": "vice", "url": "../map/vice-city/"}, {"id": "grassrivers", "cat": "regiao", "x": 0.4784, "y": 0.7617, "ficha": "grass", "url": "../map/grassrivers/"}, {"id": "leonida-keys", "cat": "regiao", "x": 0.4472, "y": 0.8766, "ficha": "keys", "url": "../map/leonida-keys/"}, {"id": "port-gellhorn", "cat": "regiao", "x": 0.2487, "y": 0.3377, "ficha": "gellhorn", "url": "../map/port-gellhorn/"}, {"id": "ambrosia", "cat": "regiao", "x": 0.503, "y": 0.3256, "ficha": "ambrosia", "url": "../map/ambrosia/"}, {"id": "mount-kalaga", "cat": "regiao", "x": 0.4745, "y": 0.2488, "ficha": "kalaga", "url": "../map/mount-kalaga/"}, {"id": "aeroporto", "cat": "marco", "x": 0.5438, "y": 0.5782, "ficha": "aeroporto", "url": "../map/aeroporto/"}, {"id": "porto-gellhorn", "cat": "marco", "x": 0.2353, "y": 0.2973, "ficha": "porto", "url": "../map/porto-gellhorn/"}, {"id": "praias-vice-city", "cat": "marco", "x": 0.8687, "y": 0.5192, "ficha": "praia", "url": "../map/praias-vice-city/"}, {"id": "pantanos", "cat": "marco", "x": 0.4774, "y": 0.6776, "ficha": "pantano", "url": "../map/pantanos/"}, {"id": "vice-beach", "cat": "marco", "x": 0.8317, "y": 0.5064, "nome": "Vice Beach", "real": "Miami Beach", "desc": "The barrier island across the bay from downtown: a dense grid of streets, the oceanfront strip and a long park in the middle. Vice City's postcard.", "tags": ["Vice City"], "url": "../map/vice-beach/"}, {"id": "centro-vice-city", "cat": "marco", "x": 0.6717, "y": 0.5684, "nome": "Downtown Vice City", "real": "Downtown Miami", "desc": "The tightest street grid on the map, on the west shore of the bay, crossed by the highway that runs north–south through the city.", "tags": ["Vice City", "Descriptive name"], "url": "../map/centro-vice-city/"}, {"id": "area-portuaria", "cat": "marco", "x": 0.7873, "y": 0.5766, "nome": "Port island", "real": "PortMiami (Dodge Island)", "desc": "Artificial island in the bay, linked to downtown by a bridge, with docks and large terminal buildings.", "tags": ["Vice City", "Descriptive name"], "url": "../map/area-portuaria/"}, {"id": "watson-bay", "cat": "marco", "x": 0.3858, "y": 0.715, "nome": "Watson Bay", "desc": "Coastal town on the western edge of the Grassrivers, with a small grid of streets facing the water.", "tags": ["Grassrivers"], "url": "../map/watson-bay/"}, {"id": "key-lento", "cat": "marco", "x": 0.5568, "y": 0.8488, "nome": "Key Lento", "real": "Key Largo", "desc": "The biggest town in the Leonida Keys: a long, narrow island packed with streets, reached by the highway coming down from the mainland.", "tags": ["Leonida Keys"], "url": "../map/key-lento/"}, {"id": "aeroporto-keys", "cat": "marco", "x": 0.2565, "y": 0.8765, "nome": "Keys airport", "desc": "An island almost entirely taken up by two crossing runways, at the western tip of the Keys.", "tags": ["Leonida Keys", "Descriptive name"], "url": "../map/aeroporto-keys/"}, {"id": "ponte-keys", "cat": "marco", "x": 0.3509, "y": 0.9, "nome": "Keys sea bridge", "real": "Seven Mile Bridge", "desc": "The long bridge that hops from island to island between Key Lento and the airport island.", "tags": ["Leonida Keys", "Descriptive name"], "url": "../map/ponte-keys/"}, {"id": "aerodromo-gellhorn", "cat": "marco", "x": 0.2435, "y": 0.386, "nome": "Port Gellhorn airstrip", "desc": "A single runway on the peninsula south of Port Gellhorn.", "tags": ["Port Gellhorn", "Descriptive name"], "url": "../map/aerodromo-gellhorn/"}, {"id": "industria-ambrosia", "cat": "marco", "x": 0.5417, "y": 0.3742, "nome": "Ambrosia industrial zone", "desc": "Rows of large sheds along the railway just south of Ambrosia's center, between the river and the lake.", "tags": ["Ambrosia", "Descriptive name"], "url": "../map/industria-ambrosia/"}, {"id": "st-joseph", "cat": "marco", "x": 0.6922, "y": 0.2153, "nome": "St. Joseph", "desc": "Small town on the northeast coast, next to the beach. The name is a community guess, not confirmed by Rockstar.", "tags": ["Speculative name"], "url": "../map/st-joseph/"}, {"id": "redhill", "cat": "marco", "x": 0.4747, "y": 0.1779, "nome": "Redhill", "desc": "A spot by the northern highway, at the foot of Mount Kalaga. The name is a community guess, not confirmed by Rockstar.", "tags": ["Mount Kalaga", "Speculative name"], "url": "../map/redhill/"}], "rotulos": [{"id": "lago-leonida", "tipo": "agua", "x": 0.6042, "y": 0.3099, "nome": "Lake Leonida"}], "textos": {"video": "Watch the scene in the trailer ↗", "copiar": "Copy link to this place", "pagina": "Location page →", "copiado": "Link copied!", "nada": "No places found.", "editar": "Edit mode: click the map to copy the position (x, y)", "quadrante": "Square"}}</script>
   <p class="mapa-nota">This map is a fan reconstruction based on official material released by Rockstar; roads, distances and places may change in the final game. The highlighted points and descriptions are by VICEVERSA.</p>
+
+  <div class="locais" id="locais">
+    <h3>All map locations</h3>
+    <p>Pick a location to see where it is, its real-life inspiration and what is nearby.</p>
+    <ul class="locais__grade">
+      <li><a class="local-card local-card--regiao" href="../map/ambrosia/"><span class="local-card__cat">Region</span><strong>Ambrosia</strong><small>Industrial heartland</small></a></li>
+      <li><a class="local-card local-card--regiao" href="../map/grassrivers/"><span class="local-card__cat">Region</span><strong>Grassrivers</strong><small>Everglades</small></a></li>
+      <li><a class="local-card local-card--regiao" href="../map/leonida-keys/"><span class="local-card__cat">Region</span><strong>Leonida Keys</strong><small>Florida Keys</small></a></li>
+      <li><a class="local-card local-card--regiao" href="../map/mount-kalaga/"><span class="local-card__cat">Region</span><strong>Mount Kalaga</strong><small>Highlands and national park</small></a></li>
+      <li><a class="local-card local-card--regiao" href="../map/port-gellhorn/"><span class="local-card__cat">Region</span><strong>Port Gellhorn</strong><small>The forgotten west coast</small></a></li>
+      <li><a class="local-card local-card--regiao" href="../map/vice-city/"><span class="local-card__cat">Region</span><strong>Vice City</strong><small>Miami</small></a></li>
+      <li><a class="local-card local-card--marco" href="../map/industria-ambrosia/"><span class="local-card__cat">Landmark</span><strong>Ambrosia industrial zone</strong></a></li>
+      <li><a class="local-card local-card--marco" href="../map/porto-gellhorn/"><span class="local-card__cat">Landmark</span><strong>Cargo port</strong><small>Port Gellhorn</small></a></li>
+      <li><a class="local-card local-card--marco" href="../map/centro-vice-city/"><span class="local-card__cat">Landmark</span><strong>Downtown Vice City</strong><small>Downtown Miami</small></a></li>
+      <li><a class="local-card local-card--marco" href="../map/aeroporto/"><span class="local-card__cat">Landmark</span><strong>International Airport</strong><small>Vice City</small></a></li>
+      <li><a class="local-card local-card--marco" href="../map/key-lento/"><span class="local-card__cat">Landmark</span><strong>Key Lento</strong><small>Key Largo</small></a></li>
+      <li><a class="local-card local-card--marco" href="../map/aeroporto-keys/"><span class="local-card__cat">Landmark</span><strong>Keys airport</strong></a></li>
+      <li><a class="local-card local-card--marco" href="../map/ponte-keys/"><span class="local-card__cat">Landmark</span><strong>Keys sea bridge</strong><small>Seven Mile Bridge</small></a></li>
+      <li><a class="local-card local-card--marco" href="../map/aerodromo-gellhorn/"><span class="local-card__cat">Landmark</span><strong>Port Gellhorn airstrip</strong></a></li>
+      <li><a class="local-card local-card--marco" href="../map/area-portuaria/"><span class="local-card__cat">Landmark</span><strong>Port island</strong><small>PortMiami (Dodge Island)</small></a></li>
+      <li><a class="local-card local-card--marco" href="../map/redhill/"><span class="local-card__cat">Landmark</span><strong>Redhill</strong></a></li>
+      <li><a class="local-card local-card--marco" href="../map/st-joseph/"><span class="local-card__cat">Landmark</span><strong>St. Joseph</strong></a></li>
+      <li><a class="local-card local-card--marco" href="../map/vice-beach/"><span class="local-card__cat">Landmark</span><strong>Vice Beach</strong><small>Miami Beach</small></a></li>
+      <li><a class="local-card local-card--marco" href="../map/praias-vice-city/"><span class="local-card__cat">Landmark</span><strong>Vice City beaches</strong><small>Barrier island</small></a></li>
+      <li><a class="local-card local-card--marco" href="../map/watson-bay/"><span class="local-card__cat">Landmark</span><strong>Watson Bay</strong></a></li>
+      <li><a class="local-card local-card--marco" href="../map/pantanos/"><span class="local-card__cat">Landmark</span><strong>Wetlands and airboats</strong><small>Grassrivers</small></a></li>
+    </ul>
+  </div>
 </section>
 <section id="curiosidades" class="observa">
   <div class="secao__cabeca">
@@ -1590,6 +1647,7 @@
     </div>
   </div>
 </section>
+
 <footer>
   <span class="marca">VICE<em>VERSA</em></span>
   <div class="footer-social">
@@ -1632,7 +1690,9 @@
     } catch(e){}
   }
   const artigoAtual = document.querySelector(".artigo[data-post]");
-  const idPost = artigoAtual ? artigoAtual.dataset.post : undefined;
+  const localAtual = document.querySelector(".artigo[data-local]");
+  const idPost = artigoAtual ? artigoAtual.dataset.post : (localAtual ? localAtual.dataset.local : undefined);
+  const tipoConteudo = artigoAtual ? "noticia" : (localAtual ? "local_mapa" : "pagina");
 
   /* ---- Sugestão de idioma (detecção do navegador, não força nada) ---- */
   (function(){
@@ -2091,6 +2151,12 @@
         }).catch(function(){});
       });
       el.acoes.appendChild(copiar);
+      if(p.url && txt.pagina){
+        const pagina = document.createElement("a");
+        pagina.href = p.url; pagina.textContent = txt.pagina;
+        pagina.dataset.evento = "pagina_local"; pagina.dataset.local = "painel_mapa";
+        el.acoes.appendChild(pagina);
+      }
       document.querySelectorAll(".atlas .ativo").forEach(function(n){ n.classList.remove("ativo"); });
       const m = marcadores[p.id];
       if(m && m._icon) m._icon.classList.add("ativo");
@@ -2202,7 +2268,7 @@
   document.querySelectorAll("[data-compartilhar]").forEach(function(b){
     if(!navigator.share){ b.style.display = "none"; return; }
     b.addEventListener("click", function(){
-      evento("share", {method: "nativo", content_type: "noticia", item_id: idPost});
+      evento("share", {method: "nativo", content_type: tipoConteudo, item_id: idPost});
       navigator.share({title: document.title, url: b.dataset.compartilhar}).catch(function(){});
     });
   });
@@ -2213,7 +2279,7 @@
         b.textContent = b.dataset.ok || original;
         setTimeout(function(){ b.textContent = original; }, 2000);
       };
-      evento("share", {method: "copiar_link", content_type: "noticia", item_id: idPost});
+      evento("share", {method: "copiar_link", content_type: tipoConteudo, item_id: idPost});
       if(navigator.clipboard){
         navigator.clipboard.writeText(b.dataset.copiar).then(pronto).catch(function(){});
       }
@@ -2230,7 +2296,7 @@
     if(!el) return;
     const href = el.getAttribute("href") || "";
     if(el.dataset.rede && el.closest(".compartilhar")){
-      evento("share", {method: el.dataset.rede, content_type: "noticia", item_id: idPost});
+      evento("share", {method: el.dataset.rede, content_type: tipoConteudo, item_id: idPost});
     } else if(el.dataset.evento){
       evento(el.dataset.evento, {canal: el.dataset.canal, local: el.dataset.local, item_id: idPost});
     } else if(/kiwify\.com/i.test(href)){

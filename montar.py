@@ -30,6 +30,7 @@ import math
 import re
 import shutil
 import sys
+import tempfile
 import unicodedata
 import urllib.parse
 from datetime import datetime, timedelta, timezone
@@ -95,6 +96,13 @@ SELOS = {
     "rumor": ("st02", "st05"),
     "vazamento": ("st03", "st06"),
 }
+
+# páginas de cada local do mapa (/map/<local>/): o recorte do mapa vem desta
+# imagem, gerada por mapa/gerar_previa.py
+PREVIA_MAPA = RAIZ / "mapa" / "leonida-noite.webp"
+ZOOM_LOCAL = {"regiao": 820, "marco": 430}     # largura do recorte, em unidades do mapa
+CORES_LOCAL = {"regiao": (255, 61, 138), "marco": (47, 230, 200),
+               "trailer": (255, 138, 61), "real": (255, 217, 138)}
 
 LANCAMENTO = datetime(2026, 11, 19, 3, 0, tzinfo=timezone.utc)   # 19/11 00:00 em Brasília
 CARDS_NOTICIAS = 20     # cards completos na página de notícias; o resto vai para o arquivo
@@ -745,7 +753,7 @@ def gerar_news_sitemap(posts):
             + "\n".join(urls) + ("\n" if urls else "") + "</urlset>\n")
 
 
-def gerar_sitemap(posts, hoje):
+def gerar_sitemap(posts, hoje, locais_por_cod=None):
     ultima = posts[0]["quando"].strftime("%Y-%m-%d") if posts and posts[0]["quando"] else hoje
     urls = ""
     for cod in IDIOMAS:
@@ -766,6 +774,12 @@ def gerar_sitemap(posts, hoje):
                     f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url_rel(r)}"/>'
                     for o, r in alternativas.items())
             urls += f"\n  <url><loc>{url_post(post, cod)}</loc><lastmod>{mod}</lastmod>{alt}\n  </url>"
+    for cod, locais in (locais_por_cod or {}).items():
+        for local in locais:
+            alt = "".join(
+                f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url_rel(rel_local(o, local))}"/>'
+                for o in IDIOMAS if o in locais_por_cod)
+            urls += f"\n  <url><loc>{url_rel(rel_local(cod, local))}</loc><lastmod>{hoje}</lastmod>{alt}\n  </url>"
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
             'xmlns:xhtml="http://www.w3.org/1999/xhtml">' + urls + "\n</urlset>\n")
@@ -798,7 +812,7 @@ def texto_idioma(valor, cod):
     return valor or ""
 
 
-def config_mapa(mapa, cod, textos, prefixo):
+def config_mapa(mapa, cod, textos, prefixo, com_pagina=()):
     pontos = []
     for p in mapa["pontos"]:
         try:
@@ -817,6 +831,8 @@ def config_mapa(mapa, cod, textos, prefixo):
         if p.get("video"):
             item["video"] = str(p["video"])
             item["t"] = int(p.get("t") or 0)
+        if item["id"] in com_pagina:
+            item["url"] = f'{prefixo}{caminho(cod, "mapa")}/{item["id"]}/'
         pontos.append(item)
     rotulos = []
     for r in mapa["rotulos"]:
@@ -833,10 +849,205 @@ def config_mapa(mapa, cod, textos, prefixo):
         "pontos": pontos,
         "rotulos": rotulos,
         "textos": {"video": textos.get("mp06", ""), "copiar": textos.get("mp07", ""),
+                   "pagina": textos.get("lc06", ""),
                    "copiado": textos.get("mp08", ""), "nada": textos.get("mp09", ""),
                    "editar": textos.get("mp12", ""), "quadrante": textos.get("mp19", "")},
     }
     return json.dumps(config, ensure_ascii=False).replace("</", "<\\/")
+
+
+# ── páginas dos locais do mapa ──────────────────────────────────────
+def fichas_mapa(textos):
+    """Fichas de paginas/mapa.html (#mapa-dados), já traduzidas: {ficha: {...}}."""
+    corpo = (PAGINAS / "mapa.html").read_text(encoding="utf-8")
+
+    def traduzir(t):
+        return html_lib.unescape(re.sub(r"\{\{(\w+)\}\}", lambda m: textos.get(m.group(1), ""), t))
+
+    fichas = {}
+    for m in re.finditer(r'<div data-r="([^"]+)"\s+data-nome="([^"]*)"\s+data-real="([^"]*)"\s+'
+                         r'data-tags="([^"]*)">(.*?)</div>', corpo, re.S):
+        fichas[m.group(1)] = {"nome": traduzir(m.group(2)), "real": traduzir(m.group(3)),
+                              "tags": [t for t in traduzir(m.group(4)).split("|") if t],
+                              "desc": traduzir(m.group(5)).strip()}
+    return fichas
+
+
+def locais_mapa(mapa, cod, textos):
+    """Locais do mapa com página própria, no idioma pedido."""
+    if not mapa:
+        return []
+    fichas = fichas_mapa(textos)
+    info = mapa["info"]
+    W, H = info["largura"], info["altura"]
+    grade = info.get("grade") or {}
+    locais = []
+    for p in mapa["pontos"]:
+        try:
+            pid, x, y = str(p["id"]), float(p["x"]), float(p["y"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        f = fichas.get(p.get("ficha"), {})
+        nome = texto_idioma(p.get("nome"), cod) or f.get("nome", "")
+        if not nome or not re.match(r"^[a-z0-9-]+$", pid):
+            continue
+        quadrante = ""
+        if grade.get("celula"):
+            col = min(grade["colunas"] - 1, int(x * W // grade["celula"]))
+            lin = min(grade["linhas"] - 1, int(y * H // grade["celula"]))
+            quadrante = f"{chr(65 + col)}{lin + 1}"
+        locais.append({
+            "id": pid, "cat": p.get("cat", "marco"), "x": x, "y": y, "nome": nome,
+            "real": texto_idioma(p.get("real"), cod) or f.get("real", ""),
+            "desc": texto_idioma(p.get("desc"), cod) or f.get("desc", ""),
+            "tags": [texto_idioma(t, cod) for t in p.get("tags") or []] or f.get("tags", []),
+            "video": str(p["video"]) if p.get("video") else "", "t": int(p.get("t") or 0),
+            "quadrante": quadrante,
+        })
+    return locais
+
+
+def rel_local(cod, local):
+    return f"{caminho(cod, 'mapa')}/{local['id']}"
+
+
+def nome_categoria(local, textos):
+    return textos.get("lc08" if local["cat"] == "regiao" else "lc09", "")
+
+
+def cartao_local(local, prefixo, cod, textos):
+    real = f'<small>{esc(local["real"])}</small>' if local["real"] else ""
+    return (f'      <li><a class="local-card local-card--{esc(local["cat"])}" href="{prefixo}{rel_local(cod, local)}/">'
+            f'<span class="local-card__cat">{esc(nome_categoria(local, textos))}</span>'
+            f'<strong>{esc(local["nome"])}</strong>{real}</a></li>')
+
+
+def lista_locais(locais, prefixo, cod, textos):
+    ordem = sorted(locais, key=lambda l: (l["cat"] != "regiao", l["nome"].lower()))
+    return "\n".join(cartao_local(l, prefixo, cod, textos) for l in ordem)
+
+
+def locais_perto(local, locais, mapa, n=4):
+    W, H = mapa["info"]["largura"], mapa["info"]["altura"]
+    def dist(o):
+        return math.hypot((o["x"] - local["x"]) * W, (o["y"] - local["y"]) * H)
+    return sorted((o for o in locais if o["id"] != local["id"]), key=dist)[:n]
+
+
+def noticias_do_local(local, posts, cod, n=4):
+    """Notícias que citam o nome do local (no título ou no texto)."""
+    padrao = re.compile(r"(?<!\w)%s(?!\w)" % re.escape(local["nome"]), re.I)
+    achadas = []
+    for post in posts:
+        _, v = versao(post, cod)
+        if padrao.search(v["titulo"]) or padrao.search(texto_puro(v["html"])):
+            achadas.append(post)
+    return achadas[:n]
+
+
+def imagens_local(local, mapa):
+    """Recorte do mapa (topo da página) e base da arte de compartilhamento."""
+    if not (imagens_og and imagens_og.DISPONIVEL and PREVIA_MAPA.exists()):
+        return None, None
+    info = mapa["info"]
+    largura = ZOOM_LOCAL.get(local["cat"], ZOOM_LOCAL["marco"])
+    cor = CORES_LOCAL.get(local["cat"], CORES_LOCAL["marco"])
+    capa = SAIDA / "map-data" / "locais" / f"{local['id']}.webp"
+    base_og = Path(tempfile.gettempdir()) / f"viceversa-local-{local['id']}.jpg"
+    try:
+        imagens_og.recorte_mapa(PREVIA_MAPA, capa, local["x"], local["y"], largura,
+                                info["altura"], info["largura"], cor=cor)
+        imagens_og.recorte_mapa(PREVIA_MAPA, base_og, local["x"], local["y"], largura * 1.25,
+                                info["altura"], info["largura"], cor=cor, centro_y=0.33)
+    except Exception as exc:
+        print(f"  ! não consegui recortar o mapa para {local['id']}: {exc}")
+        return None, None
+    return capa, base_og
+
+
+def og_local(local, cod, titulo, base_og, textos):
+    if not base_og:
+        return None
+    nome = f"local-{local['id']}-{cod.split('-')[0]}.jpg"
+    rodape = f'{textos.get("lc11", "")}  ·  {DOMINIO.split("://")[-1]}'
+    try:
+        imagens_og.gerar(SAIDA / "og" / nome, titulo, rodape, base_og, local["cat"],
+                         nome_categoria(local, textos))
+    except Exception as exc:
+        print(f"  ! não consegui gerar a imagem de compartilhamento de {nome}: {exc}")
+        return None
+    return f"{DOMINIO}/og/{nome}"
+
+
+def jsonld_local(local, cod, titulo, textos):
+    endereco = url_rel(rel_local(cod, local))
+    return jsonld({
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": NOME_SITE, "item": url(cod, "home")},
+            {"@type": "ListItem", "position": 2, "name": textos.get("lc11", ""), "item": url(cod, "mapa")},
+            {"@type": "ListItem", "position": 3, "name": local["nome"], "item": endereco},
+        ]})
+
+
+def extras_local(local, locais, posts, mapa, cod, textos, capa, imagem_og):
+    titulo = textos.get("lc01", "{nome}").replace("{nome}", local["nome"])
+    endereco = url_rel(rel_local(cod, local))
+    link_mapa = lambda pref, cod=cod, lid=local["id"]: f"{pref}{caminho(cod, 'mapa')}/#{lid}"
+    figura = ""
+    if capa:
+        alt = f'{titulo} — {textos.get("lc11", "")}'
+        figura = (lambda pref, lm=link_mapa, alt=alt, lid=local["id"], rotulo=textos.get("lc03", ""): (
+            f'    <figure class="local__mapa">\n'
+            f'      <a href="{lm(pref)}" data-evento="abrir_mapa" data-local="pagina_local">'
+            f'<img src="{pref}map-data/locais/{lid}.webp" alt="{esc(alt)}" width="1200" height="630" '
+            f'fetchpriority="high" decoding="async"></a>\n'
+            f'      <figcaption><a class="painel__link" href="{lm(pref)}" data-evento="abrir_mapa" '
+            f'data-local="pagina_local">{esc(rotulo)}</a></figcaption>\n    </figure>'))
+    else:
+        figura = (lambda pref, lm=link_mapa, rotulo=textos.get("lc03", ""): (
+            f'    <p class="local__abrir"><a class="painel__link" href="{lm(pref)}" data-evento="abrir_mapa" '
+            f'data-local="pagina_local">{esc(rotulo)}</a></p>'))
+    tags = "".join(f"<span>{esc(t)}</span>" for t in local["tags"])
+    video = ""
+    if local["video"]:
+        yt = f'https://www.youtube.com/watch?v={urllib.parse.quote(local["video"])}' + (
+            f'&amp;t={local["t"]}s' if local["t"] else "")
+        video = (f'    <p><a class="painel__link" href="{yt}" target="_blank" rel="noopener" '
+                 f'data-evento="ver_trailer">{esc(textos.get("mp06", ""))}</a></p>')
+    noticias = noticias_do_local(local, posts, cod)
+    bloco_noticias = ""
+    if noticias:
+        cabecalho = esc(textos.get("lc05", "").replace("{nome}", local["nome"]))
+        bloco_noticias = (lambda pref, noticias=noticias, cab=cabecalho, cod=cod: (
+            f'  <div class="local__noticias">\n    <h2>{cab}</h2>\n    <ul class="artigo__relacionadas">\n'
+            + "\n".join(item_lista(q, pref, cod) for q in noticias)
+            + '\n    </ul>\n  </div>'))
+    perto = locais_perto(local, locais, mapa)
+    return {
+        "__ogtype__": "website",
+        "__ogimage_url__": imagem_og or DOMINIO + "/og-image-%s.png" % cod.split("-")[0],
+        "__jsonld_extra__": jsonld_local(local, cod, titulo, textos),
+        "__local_id__": esc(local["id"]),
+        "__local_nome__": esc(local["nome"]),
+        "__local_titulo__": re.sub(r"GTA (6|VI)\b", r"GTA&nbsp;\1", esc(titulo)),
+        "__local_cat__": (f'<span class="selo selo--local-{esc(local["cat"])}">'
+                          f'{esc(nome_categoria(local, textos))}</span>'),
+        "__local_quadrante__": (f'<span>{esc(textos.get("mp19", ""))} {local["quadrante"]}</span>'
+                                if local["quadrante"] else ""),
+        "__local_figura__": figura,
+        "__local_real__": (f'    <p class="local__real"><span>{esc(textos.get("lc10", ""))}</span> '
+                           f'{esc(local["real"])}</p>') if local["real"] else "",
+        "__local_desc__": "".join(f"<p>{esc(par)}</p>" for par in local["desc"].split("\n\n") if par.strip()),
+        "__local_tags__": f'    <div class="mapa-tags local__tags">{tags}</div>' if tags else "",
+        "__local_video__": video,
+        "__local_noticias__": bloco_noticias,
+        "__local_perto__": lambda pref, perto=perto, cod=cod, textos=textos: "\n".join(
+            cartao_local(o, pref, cod, textos) for o in perto),
+        "__art_share_url__": urllib.parse.quote(endereco, safe=""),
+        "__art_share_titulo__": urllib.parse.quote(titulo),
+        "__art_share_txt__": urllib.parse.quote(f"{titulo} {endereco}"),
+    }, titulo
 
 
 # ── o gerador ───────────────────────────────────────────────────────
@@ -845,6 +1056,10 @@ def montar():
     rodape = (PARTES / "rodape.html").read_text(encoding="utf-8")
     base = json.loads((PASTA_IDIOMAS / "pt-BR.json").read_text(encoding="utf-8"))
     corpo_post = (PAGINAS / "noticia.html").read_text(encoding="utf-8")
+    corpo_local = (PAGINAS / "local.html").read_text(encoding="utf-8")
+    locais_por_cod = {}
+    imagens_locais = {}         # id -> (capa, base da arte): o recorte é o mesmo nos 3 idiomas
+    paginas_local = 0
     posts = carregar_posts()
     mapa = carregar_mapa()
     dias, horas, minutos = contagem()
@@ -878,6 +1093,9 @@ def montar():
             continue
         textos = dict(base)
         textos.update(json.loads(arq.read_text(encoding="utf-8")))
+        locais = locais_mapa(mapa, cod, textos)
+        locais_por_cod[cod] = locais
+        ids_locais = {l["id"] for l in locais}
 
         # ── páginas fixas ──
         for pagina, (arquivo, _) in PAGINAS_SITE.items():
@@ -901,8 +1119,10 @@ def montar():
                 extras["__arquivo_html__"] = lambda pref, cod=cod, textos=textos: arquivo_html(
                     posts, pref, cod, textos)
             elif pagina == "mapa":
+                extras["__locais_lista__"] = (lambda pref, locais=locais, cod=cod, textos=textos:
+                                              lista_locais(locais, pref, cod, textos))
                 extras["__mapa_config__"] = (
-                    lambda pref, cod=cod, textos=textos: config_mapa(mapa, cod, textos, pref)
+                    lambda pref, cod=cod, textos=textos, ids=ids_locais: config_mapa(mapa, cod, textos, pref, ids)
                     if mapa else "null")
             elif pagina in INSTITUCIONAIS:
                 fonte = PASTA_INSTITUCIONAL / cod / f"{pagina}.html"
@@ -979,6 +1199,30 @@ def montar():
             total += 1
             paginas_post += 1
 
+        # ── uma página por local do mapa ──
+        for local in locais:
+            if local["id"] not in imagens_locais:
+                imagens_locais[local["id"]] = imagens_local(local, mapa)
+            capa, base_og = imagens_locais[local["id"]]
+            titulo = textos.get("lc01", "{nome}").replace("{nome}", local["nome"])
+            imagem_og = og_local(local, cod, titulo, base_og, textos)
+            extras = extras_comuns(posts, cod, textos)
+            novos, titulo = extras_local(local, locais, posts, mapa, cod, textos, capa, imagem_og)
+            extras.update(novos)
+            descricao = resumo(local["desc"], 155) if local["desc"] else \
+                textos.get("lc02", "").replace("{nome}", local["nome"])
+            textos_local = dict(textos)
+            textos_local.update({
+                "t001": esc(f'{titulo} — {textos.get("lc11", "")} | {NOME_SITE}'),
+                "meta_desc": esc(descricao), "og_desc": esc(descricao), "tw_desc": esc(descricao),
+                "og_title": esc(titulo), "tw_title": esc(titulo), "og_alt": esc(titulo),
+            })
+            montar_pagina(cabeca, rodape, corpo_local, base, textos_local, cod, "mapa",
+                          rel_local(cod, local), extras,
+                          alternativas={c: rel_local(c, local) for c in IDIOMAS})
+            total += 1
+            paginas_local += 1
+
         # ── RSS do idioma ──
         destino_rss = SAIDA / pasta if pasta else SAIDA
         destino_rss.mkdir(parents=True, exist_ok=True)
@@ -989,6 +1233,11 @@ def montar():
         print(f"  ✓ {paginas_post} página(s) de notícia ({len(posts)} em inglês, {traduzidas} traduzida(s))")
         if og_geradas:
             print(f"  ✓ og/ ({og_geradas} imagem(ns) de compartilhamento)")
+    if paginas_local:
+        print(f"  ✓ {paginas_local} página(s) de locais do mapa")
+        if not PREVIA_MAPA.exists():
+            print("  ! mapa/leonida-noite.webp ausente: as páginas de local saem sem o recorte do mapa.\n"
+                  "    Para gerar: python mapa/gerar_previa.py")
     print("  ✓ feed.xml, pt/feed.xml, es/feed.xml")
 
     for nome in ESTATICOS:
@@ -1014,7 +1263,7 @@ def montar():
         print(f"  ✓ midia/ ({len(list(midia.iterdir()))} arquivo(s))")
 
     # sitemaps: o geral (com lastmod) e o do Google Notícias (últimas 48 h)
-    (SAIDA / "sitemap.xml").write_text(gerar_sitemap(posts, hoje), encoding="utf-8")
+    (SAIDA / "sitemap.xml").write_text(gerar_sitemap(posts, hoje, locais_por_cod), encoding="utf-8")
     (SAIDA / "news-sitemap.xml").write_text(gerar_news_sitemap(posts), encoding="utf-8")
     (SAIDA / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\n\nSitemap: {DOMINIO}/sitemap.xml\n"

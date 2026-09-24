@@ -301,5 +301,17 @@
   "ar10": "min read",
   "ar11": "Up next",
   "ar12": "WhatsApp channel",
-  "ar13": "Telegram channel"
+  "ar13": "Telegram channel",
+  "lc01": "Where is {nome} in GTA 6",
+  "lc02": "{nome} on the GTA 6 map: where it is in Leonida, its real-life inspiration and nearby places.",
+  "lc03": "Open in the interactive map →",
+  "lc04": "Nearby",
+  "lc05": "News about {nome}",
+  "lc06": "Location page →",
+  "lc07": "All map locations",
+  "lc08": "Region",
+  "lc09": "Landmark",
+  "lc10": "Inspired by",
+  "lc11": "Leonida map",
+  "lc12": "Pick a location to see where it is, its real-life inspiration and what is nearby."
 }

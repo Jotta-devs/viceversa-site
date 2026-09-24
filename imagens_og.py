@@ -19,6 +19,7 @@ As fontes ficam em fontes/ (Bebas Neue e IBM Plex Mono, licença SIL OFL,
 que permite redistribuir junto com o site).
 """
 
+import re
 from pathlib import Path
 
 try:
@@ -41,6 +42,8 @@ CORES_SELO = {
     "confirmado": (47, 230, 200),
     "rumor": (255, 138, 61),
     "vazamento": (255, 61, 138),
+    "regiao": (255, 61, 138),       # locais do mapa: mesmas cores dos pontos
+    "marco": (47, 230, 200),
 }
 
 _fontes = {}
@@ -90,7 +93,9 @@ def _fundo(caminho_foto):
 
 def _quebrar(texto, fnt, largura_max):
     linhas, atual = [], ""
-    for palavra in texto.split():
+    for palavra in texto.split(" "):
+        if not palavra:
+            continue
         teste = f"{atual} {palavra}".strip()
         if fnt.getlength(teste) <= largura_max or not atual:
             atual = teste
@@ -105,6 +110,8 @@ def _quebrar(texto, fnt, largura_max):
 def _titulo(texto, largura_max):
     """Maior tamanho de fonte em que o título cabe em até 3 linhas."""
     texto = " ".join(texto.upper().split())
+    # "GTA 6" / "GTA VI" nunca se separam (evita um "6" sozinho na última linha)
+    texto = re.sub(r"\bGTA (6|VI)\b", "GTA\u00a0\\1", texto)
     for tamanho in range(104, 55, -4):
         fnt = fonte("BebasNeue-Regular.ttf", tamanho)
         linhas = _quebrar(texto, fnt, largura_max)
@@ -120,7 +127,10 @@ def _titulo(texto, largura_max):
 
 
 def gerar(destino, titulo, rodape, caminho_foto=None, selo=None, selo_texto=""):
-    """Grava a arte em `destino` (JPEG). selo: confirmado | rumor | vazamento | None."""
+    """Grava a arte em `destino` (JPEG).
+
+    selo: confirmado | rumor | vazamento (notícias) ou regiao | marco (locais do mapa).
+    """
     img = _fundo(caminho_foto)
     d = ImageDraw.Draw(img)
 
@@ -146,7 +156,7 @@ def gerar(destino, titulo, rodape, caminho_foto=None, selo=None, selo_texto=""):
     altura_linha = round(f_tit.size * 0.98)
     y = y_rodape - 26 - altura_linha * len(linhas)
     for i, linha in enumerate(linhas):
-        d.text((MARGEM, y + i * altura_linha), linha, font=f_tit, fill=CREME)
+        d.text((MARGEM, y + i * altura_linha), linha.replace("\u00a0", " "), font=f_tit, fill=CREME)
 
     # selo acima do título
     if selo in CORES_SELO and selo_texto:
@@ -168,4 +178,55 @@ def gerar(destino, titulo, rodape, caminho_foto=None, selo=None, selo_texto=""):
     destino = Path(destino)
     destino.parent.mkdir(parents=True, exist_ok=True)
     img.save(destino, "JPEG", quality=84, optimize=True, progressive=True)
+    return destino
+
+
+# ── locais do mapa ──────────────────────────────────────────────────
+MAR_NOITE = (7, 17, 42)
+_mapa_base = {}
+
+
+def recorte_mapa(previa, destino, fx, fy, largura_unid, altura_mapa, largura_mapa,
+                 cor=(47, 230, 200), centro_y=0.5, tamanho=(LARGURA, ALTURA)):
+    """Recorta a imagem do mapa em volta do ponto (fx, fy) e marca o local.
+
+    previa        mapa/leonida-noite.webp (o mapa inteiro, já pintado)
+    fx, fy        posição do local em frações do mapa (0 a 1)
+    largura_unid  quanto do mapa (em unidades do vetor) cabe na largura do recorte
+    centro_y      altura em que o marcador fica (0.5 = meio; menos = mais para cima)
+    """
+    chave = str(previa)
+    if chave not in _mapa_base:
+        _mapa_base[chave] = Image.open(previa).convert("RGB")
+    base = _mapa_base[chave]
+    escala = base.width / largura_mapa                   # px da prévia por unidade do mapa
+    larg_px = largura_unid * escala
+    alt_px = larg_px * tamanho[1] / tamanho[0]
+    cx, cy = fx * largura_mapa * escala, fy * altura_mapa * escala
+    x0, y0 = cx - larg_px / 2, cy - alt_px * centro_y
+    caixa = tuple(round(v) for v in (x0, y0, x0 + larg_px, y0 + alt_px))
+
+    # o que sair da borda do mapa vira mar
+    tela = Image.new("RGB", (caixa[2] - caixa[0], caixa[3] - caixa[1]), MAR_NOITE)
+    dentro = (max(0, caixa[0]), max(0, caixa[1]), min(base.width, caixa[2]), min(base.height, caixa[3]))
+    if dentro[0] < dentro[2] and dentro[1] < dentro[3]:
+        tela.paste(base.crop(dentro), (dentro[0] - caixa[0], dentro[1] - caixa[1]))
+    img = tela.resize(tamanho, Image.LANCZOS)
+
+    # marcador: brilho, anel e ponto na cor da categoria
+    mx, my = tamanho[0] / 2, tamanho[1] * centro_y
+    brilho = Image.new("L", tamanho)
+    ImageDraw.Draw(brilho).ellipse((mx - 70, my - 70, mx + 70, my + 70), fill=150)
+    brilho = brilho.filter(ImageFilter.GaussianBlur(28))
+    img = Image.composite(Image.new("RGB", tamanho, cor), img, brilho)
+    d = ImageDraw.Draw(img)
+    d.ellipse((mx - 30, my - 30, mx + 30, my + 30), outline=cor, width=4)
+    d.ellipse((mx - 15, my - 15, mx + 15, my + 15), fill=cor, outline=(255, 243, 228), width=4)
+
+    destino = Path(destino)
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    if destino.suffix == ".webp":
+        img.save(destino, "WEBP", quality=80, method=6)
+    else:
+        img.save(destino, "JPEG", quality=84, optimize=True, progressive=True)
     return destino
