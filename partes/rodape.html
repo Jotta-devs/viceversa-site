@@ -27,6 +27,21 @@
 
 <script>
 (function(){
+  /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
+     (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
+  function evento(nome, dados){
+    try {
+      if(typeof window.gtag !== "function") return;
+      const limpo = {};
+      Object.keys(dados || {}).forEach(function(k){
+        if(dados[k] !== undefined && dados[k] !== null && dados[k] !== "") limpo[k] = dados[k];
+      });
+      window.gtag("event", nome, limpo);
+    } catch(e){}
+  }
+  const artigoAtual = document.querySelector(".artigo[data-post]");
+  const idPost = artigoAtual ? artigoAtual.dataset.post : undefined;
+
   /* ---- Sugestão de idioma (detecção do navegador, não força nada) ---- */
   (function(){
     var CHAVE = "viceversa_idioma_escolha"; // "aceito" | "recusado" | ausente
@@ -378,7 +393,10 @@
     } catch(e){}
     aplicarEstilo(estiloAtual);
     document.querySelectorAll("#atlas-estilos [data-estilo]").forEach(function(b){
-      b.addEventListener("click", function(){ aplicarEstilo(b.dataset.estilo); });
+      b.addEventListener("click", function(){
+        aplicarEstilo(b.dataset.estilo);
+        evento("mapa_estilo", {estilo: b.dataset.estilo});
+      });
     });
 
     /* ── grade de referência (A1…H12) ── */
@@ -394,6 +412,7 @@
       if(!cel) botaoGrade.hidden = true;
       botaoGrade.addEventListener("click", function(){
         const ligada = botaoGrade.getAttribute("aria-pressed") === "true";
+        if(!ligada) evento("mapa_grade");
         botaoGrade.setAttribute("aria-pressed", ligada ? "false" : "true");
         caixa.classList.toggle("atlas--grade", !ligada);
       });
@@ -454,6 +473,7 @@
       tags: document.getElementById("mapa-tags"), acoes: document.getElementById("atlas-acoes")
     };
     function selecionar(p, voar){
+      evento("mapa_local", {local_id: p.id, categoria: p.cat});
       el.cor.style.background = CORES[p.cat] || CORES.marco;
       el.nome.textContent = p.nome || "";
       const q = quadrante(p);
@@ -472,6 +492,7 @@
       copiar.type = "button"; copiar.textContent = txt.copiar;
       copiar.addEventListener("click", function(){
         const link = location.href.split("#")[0] + "#" + p.id;
+        evento("share", {method: "copiar_link", content_type: "mapa_local", item_id: p.id});
         if(navigator.clipboard) navigator.clipboard.writeText(link).then(function(){
           copiar.textContent = txt.copiado;
           setTimeout(function(){ copiar.textContent = txt.copiar; }, 2000);
@@ -520,6 +541,14 @@
       vazio.hidden = visiveis > 0;
     }
     busca.addEventListener("input", filtrarLista);
+    let esperaBusca;
+    busca.addEventListener("input", function(){
+      clearTimeout(esperaBusca);
+      const termo = busca.value.trim();
+      if(termo.length >= 3) esperaBusca = setTimeout(function(){
+        evento("search", {search_term: termo.toLowerCase(), local: "mapa"});
+      }, 1500);
+    });
     busca.addEventListener("keydown", function(e){
       if(e.key !== "Enter") return;
       const primeiro = lista.querySelector("li[data-id]:not([hidden]) button");
@@ -530,6 +559,7 @@
     document.getElementById("atlas-enquadrar").addEventListener("click", enquadrar);
     document.getElementById("atlas-tela").addEventListener("click", function(){
       const cheia = caixa.classList.toggle("atlas--cheia");
+      if(cheia) evento("mapa_tela_cheia");
       document.body.classList.toggle("atlas-aberto", cheia);
       if(cheia && caixa.requestFullscreen) caixa.requestFullscreen().catch(function(){});
       if(!cheia && document.fullscreenElement) document.exitFullscreen().catch(function(){});
@@ -580,6 +610,7 @@
   document.querySelectorAll("[data-compartilhar]").forEach(function(b){
     if(!navigator.share){ b.style.display = "none"; return; }
     b.addEventListener("click", function(){
+      evento("share", {method: "nativo", content_type: "noticia", item_id: idPost});
       navigator.share({title: document.title, url: b.dataset.compartilhar}).catch(function(){});
     });
   });
@@ -590,11 +621,54 @@
         b.textContent = b.dataset.ok || original;
         setTimeout(function(){ b.textContent = original; }, 2000);
       };
+      evento("share", {method: "copiar_link", content_type: "noticia", item_id: idPost});
       if(navigator.clipboard){
         navigator.clipboard.writeText(b.dataset.copiar).then(pronto).catch(function(){});
       }
     });
   });
+
+  /* ---- Analytics: cliques que mostram o que traz leitor de volta e o que vende ---- */
+  function secaoDe(el){
+    const s = el.closest("section[id], header, footer, nav, main, aside");
+    return s ? (s.id || s.className.split(" ")[0] || s.tagName.toLowerCase()) : "";
+  }
+  document.addEventListener("click", function(ev){
+    const el = ev.target.closest("a, button");
+    if(!el) return;
+    const href = el.getAttribute("href") || "";
+    if(el.dataset.rede && el.closest(".compartilhar")){
+      evento("share", {method: el.dataset.rede, content_type: "noticia", item_id: idPost});
+    } else if(el.dataset.evento){
+      evento(el.dataset.evento, {canal: el.dataset.canal, local: el.dataset.local, item_id: idPost});
+    } else if(/kiwify\.com/i.test(href)){
+      evento("clique_ebook", {local: secaoDe(el)});
+    } else if(el.closest(".artigo__relacionadas")){
+      evento("clique_relacionada", {item_id: idPost});
+    } else if(el.hasAttribute("hreflang")){
+      evento("troca_idioma", {idioma: el.getAttribute("hreflang")});
+    } else {
+      const rede = (href.match(/^https?:\/\/(?:www\.)?(x\.com|twitter\.com|instagram\.com|tiktok\.com|youtube\.com|t\.me|whatsapp\.com)/i) || [])[1];
+      if(rede) evento("clique_rede", {rede: rede.toLowerCase().replace(/\.com$/, ""), local: secaoDe(el)});
+    }
+  });
+
+  /* ---- Analytics: leitura completa (o fim do texto apareceu depois de 10 s na página) ---- */
+  const corpoArtigo = document.querySelector(".artigo__corpo");
+  if(corpoArtigo && "IntersectionObserver" in window){
+    const fim = document.createElement("span");
+    fim.setAttribute("aria-hidden", "true");
+    corpoArtigo.appendChild(fim);
+    setTimeout(function(){
+      const obs = new IntersectionObserver(function(entradas){
+        if(entradas.some(function(e){ return e.isIntersecting; })){
+          evento("leitura_completa", {item_id: idPost});
+          obs.disconnect();
+        }
+      });
+      obs.observe(fim);
+    }, 10000);
+  }
 })();
 </script>
 </body>

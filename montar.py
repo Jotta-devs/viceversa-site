@@ -26,6 +26,7 @@ apagada e regerada.
 
 import html as html_lib
 import json
+import math
 import re
 import shutil
 import sys
@@ -34,6 +35,11 @@ import urllib.parse
 from datetime import datetime, timedelta, timezone
 from email.utils import format_datetime
 from pathlib import Path
+
+try:
+    import imagens_og       # arte de compartilhamento de cada notícia (precisa do Pillow)
+except ImportError:
+    imagens_og = None
 
 RAIZ = Path(__file__).parent
 PARTES = RAIZ / "partes"
@@ -73,6 +79,22 @@ PAGINAS_SITE = {
     "editorial":   ("institucional.html", {"en": "editorial-policy", "pt-BR": "politica-editorial", "es": "politica-editorial"}),
 }
 INSTITUCIONAIS = ("sobre", "contato", "privacidade", "editorial")
+
+# canais para o leitor receber as notícias (aparecem no fim de cada notícia e no
+# meio das mais longas). Deixe "" para esconder um canal.
+CANAIS = {
+    "x": "https://x.com/vvviceversaa",
+    "whatsapp": "",     # link do canal do WhatsApp: https://whatsapp.com/channel/...
+    "telegram": "",     # link do canal do Telegram: https://t.me/...
+}
+
+# selo de cada notícia (campo "Status da notícia" ou rótulo da Issue):
+# status: (chave do nome, chave da explicação) em idiomas/*.json
+SELOS = {
+    "confirmado": ("st01", "st04"),
+    "rumor": ("st02", "st05"),
+    "vazamento": ("st03", "st06"),
+}
 
 LANCAMENTO = datetime(2026, 11, 19, 3, 0, tzinfo=timezone.utc)   # 19/11 00:00 em Brasília
 CARDS_NOTICIAS = 20     # cards completos na página de notícias; o resto vai para o arquivo
@@ -164,6 +186,50 @@ def preparar_html(html):
     return re.sub(r"<img(?![^>]*loading=)", '<img loading="lazy" decoding="async"', html or "")
 
 
+def atributo(tag, nome):
+    m = re.search(r'\b%s\s*=\s*"([^"]*)"' % nome, tag, re.I)
+    return html_lib.unescape(m.group(1)) if m else ""
+
+
+def separar_capa(html):
+    """Tira do texto a primeira imagem, quando ela está sozinha num parágrafo.
+
+    Ela vira a imagem de capa, no topo da notícia. Devolve (capa, html_restante),
+    com capa = {"src", "alt", "largura", "altura"} ou None.
+    """
+    html = html or ""
+    primeira = re.search(r"<img\b", html, re.I)
+    m = re.search(r"<p>\s*(?:<a\b[^>]*>\s*)?(<img\b[^>]*>)\s*(?:</a>\s*)?</p>\s*", html, re.I)
+    if not (primeira and m and m.start(1) == primeira.start()):
+        return None, html
+    tag = m.group(1)
+    capa = {"src": atributo(tag, "src"), "alt": atributo(tag, "alt"),
+            "largura": atributo(tag, "width"), "altura": atributo(tag, "height")}
+    if not capa["src"]:
+        return None, html
+    return capa, (html[:m.start()] + html[m.end():]).strip()
+
+
+BLOCOS = re.compile(r"<(/?)(p|ul|ol|blockquote|pre|table|div|figure|h[1-6])\b[^>]*>", re.I)
+
+
+def inserir_no_meio(html, bloco, depois_de=2, minimo=5):
+    """Põe `bloco` depois do n-ésimo elemento do texto, se o texto for longo."""
+    fins, nivel = [], 0
+    for m in BLOCOS.finditer(html):
+        nivel += -1 if m.group(1) else 1
+        if nivel == 0 and m.group(1):
+            fins.append(m.end())
+    if len(fins) < minimo:
+        return html
+    corte = fins[depois_de - 1]
+    return html[:corte] + "\n" + bloco + "\n" + html[corte:]
+
+
+def minutos_leitura(html):
+    return max(1, math.ceil(len(texto_puro(html).split()) / 220))
+
+
 # ── notícias (feed.json) ────────────────────────────────────────────
 def carregar_posts():
     """Lê feed.json e prepara cada notícia com suas versões por idioma.
@@ -205,7 +271,9 @@ def carregar_posts():
         usados.add(slug)
 
         imagem = primeira_imagem(html_en) or imagem_absoluta(p.get("imagem"))
-        versoes = {"en": {"titulo": titulo, "html": preparar_html(html_en),
+        capa_en, resto_en = separar_capa(html_en)
+        versoes = {"en": {"titulo": titulo, "html": preparar_html(resto_en), "capa": capa_en,
+                          "leitura": minutos_leitura(html_en),
                           "resumo": resumo(corpo), "descricao": resumo(corpo, 155)}}
 
         for cod, suf in SUFIXO_POST.items():
@@ -217,7 +285,9 @@ def carregar_posts():
             if imagem and "<img" not in h_tr:
                 h_tr = f'<p><img src="{esc(imagem)}" alt=""></p>\n' + h_tr
             c_tr = texto_puro(h_tr)
-            versoes[cod] = {"titulo": t_tr, "html": preparar_html(h_tr),
+            capa_tr, resto_tr = separar_capa(h_tr)
+            versoes[cod] = {"titulo": t_tr, "html": preparar_html(resto_tr), "capa": capa_tr,
+                            "leitura": minutos_leitura(h_tr),
                             "resumo": resumo(c_tr), "descricao": resumo(c_tr, 155)}
 
         link = p.get("link") or ""
@@ -227,6 +297,7 @@ def carregar_posts():
             "atualizado": atualizado,
             "imagem": imagem,
             "link_x": link if re.match(r"^https?://(www\.)?(x|twitter)\.com/", link) else None,
+            "status": p.get("status") if p.get("status") in SELOS else "",
             "versoes": versoes,
         })
     posts.sort(key=lambda q: q["quando"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
@@ -259,6 +330,37 @@ def atributo_lang(post, cod):
     return f' lang="{IDIOMAS[efetivo][1]}"' if efetivo != cod else ""
 
 
+def selo(post, textos):
+    """Selo colorido Confirmado / Rumor / Vazamento (vazio se a notícia não tiver)."""
+    if post.get("status") not in SELOS:
+        return ""
+    nome, explicacao = SELOS[post["status"]]
+    return (f'<span class="selo selo--{post["status"]}" title="{esc(textos.get(explicacao, ""))}">'
+            f'{esc(textos.get(nome, ""))}</span>')
+
+
+def botoes_canais(textos, local):
+    """Botões dos canais configurados em CANAIS (X, WhatsApp, Telegram)."""
+    rotulos = {"x": textos.get("ar07", "X"), "whatsapp": textos.get("ar12", "WhatsApp"),
+               "telegram": textos.get("ar13", "Telegram")}
+    return "".join(
+        f'<a class="painel__link canal canal--{nome}" href="{esc(link)}" target="_blank" rel="noopener" '
+        f'data-evento="seguir_canal" data-canal="{nome}" data-local="{local}">{esc(rotulos[nome])}</a>'
+        for nome, link in CANAIS.items() if link)
+
+
+def caminho_local_imagem(src):
+    """/midia/x.jpg (ou https://dominio/midia/x.jpg) -> arquivo em midia/, se existir."""
+    if not src:
+        return None
+    if src.startswith(DOMINIO):
+        src = src[len(DOMINIO):]
+    if src.startswith("/midia/"):
+        arq = RAIZ / src.lstrip("/")
+        return arq if arq.exists() else None
+    return None
+
+
 def cartao_feed(post, prefixo, cod, textos):
     """Card do Plantão (página de notícias): miniatura, resumo e link para a matéria."""
     _, v = versao(post, cod)
@@ -273,7 +375,8 @@ def cartao_feed(post, prefixo, cod, textos):
     classe = "post-auto post-auto--img" if thumb else "post-auto"
     iso = post["quando"].isoformat() if post["quando"] else ""
     return (f'      <article class="{classe}"{atributo_lang(post, cod)}>{thumb}'
-            f'<time datetime="{iso}">{data_legivel(post["quando"], cod)}</time>'
+            f'<div class="post-auto__topo">{selo(post, textos)}'
+            f'<time datetime="{iso}">{data_legivel(post["quando"], cod)}</time></div>'
             f'<h4><a href="{link}">{esc(v["titulo"])}</a></h4>'
             f'<p>{esc(v["resumo"])}</p>'
             f'<div class="post-auto__acoes">{acoes}</div></article>')
@@ -286,7 +389,7 @@ def cartao_home(post, prefixo, cod, textos, destaque=False):
            if post["imagem"] else "")
     classe = "noticia revela tilt" + (" noticia--destaque" if destaque else "")
     return (f'    <article class="{classe}"{atributo_lang(post, cod)}><a class="noticia-link" href="{link}">{img}'
-            f'<span class="noticia__risco"></span>'
+            f'<span class="noticia__risco"></span>{selo(post, textos)}'
             f'<span class="noticia__meta">{data_legivel(post["quando"], cod)}</span>'
             f'<h3>{esc(v["titulo"])}</h3><p>{esc(v["resumo"])}</p>'
             f'<span class="noticia__ler">{textos.get("ul04", "")}</span></a></article>')
@@ -317,6 +420,76 @@ def contagem():
             str(falta.seconds % 3600 // 60).zfill(2))
 
 
+# ── partes da página de notícia ─────────────────────────────────────
+def capa_html(capa, titulo):
+    """Imagem de capa no topo da notícia (carrega logo: é o maior elemento da tela)."""
+    if not capa:
+        return ""
+    dims = ""
+    if capa["largura"].isdigit() and capa["altura"].isdigit():
+        dims = f' width="{capa["largura"]}" height="{capa["altura"]}"'
+    alt = capa["alt"] if capa["alt"].strip().lower() not in ("", "image", "imagem", "imagen") else titulo
+    src = capa["src"]
+    if src.startswith(DOMINIO + "/"):
+        src = src[len(DOMINIO):]            # /midia/...: caminho do próprio site
+    return (f'    <figure class="artigo__capa"><img src="{esc(src)}" alt="{esc(alt)}"{dims} '
+            f'fetchpriority="high" decoding="async"></figure>')
+
+
+def aviso_html(post, textos):
+    """Faixa de aviso logo abaixo da capa, só para rumor e vazamento."""
+    if post.get("status") not in ("rumor", "vazamento"):
+        return ""
+    nome, explicacao = SELOS[post["status"]]
+    return (f'    <p class="artigo__aviso artigo__aviso--{post["status"]}" role="note">'
+            f'<strong>{esc(textos.get(nome, ""))}.</strong> {esc(textos.get(explicacao, ""))}</p>')
+
+
+def meio_html(textos):
+    """Convite para os canais, no meio das notícias mais longas."""
+    botoes = botoes_canais(textos, "meio")
+    if not botoes:
+        return ""
+    return (f'<aside class="artigo__meio"><p>{esc(textos.get("ar06", ""))}</p>'
+            f'<div class="artigo__canais">{botoes}</div></aside>')
+
+
+def seguinte_html(post, prefixo, cod, textos):
+    """Card grande "Leia a seguir" com a próxima notícia."""
+    if not post:
+        return ""
+    _, v = versao(post, cod)
+    rotulo = esc(textos.get("ar11", ""))
+    src = post["imagem"] or ""
+    if src.startswith(DOMINIO + "/"):
+        src = src[len(DOMINIO):]            # /midia/...: funciona também ao abrir o site localmente
+    img = f'<img src="{esc(src)}" alt="" loading="lazy" decoding="async">' if src else ""
+    classe = "seguinte" + ("" if img else " seguinte--sem-img")
+    return (f'  <div class="artigo__seguinte" role="region" aria-label="{rotulo}">\n'
+            f'    <a class="{classe}" href="{link_post(post, cod, prefixo)}"{atributo_lang(post, cod)} '
+            f'data-evento="leia_seguir">{img}'
+            f'<span class="seguinte__rotulo">{rotulo}{selo(post, textos)}</span>'
+            f'<span class="seguinte__titulo">{esc(v["titulo"])}</span>'
+            f'<span class="seguinte__resumo">{esc(v["resumo"])}</span></a>\n'
+            f'  </div>')
+
+
+def gerar_og(post, cod, v, textos):
+    """Arte de compartilhamento da notícia em docs/og/. Devolve a URL, ou None."""
+    if not (imagens_og and imagens_og.DISPONIVEL):
+        return None
+    nome = f'{post["slug"]}-{cod.split("-")[0]}.jpg'
+    foto = caminho_local_imagem((v.get("capa") or {}).get("src")) or caminho_local_imagem(post["imagem"])
+    nome_selo = textos.get(SELOS[post["status"]][0], "") if post["status"] else ""
+    rodape = f'{data_legivel(post["quando"], cod)}  ·  {DOMINIO.split("://")[-1]}'
+    try:
+        imagens_og.gerar(SAIDA / "og" / nome, v["titulo"], rodape, foto, post["status"], nome_selo)
+    except Exception as exc:
+        print(f"  ! não consegui gerar a imagem de compartilhamento de {nome}: {exc}")
+        return None
+    return f"{DOMINIO}/og/{nome}"
+
+
 # ── dados estruturados ──────────────────────────────────────────────
 def jsonld(obj):
     corpo = json.dumps(obj, ensure_ascii=False, indent=2).replace("</", "<\\/")
@@ -340,7 +513,7 @@ def organizacao(cod):
             "logo": {"@type": "ImageObject", "url": DOMINIO + "/og-image-en.png"}}
 
 
-def jsonld_artigo(post, cod, textos):
+def jsonld_artigo(post, cod, textos, imagem_og=None):
     _, v = versao(post, cod)
     endereco = url_post(post, cod)
     obj = {
@@ -353,7 +526,7 @@ def jsonld_artigo(post, cod, textos):
         "inLanguage": IDIOMAS[cod][1],
         "author": organizacao(cod),
         "publisher": organizacao(cod),
-        "image": [post["imagem"] or DOMINIO + "/og-image-en.png"],
+        "image": [i for i in (post["imagem"], imagem_og) if i] or [DOMINIO + "/og-image-en.png"],
     }
     if post["quando"]:
         obj["datePublished"] = post["quando"].isoformat()
@@ -694,6 +867,10 @@ def montar():
 
     total = 0
     paginas_post = 0
+    og_geradas = 0
+    if not (imagens_og and imagens_og.DISPONIVEL):
+        print("  ! Pillow não instalado: as notícias usam a foto como imagem de compartilhamento.\n"
+              "    Para gerar as artes com título e selo: pip install pillow")
     for cod, (pasta, hl, locale, rotulo, padrao, link_ebook) in IDIOMAS.items():
         arq = PASTA_IDIOMAS / f"{cod}.json"
         if not arq.exists():
@@ -753,8 +930,14 @@ def montar():
             v = post["versoes"][cod]
             rel = rel_post(post, cod)
             endereco = url_post(post, cod)
-            mesmo_idioma = [q for q in posts if q is not post and cod in q["versoes"]]
-            outros = (mesmo_idioma + [q for q in posts if q is not post and cod not in q["versoes"]])[:5]
+            # "Leia a seguir": a notícia anterior no tempo; na mais antiga, volta para a mais nova
+            i = posts.index(post)
+            seguinte = posts[i + 1] if i + 1 < len(posts) else (posts[0] if posts[0] is not post else None)
+            mesmo_idioma = [q for q in posts if q is not post and q is not seguinte and cod in q["versoes"]]
+            outros = (mesmo_idioma + [q for q in posts if q is not post and q is not seguinte
+                                      and cod not in q["versoes"]])[:5]
+            imagem_og = gerar_og(post, cod, v, textos)
+            og_geradas += 1 if imagem_og else 0
             extras = extras_comuns(posts, cod, textos)
             textos_post = dict(textos)
             # título, descrição e cartões de compartilhamento próprios de cada notícia
@@ -767,8 +950,9 @@ def montar():
             })
             extras.update({
                 "__ogtype__": "article",
-                "__ogimage_url__": esc(post["imagem"]) if post["imagem"] else DOMINIO + "/og-image-%s.png" % cod.split("-")[0],
-                "__jsonld_extra__": jsonld_artigo(post, cod, textos),
+                "__ogimage_url__": imagem_og or (esc(post["imagem"]) if post["imagem"]
+                                                 else DOMINIO + "/og-image-%s.png" % cod.split("-")[0]),
+                "__jsonld_extra__": jsonld_artigo(post, cod, textos, imagem_og),
                 "__art_titulo__": esc(v["titulo"]),
                 "__art_data__": data_legivel(post["quando"], cod),
                 "__art_iso__": post["quando"].isoformat() if post["quando"] else "",
@@ -779,7 +963,16 @@ def montar():
                                    f'rel="noopener">{textos.get("fd01", "")}</a>') if post["link_x"] else "",
                 "__art_relacionadas__": lambda pref, outros=outros, cod=cod: "\n".join(
                     item_lista(q, pref, cod) for q in outros),
-                "__art_html__": v["html"],
+                "__art_slug__": post["slug"],
+                "__art_selo__": selo(post, textos),
+                "__art_leitura__": f'{v["leitura"]} {esc(textos.get("ar10", ""))}',
+                "__art_capa__": capa_html(v.get("capa"), v["titulo"]),
+                "__art_aviso__": aviso_html(post, textos),
+                "__art_seguinte__": lambda pref, seguinte=seguinte, cod=cod, textos=textos: seguinte_html(
+                    seguinte, pref, cod, textos),
+                "__canais__": botoes_canais(textos, "fim"),
+                # conteúdo do post: sempre o último a ser trocado
+                "__art_html__": inserir_no_meio(v["html"], meio_html(textos)) if meio_html(textos) else v["html"],
             })
             montar_pagina(cabeca, rodape, corpo_post, base, textos_post, cod, "noticias", rel, extras,
                           alternativas=alternativas_post(post))
@@ -794,6 +987,8 @@ def montar():
     if posts:
         traduzidas = sum(1 for p in posts for c in p["versoes"] if c != "en")
         print(f"  ✓ {paginas_post} página(s) de notícia ({len(posts)} em inglês, {traduzidas} traduzida(s))")
+        if og_geradas:
+            print(f"  ✓ og/ ({og_geradas} imagem(ns) de compartilhamento)")
     print("  ✓ feed.xml, pt/feed.xml, es/feed.xml")
 
     for nome in ESTATICOS:

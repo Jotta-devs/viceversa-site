@@ -291,5 +291,15 @@
   "mp15": "Día",
   "mp17": "Cuadrícula",
   "mp18": "Estilo del mapa",
-  "mp19": "Cuadrante"
+  "mp19": "Cuadrante",
+  "st01": "Confirmado",
+  "st02": "Rumor",
+  "st03": "Filtración",
+  "st04": "Confirmado oficialmente por Rockstar, Take-Two o alguien involucrado en el juego.",
+  "st05": "Aún no confirmado oficialmente. Puede cambiar antes del lanzamiento.",
+  "st06": "Información filtrada. Informamos del hecho sin mostrar ni enlazar el material.",
+  "ar10": "min de lectura",
+  "ar11": "Lee a continuación",
+  "ar12": "Canal de WhatsApp",
+  "ar13": "Canal de Telegram"
 }

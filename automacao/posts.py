@@ -41,7 +41,7 @@ import urllib.request
 from datetime import datetime
 from pathlib import Path
 
-from formulario import ler_post
+from formulario import ler_post, ler_status
 
 RAIZ = Path(__file__).parent
 REPO = RAIZ.parent
@@ -82,6 +82,56 @@ def buscar_issues():
 
     # a API devolve pull requests junto com issues; descarta os PRs
     return [i for i in todas if "pull_request" not in i]
+
+
+# rótulos que marcam o selo da notícia. O rótulo tem prioridade sobre o campo
+# "Status da notícia" do formulário: é o jeito de corrigir o selo depois, ou de
+# marcar posts antigos, sem editar o texto da Issue.
+ROTULOS_STATUS = {
+    "confirmado": ("0E8A6B", "Selo do site: confirmado oficialmente"),
+    "rumor": ("E08A2E", "Selo do site: rumor, ainda não confirmado"),
+    "vazamento": ("C2185B", "Selo do site: informação vazada"),
+}
+
+
+def garantir_rotulos():
+    """Cria no repositório os rótulos de selo que ainda não existem (uma vez só)."""
+    repositorio = os.environ.get("GITHUB_REPOSITORY")
+    token = os.environ.get("GITHUB_TOKEN")
+    if not (repositorio and token):
+        return
+    cab = {"Accept": "application/vnd.github+json", "User-Agent": "viceversa-bot",
+           "Authorization": f"Bearer {token}"}
+    try:
+        req = urllib.request.Request(
+            f"https://api.github.com/repos/{repositorio}/labels?per_page=100", headers=cab)
+        with urllib.request.urlopen(req, timeout=30) as r:
+            existentes = {l["name"].lower() for l in json.loads(r.read().decode("utf-8"))}
+    except Exception as exc:
+        log(f"não consegui listar os rótulos ({exc}).")
+        return
+    for nome, (cor, descricao) in ROTULOS_STATUS.items():
+        if nome in existentes:
+            continue
+        corpo = json.dumps({"name": nome, "color": cor, "description": descricao}).encode("utf-8")
+        try:
+            req = urllib.request.Request(
+                f"https://api.github.com/repos/{repositorio}/labels", data=corpo, method="POST",
+                headers={**cab, "Content-Type": "application/json"})
+            urllib.request.urlopen(req, timeout=30).close()
+            log(f"rótulo criado: {nome}")
+        except Exception as exc:
+            log(f"não consegui criar o rótulo {nome} ({exc}).")
+
+
+def status_da_issue(issue, campos):
+    """Selo da notícia: rótulo da Issue (se houver) ou o campo do formulário."""
+    for rotulo in issue.get("labels") or []:
+        nome = rotulo.get("name") if isinstance(rotulo, dict) else str(rotulo)
+        valor = ler_status(nome)
+        if valor:
+            return valor
+    return campos.get("status") or ""
 
 
 TAGS_PERMITIDAS = {
@@ -230,6 +280,7 @@ def main():
         return 1
 
     log(f"{len(issues)} Issue(s) com o rótulo '{ROTULO}'.")
+    garantir_rotulos()
 
     itens = []
     for issue in issues:
@@ -252,6 +303,9 @@ def main():
             "titulo": (issue.get("title") or "").strip(),
             "texto": texto,          # versão em texto puro (reserva)
         }
+        status = status_da_issue(issue, campos)
+        if status:
+            item["status"] = status
         # HTML igual ao preview da Issue: parágrafos, negrito, listas,
         # títulos e as imagens na posição original.
         try:

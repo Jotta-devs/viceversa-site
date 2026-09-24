@@ -13,6 +13,8 @@ Você **nunca edita o site direto**. Edita a fonte, roda um comando, e o site é
 
 ```
 montar.py            o gerador — junta tudo e escreve em docs/
+imagens_og.py        desenha a imagem de compartilhamento de cada notícia (usa o Pillow)
+fontes/              fontes usadas nessas imagens (Bebas Neue e IBM Plex Mono, licença OFL)
 partes/cabeca.html   <head>, CSS, ticker, barra de anúncio e a navbar
 partes/rodape.html   rodapé e todo o JavaScript
 paginas/*.html       o miolo de cada página (home, noticias, mapa)
@@ -85,6 +87,36 @@ O `montar.py` também:
 
 Tudo se atualiza sozinho a cada Issue publicada, editada ou fechada.
 
+### Selo: Confirmado, Rumor ou Vazamento
+
+O formulário "Novo post" tem o campo obrigatório **Status da notícia**. Ele vira um
+selo colorido no card (home e notícias), no topo da página da notícia e na imagem de
+compartilhamento. Rumor e Vazamento também ganham uma faixa de aviso logo abaixo da
+capa. O que cada selo significa está explicado na Política editorial.
+
+Para trocar o selo depois (um rumor que foi confirmado, por exemplo) ou marcar posts
+antigos, adicione na Issue o rótulo `confirmado`, `rumor` ou `vazamento`. **O rótulo
+tem prioridade sobre o campo do formulário.** O robô cria esses três rótulos no
+repositório na primeira vez que roda. Notícia sem selo continua funcionando, só não
+mostra o selo.
+
+### Página da notícia
+
+- **Capa:** a primeira imagem do texto, quando está sozinha num parágrafo, sobe para
+  o topo, logo abaixo do título.
+- **Tempo de leitura** ao lado da data.
+- **Leia a seguir:** card grande com a notícia anterior, logo depois dos botões de
+  compartilhar.
+- **Canais:** no fim de toda notícia, e no meio das mais longas (5 blocos de texto ou
+  mais), um convite para seguir o site. Os canais ficam em `CANAIS`, no começo do
+  `montar.py`: hoje só o X está preenchido. Quando criar o canal do WhatsApp ou do
+  Telegram, cole o link ali e rode `python3 montar.py`.
+- **Imagem de compartilhamento:** cada notícia ganha uma arte 1200×630 em
+  `docs/og/`, com a foto, o selo, o título e a data, no visual do site. É ela que
+  aparece quando alguém manda o link no WhatsApp, X, Facebook ou Discord. Precisa do
+  Pillow (`pip install pillow`); o robô já instala. Sem ele, o site sai normalmente e
+  o compartilhamento usa a foto da notícia.
+
 ### Notícias em português e espanhol
 
 O formulário "Novo post" tem campos opcionais de título e texto em português e
@@ -114,6 +146,30 @@ só para posts errados, nunca para "limpar" os antigos: o link deixaria de funci
 **Depois de publicar, uma vez só:** no Google Search Console envie `sitemap.xml` e
 `news-sitemap.xml`; no Google Publisher Center (publishercenter.google.com)
 cadastre o site e aponte os três `feed.xml`.
+
+## Eventos do Google Analytics
+
+Além das visitas, o site registra no GA4 o que o leitor faz (`partes/rodape.html`,
+função `evento`):
+
+| Evento | Quando |
+|---|---|
+| `share` | compartilhou uma notícia (`method`: whatsapp, x, telegram, facebook, copiar_link, nativo) ou copiou o link de um local do mapa |
+| `seguir_canal` | clicou para seguir um canal (`canal`: x, whatsapp, telegram; `local`: meio ou fim da notícia) |
+| `leia_seguir` | abriu a notícia sugerida em "Leia a seguir" |
+| `clique_relacionada` | abriu uma notícia da lista "Leia também" |
+| `leitura_completa` | chegou ao fim do texto da notícia, depois de pelo menos 10 s na página |
+| `clique_ebook` | clicou para comprar o ebook (`local`: seção da página) |
+| `clique_rede` | clicou num perfil do VICEVERSA (`rede`: x, instagram, tiktok, youtube...) |
+| `troca_idioma` | trocou de idioma |
+| `mapa_local`, `mapa_estilo`, `mapa_grade`, `mapa_tela_cheia`, `search` | uso do mapa (abrir local, estilo Noite/Dia, grade, tela cheia, busca) |
+
+Os eventos aparecem em GA4 → Relatórios → Engajamento → Eventos (em até 24 h; na
+hora, em Tempo real). Para ver os parâmetros (`method`, `canal`, `local`...) nos
+relatórios, cadastre-os em Administrador → Definições personalizadas → Criar
+dimensão personalizada (escopo: evento). Vale marcar `clique_ebook` e
+`seguir_canal` como **eventos principais** (Administrador → Eventos) para
+acompanhá-los como conversões.
 
 ## Mapa de Leonida
 

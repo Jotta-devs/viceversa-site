@@ -1,8 +1,10 @@
-<main class="artigo">
+<main class="artigo" data-post="{{__art_slug__}}">
   <a class="artigo__voltar" href="{{__news__}}">{{ar01}}</a>
   <article>
-    <p class="artigo__meta">{{ar08}} <time datetime="{{__art_iso__}}">{{__art_data__}}</time></p>
+    <p class="artigo__meta">{{__art_selo__}}<span>{{ar08}} <time datetime="{{__art_iso__}}">{{__art_data__}}</time></span><span class="artigo__leitura">{{__art_leitura__}}</span></p>
     <h1>{{__art_titulo__}}</h1>
+{{__art_capa__}}
+{{__art_aviso__}}
     <div class="artigo__corpo">
 {{__art_html__}}
     </div>
@@ -10,18 +12,19 @@
 
   <div class="compartilhar">
     <span class="compartilhar__rotulo">{{ar03}}</span>
-    <a class="zap" href="https://wa.me/?text={{__art_share_txt__}}" target="_blank" rel="noopener">WhatsApp</a>
-    <a href="https://x.com/intent/post?text={{__art_share_titulo__}}&amp;url={{__art_share_url__}}&amp;via=vvviceversaa" target="_blank" rel="noopener">X</a>
-    <a href="https://t.me/share/url?url={{__art_share_url__}}&amp;text={{__art_share_titulo__}}" target="_blank" rel="noopener">Telegram</a>
-    <a href="https://www.facebook.com/sharer/sharer.php?u={{__art_share_url__}}" target="_blank" rel="noopener">Facebook</a>
+    <a class="zap" href="https://wa.me/?text={{__art_share_txt__}}" target="_blank" rel="noopener" data-rede="whatsapp">WhatsApp</a>
+    <a href="https://x.com/intent/post?text={{__art_share_titulo__}}&amp;url={{__art_share_url__}}&amp;via=vvviceversaa" target="_blank" rel="noopener" data-rede="x">X</a>
+    <a href="https://t.me/share/url?url={{__art_share_url__}}&amp;text={{__art_share_titulo__}}" target="_blank" rel="noopener" data-rede="telegram">Telegram</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{__art_share_url__}}" target="_blank" rel="noopener" data-rede="facebook">Facebook</a>
     <button type="button" data-copiar="{{__canonical__}}" data-ok="{{ar05}}">{{ar04}}</button>
-    <button type="button" data-compartilhar="{{__canonical__}}">↗</button>
+    <button type="button" data-compartilhar="{{__canonical__}}" aria-label="{{ar03}}">↗</button>
   </div>
+
+{{__art_seguinte__}}
 
   <div class="artigo__cta">
     <p>{{ar06}}</p>
-    <a class="painel__link" href="https://x.com/vvviceversaa" target="_blank" rel="noopener">{{ar07}}</a>
-    {{__art_link_x__}}
+    <div class="artigo__canais">{{__canais__}}{{__art_link_x__}}</div>
   </div>
 
   <section class="artigo__mais" style="padding:0 0 4rem">

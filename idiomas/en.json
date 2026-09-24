@@ -291,5 +291,15 @@
   "mp15": "Day",
   "mp17": "Grid",
   "mp18": "Map style",
-  "mp19": "Square"
+  "mp19": "Square",
+  "st01": "Confirmed",
+  "st02": "Rumor",
+  "st03": "Leak",
+  "st04": "Officially confirmed by Rockstar, Take-Two or someone involved in the game.",
+  "st05": "Not officially confirmed yet. It may change before launch.",
+  "st06": "Leaked information. We report the fact without showing or linking to the material.",
+  "ar10": "min read",
+  "ar11": "Up next",
+  "ar12": "WhatsApp channel",
+  "ar13": "Telegram channel"
 }

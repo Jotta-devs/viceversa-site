@@ -1123,6 +1123,49 @@
   .artigo__relacionadas a:hover{border-color:var(--agua)}
   .artigo__relacionadas time{display:block;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;color:var(--agua);margin-bottom:.2rem}
 
+  /* ---- selo da notícia: Confirmado / Rumor / Vazamento ---- */
+  .selo{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-mono);font-size:.62rem;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;line-height:1;padding:.34rem .6rem;border-radius:999px;
+    border:1px solid currentColor;white-space:nowrap;vertical-align:middle}
+  .selo::before{content:"";width:.42rem;height:.42rem;border-radius:50%;background:currentColor;flex:none}
+  .selo--confirmado{color:var(--agua);background:rgba(47,230,200,.09)}
+  .selo--rumor{color:var(--laranja);background:rgba(255,138,61,.09)}
+  .selo--vazamento{color:#FF6FA6;background:rgba(255,61,138,.12)}
+  .noticia .selo{margin:0 .55rem .1rem 0}
+  .post-auto__topo{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .6rem}
+
+  /* ---- página de notícia: capa, tempo de leitura, aviso, canais e "leia a seguir" ---- */
+  .artigo__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem}
+  .artigo__leitura{color:var(--creme-70)}
+  .artigo__leitura::before{content:"·";margin-right:.9rem;color:var(--creme-40)}
+  .artigo__capa{margin:0 0 1.8rem}
+  .artigo__capa img{display:block;width:100%;height:auto;max-height:72vh;object-fit:cover;border-radius:14px;background:#0B0414}
+  .artigo__aviso{border:1px solid currentColor;border-left-width:4px;border-radius:10px;padding:.85rem 1.1rem;
+    margin:0 0 1.8rem;font-size:.92rem;line-height:1.6}
+  .artigo__aviso strong{font-weight:700}
+  .artigo__aviso--rumor{color:var(--laranja);background:rgba(255,138,61,.07)}
+  .artigo__aviso--vazamento{color:#FF6FA6;background:rgba(255,61,138,.08)}
+  .artigo__canais{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center}
+  .artigo__meio{border:1px solid var(--linha);border-radius:12px;padding:1.1rem 1.2rem;margin:1.8rem 0;background:var(--card);text-align:center}
+  .artigo__corpo .artigo__meio p{color:var(--creme);font-weight:600;margin:0 0 .8rem}
+  .artigo__seguinte{margin:0 0 2.4rem}
+  .seguinte{display:grid;grid-template-columns:minmax(0,220px) 1fr;column-gap:1.3rem;align-items:center;
+    border:1px solid var(--linha);border-radius:14px;overflow:hidden;background:var(--card);color:var(--creme);
+    text-decoration:none;transition:border-color .2s,transform .2s}
+  .seguinte:hover{border-color:var(--agua);transform:translateY(-2px)}
+  .seguinte img{grid-row:1 / span 3;width:100%;height:100%;min-height:150px;object-fit:cover;display:block}
+  .seguinte__rotulo{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;font-family:var(--font-mono);font-size:.66rem;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--agua);padding:1.1rem 1.2rem 0 0}
+  .seguinte__titulo{font-weight:700;font-size:1.12rem;line-height:1.3;padding:.45rem 1.2rem .3rem 0}
+  .seguinte__resumo{font-size:.86rem;color:var(--creme-70);padding:0 1.2rem 1.1rem 0}
+  .seguinte--sem-img{grid-template-columns:1fr;padding-left:1.2rem}
+  @media (max-width:600px){
+    .seguinte{grid-template-columns:1fr}
+    .seguinte img{grid-row:auto;aspect-ratio:16/9;min-height:0}
+    .seguinte__rotulo,.seguinte__titulo,.seguinte__resumo{padding-left:1.1rem;padding-right:1.1rem}
+    .seguinte--sem-img{padding-left:0}
+  }
+
   /* ---- arquivo de notícias, rodapé institucional e páginas institucionais ---- */
   .arquivo{margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--linha)}
   .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1.4rem;margin:1.4rem 0 .6rem;
@@ -1412,12 +1455,21 @@
   <a class="artigo__voltar" href="../">← VICEVERSA</a>
   <h1>Editorial policy</h1>
   <div class="artigo__corpo">
-<p class="atualizado">Last updated September 23, 2026</p>
+<p class="atualizado">Last updated September 24, 2026</p>
 
 <p>These are the rules we follow when deciding what to publish and how.</p>
 
 <h2>Facts are facts, rumors are rumors</h2>
 <p>We always make clear where information comes from. Confirmations from Rockstar Games, Take-Two or people working on the game are treated as fact. Information from insiders, dataminers or unconfirmed reports is presented as <strong>rumor</strong>, with the source identified, and never stated as certain in a headline.</p>
+
+<h2>Labels on our stories</h2>
+<p>Every story carries a colored label, on the card and at the top of the page, so you know right away what kind of information you are reading:</p>
+<ul>
+  <li><strong>Confirmed</strong>: official announcement from Rockstar, Take-Two or someone involved in the game.</li>
+  <li><strong>Rumor</strong>: not officially confirmed yet. It may change before launch.</li>
+  <li><strong>Leak</strong>: leaked information. We report the fact without showing or linking to the material.</li>
+</ul>
+<p>When a rumor is confirmed or denied, we update the label.</p>
 
 <h2>Sources</h2>
 <ul>
@@ -1470,6 +1522,21 @@
 
 <script>
 (function(){
+  /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
+     (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
+  function evento(nome, dados){
+    try {
+      if(typeof window.gtag !== "function") return;
+      const limpo = {};
+      Object.keys(dados || {}).forEach(function(k){
+        if(dados[k] !== undefined && dados[k] !== null && dados[k] !== "") limpo[k] = dados[k];
+      });
+      window.gtag("event", nome, limpo);
+    } catch(e){}
+  }
+  const artigoAtual = document.querySelector(".artigo[data-post]");
+  const idPost = artigoAtual ? artigoAtual.dataset.post : undefined;
+
   /* ---- Sugestão de idioma (detecção do navegador, não força nada) ---- */
   (function(){
     var CHAVE = "viceversa_idioma_escolha"; // "aceito" | "recusado" | ausente
@@ -1821,7 +1888,10 @@
     } catch(e){}
     aplicarEstilo(estiloAtual);
     document.querySelectorAll("#atlas-estilos [data-estilo]").forEach(function(b){
-      b.addEventListener("click", function(){ aplicarEstilo(b.dataset.estilo); });
+      b.addEventListener("click", function(){
+        aplicarEstilo(b.dataset.estilo);
+        evento("mapa_estilo", {estilo: b.dataset.estilo});
+      });
     });
 
     /* ── grade de referência (A1…H12) ── */
@@ -1837,6 +1907,7 @@
       if(!cel) botaoGrade.hidden = true;
       botaoGrade.addEventListener("click", function(){
         const ligada = botaoGrade.getAttribute("aria-pressed") === "true";
+        if(!ligada) evento("mapa_grade");
         botaoGrade.setAttribute("aria-pressed", ligada ? "false" : "true");
         caixa.classList.toggle("atlas--grade", !ligada);
       });
@@ -1897,6 +1968,7 @@
       tags: document.getElementById("mapa-tags"), acoes: document.getElementById("atlas-acoes")
     };
     function selecionar(p, voar){
+      evento("mapa_local", {local_id: p.id, categoria: p.cat});
       el.cor.style.background = CORES[p.cat] || CORES.marco;
       el.nome.textContent = p.nome || "";
       const q = quadrante(p);
@@ -1915,6 +1987,7 @@
       copiar.type = "button"; copiar.textContent = txt.copiar;
       copiar.addEventListener("click", function(){
         const link = location.href.split("#")[0] + "#" + p.id;
+        evento("share", {method: "copiar_link", content_type: "mapa_local", item_id: p.id});
         if(navigator.clipboard) navigator.clipboard.writeText(link).then(function(){
           copiar.textContent = txt.copiado;
           setTimeout(function(){ copiar.textContent = txt.copiar; }, 2000);
@@ -1963,6 +2036,14 @@
       vazio.hidden = visiveis > 0;
     }
     busca.addEventListener("input", filtrarLista);
+    let esperaBusca;
+    busca.addEventListener("input", function(){
+      clearTimeout(esperaBusca);
+      const termo = busca.value.trim();
+      if(termo.length >= 3) esperaBusca = setTimeout(function(){
+        evento("search", {search_term: termo.toLowerCase(), local: "mapa"});
+      }, 1500);
+    });
     busca.addEventListener("keydown", function(e){
       if(e.key !== "Enter") return;
       const primeiro = lista.querySelector("li[data-id]:not([hidden]) button");
@@ -1973,6 +2054,7 @@
     document.getElementById("atlas-enquadrar").addEventListener("click", enquadrar);
     document.getElementById("atlas-tela").addEventListener("click", function(){
       const cheia = caixa.classList.toggle("atlas--cheia");
+      if(cheia) evento("mapa_tela_cheia");
       document.body.classList.toggle("atlas-aberto", cheia);
       if(cheia && caixa.requestFullscreen) caixa.requestFullscreen().catch(function(){});
       if(!cheia && document.fullscreenElement) document.exitFullscreen().catch(function(){});
@@ -2023,6 +2105,7 @@
   document.querySelectorAll("[data-compartilhar]").forEach(function(b){
     if(!navigator.share){ b.style.display = "none"; return; }
     b.addEventListener("click", function(){
+      evento("share", {method: "nativo", content_type: "noticia", item_id: idPost});
       navigator.share({title: document.title, url: b.dataset.compartilhar}).catch(function(){});
     });
   });
@@ -2033,11 +2116,54 @@
         b.textContent = b.dataset.ok || original;
         setTimeout(function(){ b.textContent = original; }, 2000);
       };
+      evento("share", {method: "copiar_link", content_type: "noticia", item_id: idPost});
       if(navigator.clipboard){
         navigator.clipboard.writeText(b.dataset.copiar).then(pronto).catch(function(){});
       }
     });
   });
+
+  /* ---- Analytics: cliques que mostram o que traz leitor de volta e o que vende ---- */
+  function secaoDe(el){
+    const s = el.closest("section[id], header, footer, nav, main, aside");
+    return s ? (s.id || s.className.split(" ")[0] || s.tagName.toLowerCase()) : "";
+  }
+  document.addEventListener("click", function(ev){
+    const el = ev.target.closest("a, button");
+    if(!el) return;
+    const href = el.getAttribute("href") || "";
+    if(el.dataset.rede && el.closest(".compartilhar")){
+      evento("share", {method: el.dataset.rede, content_type: "noticia", item_id: idPost});
+    } else if(el.dataset.evento){
+      evento(el.dataset.evento, {canal: el.dataset.canal, local: el.dataset.local, item_id: idPost});
+    } else if(/kiwify\.com/i.test(href)){
+      evento("clique_ebook", {local: secaoDe(el)});
+    } else if(el.closest(".artigo__relacionadas")){
+      evento("clique_relacionada", {item_id: idPost});
+    } else if(el.hasAttribute("hreflang")){
+      evento("troca_idioma", {idioma: el.getAttribute("hreflang")});
+    } else {
+      const rede = (href.match(/^https?:\/\/(?:www\.)?(x\.com|twitter\.com|instagram\.com|tiktok\.com|youtube\.com|t\.me|whatsapp\.com)/i) || [])[1];
+      if(rede) evento("clique_rede", {rede: rede.toLowerCase().replace(/\.com$/, ""), local: secaoDe(el)});
+    }
+  });
+
+  /* ---- Analytics: leitura completa (o fim do texto apareceu depois de 10 s na página) ---- */
+  const corpoArtigo = document.querySelector(".artigo__corpo");
+  if(corpoArtigo && "IntersectionObserver" in window){
+    const fim = document.createElement("span");
+    fim.setAttribute("aria-hidden", "true");
+    corpoArtigo.appendChild(fim);
+    setTimeout(function(){
+      const obs = new IntersectionObserver(function(entradas){
+        if(entradas.some(function(e){ return e.isIntersecting; })){
+          evento("leitura_completa", {item_id: idPost});
+          obs.disconnect();
+        }
+      });
+      obs.observe(fim);
+    }, 10000);
+  }
 })();
 </script>
 </body>

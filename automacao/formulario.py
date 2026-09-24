@@ -26,7 +26,7 @@ import unicodedata
 VAZIO = re.compile(r"^\s*_No response_\s*$", re.M)
 ROTULOS = re.compile(
     r"^###[ \t]+("
-    r"texto do post|link do post no x"
+    r"texto do post|link do post no x|status da not[ií]cia"
     r"|t[ií]tulo em portugu[eê]s|texto em portugu[eê]s"
     r"|t[ií]tulo e[nm] espa[nñ](?:ol|hol)|texto e[nm] espa[nñ](?:ol|hol)"
     r")[^\n]*$", re.I | re.M)
@@ -63,10 +63,26 @@ def campo(secoes, *comecos):
     return ""
 
 
+# selo da notícia: o valor do formulário (ou o rótulo da Issue) vira uma destas chaves
+STATUS = {
+    "confirmado": "confirmado", "confirmed": "confirmado", "oficial": "confirmado",
+    "rumor": "rumor", "rumores": "rumor",
+    "vazamento": "vazamento", "vazado": "vazamento", "leak": "vazamento",
+    "filtracion": "vazamento",
+}
+
+
+def ler_status(valor):
+    """'Confirmado (oficial...)' -> 'confirmado'; qualquer outra coisa -> ''."""
+    t = _normalizar(valor or "")
+    m = re.match(r"[a-z]+", t)
+    return STATUS.get(m.group(0), "") if m else ""
+
+
 def ler_post(corpo):
     """Extrai os campos do post já limpos.
 
-    Devolve dict com: texto, link, titulo_pt, texto_pt, titulo_es, texto_es.
+    Devolve dict com: texto, link, status, titulo_pt, texto_pt, titulo_es, texto_es.
     """
     s = ler_secoes(corpo)
     texto = campo(s, "texto do post")
@@ -88,6 +104,7 @@ def ler_post(corpo):
     return {
         "texto": texto,
         "link": link,
+        "status": ler_status(campo(s, "status da noticia")),
         "titulo_pt": campo(s, "titulo em portugues").strip(),
         "texto_pt": campo(s, "texto em portugues").strip(),
         "titulo_es": campo(s, "titulo en espanol", "titulo em espanhol").strip(),

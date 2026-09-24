@@ -33,7 +33,7 @@
 <meta property="og:url" content="https://vvviceversa.com/news/20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5/">
 <meta property="og:title" content="GTA 6 Effect!">
 <meta property="og:description" content="Due to the high demand for Playstation 5 Pro because of GTA 6, the consoles are selling out in several stores in the United States, causing a price…">
-<meta property="og:image" content="https://vvviceversa.com/midia/34808f6d7644a8f8.jpg">
+<meta property="og:image" content="https://vvviceversa.com/og/20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5-en.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="GTA 6 Effect!">
@@ -42,7 +42,7 @@
 <meta name="twitter:creator" content="@vvviceversaa">
 <meta name="twitter:title" content="GTA 6 Effect!">
 <meta name="twitter:description" content="Due to the high demand for Playstation 5 Pro because of GTA 6, the consoles are selling out in several stores in the United States, causing a price…">
-<meta name="twitter:image" content="https://vvviceversa.com/midia/34808f6d7644a8f8.jpg">
+<meta name="twitter:image" content="https://vvviceversa.com/og/20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5-en.jpg">
 
 <!-- Dados estruturados: ajuda o Google a entender o site e ligar os perfis -->
 <script type="application/ld+json">
@@ -89,7 +89,8 @@
     }
   },
   "image": [
-    "https://vvviceversa.com/midia/34808f6d7644a8f8.jpg"
+    "https://vvviceversa.com/midia/34808f6d7644a8f8.jpg",
+    "https://vvviceversa.com/og/20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5-en.jpg"
   ],
   "datePublished": "2026-09-08T15:12:13+00:00",
   "dateModified": "2026-09-08T17:18:56+00:00"
@@ -1180,6 +1181,49 @@
   .artigo__relacionadas a:hover{border-color:var(--agua)}
   .artigo__relacionadas time{display:block;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;color:var(--agua);margin-bottom:.2rem}
 
+  /* ---- selo da notícia: Confirmado / Rumor / Vazamento ---- */
+  .selo{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-mono);font-size:.62rem;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;line-height:1;padding:.34rem .6rem;border-radius:999px;
+    border:1px solid currentColor;white-space:nowrap;vertical-align:middle}
+  .selo::before{content:"";width:.42rem;height:.42rem;border-radius:50%;background:currentColor;flex:none}
+  .selo--confirmado{color:var(--agua);background:rgba(47,230,200,.09)}
+  .selo--rumor{color:var(--laranja);background:rgba(255,138,61,.09)}
+  .selo--vazamento{color:#FF6FA6;background:rgba(255,61,138,.12)}
+  .noticia .selo{margin:0 .55rem .1rem 0}
+  .post-auto__topo{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .6rem}
+
+  /* ---- página de notícia: capa, tempo de leitura, aviso, canais e "leia a seguir" ---- */
+  .artigo__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem}
+  .artigo__leitura{color:var(--creme-70)}
+  .artigo__leitura::before{content:"·";margin-right:.9rem;color:var(--creme-40)}
+  .artigo__capa{margin:0 0 1.8rem}
+  .artigo__capa img{display:block;width:100%;height:auto;max-height:72vh;object-fit:cover;border-radius:14px;background:#0B0414}
+  .artigo__aviso{border:1px solid currentColor;border-left-width:4px;border-radius:10px;padding:.85rem 1.1rem;
+    margin:0 0 1.8rem;font-size:.92rem;line-height:1.6}
+  .artigo__aviso strong{font-weight:700}
+  .artigo__aviso--rumor{color:var(--laranja);background:rgba(255,138,61,.07)}
+  .artigo__aviso--vazamento{color:#FF6FA6;background:rgba(255,61,138,.08)}
+  .artigo__canais{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center}
+  .artigo__meio{border:1px solid var(--linha);border-radius:12px;padding:1.1rem 1.2rem;margin:1.8rem 0;background:var(--card);text-align:center}
+  .artigo__corpo .artigo__meio p{color:var(--creme);font-weight:600;margin:0 0 .8rem}
+  .artigo__seguinte{margin:0 0 2.4rem}
+  .seguinte{display:grid;grid-template-columns:minmax(0,220px) 1fr;column-gap:1.3rem;align-items:center;
+    border:1px solid var(--linha);border-radius:14px;overflow:hidden;background:var(--card);color:var(--creme);
+    text-decoration:none;transition:border-color .2s,transform .2s}
+  .seguinte:hover{border-color:var(--agua);transform:translateY(-2px)}
+  .seguinte img{grid-row:1 / span 3;width:100%;height:100%;min-height:150px;object-fit:cover;display:block}
+  .seguinte__rotulo{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;font-family:var(--font-mono);font-size:.66rem;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--agua);padding:1.1rem 1.2rem 0 0}
+  .seguinte__titulo{font-weight:700;font-size:1.12rem;line-height:1.3;padding:.45rem 1.2rem .3rem 0}
+  .seguinte__resumo{font-size:.86rem;color:var(--creme-70);padding:0 1.2rem 1.1rem 0}
+  .seguinte--sem-img{grid-template-columns:1fr;padding-left:1.2rem}
+  @media (max-width:600px){
+    .seguinte{grid-template-columns:1fr}
+    .seguinte img{grid-row:auto;aspect-ratio:16/9;min-height:0}
+    .seguinte__rotulo,.seguinte__titulo,.seguinte__resumo{padding-left:1.1rem;padding-right:1.1rem}
+    .seguinte--sem-img{padding-left:0}
+  }
+
   /* ---- arquivo de notícias, rodapé institucional e páginas institucionais ---- */
   .arquivo{margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--linha)}
   .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1.4rem;margin:1.4rem 0 .6rem;
@@ -1465,42 +1509,46 @@
 </aside>
 
 
-<main class="artigo">
+<main class="artigo" data-post="20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5">
   <a class="artigo__voltar" href="../../news/">← All news</a>
   <article>
-    <p class="artigo__meta">Published <time datetime="2026-09-08T15:12:13+00:00">Sep 8, 2026</time></p>
+    <p class="artigo__meta"><span>Published <time datetime="2026-09-08T15:12:13+00:00">Sep 8, 2026</time></span><span class="artigo__leitura">1 min read</span></p>
     <h1>GTA 6 Effect!</h1>
+    <figure class="artigo__capa"><img src="/midia/34808f6d7644a8f8.jpg" alt="GTA 6 Effect!" width="2000" height="1333" fetchpriority="high" decoding="async"></figure>
+
     <div class="artigo__corpo">
 <p>Due to the high demand for Playstation 5 Pro because of GTA 6, the consoles are selling out in several stores in the United States, causing a price increase of almost doubling for video games!</p>
 <p>The effect was also seen on Xbox consoles, which registered an increase in sales after the "Extended Look" on Netflix.</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/029ee0e8-6219-4bd1-b176-6edd23f215f1"><img loading="lazy" decoding="async" width="2000" height="1333" alt="Image" src="/midia/34808f6d7644a8f8.jpg" style="max-width: 100%; height: auto; max-height: 1333px;"></a></p>
     </div>
   </article>
 
   <div class="compartilhar">
     <span class="compartilhar__rotulo">Share</span>
-    <a class="zap" href="https://wa.me/?text=GTA%206%20Effect%21%20https%3A//vvviceversa.com/news/20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5/" target="_blank" rel="noopener">WhatsApp</a>
-    <a href="https://x.com/intent/post?text=GTA%206%20Effect%21&amp;url=https%3A%2F%2Fvvviceversa.com%2Fnews%2F20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5%2F&amp;via=vvviceversaa" target="_blank" rel="noopener">X</a>
-    <a href="https://t.me/share/url?url=https%3A%2F%2Fvvviceversa.com%2Fnews%2F20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5%2F&amp;text=GTA%206%20Effect%21" target="_blank" rel="noopener">Telegram</a>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fvvviceversa.com%2Fnews%2F20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5%2F" target="_blank" rel="noopener">Facebook</a>
+    <a class="zap" href="https://wa.me/?text=GTA%206%20Effect%21%20https%3A//vvviceversa.com/news/20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5/" target="_blank" rel="noopener" data-rede="whatsapp">WhatsApp</a>
+    <a href="https://x.com/intent/post?text=GTA%206%20Effect%21&amp;url=https%3A%2F%2Fvvviceversa.com%2Fnews%2F20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5%2F&amp;via=vvviceversaa" target="_blank" rel="noopener" data-rede="x">X</a>
+    <a href="https://t.me/share/url?url=https%3A%2F%2Fvvviceversa.com%2Fnews%2F20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5%2F&amp;text=GTA%206%20Effect%21" target="_blank" rel="noopener" data-rede="telegram">Telegram</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fvvviceversa.com%2Fnews%2F20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5%2F" target="_blank" rel="noopener" data-rede="facebook">Facebook</a>
     <button type="button" data-copiar="https://vvviceversa.com/news/20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5/" data-ok="Link copied!">Copy link</button>
-    <button type="button" data-compartilhar="https://vvviceversa.com/news/20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5/">↗</button>
+    <button type="button" data-compartilhar="https://vvviceversa.com/news/20260908-gta-6-effect-due-to-the-high-demand-for-playstation-5/" aria-label="Share">↗</button>
+  </div>
+
+  <div class="artigo__seguinte" role="region" aria-label="Up next">
+    <a class="seguinte" href="../../news/20260922-the-gta-6-map-might-be-larger-than-expected-according-to/" data-evento="leia_seguir"><img src="/midia/670d92115f8c827e.jpg" alt="" loading="lazy" decoding="async"><span class="seguinte__rotulo">Up next</span><span class="seguinte__titulo">The GTA 6 map might be larger than expected!</span><span class="seguinte__resumo">According to leaks from a 2014/15 build, renders of an island inspired by Puerto Rico appear as a possible playable area—much like North Yankton was in…</span></a>
   </div>
 
   <div class="artigo__cta">
     <p>Get the next story before everyone else</p>
-    <a class="painel__link" href="https://x.com/vvviceversaa" target="_blank" rel="noopener">Follow @vvviceversaa on X</a>
-    
+    <div class="artigo__canais"><a class="painel__link canal canal--x" href="https://x.com/vvviceversaa" target="_blank" rel="noopener" data-evento="seguir_canal" data-canal="x" data-local="fim">Follow @vvviceversaa on X</a></div>
   </div>
 
   <section class="artigo__mais" style="padding:0 0 4rem">
     <div class="secao__cabeca"><h2>Read next</h2></div>
     <ul class="artigo__relacionadas">
-      <li><a href="../../news/20260922-the-gta-6-map-might-be-larger-than-expected-according-to/"><time>Sep 22, 2026</time>The GTA 6 map might be larger than expected!</a></li>
       <li><a href="../../news/20260918-another-leak-at-rockstar-approximately-192gb-of-data-related/"><time>Sep 18, 2026</time>Another leak at Rockstar!</a></li>
       <li><a href="../../news/20260915-confirmed-american-actor-stephen-root-has-confirmed-that-he/"><time>Sep 15, 2026</time>Confirmed!</a></li>
       <li><a href="../../news/20260914-65-days-until-gta-6-rob-nelson-gave-more-details-to-the/"><time>Sep 14, 2026</time>65 days until GTA 6!</a></li>
       <li><a href="../../news/20260914-aggressive-marketing-is-about-to-begin-after-days-of/"><time>Sep 14, 2026</time>Aggressive marketing is about to begin!</a></li>
+      <li><a href="../../news/20260910-several-details-revealed-by-rockstar-about-gta-vi-in-an/"><time>Sep 10, 2026</time>Several details revealed by Rockstar about GTA VI:</a></li>
     </ul>
   </section>
 </main>
@@ -1534,6 +1582,21 @@
 
 <script>
 (function(){
+  /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
+     (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
+  function evento(nome, dados){
+    try {
+      if(typeof window.gtag !== "function") return;
+      const limpo = {};
+      Object.keys(dados || {}).forEach(function(k){
+        if(dados[k] !== undefined && dados[k] !== null && dados[k] !== "") limpo[k] = dados[k];
+      });
+      window.gtag("event", nome, limpo);
+    } catch(e){}
+  }
+  const artigoAtual = document.querySelector(".artigo[data-post]");
+  const idPost = artigoAtual ? artigoAtual.dataset.post : undefined;
+
   /* ---- Sugestão de idioma (detecção do navegador, não força nada) ---- */
   (function(){
     var CHAVE = "viceversa_idioma_escolha"; // "aceito" | "recusado" | ausente
@@ -1885,7 +1948,10 @@
     } catch(e){}
     aplicarEstilo(estiloAtual);
     document.querySelectorAll("#atlas-estilos [data-estilo]").forEach(function(b){
-      b.addEventListener("click", function(){ aplicarEstilo(b.dataset.estilo); });
+      b.addEventListener("click", function(){
+        aplicarEstilo(b.dataset.estilo);
+        evento("mapa_estilo", {estilo: b.dataset.estilo});
+      });
     });
 
     /* ── grade de referência (A1…H12) ── */
@@ -1901,6 +1967,7 @@
       if(!cel) botaoGrade.hidden = true;
       botaoGrade.addEventListener("click", function(){
         const ligada = botaoGrade.getAttribute("aria-pressed") === "true";
+        if(!ligada) evento("mapa_grade");
         botaoGrade.setAttribute("aria-pressed", ligada ? "false" : "true");
         caixa.classList.toggle("atlas--grade", !ligada);
       });
@@ -1961,6 +2028,7 @@
       tags: document.getElementById("mapa-tags"), acoes: document.getElementById("atlas-acoes")
     };
     function selecionar(p, voar){
+      evento("mapa_local", {local_id: p.id, categoria: p.cat});
       el.cor.style.background = CORES[p.cat] || CORES.marco;
       el.nome.textContent = p.nome || "";
       const q = quadrante(p);
@@ -1979,6 +2047,7 @@
       copiar.type = "button"; copiar.textContent = txt.copiar;
       copiar.addEventListener("click", function(){
         const link = location.href.split("#")[0] + "#" + p.id;
+        evento("share", {method: "copiar_link", content_type: "mapa_local", item_id: p.id});
         if(navigator.clipboard) navigator.clipboard.writeText(link).then(function(){
           copiar.textContent = txt.copiado;
           setTimeout(function(){ copiar.textContent = txt.copiar; }, 2000);
@@ -2027,6 +2096,14 @@
       vazio.hidden = visiveis > 0;
     }
     busca.addEventListener("input", filtrarLista);
+    let esperaBusca;
+    busca.addEventListener("input", function(){
+      clearTimeout(esperaBusca);
+      const termo = busca.value.trim();
+      if(termo.length >= 3) esperaBusca = setTimeout(function(){
+        evento("search", {search_term: termo.toLowerCase(), local: "mapa"});
+      }, 1500);
+    });
     busca.addEventListener("keydown", function(e){
       if(e.key !== "Enter") return;
       const primeiro = lista.querySelector("li[data-id]:not([hidden]) button");
@@ -2037,6 +2114,7 @@
     document.getElementById("atlas-enquadrar").addEventListener("click", enquadrar);
     document.getElementById("atlas-tela").addEventListener("click", function(){
       const cheia = caixa.classList.toggle("atlas--cheia");
+      if(cheia) evento("mapa_tela_cheia");
       document.body.classList.toggle("atlas-aberto", cheia);
       if(cheia && caixa.requestFullscreen) caixa.requestFullscreen().catch(function(){});
       if(!cheia && document.fullscreenElement) document.exitFullscreen().catch(function(){});
@@ -2087,6 +2165,7 @@
   document.querySelectorAll("[data-compartilhar]").forEach(function(b){
     if(!navigator.share){ b.style.display = "none"; return; }
     b.addEventListener("click", function(){
+      evento("share", {method: "nativo", content_type: "noticia", item_id: idPost});
       navigator.share({title: document.title, url: b.dataset.compartilhar}).catch(function(){});
     });
   });
@@ -2097,11 +2176,54 @@
         b.textContent = b.dataset.ok || original;
         setTimeout(function(){ b.textContent = original; }, 2000);
       };
+      evento("share", {method: "copiar_link", content_type: "noticia", item_id: idPost});
       if(navigator.clipboard){
         navigator.clipboard.writeText(b.dataset.copiar).then(pronto).catch(function(){});
       }
     });
   });
+
+  /* ---- Analytics: cliques que mostram o que traz leitor de volta e o que vende ---- */
+  function secaoDe(el){
+    const s = el.closest("section[id], header, footer, nav, main, aside");
+    return s ? (s.id || s.className.split(" ")[0] || s.tagName.toLowerCase()) : "";
+  }
+  document.addEventListener("click", function(ev){
+    const el = ev.target.closest("a, button");
+    if(!el) return;
+    const href = el.getAttribute("href") || "";
+    if(el.dataset.rede && el.closest(".compartilhar")){
+      evento("share", {method: el.dataset.rede, content_type: "noticia", item_id: idPost});
+    } else if(el.dataset.evento){
+      evento(el.dataset.evento, {canal: el.dataset.canal, local: el.dataset.local, item_id: idPost});
+    } else if(/kiwify\.com/i.test(href)){
+      evento("clique_ebook", {local: secaoDe(el)});
+    } else if(el.closest(".artigo__relacionadas")){
+      evento("clique_relacionada", {item_id: idPost});
+    } else if(el.hasAttribute("hreflang")){
+      evento("troca_idioma", {idioma: el.getAttribute("hreflang")});
+    } else {
+      const rede = (href.match(/^https?:\/\/(?:www\.)?(x\.com|twitter\.com|instagram\.com|tiktok\.com|youtube\.com|t\.me|whatsapp\.com)/i) || [])[1];
+      if(rede) evento("clique_rede", {rede: rede.toLowerCase().replace(/\.com$/, ""), local: secaoDe(el)});
+    }
+  });
+
+  /* ---- Analytics: leitura completa (o fim do texto apareceu depois de 10 s na página) ---- */
+  const corpoArtigo = document.querySelector(".artigo__corpo");
+  if(corpoArtigo && "IntersectionObserver" in window){
+    const fim = document.createElement("span");
+    fim.setAttribute("aria-hidden", "true");
+    corpoArtigo.appendChild(fim);
+    setTimeout(function(){
+      const obs = new IntersectionObserver(function(entradas){
+        if(entradas.some(function(e){ return e.isIntersecting; })){
+          evento("leitura_completa", {item_id: idPost});
+          obs.disconnect();
+        }
+      });
+      obs.observe(fim);
+    }, 10000);
+  }
 })();
 </script>
 </body>
