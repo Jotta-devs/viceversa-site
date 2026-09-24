@@ -38,6 +38,24 @@ body:
     validations:
       required: true
 
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status da notícia
+      description: >
+        Vira um selo colorido no card e na página da notícia. Confirmado =
+        anúncio oficial da Rockstar/Take-Two ou de alguém envolvido (ex.: ator
+        confirmando o papel). Rumor = ainda não confirmado. Vazamento =
+        informação vazada (nunca mostramos nem linkamos o material). Para
+        trocar depois, adicione na Issue o rótulo confirmado, rumor ou
+        vazamento: o rótulo tem prioridade sobre este campo.
+      options:
+        - Confirmado
+        - Rumor
+        - Vazamento
+    validations:
+      required: true
+
   - type: input
     id: titulo_pt
     attributes:
