@@ -41,6 +41,10 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python automacao/botao-x.py
 
+      # Pillow desenha a imagem de compartilhamento de cada notícia (docs/og/)
+      - name: Instalar o Pillow
+        run: pip install --quiet pillow
+
       - name: Regerar o site
         run: python montar.py
 
