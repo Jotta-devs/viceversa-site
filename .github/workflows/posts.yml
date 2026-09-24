@@ -25,6 +25,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      # Pillow: reduz as fotos das notícias (WebP) e desenha a imagem de
+      # compartilhamento de cada notícia e de cada local do mapa
+      - name: Instalar o Pillow
+        run: pip install --quiet pillow
+
       # Fonte confiável: as Issues. Monta a base do feed.
       - name: Ler as Issues
         env:
@@ -40,10 +45,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python automacao/botao-x.py
-
-      # Pillow desenha a imagem de compartilhamento de cada notícia (docs/og/)
-      - name: Instalar o Pillow
-        run: pip install --quiet pillow
 
       - name: Regerar o site
         run: python montar.py
