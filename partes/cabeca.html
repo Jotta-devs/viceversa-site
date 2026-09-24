@@ -604,7 +604,7 @@
   }
   .curio:hover{border-style:solid;border-color:var(--agua);background:rgba(47,230,200,.05);transform:translateY(-4px)}
   .curio::before{
-    content:"ARQUIVO Nº " counter(caso, decimal-leading-zero);
+    content:"{{cu01}} " counter(caso, decimal-leading-zero);
     font-family:var(--font-mono);font-size:.62rem;letter-spacing:.24em;color:var(--agua);
     display:block;margin-bottom:.9rem;
   }
