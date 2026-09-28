@@ -15,8 +15,8 @@
 <!-- Google AdSense: verificação do site + Auto ads -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4263183130382993"
      crossorigin="anonymous"></script>
-<title>VICEVERSA — Noticias y curiosidades de GTA VI</title>
-<meta name="description" content="VICEVERSA: noticias, cronología y curiosidades sobre Grand Theft Auto VI — Extended Look, filtraciones, reservas y cuenta atrás. Sigue a @vvviceversaa en X e Instagram, @vvviceversa en TikTok y @vvViceVersa en YouTube.">
+<title>Mapa de GTA 6: mapa interactivo de Leonida y Vice City | VICEVERSA</title>
+<meta name="description" content="Explora Leonida, el estado de GTA VI: un mapa interactivo propio con cada región, lugar destacado y su inspiración real en Florida.">
 <link rel="alternate" hreflang="en" href="https://vvviceversa.com/map/">
 <link rel="alternate" hreflang="x-default" href="https://vvviceversa.com/map/">
 <link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/mapa/">
@@ -24,7 +24,7 @@
 <link rel="canonical" href="https://vvviceversa.com/es/mapa/">
 <link rel="alternate" type="application/rss+xml" title="VICEVERSA" href="https://vvviceversa.com/es/feed.xml">
 <meta name="theme-color" content="#120720">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23120720'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FF8A3D'/%3E%3Cstop offset='1' stop-color='%23FF3D8A'/%3E%3C/linearGradient%3E%3Cmask id='m'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Crect y='7' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='12.4' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='17.8' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='23.2' width='32' height='2.6' fill='%23fff'/%3E%3C/mask%3E%3C/defs%3E%3Ccircle cx='16' cy='17' r='10.5' fill='url(%23g)' mask='url(%23m)'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../og-image-es.png">
 
@@ -33,8 +33,8 @@
 <meta property="og:locale" content="es_ES">
 <meta property="og:site_name" content="VICEVERSA">
 <meta property="og:url" content="https://vvviceversa.com/es/mapa/">
-<meta property="og:title" content="VICEVERSA — Noticias y curiosidades de GTA VI">
-<meta property="og:description" content="Cuenta atrás para el 19/11/2026, titulares, cronología y curiosidades sobre Grand Theft Auto VI. Portal de fans.">
+<meta property="og:title" content="Mapa de GTA 6: mapa interactivo de Leonida y Vice City | VICEVERSA">
+<meta property="og:description" content="Explora Leonida, el estado de GTA VI: un mapa interactivo propio con cada región, lugar destacado y su inspiración real en Florida.">
 <meta property="og:image" content="https://vvviceversa.com/og-image-es.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -42,8 +42,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@vvviceversaa">
 <meta name="twitter:creator" content="@vvviceversaa">
-<meta name="twitter:title" content="VICEVERSA — Noticias y curiosidades de GTA VI">
-<meta name="twitter:description" content="Cuenta atrás para el 19/11/2026, titulares, cronología y curiosidades sobre GTA VI.">
+<meta name="twitter:title" content="Mapa de GTA 6: mapa interactivo de Leonida y Vice City | VICEVERSA">
+<meta name="twitter:description" content="Explora Leonida, el estado de GTA VI: un mapa interactivo propio con cada región, lugar destacado y su inspiración real en Florida.">
 <meta name="twitter:image" content="https://vvviceversa.com/og-image-es.png">
 
 <!-- Dados estruturados: ajuda o Google a entender o site e ligar os perfis -->
@@ -53,7 +53,7 @@
   "@type": "WebSite",
   "name": "VICEVERSA",
   "url": "https://vvviceversa.com/es/",
-  "description": "Cuenta atrás para el 19/11/2026, titulares, cronología y curiosidades sobre Grand Theft Auto VI. Portal de fans.",
+  "description": "Explora Leonida, el estado de GTA VI: un mapa interactivo propio con cada región, lugar destacado y su inspiración real en Florida.",
   "inLanguage": "es",
   "sameAs": [
     "https://x.com/vvviceversaa",
@@ -1385,6 +1385,44 @@
   .atlas-rotulo--agua{color:#6FD6F0;text-shadow:0 0 2px #08142A}
   .atlas--dia .atlas-rotulo--agua{color:#0E4C73;text-shadow:0 0 2px #BFEFF7}
   .atlas[data-zoom="longe"] .atlas-rotulo{display:none}
+
+  /* ---- guias (conteúdo permanente), autoria e fontes ---- */
+  .guias__lista{list-style:none;padding:0;margin:0 auto;max-width:1080px;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem}
+  .guia-card{display:flex;flex-direction:column;gap:.55rem;height:100%;border:1px solid var(--linha);
+    border-left:3px solid var(--laranja);border-radius:12px;padding:1.2rem 1.3rem;background:var(--card);
+    color:var(--creme);text-decoration:none;transition:border-color .2s,transform .2s}
+  .guia-card:hover{border-color:var(--agua);transform:translateY(-2px)}
+  .guia-card__meta{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--laranja)}
+  .guia-card strong{font-weight:700;font-size:1.1rem;line-height:1.3}
+  .guia-card p{font-size:.88rem;line-height:1.55;color:var(--creme-70);margin:0}
+  .guia-card__ler{margin-top:auto;padding-top:.4rem;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--agua)}
+  .guias .guias__lista{margin:2rem 0 4rem}
+  .guia__lead{font-size:1.14rem;line-height:1.65;color:var(--creme);margin:0 0 1.8rem}
+  .guia__indice{border:1px solid var(--linha);border-radius:12px;padding:1rem 1.3rem;background:var(--card);margin:0 0 2.2rem}
+  .guia__indice p{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--laranja);margin:0 0 .5rem}
+  .guia__indice ol{margin:0 0 0 1.2rem;line-height:1.9;font-size:.95rem}
+  .guia__indice a{color:var(--creme);text-decoration:none}
+  .guia__indice a:hover{color:var(--agua)}
+  .guia .artigo__corpo h2{font-family:var(--font-body);font-size:1.45rem;font-weight:700;color:var(--creme);
+    margin:2.6rem 0 .9rem;letter-spacing:0;scroll-margin-top:90px}
+  .guia .artigo__corpo h2::after{display:none}
+  .guia .artigo__corpo h3{font-size:1.1rem;font-weight:700;color:var(--creme);margin:1.8rem 0 .6rem}
+  .guia .artigo__corpo li{margin-bottom:.45rem}
+  .guia .artigo__corpo strong{color:var(--creme)}
+  .tabela-rolagem{overflow-x:auto;margin:0 0 1.4rem}
+  .artigo__corpo table{width:100%;border-collapse:collapse;font-size:.92rem;line-height:1.5}
+  .artigo__corpo th,.artigo__corpo td{border:1px solid var(--linha);padding:.6rem .75rem;text-align:left;vertical-align:top}
+  .artigo__corpo th{background:var(--card);color:var(--creme)}
+  .artigo__corpo .nota{border-left:3px solid var(--agua);background:var(--card);border-radius:0 10px 10px 0;padding:.9rem 1.1rem;margin:0 0 1.4rem}
+  .selo--guia{color:var(--laranja);background:rgba(255,138,61,.09)}
+  .artigo__autor a,.guia__autor a{color:var(--agua)}
+  .guia__autor{border:1px solid var(--linha);border-radius:12px;padding:1rem 1.2rem;margin:2.4rem 0 0;font-size:.92rem;line-height:1.6;color:var(--creme-70);background:var(--card)}
+  .guia__autor strong{color:var(--creme)}
+  .artigo__fontes{margin:1.6rem 0 0;padding-top:1rem;border-top:1px solid var(--linha);font-size:.88rem;color:var(--creme-70)}
+  .artigo__fontes p{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--laranja);margin:0 0 .4rem}
+  .artigo__fontes ul{margin:0 0 0 1.1rem}
+  .artigo__fontes a{color:var(--agua);word-break:break-word}
 </style>
 </head>
 <body>
@@ -1418,7 +1456,8 @@
     <a href="../../es/">Inicio</a>
     <a href="../../es/noticias/">Noticias</a>
     <a href="../../es/mapa/" aria-current="page">Mapa</a>
-    <a href="#ebook">Ebook</a>
+    <a href="../../es/guias/">Guías</a>
+    <a href="../../es/#ebook">Ebook</a>
   </div>
     <nav class="seletor-idioma" aria-label="Idioma / Language">
     <a class="" href="../../map/" hreflang="en" lang="en">EN</a>
@@ -1449,7 +1488,8 @@
     <a href="../../es/">Inicio</a>
     <a href="../../es/noticias/">Noticias</a>
     <a href="../../es/mapa/" aria-current="page">Mapa</a>
-    <a href="#ebook">Ebook</a>
+    <a href="../../es/guias/">Guías</a>
+    <a href="../../es/#ebook">Ebook</a>
     <a href="../../es/#siga">Redes</a>
   </nav>
   <div class="menu-rodape">
@@ -1547,12 +1587,13 @@
     <div data-r="pantano"   data-nome="Humedales y airboats" data-real="Grassrivers" data-tags="Airboat|Caimanes|Manglar">El corazón inundado de los Grassrivers, donde los airboats entran como clase de vehículo hecha para aguas poco profundas. Caimanes y fauna peligrosa fuera de la carretera principal.</div>
   </div>
 
-  <script type="application/json" id="atlas-config">{"info": {"largura": 1462, "altura": 1951, "origem": "leonida-mapa-v16.jpg", "recorte": [586, 0, 2048, 1951], "imagem": [2048, 1951], "grade": {"colunas": 8, "linhas": 11, "celula": 182.75}}, "svg": "../../map-data/leonida.svg?v=1790601240", "pontos": [{"id": "vice-city", "cat": "regiao", "x": 0.7547, "y": 0.5117, "ficha": "vice", "url": "../../es/mapa/vice-city/"}, {"id": "grassrivers", "cat": "regiao", "x": 0.4784, "y": 0.7617, "ficha": "grass", "url": "../../es/mapa/grassrivers/"}, {"id": "leonida-keys", "cat": "regiao", "x": 0.4472, "y": 0.8766, "ficha": "keys", "url": "../../es/mapa/leonida-keys/"}, {"id": "port-gellhorn", "cat": "regiao", "x": 0.2487, "y": 0.3377, "ficha": "gellhorn", "url": "../../es/mapa/port-gellhorn/"}, {"id": "ambrosia", "cat": "regiao", "x": 0.503, "y": 0.3256, "ficha": "ambrosia", "url": "../../es/mapa/ambrosia/"}, {"id": "mount-kalaga", "cat": "regiao", "x": 0.4745, "y": 0.2488, "ficha": "kalaga", "url": "../../es/mapa/mount-kalaga/"}, {"id": "aeroporto", "cat": "marco", "x": 0.5438, "y": 0.5782, "ficha": "aeroporto", "url": "../../es/mapa/aeroporto/"}, {"id": "porto-gellhorn", "cat": "marco", "x": 0.2353, "y": 0.2973, "ficha": "porto", "url": "../../es/mapa/porto-gellhorn/"}, {"id": "praias-vice-city", "cat": "marco", "x": 0.8687, "y": 0.5192, "ficha": "praia", "url": "../../es/mapa/praias-vice-city/"}, {"id": "pantanos", "cat": "marco", "x": 0.4774, "y": 0.6776, "ficha": "pantano", "url": "../../es/mapa/pantanos/"}, {"id": "vice-beach", "cat": "marco", "x": 0.8317, "y": 0.5064, "nome": "Vice Beach", "real": "Miami Beach", "desc": "La isla barrera al otro lado de la bahía, frente al centro: una malla densa de calles, el paseo frente al mar y un parque alargado en el medio. La postal de Vice City.", "tags": ["Vice City"], "url": "../../es/mapa/vice-beach/"}, {"id": "centro-vice-city", "cat": "marco", "x": 0.6717, "y": 0.5684, "nome": "Centro de Vice City", "real": "Downtown Miami", "desc": "La malla de calles más cerrada del mapa, en la orilla oeste de la bahía, cruzada por la autopista que atraviesa la ciudad de norte a sur.", "tags": ["Vice City", "Nombre descriptivo"], "url": "../../es/mapa/centro-vice-city/"}, {"id": "area-portuaria", "cat": "marco", "x": 0.7873, "y": 0.5766, "nome": "Isla portuaria", "real": "PortMiami (Dodge Island)", "desc": "Isla artificial en la bahía, unida al centro por un puente, con muelles y grandes naves de terminal.", "tags": ["Vice City", "Nombre descriptivo"], "url": "../../es/mapa/area-portuaria/"}, {"id": "watson-bay", "cat": "marco", "x": 0.3858, "y": 0.715, "nome": "Watson Bay", "desc": "Pueblo costero en el borde oeste de los Grassrivers, con una pequeña malla de calles frente al agua.", "tags": ["Grassrivers"], "url": "../../es/mapa/watson-bay/"}, {"id": "key-lento", "cat": "marco", "x": 0.5568, "y": 0.8488, "nome": "Key Lento", "real": "Key Largo", "desc": "El mayor pueblo de los Leonida Keys: una isla larga y estrecha llena de calles, unida al continente por la autopista que baja del norte.", "tags": ["Leonida Keys"], "url": "../../es/mapa/key-lento/"}, {"id": "aeroporto-keys", "cat": "marco", "x": 0.2565, "y": 0.8765, "nome": "Aeropuerto de los Keys", "desc": "Una isla casi toda ocupada por dos pistas cruzadas, en la punta oeste de los Keys.", "tags": ["Leonida Keys", "Nombre descriptivo"], "url": "../../es/mapa/aeroporto-keys/"}, {"id": "ponte-keys", "cat": "marco", "x": 0.3509, "y": 0.9, "nome": "Puente sobre el mar de los Keys", "real": "Seven Mile Bridge", "desc": "El largo puente que salta de isla en isla entre Key Lento y la isla del aeropuerto.", "tags": ["Leonida Keys", "Nombre descriptivo"], "url": "../../es/mapa/ponte-keys/"}, {"id": "aerodromo-gellhorn", "cat": "marco", "x": 0.2435, "y": 0.386, "nome": "Pista de aterrizaje de Port Gellhorn", "desc": "Una sola pista en la península al sur de Port Gellhorn.", "tags": ["Port Gellhorn", "Nombre descriptivo"], "url": "../../es/mapa/aerodromo-gellhorn/"}, {"id": "industria-ambrosia", "cat": "marco", "x": 0.5417, "y": 0.3742, "nome": "Zona industrial de Ambrosia", "desc": "Hileras de naves grandes a lo largo del ferrocarril, justo al sur del centro de Ambrosia, entre el río y el lago.", "tags": ["Ambrosia", "Nombre descriptivo"], "url": "../../es/mapa/industria-ambrosia/"}, {"id": "st-joseph", "cat": "marco", "x": 0.6922, "y": 0.2153, "nome": "St. Joseph", "desc": "Pueblo pequeño en la costa noreste, junto a la playa. El nombre es una suposición de la comunidad, no confirmada por Rockstar.", "tags": ["Nombre especulativo"], "url": "../../es/mapa/st-joseph/"}, {"id": "redhill", "cat": "marco", "x": 0.4747, "y": 0.1779, "nome": "Redhill", "desc": "Un punto junto a la autopista del norte, al pie del Monte Kalaga. El nombre es una suposición de la comunidad, no confirmada por Rockstar.", "tags": ["Monte Kalaga", "Nombre especulativo"], "url": "../../es/mapa/redhill/"}], "rotulos": [{"id": "lago-leonida", "tipo": "agua", "x": 0.6042, "y": 0.3099, "nome": "Lago Leonida"}], "textos": {"video": "Ver la escena en el tráiler ↗", "copiar": "Copiar enlace de este lugar", "pagina": "Ver página del lugar →", "copiado": "¡Enlace copiado!", "nada": "No se encontraron lugares.", "editar": "Modo edición: haz clic en el mapa para copiar la posición (x, y)", "quadrante": "Cuadrante"}}</script>
+  <script type="application/json" id="atlas-config">{"info": {"largura": 1462, "altura": 1951, "origem": "leonida-mapa-v16.jpg", "recorte": [586, 0, 2048, 1951], "imagem": [2048, 1951], "grade": {"colunas": 8, "linhas": 11, "celula": 182.75}}, "svg": "../../map-data/leonida.svg?v=1790616430", "pontos": [{"id": "vice-city", "cat": "regiao", "x": 0.7547, "y": 0.5117, "ficha": "vice", "url": "../../es/mapa/vice-city/"}, {"id": "grassrivers", "cat": "regiao", "x": 0.4784, "y": 0.7617, "ficha": "grass", "url": "../../es/mapa/grassrivers/"}, {"id": "leonida-keys", "cat": "regiao", "x": 0.4472, "y": 0.8766, "ficha": "keys", "url": "../../es/mapa/leonida-keys/"}, {"id": "port-gellhorn", "cat": "regiao", "x": 0.2487, "y": 0.3377, "ficha": "gellhorn", "url": "../../es/mapa/port-gellhorn/"}, {"id": "ambrosia", "cat": "regiao", "x": 0.503, "y": 0.3256, "ficha": "ambrosia", "url": "../../es/mapa/ambrosia/"}, {"id": "mount-kalaga", "cat": "regiao", "x": 0.4745, "y": 0.2488, "ficha": "kalaga", "url": "../../es/mapa/mount-kalaga/"}, {"id": "aeroporto", "cat": "marco", "x": 0.5438, "y": 0.5782, "ficha": "aeroporto", "url": "../../es/mapa/aeroporto/"}, {"id": "porto-gellhorn", "cat": "marco", "x": 0.2353, "y": 0.2973, "ficha": "porto", "url": "../../es/mapa/porto-gellhorn/"}, {"id": "praias-vice-city", "cat": "marco", "x": 0.8687, "y": 0.5192, "ficha": "praia", "url": "../../es/mapa/praias-vice-city/"}, {"id": "pantanos", "cat": "marco", "x": 0.4774, "y": 0.6776, "ficha": "pantano", "url": "../../es/mapa/pantanos/"}, {"id": "vice-beach", "cat": "marco", "x": 0.8317, "y": 0.5064, "nome": "Vice Beach", "real": "Miami Beach", "desc": "La isla barrera al otro lado de la bahía, frente al centro: una malla densa de calles, el paseo frente al mar y un parque alargado en el medio. La postal de Vice City.", "tags": ["Vice City"], "url": "../../es/mapa/vice-beach/"}, {"id": "centro-vice-city", "cat": "marco", "x": 0.6717, "y": 0.5684, "nome": "Centro de Vice City", "real": "Downtown Miami", "desc": "La malla de calles más cerrada del mapa, en la orilla oeste de la bahía, cruzada por la autopista que atraviesa la ciudad de norte a sur.", "tags": ["Vice City", "Nombre descriptivo"], "url": "../../es/mapa/centro-vice-city/"}, {"id": "area-portuaria", "cat": "marco", "x": 0.7873, "y": 0.5766, "nome": "Isla portuaria", "real": "PortMiami (Dodge Island)", "desc": "Isla artificial en la bahía, unida al centro por un puente, con muelles y grandes naves de terminal.", "tags": ["Vice City", "Nombre descriptivo"], "url": "../../es/mapa/area-portuaria/"}, {"id": "watson-bay", "cat": "marco", "x": 0.3858, "y": 0.715, "nome": "Watson Bay", "desc": "Pueblo costero en el borde oeste de los Grassrivers, con una pequeña malla de calles frente al agua.", "tags": ["Grassrivers"], "url": "../../es/mapa/watson-bay/"}, {"id": "key-lento", "cat": "marco", "x": 0.5568, "y": 0.8488, "nome": "Key Lento", "real": "Key Largo", "desc": "El mayor pueblo de los Leonida Keys: una isla larga y estrecha llena de calles, unida al continente por la autopista que baja del norte.", "tags": ["Leonida Keys"], "url": "../../es/mapa/key-lento/"}, {"id": "aeroporto-keys", "cat": "marco", "x": 0.2565, "y": 0.8765, "nome": "Aeropuerto de los Keys", "desc": "Una isla casi toda ocupada por dos pistas cruzadas, en la punta oeste de los Keys.", "tags": ["Leonida Keys", "Nombre descriptivo"], "url": "../../es/mapa/aeroporto-keys/"}, {"id": "ponte-keys", "cat": "marco", "x": 0.3509, "y": 0.9, "nome": "Puente sobre el mar de los Keys", "real": "Seven Mile Bridge", "desc": "El largo puente que salta de isla en isla entre Key Lento y la isla del aeropuerto.", "tags": ["Leonida Keys", "Nombre descriptivo"], "url": "../../es/mapa/ponte-keys/"}, {"id": "aerodromo-gellhorn", "cat": "marco", "x": 0.2435, "y": 0.386, "nome": "Pista de aterrizaje de Port Gellhorn", "desc": "Una sola pista en la península al sur de Port Gellhorn.", "tags": ["Port Gellhorn", "Nombre descriptivo"], "url": "../../es/mapa/aerodromo-gellhorn/"}, {"id": "industria-ambrosia", "cat": "marco", "x": 0.5417, "y": 0.3742, "nome": "Zona industrial de Ambrosia", "desc": "Hileras de naves grandes a lo largo del ferrocarril, justo al sur del centro de Ambrosia, entre el río y el lago.", "tags": ["Ambrosia", "Nombre descriptivo"], "url": "../../es/mapa/industria-ambrosia/"}, {"id": "st-joseph", "cat": "marco", "x": 0.6922, "y": 0.2153, "nome": "St. Joseph", "desc": "Pueblo pequeño en la costa noreste, junto a la playa. El nombre es una suposición de la comunidad, no confirmada por Rockstar.", "tags": ["Nombre especulativo"], "url": "../../es/mapa/st-joseph/"}, {"id": "redhill", "cat": "marco", "x": 0.4747, "y": 0.1779, "nome": "Redhill", "desc": "Un punto junto a la autopista del norte, al pie del Monte Kalaga. El nombre es una suposición de la comunidad, no confirmada por Rockstar.", "tags": ["Monte Kalaga", "Nombre especulativo"], "url": "../../es/mapa/redhill/"}], "rotulos": [{"id": "lago-leonida", "tipo": "agua", "x": 0.6042, "y": 0.3099, "nome": "Lago Leonida"}], "textos": {"video": "Ver la escena en el tráiler ↗", "copiar": "Copiar enlace de este lugar", "pagina": "Ver página del lugar →", "copiado": "¡Enlace copiado!", "nada": "No se encontraron lugares.", "editar": "Modo edición: haz clic en el mapa para copiar la posición (x, y)", "quadrante": "Cuadrante"}}</script>
   <p class="mapa-nota">El mapa es una reconstrucción hecha por fans a partir de material oficial publicado por Rockstar; carreteras, distancias y lugares pueden cambiar en el juego final. Los puntos y descripciones destacados son de VICEVERSA.</p>
 
   <div class="locais" id="locais">
     <h3>Todos los lugares del mapa</h3>
     <p>Elige un lugar para ver dónde está, su inspiración en la vida real y qué hay cerca.</p>
+    <p class="local__todos"><a href="../../es/guias/mapa-gta-6-regiones-leonida/">Lee nuestra guía de Leonida, región por región →</a></p>
     <ul class="locais__grade">
       <li><a class="local-card local-card--regiao" href="../../es/mapa/ambrosia/"><span class="local-card__cat">Región</span><strong>Ambrosia</strong><small>Interior industrial</small></a></li>
       <li><a class="local-card local-card--regiao" href="../../es/mapa/grassrivers/"><span class="local-card__cat">Región</span><strong>Grassrivers</strong><small>Everglades</small></a></li>
@@ -1665,6 +1706,7 @@
     </a>
   </div>
   <nav class="footer-links" aria-label="Institucional">
+    <a href="../../es/guias/">Guías</a>
     <a href="../../es/sobre/">Sobre nosotros</a>
     <a href="../../es/contacto/">Contacto</a>
     <a href="../../es/politica-editorial/">Política editorial</a>
