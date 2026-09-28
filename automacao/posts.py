@@ -330,7 +330,9 @@ def main():
     itens = []
     for issue in issues:
         campos = ler_post(issue.get("body"))
-        texto = campos["texto"]
+        # a página da notícia usa a matéria completa, quando existe; o texto
+        # curto do post fica só para o X (botao-x.py)
+        texto = campos["materia"] or campos["texto"]
         if not texto:
             log(f"Issue #{issue['number']} sem corpo; pulando.")
             continue
@@ -348,6 +350,8 @@ def main():
             "titulo": (issue.get("title") or "").strip(),
             "texto": texto,          # versão em texto puro (reserva)
         }
+        if campos["fontes"]:
+            item["fontes"] = campos["fontes"]
         status = status_da_issue(issue, campos)
         if status:
             item["status"] = status

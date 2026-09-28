@@ -1,17 +1,16 @@
-<main class="artigo local" data-local="{{__local_id__}}">
-  <div class="local__trilha" role="navigation" aria-label="{{lc11}}">
-    <a href="{{__map__}}">{{lc11}}</a><span aria-hidden="true">›</span><span>{{__local_nome__}}</span>
+<main class="artigo guia" data-guia="{{__guia_id__}}">
+  <div class="local__trilha" role="navigation" aria-label="{{gd00}}">
+    <a href="{{__guides__}}">{{gd00}}</a><span aria-hidden="true">›</span><span>{{__guia_curto__}}</span>
   </div>
   <article>
-    <p class="artigo__meta">{{__local_cat__}}{{__local_quadrante__}}</p>
-    <h1>{{__local_titulo__}}</h1>
-{{__local_figura__}}
-{{__local_real__}}
+    <p class="artigo__meta"><span class="selo selo--guia">{{gd15}}</span><span class="artigo__autor">{{gd01}} <a href="{{__link_sobre__}}#editor" rel="author">{{__autor__}}</a></span><span>{{gd02}} <time datetime="{{__guia_iso__}}">{{__guia_data__}}</time></span><span class="artigo__leitura">{{__guia_leitura__}}</span></p>
+    <h1>{{__guia_titulo__}}</h1>
+    <p class="guia__lead">{{__guia_lead__}}</p>
+{{__guia_indice__}}
     <div class="artigo__corpo">
-{{__local_desc__}}
+{{__guia_html__}}
     </div>
-{{__local_tags__}}
-{{__local_video__}}
+    <aside class="guia__autor" id="autor"><strong>{{__autor__}}</strong> — {{gd16}}</aside>
   </article>
 
   <div class="compartilhar">
@@ -24,14 +23,10 @@
     <button type="button" data-compartilhar="{{__canonical__}}" aria-label="{{ar03}}">↗</button>
   </div>
 
-{{__local_noticias__}}
-
-  <div class="local__mais">
-    <h2>{{lc04}}</h2>
-    <ul class="locais__grade">
-{{__local_perto__}}
+  <section class="artigo__mais" style="padding:0 0 4rem">
+    <div class="secao__cabeca"><h2>{{gd05}}</h2></div>
+    <ul class="guias__lista">
+{{__guia_outros__}}
     </ul>
-    <p class="local__todos"><a href="{{__map__}}#locais">{{lc07}} →</a></p>
-    <p class="local__todos"><a href="{{__guia_mapa__}}">{{gd17}}</a></p>
-  </div>
+  </section>
 </main>

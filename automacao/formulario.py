@@ -27,6 +27,7 @@ VAZIO = re.compile(r"^\s*_No response_\s*$", re.M)
 ROTULOS = re.compile(
     r"^###[ \t]+("
     r"texto do post|link do post no x|status da not[ií]cia"
+    r"|mat[eé]ria completa|fontes?\b"
     r"|t[ií]tulo em portugu[eê]s|texto em portugu[eê]s"
     r"|t[ií]tulo e[nm] espa[nñ](?:ol|hol)|texto e[nm] espa[nñ](?:ol|hol)"
     r")[^\n]*$", re.I | re.M)
@@ -82,7 +83,8 @@ def ler_status(valor):
 def ler_post(corpo):
     """Extrai os campos do post já limpos.
 
-    Devolve dict com: texto, link, status, titulo_pt, texto_pt, titulo_es, texto_es.
+    Devolve dict com: texto, materia, fontes, link, status, titulo_pt, texto_pt,
+    titulo_es, texto_es.
     """
     s = ler_secoes(corpo)
     texto = campo(s, "texto do post")
@@ -101,8 +103,15 @@ def ler_post(corpo):
     if not re.match(r"^https?://(www\.)?(x|twitter)\.com/", link or "", re.I):
         link = ""
 
+    # matéria completa (site): se vier preenchida, é ela que vai para a página da
+    # notícia; o "Texto do post" continua sendo o texto curto do X
+    materia = campo(s, "materia completa").strip()
+    fontes = [u.rstrip(").,;") for u in re.findall(r"https?://[^\s<>\"']+", campo(s, "fonte"))]
+
     return {
         "texto": texto,
+        "materia": materia,
+        "fontes": fontes,
         "link": link,
         "status": ler_status(campo(s, "status da noticia")),
         "titulo_pt": campo(s, "titulo em portugues").strip(),

@@ -17,7 +17,8 @@ imagens_og.py        desenha a imagem de compartilhamento de cada notícia (usa 
 fontes/              fontes usadas nessas imagens (Bebas Neue e IBM Plex Mono, licença OFL)
 partes/cabeca.html   <head>, CSS, ticker, barra de anúncio e a navbar
 partes/rodape.html   rodapé e todo o JavaScript
-paginas/*.html       o miolo de cada página (home, noticias, mapa)
+paginas/*.html       o miolo de cada página (home, noticias, mapa, guias, guia)
+guias/               guias longos e permanentes (conteúdo próprio, 3 idiomas)
 idiomas/*.json       TODOS os textos, um arquivo por idioma
 *.png                imagens de origem (capas do ebook e capas de compartilhamento)
 gerador-capas-ebook.py  refaz as capas traduzidas a partir de ebook-capa-original.png
@@ -154,6 +155,30 @@ só para posts errados, nunca para "limpar" os antigos: o link deixaria de funci
 **Depois de publicar, uma vez só:** no Google Search Console envie `sitemap.xml` e
 `news-sitemap.xml`; no Google Publisher Center (publishercenter.google.com)
 cadastre o site e aponte os três `feed.xml`.
+
+## Qualidade de conteúdo (Google AdSense)
+
+O AdSense recusou o site por **"conteúdo de baixo valor"**. O gerador agora trata disso
+sozinho, e estas regras valem para tudo o que for publicado daqui em diante:
+
+- **Guias** (`guias/`): conteúdo próprio, longo e com fontes, nos três idiomas, em
+  `/guides/`, `/pt/guias/` e `/es/guias/`. A lista fica em `guias/guias.json`; o texto
+  de cada guia em `guias/<idioma>/<id>.html`. Dentro do texto, `{{raiz}}` vira o
+  caminho até a raiz do site e `{{guia:<id>}}` vira o link de outro guia no mesmo
+  idioma. Ao atualizar um guia, mude `atualizado` no `guias.json`.
+- **Páginas finas ficam fora do Google.** Notícia com menos de `MIN_PALAVRAS_NOTICIA`
+  (120) palavras e local do mapa com descrição menor que `MIN_PALAVRAS_LOCAL` continuam
+  no ar, mas recebem `noindex` e saem do `sitemap.xml`. O `montar.py` lista quais são a
+  cada geração. Amplie o texto (editando a Issue) e ela volta ao Google sozinha.
+- **Formulário "Novo post":** o "Texto do post" continua sendo o texto curto do X; o
+  novo campo **Matéria completa** é a versão do site (mire em 250+ palavras: contexto,
+  o que foi confirmado, o que muda para o jogador, o que ainda não se sabe). O campo
+  **Fontes** (obrigatório) aparece no fim da matéria.
+- **Autoria:** notícias e guias são assinados por `AUTOR` (Mike Pagani), com link para
+  a seção "Quem faz o VICEVERSA" da página Sobre; o e-mail `EMAIL_CONTATO` aparece em
+  Sobre e Contato. Os dois ficam no começo do `montar.py`.
+- Títulos que dizem o fato ("Stephen Root confirma que dubla Brian Heder em GTA 6")
+  em vez de "Confirmed!" — o Google e o revisor do AdSense leem o título primeiro.
 
 ## Eventos do Google Analytics
 

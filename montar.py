@@ -74,6 +74,7 @@ PAGINAS_SITE = {
     "home":        ("home.html",          {"en": "",                 "pt-BR": "",                   "es": ""}),
     "noticias":    ("noticias.html",      {"en": "news",             "pt-BR": "noticias",           "es": "noticias"}),
     "mapa":        ("mapa.html",          {"en": "map",              "pt-BR": "mapa",               "es": "mapa"}),
+    "guias":       ("guias.html",         {"en": "guides",           "pt-BR": "guias",              "es": "guias"}),
     "sobre":       ("institucional.html", {"en": "about",            "pt-BR": "sobre",              "es": "sobre"}),
     "contato":     ("institucional.html", {"en": "contact",          "pt-BR": "contato",            "es": "contacto"}),
     "privacidade": ("institucional.html", {"en": "privacy",          "pt-BR": "privacidade",        "es": "privacidad"}),
@@ -103,6 +104,21 @@ PREVIA_MAPA = RAIZ / "mapa" / "leonida-noite.webp"
 ZOOM_LOCAL = {"regiao": 820, "marco": 430}     # largura do recorte, em unidades do mapa
 CORES_LOCAL = {"regiao": (255, 61, 138), "marco": (47, 230, 200),
                "trailer": (255, 138, 61), "real": (255, 217, 138)}
+
+# ── autoria e qualidade (Google AdSense / E-E-A-T) ──────────────────
+# editor responsável: aparece como autor nas notícias, nos guias e nos dados
+# estruturados, e na página Sobre
+AUTOR = "Mike Pagani"
+EMAIL_CONTATO = "vi.versavv@gmail.com"
+# páginas curtas demais são "conteúdo de baixo valor" para o Google. Abaixo
+# destes mínimos a página continua no ar (o link não quebra), mas sai do
+# sitemap e ganha <meta name="robots" content="noindex, follow">. Quando o texto
+# for ampliado (editando a Issue ou o pontos.json), ela volta sozinha ao Google.
+MIN_PALAVRAS_NOTICIA = 120
+MIN_PALAVRAS_LOCAL = 120
+ROBOTS_PADRAO = "index, follow, max-image-preview:large"
+ROBOTS_FINA = "noindex, follow"
+PASTA_GUIAS = RAIZ / "guias"         # guias longos e permanentes (conteúdo próprio)
 
 LANCAMENTO = datetime(2026, 11, 19, 3, 0, tzinfo=timezone.utc)   # 19/11 00:00 em Brasília
 CARDS_NOTICIAS = 20     # cards completos na página de notícias; o resto vai para o arquivo
@@ -281,7 +297,7 @@ def carregar_posts():
         imagem = primeira_imagem(html_en) or imagem_absoluta(p.get("imagem"))
         capa_en, resto_en = separar_capa(html_en)
         versoes = {"en": {"titulo": titulo, "html": preparar_html(resto_en), "capa": capa_en,
-                          "leitura": minutos_leitura(html_en),
+                          "leitura": minutos_leitura(html_en), "palavras": len(corpo.split()),
                           "resumo": resumo(corpo), "descricao": resumo(corpo, 155)}}
 
         for cod, suf in SUFIXO_POST.items():
@@ -295,7 +311,7 @@ def carregar_posts():
             c_tr = texto_puro(h_tr)
             capa_tr, resto_tr = separar_capa(h_tr)
             versoes[cod] = {"titulo": t_tr, "html": preparar_html(resto_tr), "capa": capa_tr,
-                            "leitura": minutos_leitura(h_tr),
+                            "leitura": minutos_leitura(h_tr), "palavras": len(c_tr.split()),
                             "resumo": resumo(c_tr), "descricao": resumo(c_tr, 155)}
 
         link = p.get("link") or ""
@@ -306,10 +322,20 @@ def carregar_posts():
             "imagem": imagem,
             "link_x": link if re.match(r"^https?://(www\.)?(x|twitter)\.com/", link) else None,
             "status": p.get("status") if p.get("status") in SELOS else "",
+            "fontes": [f for f in (p.get("fontes") or []) if re.match(r"^https?://", f or "")],
             "versoes": versoes,
         })
     posts.sort(key=lambda q: q["quando"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
     return posts
+
+
+def post_fino(post, cod):
+    """Notícia curta demais para o Google (fica fora do índice e do sitemap)."""
+    return post["versoes"][cod]["palavras"] < MIN_PALAVRAS_NOTICIA
+
+
+def local_fino(local):
+    return len((local.get("desc") or "").split()) < MIN_PALAVRAS_LOCAL
 
 
 def versao(post, cod):
@@ -521,6 +547,21 @@ def organizacao(cod):
             "logo": {"@type": "ImageObject", "url": DOMINIO + "/og-image-en.png"}}
 
 
+def autor_jsonld(cod):
+    return {"@type": "Person", "name": AUTOR, "url": url(cod, "sobre") + "#editor"}
+
+
+def fontes_html(fontes, textos):
+    """Lista "Fontes" no fim da notícia (campo Fonte do formulário)."""
+    if not fontes:
+        return ""
+    itens = "".join(
+        f'<li><a href="{esc(f)}" target="_blank" rel="noopener nofollow">'
+        f'{esc(urllib.parse.urlsplit(f).netloc.removeprefix("www.") or f)}</a></li>' for f in fontes)
+    return (f'    <div class="artigo__fontes"><p>{esc(textos.get("gd04", ""))}</p>'
+            f'<ul>{itens}</ul></div>')
+
+
 def jsonld_artigo(post, cod, textos, imagem_og=None):
     _, v = versao(post, cod)
     endereco = url_post(post, cod)
@@ -532,7 +573,7 @@ def jsonld_artigo(post, cod, textos, imagem_og=None):
         "mainEntityOfPage": endereco,
         "url": endereco,
         "inLanguage": IDIOMAS[cod][1],
-        "author": organizacao(cod),
+        "author": autor_jsonld(cod),
         "publisher": organizacao(cod),
         "image": [i for i in (post["imagem"], imagem_og) if i] or [DOMINIO + "/og-image-en.png"],
     }
@@ -617,6 +658,7 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
         "__ogimage_url__": DOMINIO + "/og-image-%s.png" % cod.split("-")[0],
         "__hreflang__": bloco_hreflang(alternativas),
         "__jsonld_extra__": "",
+        "__robots__": ROBOTS_PADRAO,
     }
     padrao.update({k: v for k, v in extras.items() if k in padrao})
 
@@ -641,6 +683,10 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
             .replace("{{__home__}}", (prefixo + (casa + "/" if casa else "")) or "./")
             .replace("{{__news__}}", prefixo + caminho(cod, "noticias") + "/")
             .replace("{{__map__}}", prefixo + caminho(cod, "mapa") + "/")
+            .replace("{{__guides__}}", prefixo + caminho(cod, "guias") + "/")
+            .replace("{{__at_guides__}}", atual["guias"])
+            .replace("{{__autor__}}", esc(AUTOR))
+            .replace("{{__email__}}", esc(EMAIL_CONTATO))
             .replace("{{__at_home__}}", atual["home"])
             .replace("{{__at_news__}}", atual["noticias"])
             .replace("{{__at_map__}}", atual["mapa"]))
@@ -670,18 +716,28 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
     return faltando
 
 
+_GUIAS = []     # preenchido em montar(): usado no link para o guia do mapa
+
+
+def link_guia_mapa(pref, cod):
+    guia = next((g for g in _GUIAS if g["id"] == "mapa-leonida"), None)
+    return f"{pref}{rel_guia(guia, cod)}/" if guia else f'{pref}{caminho(cod, "guias")}/'
+
+
 def extras_comuns(posts, cod, textos):
     """Faixa do topo e barra "última notícia", presentes em todas as páginas."""
     if not posts:
         return {"__ticker_posts__": "",
                 "__ultima_titulo__": textos.get("t009", ""),
-                "__ultima_link__": lambda pref, cod=cod: pref + caminho(cod, "noticias") + "/"}
+                "__ultima_link__": lambda pref, cod=cod: pref + caminho(cod, "noticias") + "/",
+                "__guia_mapa__": lambda pref, cod=cod: link_guia_mapa(pref, cod)}
     ultima = posts[0]
     return {
         "__ticker_posts__": "\n    ".join(
             f"<span>◆ {esc(versao(p, cod)[1]['titulo'])}</span>" for p in posts[:3]),
         "__ultima_titulo__": esc(versao(ultima, cod)[1]["titulo"]),
         "__ultima_link__": lambda pref, ultima=ultima, cod=cod: link_post(ultima, cod, pref),
+        "__guia_mapa__": lambda pref, cod=cod: link_guia_mapa(pref, cod),
     }
 
 
@@ -738,6 +794,8 @@ def gerar_news_sitemap(posts):
         if not post["quando"] or post["quando"] < limite:
             continue
         for cod in post["versoes"]:
+            if post_fino(post, cod):
+                continue
             v = post["versoes"][cod]
             urls.append(f"""  <url>
     <loc>{url_post(post, cod)}</loc>
@@ -753,7 +811,7 @@ def gerar_news_sitemap(posts):
             + "\n".join(urls) + ("\n" if urls else "") + "</urlset>\n")
 
 
-def gerar_sitemap(posts, hoje, locais_por_cod=None):
+def gerar_sitemap(posts, hoje, locais_por_cod=None, guias=()):
     ultima = posts[0]["quando"].strftime("%Y-%m-%d") if posts and posts[0]["quando"] else hoje
     urls = ""
     for cod in IDIOMAS:
@@ -768,14 +826,26 @@ def gerar_sitemap(posts, hoje, locais_por_cod=None):
         mod = mod.strftime("%Y-%m-%d") if mod else hoje
         alternativas = alternativas_post(post)
         for cod in post["versoes"]:
+            if post_fino(post, cod):
+                continue
             alt = ""
             if len(alternativas) > 1:
                 alt = "".join(
                     f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url_rel(r)}"/>'
                     for o, r in alternativas.items())
             urls += f"\n  <url><loc>{url_post(post, cod)}</loc><lastmod>{mod}</lastmod>{alt}\n  </url>"
+    for guia in guias:
+        mod = guia["atualizado"].strftime("%Y-%m-%d") if guia["atualizado"] else hoje
+        alternativas = {c: rel_guia(guia, c) for c in guia["versoes"]}
+        for cod in guia["versoes"]:
+            alt = "".join(
+                f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url_rel(r)}"/>'
+                for o, r in alternativas.items()) if len(alternativas) > 1 else ""
+            urls += f"\n  <url><loc>{url_rel(rel_guia(guia, cod))}</loc><lastmod>{mod}</lastmod>{alt}\n  </url>"
     for cod, locais in (locais_por_cod or {}).items():
         for local in locais:
+            if local_fino(local):
+                continue
             alt = "".join(
                 f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url_rel(rel_local(o, local))}"/>'
                 for o in IDIOMAS if o in locais_por_cod)
@@ -1050,6 +1120,112 @@ def extras_local(local, locais, posts, mapa, cod, textos, capa, imagem_og):
     }, titulo
 
 
+# ── guias (conteúdo permanente, escrito pela redação) ───────────────
+# guias/guias.json lista os guias; o texto de cada um fica em
+# guias/<idioma>/<id>.html. Dentro do texto:
+#   {{raiz}}            vira o caminho até a raiz do site (links internos)
+#   {{guia:<id>}}       vira o link do guia <id> no mesmo idioma
+#   <h2 id="...">       vira item do índice "Neste guia"
+def carregar_guias():
+    arq = PASTA_GUIAS / "guias.json"
+    if not arq.exists():
+        return []
+    try:
+        lista = json.loads(arq.read_text(encoding="utf-8"))
+    except ValueError as exc:
+        print(f"  ! guias/guias.json inválido: {exc}")
+        return []
+    guias = []
+    for g in lista:
+        versoes = {}
+        for cod in IDIOMAS:
+            fonte = PASTA_GUIAS / cod / f'{g["id"]}.html'
+            if not fonte.exists() or cod not in (g.get("titulo") or {}):
+                continue
+            corpo = fonte.read_text(encoding="utf-8")
+            corpo = re.sub(r"<h2>(.*?)</h2>",
+                           lambda m: f'<h2 id="{slugificar(texto_puro(m.group(1)), 50)}">{m.group(1)}</h2>', corpo)
+            puro = texto_puro(corpo)
+            versoes[cod] = {
+                "titulo": g["titulo"][cod], "curto": (g.get("curto") or {}).get(cod, g["titulo"][cod]),
+                "descricao": g["descricao"][cod], "slug": g["slug"][cod], "html": corpo,
+                "palavras": len(puro.split()), "leitura": max(1, math.ceil(len(puro.split()) / 220)),
+            }
+        if "en" not in versoes:
+            continue
+        guias.append({
+            "id": g["id"],
+            "publicado": ler_data(g.get("publicado"), "%Y-%m-%d"),
+            "atualizado": ler_data(g.get("atualizado") or g.get("publicado"), "%Y-%m-%d"),
+            "versoes": versoes,
+        })
+    return guias
+
+
+def versao_guia(guia, cod):
+    return (cod, guia["versoes"][cod]) if cod in guia["versoes"] else ("en", guia["versoes"]["en"])
+
+
+def rel_guia(guia, cod):
+    efetivo, v = versao_guia(guia, cod)
+    return f'{caminho(efetivo, "guias")}/{v["slug"]}'
+
+
+def resolver_links_guia(html, prefixo, cod, guias):
+    por_id = {g["id"]: g for g in guias}
+
+    def trocar(m):
+        g = por_id.get(m.group(1))
+        return f"{prefixo}{rel_guia(g, cod)}/" if g else f'{prefixo}{caminho(cod, "guias")}/'
+    html = re.sub(r"\{\{guia:([a-z0-9-]+)\}\}", trocar, html)
+    return html.replace("{{raiz}}", prefixo)
+
+
+def indice_guia(html, textos):
+    itens = re.findall(r'<h2 id="([^"]+)">(.*?)</h2>', html)
+    if len(itens) < 3:
+        return ""
+    lis = "".join(f'<li><a href="#{i}">{t}</a></li>' for i, t in itens)
+    return (f'    <div class="guia__indice" role="navigation" aria-label="{esc(textos.get("gd03", ""))}">'
+            f'<p>{esc(textos.get("gd03", ""))}</p><ol>{lis}</ol></div>')
+
+
+def cartao_guia(guia, prefixo, cod, textos):
+    efetivo, v = versao_guia(guia, cod)
+    lang = f' lang="{IDIOMAS[efetivo][1]}"' if efetivo != cod else ""
+    data = data_legivel(guia["atualizado"], cod)
+    return (f'    <li{lang}><a class="guia-card" href="{prefixo}{rel_guia(guia, cod)}/">'
+            f'<span class="guia-card__meta">{esc(textos.get("gd15", ""))} · {v["leitura"]} '
+            f'{esc(textos.get("ar10", ""))} · {esc(textos.get("gd02", ""))} {data}</span>'
+            f'<strong>{esc(v["titulo"])}</strong><p>{esc(v["descricao"])}</p>'
+            f'<span class="guia-card__ler">{esc(textos.get("gd09", ""))}</span></a></li>')
+
+
+def jsonld_guia(guia, cod, textos):
+    _, v = versao_guia(guia, cod)
+    endereco = url_rel(rel_guia(guia, cod))
+    obj = {
+        "@context": "https://schema.org", "@type": "Article",
+        "headline": v["titulo"][:110], "description": v["descricao"],
+        "mainEntityOfPage": endereco, "url": endereco, "inLanguage": IDIOMAS[cod][1],
+        "author": autor_jsonld(cod), "publisher": organizacao(cod),
+        "image": [DOMINIO + "/og-image-%s.png" % cod.split("-")[0]],
+        "wordCount": v["palavras"],
+    }
+    if guia["publicado"]:
+        obj["datePublished"] = guia["publicado"].date().isoformat()
+    if guia["atualizado"]:
+        obj["dateModified"] = guia["atualizado"].date().isoformat()
+    migalhas = {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": NOME_SITE, "item": url(cod, "home")},
+            {"@type": "ListItem", "position": 2, "name": textos.get("gd00", "Guides"), "item": url(cod, "guias")},
+            {"@type": "ListItem", "position": 3, "name": v["titulo"], "item": endereco},
+        ]}
+    return jsonld(obj) + "\n" + jsonld(migalhas)
+
+
 # ── o gerador ───────────────────────────────────────────────────────
 def montar():
     cabeca = (PARTES / "cabeca.html").read_text(encoding="utf-8")
@@ -1061,6 +1237,9 @@ def montar():
     imagens_locais = {}         # id -> (capa, base da arte): o recorte é o mesmo nos 3 idiomas
     paginas_local = 0
     posts = carregar_posts()
+    guias = carregar_guias()
+    _GUIAS[:] = guias
+    paginas_guia = 0
     mapa = carregar_mapa()
     dias, horas, minutos = contagem()
     hoje = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -1108,6 +1287,8 @@ def montar():
                 extras["__cd_horas__"] = horas
                 extras["__cd_min__"] = minutos
                 extras["__jsonld_extra__"] = jsonld_faq(textos)
+                extras["__guias_home__"] = lambda pref, cod=cod, textos=textos: "\n".join(
+                    cartao_guia(g, pref, cod, textos) for g in guias[:6])
                 extras["__ultimas_home__"] = lambda pref, cod=cod, textos=textos: (
                     "\n".join(cartao_home(p, pref, cod, textos, destaque=(i == 0))
                               for i, p in enumerate(posts[:4]))
@@ -1124,7 +1305,18 @@ def montar():
                 extras["__mapa_config__"] = (
                     lambda pref, cod=cod, textos=textos, ids=ids_locais: config_mapa(mapa, cod, textos, pref, ids)
                     if mapa else "null")
-            elif pagina in INSTITUCIONAIS:
+            elif pagina == "guias":
+                extras["__guias_lista__"] = lambda pref, cod=cod, textos=textos: "\n".join(
+                    cartao_guia(g, pref, cod, textos) for g in guias)
+            if pagina in ("noticias", "mapa", "guias") and textos.get(f"pg_{pagina}_t"):
+                # título e descrição próprios (antes eram iguais aos da home)
+                titulo_pg, desc_pg = textos[f"pg_{pagina}_t"], textos.get(f"pg_{pagina}_d", "")
+                textos_pagina = dict(textos)
+                textos_pagina.update({
+                    "t001": esc(titulo_pg), "og_title": esc(titulo_pg), "tw_title": esc(titulo_pg),
+                    "meta_desc": esc(desc_pg), "og_desc": esc(desc_pg), "tw_desc": esc(desc_pg),
+                })
+            if pagina in INSTITUCIONAIS:
                 fonte = PASTA_INSTITUCIONAL / cod / f"{pagina}.html"
                 if not fonte.exists():
                     fonte = PASTA_INSTITUCIONAL / "pt-BR" / f"{pagina}.html"
@@ -1191,6 +1383,8 @@ def montar():
                 "__art_seguinte__": lambda pref, seguinte=seguinte, cod=cod, textos=textos: seguinte_html(
                     seguinte, pref, cod, textos),
                 "__canais__": botoes_canais(textos, "fim"),
+                "__art_fontes__": fontes_html(post.get("fontes"), textos),
+                "__robots__": ROBOTS_FINA if post_fino(post, cod) else ROBOTS_PADRAO,
                 # conteúdo do post: sempre o último a ser trocado
                 "__art_html__": inserir_no_meio(v["html"], meio_html(textos)) if meio_html(textos) else v["html"],
             })
@@ -1198,6 +1392,46 @@ def montar():
                           alternativas=alternativas_post(post))
             total += 1
             paginas_post += 1
+
+        # ── uma página por guia ──
+        corpo_guia = (PAGINAS / "guia.html").read_text(encoding="utf-8")
+        for guia in guias:
+            if cod not in guia["versoes"]:
+                continue
+            v = guia["versoes"][cod]
+            rel = rel_guia(guia, cod)
+            endereco = url_rel(rel)
+            outros = [g for g in guias if g is not guia]
+            extras = extras_comuns(posts, cod, textos)
+            textos_guia = dict(textos)
+            textos_guia.update({
+                "t001": esc(f"{v['titulo']} | {NOME_SITE}"),
+                "meta_desc": esc(v["descricao"]), "og_desc": esc(v["descricao"]), "tw_desc": esc(v["descricao"]),
+                "og_title": esc(v["titulo"]), "tw_title": esc(v["titulo"]), "og_alt": esc(v["titulo"]),
+            })
+            extras.update({
+                "__ogtype__": "article",
+                "__jsonld_extra__": jsonld_guia(guia, cod, textos),
+                "__guia_id__": esc(guia["id"]),
+                "__guia_curto__": esc(v["curto"]),
+                "__guia_titulo__": esc(v["titulo"]),
+                "__guia_lead__": esc(v["descricao"]),
+                "__guia_iso__": guia["atualizado"].date().isoformat() if guia["atualizado"] else "",
+                "__guia_data__": data_legivel(guia["atualizado"], cod),
+                "__guia_leitura__": f'{v["leitura"]} {esc(textos.get("ar10", ""))}',
+                "__guia_indice__": indice_guia(v["html"], textos),
+                "__guia_outros__": lambda pref, outros=outros, cod=cod, textos=textos: "\n".join(
+                    cartao_guia(g, pref, cod, textos) for g in outros),
+                "__art_share_url__": urllib.parse.quote(endereco, safe=""),
+                "__art_share_titulo__": urllib.parse.quote(v["titulo"]),
+                "__art_share_txt__": urllib.parse.quote(f"{v['titulo']} {endereco}"),
+                # texto do guia: sempre o último a ser trocado
+                "__guia_html__": lambda pref, html=v["html"], cod=cod: resolver_links_guia(html, pref, cod, guias),
+            })
+            montar_pagina(cabeca, rodape, corpo_guia, base, textos_guia, cod, "guias", rel, extras,
+                          alternativas={c: rel_guia(guia, c) for c in guia["versoes"]})
+            total += 1
+            paginas_guia += 1
 
         # ── uma página por local do mapa ──
         for local in locais:
@@ -1209,6 +1443,8 @@ def montar():
             extras = extras_comuns(posts, cod, textos)
             novos, titulo = extras_local(local, locais, posts, mapa, cod, textos, capa, imagem_og)
             extras.update(novos)
+            if local_fino(local):
+                extras["__robots__"] = ROBOTS_FINA
             descricao = resumo(local["desc"], 155) if local["desc"] else \
                 textos.get("lc02", "").replace("{nome}", local["nome"])
             textos_local = dict(textos)
@@ -1233,6 +1469,19 @@ def montar():
         print(f"  ✓ {paginas_post} página(s) de notícia ({len(posts)} em inglês, {traduzidas} traduzida(s))")
         if og_geradas:
             print(f"  ✓ og/ ({og_geradas} imagem(ns) de compartilhamento)")
+    if paginas_guia:
+        print(f"  ✓ {paginas_guia} página(s) de guia")
+    finas = [(p["versoes"][c]["palavras"], c, p["versoes"][c]["titulo"])
+             for p in posts for c in p["versoes"] if post_fino(p, c)]
+    if finas:
+        print(f"  ! {len(finas)} notícia(s) com menos de {MIN_PALAVRAS_NOTICIA} palavras ficaram FORA do Google "
+              "(noindex + fora do sitemap). Amplie o texto na Issue para elas voltarem:")
+        for palavras, c, titulo in finas:
+            print(f"      - [{c}] {titulo} ({palavras} palavras)")
+    locais_finos = sum(1 for ls in locais_por_cod.values() for l in ls if local_fino(l))
+    if locais_finos:
+        print(f"  ! {locais_finos} página(s) de local do mapa com menos de {MIN_PALAVRAS_LOCAL} palavras de "
+              "descrição ficaram fora do Google (noindex). O guia do mapa cobre essas regiões.")
     if paginas_local:
         print(f"  ✓ {paginas_local} página(s) de locais do mapa")
         if not PREVIA_MAPA.exists():
@@ -1263,7 +1512,7 @@ def montar():
         print(f"  ✓ midia/ ({len(list(midia.iterdir()))} arquivo(s))")
 
     # sitemaps: o geral (com lastmod) e o do Google Notícias (últimas 48 h)
-    (SAIDA / "sitemap.xml").write_text(gerar_sitemap(posts, hoje, locais_por_cod), encoding="utf-8")
+    (SAIDA / "sitemap.xml").write_text(gerar_sitemap(posts, hoje, locais_por_cod, guias), encoding="utf-8")
     (SAIDA / "news-sitemap.xml").write_text(gerar_news_sitemap(posts), encoding="utf-8")
     (SAIDA / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\n\nSitemap: {DOMINIO}/sitemap.xml\n"
