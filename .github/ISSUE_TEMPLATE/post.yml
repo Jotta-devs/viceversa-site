@@ -18,6 +18,13 @@ body:
         O endereço da página é criado com a data, o título e o começo do texto.
         Evite mudar o título depois de divulgar o link.
 
+        **Qualidade (Google AdSense):** notícia com menos de 120 palavras fica
+        FORA do Google (noindex) — o Google trata páginas curtas como "conteúdo
+        de baixo valor" e isso bloqueia a aprovação de anúncios. Use o campo
+        **Matéria completa** para escrever a versão do site: contexto, o que foi
+        anunciado, o que isso muda para o jogador e o que ainda não se sabe
+        (ideal: 250 palavras ou mais). Sempre preencha a **Fonte**.
+
         **Português e espanhol (opcional):** preencha os campos traduzidos e a
         notícia ganha também uma página em /pt/noticias/... e /es/noticias/...
         — que é a que o leitor brasileiro ou hispânico encontra no Google.
@@ -35,6 +42,31 @@ body:
         aparece no card do site automaticamente. No X, você precisa anexá-la à
         mão na hora de publicar.
       placeholder: Vehicles become your mini depot for weapons and items.
+    validations:
+      required: true
+
+  - type: textarea
+    id: materia
+    attributes:
+      label: Matéria completa para o site (recomendado)
+      description: >
+        A versão longa da notícia, que aparece na página do site e no Google.
+        Se ficar em branco, o site usa o "Texto do post" (curto demais para o
+        Google). Explique o contexto, o que foi confirmado, por que importa e o
+        que ainda não se sabe. Pode usar subtítulos (###), listas e imagens.
+        Não vai para o X. Mínimo para entrar no Google: 120 palavras.
+    validations:
+      required: false
+
+  - type: textarea
+    id: fonte
+    attributes:
+      label: Fontes
+      description: >
+        Link(s) de onde veio a informação — um por linha. Prefira a fonte
+        original (Rockstar Newswire, perfil oficial, entrevista, veículo que deu
+        a notícia primeiro). Aparece no fim da matéria como "Fontes".
+      placeholder: https://www.rockstargames.com/newswire/...
     validations:
       required: true
 
