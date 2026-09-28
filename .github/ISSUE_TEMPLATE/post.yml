@@ -88,6 +88,23 @@ body:
     validations:
       required: true
 
+  - type: dropdown
+    id: assunto
+    attributes:
+      label: Assunto da notícia
+      description: >
+        "Off" = a notícia NÃO é sobre GTA 6 (outro jogo, Rockstar em geral,
+        indústria). Ela ganha o selo OFF no site, aparece no filtro "Off" da
+        página de notícias e o título da página não leva "GTA VI". O selo de
+        status (Confirmado / Rumor / Vazamento) continua valendo junto. Para
+        marcar uma notícia antiga como off, basta adicionar o rótulo off na Issue.
+      options:
+        - GTA 6
+        - Off — outro jogo ou assunto
+      default: 0
+    validations:
+      required: true
+
   - type: input
     id: titulo_pt
     attributes:
