@@ -6,6 +6,18 @@ on:
   schedule:
     - cron: "0 */6 * * *"    # rede de segurança, caso um evento de Issue falhe
   workflow_dispatch:
+  # regera o site sozinho quando os textos, guias ou o gerador mudam
+  # (o commit do robô usa o GITHUB_TOKEN e não dispara o workflow de novo)
+  push:
+    branches: [main]
+    paths:
+      - "montar.py"
+      - "guias/**"
+      - "paginas/**"
+      - "partes/**"
+      - "idiomas/**"
+      - "institucional/**"
+      - "mapa/pontos.json"
 
 concurrency:
   group: publicar-posts
