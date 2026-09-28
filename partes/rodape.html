@@ -615,6 +615,35 @@
     });
   });
 
+  /* ---- Filtro da página de notícias: Todas / GTA 6 / Off.
+     Os botões só existem se houver notícia "off"; sem JS, tudo continua visível.
+     O endereço guarda a escolha: /news/#off abre já filtrado. ---- */
+  (function(){
+    const filtro = document.querySelector(".filtro");
+    if(!filtro) return;
+    const secao = filtro.closest("section") || document;
+    const itens = secao.querySelectorAll("[data-categoria]");
+    const vazio = secao.querySelector(".filtro__vazio");
+    const cards = secao.querySelectorAll(".feed-auto [data-categoria]");
+    const botoes = filtro.querySelectorAll("[data-filtro]");
+    function aplicar(valor, registrar){
+      if(!["todas", "gta", "off"].includes(valor)) valor = "todas";
+      botoes.forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.filtro === valor)); });
+      itens.forEach(function(el){ el.hidden = valor !== "todas" && el.dataset.categoria !== valor; });
+      if(vazio) vazio.hidden = !Array.prototype.every.call(cards, function(c){ return c.hidden; });
+      if(registrar){
+        const hash = valor === "todas" ? "" : "#" + valor;
+        history.replaceState(null, "", location.pathname + location.search + hash);
+        evento("filtro_noticias", {categoria: valor});
+      }
+    }
+    botoes.forEach(function(b){
+      b.addEventListener("click", function(){ aplicar(b.dataset.filtro, true); });
+    });
+    filtro.hidden = false;
+    aplicar(location.hash.replace("#", ""), false);
+  })();
+
   /* ---- Compartilhar: menu nativo no celular, copiar link no desktop ---- */
   document.querySelectorAll("[data-compartilhar]").forEach(function(b){
     if(!navigator.share){ b.style.display = "none"; return; }

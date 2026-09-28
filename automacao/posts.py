@@ -94,6 +94,13 @@ ROTULOS_STATUS = {
     "vazamento": ("C2185B", "Selo do site: informação vazada"),
 }
 
+# rótulo da categoria "off" (notícia que não é sobre GTA 6). Combina com os
+# selos acima: uma notícia pode ser OFF e Rumor ao mesmo tempo.
+ROTULO_OFF = "off"
+ROTULOS_EXTRA = {
+    ROTULO_OFF: ("7B3DFF", "Categoria do site: notícia fora do GTA 6"),
+}
+
 
 def garantir_rotulos():
     """Cria no repositório os rótulos de selo que ainda não existem (uma vez só)."""
@@ -111,7 +118,7 @@ def garantir_rotulos():
     except Exception as exc:
         log(f"não consegui listar os rótulos ({exc}).")
         return
-    for nome, (cor, descricao) in ROTULOS_STATUS.items():
+    for nome, (cor, descricao) in {**ROTULOS_STATUS, **ROTULOS_EXTRA}.items():
         if nome in existentes:
             continue
         corpo = json.dumps({"name": nome, "color": cor, "description": descricao}).encode("utf-8")
@@ -123,6 +130,15 @@ def garantir_rotulos():
             log(f"rótulo criado: {nome}")
         except Exception as exc:
             log(f"não consegui criar o rótulo {nome} ({exc}).")
+
+
+def off_da_issue(issue, campos):
+    """Categoria OFF: rótulo "off" na Issue ou "Assunto: Off" no formulário."""
+    for rotulo in issue.get("labels") or []:
+        nome = rotulo.get("name") if isinstance(rotulo, dict) else str(rotulo)
+        if (nome or "").strip().lower() == ROTULO_OFF:
+            return True
+    return bool(campos.get("off"))
 
 
 def status_da_issue(issue, campos):
@@ -355,6 +371,8 @@ def main():
         status = status_da_issue(issue, campos)
         if status:
             item["status"] = status
+        if off_da_issue(issue, campos):
+            item["off"] = True
         # HTML igual ao preview da Issue: parágrafos, negrito, listas,
         # títulos e as imagens na posição original.
         try:

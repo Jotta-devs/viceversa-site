@@ -101,6 +101,25 @@ tem prioridade sobre o campo do formulário.** O robô cria esses três rótulos
 repositório na primeira vez que roda. Notícia sem selo continua funcionando, só não
 mostra o selo.
 
+### Categoria OFF: notícias que não são sobre GTA 6
+
+O formulário tem o campo **Assunto da notícia** (`GTA 6` ou `Off — outro jogo ou
+assunto`). Uma notícia off:
+
+- ganha o selo roxo **OFF** nos cards, na página da notícia, no "Leia a seguir" e
+  na imagem de compartilhamento (se também tiver status, a arte mostra o status);
+- continua levando o selo de status junto (ex.: OFF + Rumor);
+- não leva "— GTA VI" no título da página, e os dados estruturados marcam a seção
+  como "Off" em vez de "GTA VI";
+- aparece normalmente na home e na página de notícias. Quando existe pelo menos uma
+  notícia off, a página de notícias mostra os botões **Todas / GTA 6 / Off**, e o
+  endereço `/news/#off` (ou `/pt/noticias/#off`) já abre filtrado.
+
+Para marcar uma notícia como off depois (inclusive as antigas, anteriores ao
+campo), basta adicionar o rótulo `off` na Issue. Para desmarcar, tire o rótulo e,
+se o campo do formulário estiver como Off, edite a Issue e mude para `GTA 6`.
+O robô cria o rótulo `off` no repositório na primeira vez que roda.
+
 ### Página da notícia
 
 - **Capa:** a primeira imagem do texto, quando está sozinha num parágrafo, sobe para

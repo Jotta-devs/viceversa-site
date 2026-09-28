@@ -42,6 +42,7 @@ CORES_SELO = {
     "confirmado": (47, 230, 200),
     "rumor": (255, 138, 61),
     "vazamento": (255, 61, 138),
+    "off": (182, 156, 255),         # notícia fora do GTA 6
     "regiao": (255, 61, 138),       # locais do mapa: mesmas cores dos pontos
     "marco": (47, 230, 200),
 }
@@ -129,7 +130,7 @@ def _titulo(texto, largura_max):
 def gerar(destino, titulo, rodape, caminho_foto=None, selo=None, selo_texto=""):
     """Grava a arte em `destino` (JPEG).
 
-    selo: confirmado | rumor | vazamento (notícias) ou regiao | marco (locais do mapa).
+    selo: confirmado | rumor | vazamento | off (notícias) ou regiao | marco (locais do mapa).
     """
     img = _fundo(caminho_foto)
     d = ImageDraw.Draw(img)

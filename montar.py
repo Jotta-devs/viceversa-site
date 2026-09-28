@@ -97,6 +97,9 @@ SELOS = {
     "rumor": ("st02", "st05"),
     "vazamento": ("st03", "st06"),
 }
+# categoria "off": notícia que não é sobre GTA 6 (campo "Assunto" do formulário
+# ou rótulo "off" na Issue). Combina com os selos acima (ex.: OFF + Rumor).
+SELO_OFF = ("st07", "st08")
 
 # páginas de cada local do mapa (/map/<local>/): o recorte do mapa vem desta
 # imagem, gerada por mapa/gerar_previa.py
@@ -322,6 +325,7 @@ def carregar_posts():
             "imagem": imagem,
             "link_x": link if re.match(r"^https?://(www\.)?(x|twitter)\.com/", link) else None,
             "status": p.get("status") if p.get("status") in SELOS else "",
+            "off": bool(p.get("off")),
             "fontes": [f for f in (p.get("fontes") or []) if re.match(r"^https?://", f or "")],
             "versoes": versoes,
         })
@@ -365,12 +369,35 @@ def atributo_lang(post, cod):
 
 
 def selo(post, textos):
-    """Selo colorido Confirmado / Rumor / Vazamento (vazio se a notícia não tiver)."""
-    if post.get("status") not in SELOS:
+    """Selos coloridos: OFF (fora do GTA 6) e Confirmado / Rumor / Vazamento."""
+    partes = []
+    if post.get("off"):
+        nome, explicacao = SELO_OFF
+        partes.append(f'<span class="selo selo--off" title="{esc(textos.get(explicacao, ""))}">'
+                      f'{esc(textos.get(nome, ""))}</span>')
+    if post.get("status") in SELOS:
+        nome, explicacao = SELOS[post["status"]]
+        partes.append(f'<span class="selo selo--{post["status"]}" title="{esc(textos.get(explicacao, ""))}">'
+                      f'{esc(textos.get(nome, ""))}</span>')
+    return "".join(partes)
+
+
+def categoria(post):
+    """Categoria usada pelo filtro da página de notícias: "off" ou "gta"."""
+    return "off" if post.get("off") else "gta"
+
+
+def filtro_noticias(posts, textos):
+    """Botões Todas / GTA 6 / Off. Só aparecem quando existe alguma notícia off;
+    ficam escondidos até o JavaScript ligar o filtro (sem JS, tudo aparece)."""
+    if not any(p.get("off") for p in posts):
         return ""
-    nome, explicacao = SELOS[post["status"]]
-    return (f'<span class="selo selo--{post["status"]}" title="{esc(textos.get(explicacao, ""))}">'
-            f'{esc(textos.get(nome, ""))}</span>')
+    botoes = "".join(
+        f'<button type="button" class="filtro__btn" data-filtro="{valor}" '
+        f'aria-pressed="{"true" if valor == "todas" else "false"}">{esc(textos.get(chave, ""))}</button>'
+        for valor, chave in (("todas", "fl01"), ("gta", "fl02"), ("off", "fl03")))
+    return (f'    <div class="filtro" role="group" aria-label="{esc(textos.get("fl04", ""))}" hidden>{botoes}</div>\n'
+            f'    <p class="filtro__vazio" hidden>{esc(textos.get("fl05", ""))}</p>')
 
 
 def botoes_canais(textos, local):
@@ -408,7 +435,7 @@ def cartao_feed(post, prefixo, cod, textos):
         acoes += f'<a href="{esc(post["link_x"])}" target="_blank" rel="noopener">{textos.get("fd01", "")}</a>'
     classe = "post-auto post-auto--img" if thumb else "post-auto"
     iso = post["quando"].isoformat() if post["quando"] else ""
-    return (f'      <article class="{classe}"{atributo_lang(post, cod)}>{thumb}'
+    return (f'      <article class="{classe}" data-categoria="{categoria(post)}"{atributo_lang(post, cod)}>{thumb}'
             f'<div class="post-auto__topo">{selo(post, textos)}'
             f'<time datetime="{iso}">{data_legivel(post["quando"], cod)}</time></div>'
             f'<h4><a href="{link}">{esc(v["titulo"])}</a></h4>'
@@ -431,7 +458,7 @@ def cartao_home(post, prefixo, cod, textos, destaque=False):
 
 def item_lista(post, prefixo, cod):
     _, v = versao(post, cod)
-    return (f'      <li{atributo_lang(post, cod)}><a href="{link_post(post, cod, prefixo)}">'
+    return (f'      <li data-categoria="{categoria(post)}"{atributo_lang(post, cod)}><a href="{link_post(post, cod, prefixo)}">'
             f'<time>{data_legivel(post["quando"], cod)}</time>{esc(v["titulo"])}</a></li>')
 
 
@@ -514,10 +541,11 @@ def gerar_og(post, cod, v, textos):
         return None
     nome = f'{post["slug"]}-{cod.split("-")[0]}.jpg'
     foto = caminho_local_imagem((v.get("capa") or {}).get("src")) or caminho_local_imagem(post["imagem"])
-    nome_selo = textos.get(SELOS[post["status"]][0], "") if post["status"] else ""
+    tipo_selo = post["status"] or ("off" if post.get("off") else "")
+    nome_selo = textos.get((SELOS.get(tipo_selo) or SELO_OFF)[0], "") if tipo_selo else ""
     rodape = f'{data_legivel(post["quando"], cod)}  ·  {DOMINIO.split("://")[-1]}'
     try:
-        imagens_og.gerar(SAIDA / "og" / nome, v["titulo"], rodape, foto, post["status"], nome_selo)
+        imagens_og.gerar(SAIDA / "og" / nome, v["titulo"], rodape, foto, tipo_selo, nome_selo)
     except Exception as exc:
         print(f"  ! não consegui gerar a imagem de compartilhamento de {nome}: {exc}")
         return None
@@ -573,6 +601,7 @@ def jsonld_artigo(post, cod, textos, imagem_og=None):
         "mainEntityOfPage": endereco,
         "url": endereco,
         "inLanguage": IDIOMAS[cod][1],
+        "articleSection": textos.get(SELO_OFF[0], "Off") if post.get("off") else "GTA VI",
         "author": autor_jsonld(cod),
         "publisher": organizacao(cod),
         "image": [i for i in (post["imagem"], imagem_og) if i] or [DOMINIO + "/og-image-en.png"],
@@ -1299,6 +1328,7 @@ def montar():
                     or f'      <p class="feed-vazio">{textos.get("t124", "")}</p>')
                 extras["__arquivo_html__"] = lambda pref, cod=cod, textos=textos: arquivo_html(
                     posts, pref, cod, textos)
+                extras["__filtro_noticias__"] = filtro_noticias(posts, textos)
             elif pagina == "mapa":
                 extras["__locais_lista__"] = (lambda pref, locais=locais, cod=cod, textos=textos:
                                               lista_locais(locais, pref, cod, textos))
@@ -1354,7 +1384,8 @@ def montar():
             textos_post = dict(textos)
             # título, descrição e cartões de compartilhamento próprios de cada notícia
             textos_post.update({
-                "t001": esc(f"{v['titulo']} — GTA VI | {NOME_SITE}"),
+                "t001": esc(f"{v['titulo']} | {NOME_SITE}" if post.get("off")
+                            else f"{v['titulo']} — GTA VI | {NOME_SITE}"),
                 "meta_desc": esc(v["descricao"]),
                 "og_title": esc(v["titulo"]), "tw_title": esc(v["titulo"]),
                 "og_desc": esc(v["descricao"]), "tw_desc": esc(v["descricao"]),

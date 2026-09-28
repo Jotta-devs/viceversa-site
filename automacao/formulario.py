@@ -26,7 +26,7 @@ import unicodedata
 VAZIO = re.compile(r"^\s*_No response_\s*$", re.M)
 ROTULOS = re.compile(
     r"^###[ \t]+("
-    r"texto do post|link do post no x|status da not[ií]cia"
+    r"texto do post|link do post no x|status da not[ií]cia|assunto"
     r"|mat[eé]ria completa|fontes?\b"
     r"|t[ií]tulo em portugu[eê]s|texto em portugu[eê]s"
     r"|t[ií]tulo e[nm] espa[nñ](?:ol|hol)|texto e[nm] espa[nñ](?:ol|hol)"
@@ -80,11 +80,16 @@ def ler_status(valor):
     return STATUS.get(m.group(0), "") if m else ""
 
 
+def ler_assunto(valor):
+    """'Off — outro jogo ou assunto' -> True; 'GTA 6' ou vazio -> False."""
+    return _normalizar(valor or "").startswith("off")
+
+
 def ler_post(corpo):
     """Extrai os campos do post já limpos.
 
-    Devolve dict com: texto, materia, fontes, link, status, titulo_pt, texto_pt,
-    titulo_es, texto_es.
+    Devolve dict com: texto, materia, fontes, link, status, off, titulo_pt,
+    texto_pt, titulo_es, texto_es.
     """
     s = ler_secoes(corpo)
     texto = campo(s, "texto do post")
@@ -114,6 +119,8 @@ def ler_post(corpo):
         "fontes": fontes,
         "link": link,
         "status": ler_status(campo(s, "status da noticia")),
+        # categoria "off": notícia que não é sobre GTA 6 (outro jogo, indústria...)
+        "off": ler_assunto(campo(s, "assunto")),
         "titulo_pt": campo(s, "titulo em portugues").strip(),
         "texto_pt": campo(s, "texto em portugues").strip(),
         "titulo_es": campo(s, "titulo en espanol", "titulo em espanhol").strip(),
