@@ -70,6 +70,7 @@
   "mainEntityOfPage": "https://vvviceversa.com/news/20260909-bounce-the-cops-is-harder-now-losing-the-cops-just-got/",
   "url": "https://vvviceversa.com/news/20260909-bounce-the-cops-is-harder-now-losing-the-cops-just-got/",
   "inLanguage": "en",
+  "articleSection": "GTA VI",
   "author": {
     "@type": "Person",
     "name": "Mike Pagani",
@@ -1185,7 +1186,20 @@
   .selo--confirmado{color:var(--agua);background:rgba(47,230,200,.09)}
   .selo--rumor{color:var(--laranja);background:rgba(255,138,61,.09)}
   .selo--vazamento{color:#FF6FA6;background:rgba(255,61,138,.12)}
+  .selo--off{color:#B69CFF;background:rgba(123,61,255,.16)}
   .noticia .selo{margin:0 .55rem .1rem 0}
+
+  /* ---- filtro da página de notícias: Todas / GTA 6 / Off ---- */
+  .filtro{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.1rem}
+  .filtro[hidden],.filtro__vazio[hidden],[data-categoria][hidden]{display:none}
+  .filtro__btn{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--creme-70);background:transparent;border:1px solid var(--linha);border-radius:999px;
+    padding:.5rem .95rem;min-height:36px;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+  .filtro__btn:hover{color:var(--creme);border-color:var(--agua)}
+  .filtro__btn:focus-visible{outline:2px solid var(--agua);outline-offset:2px}
+  .filtro__btn[aria-pressed="true"]{color:#0B0414;background:var(--agua);border-color:var(--agua)}
+  .filtro__btn[data-filtro="off"][aria-pressed="true"]{background:#B69CFF;border-color:#B69CFF}
+  .filtro__vazio{color:var(--creme-70);font-size:.9rem;margin:0 0 1rem}
   .post-auto__topo{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .6rem}
 
   /* ---- página de notícia: capa, tempo de leitura, aviso, canais e "leia a seguir" ---- */
@@ -1629,11 +1643,11 @@ The biggest change to the HUD affects the Wanted system. The classic red dots on
   <section class="artigo__mais" style="padding:0 0 4rem">
     <div class="secao__cabeca"><h2>Read next</h2></div>
     <ul class="artigo__relacionadas">
-      <li><a href="../../news/20260924-gta-6-collector-s-edition-announced-this-thursday-september/"><time>Sep 24, 2026</time>GTA 6 Collector&#x27;s Edition Announced!</a></li>
-      <li><a href="../../news/20260922-the-gta-6-map-might-be-larger-than-expected-according-to/"><time>Sep 22, 2026</time>The GTA 6 map might be larger than expected!</a></li>
-      <li><a href="../../news/20260918-another-leak-at-rockstar-approximately-192gb-of-data-related/"><time>Sep 18, 2026</time>Another leak at Rockstar!</a></li>
-      <li><a href="../../news/20260915-confirmed-american-actor-stephen-root-has-confirmed-that-he/"><time>Sep 15, 2026</time>Confirmed!</a></li>
-      <li><a href="../../news/20260914-65-days-until-gta-6-rob-nelson-gave-more-details-to-the/"><time>Sep 14, 2026</time>65 days until GTA 6!</a></li>
+      <li data-categoria="gta"><a href="../../news/20260924-gta-6-collector-s-edition-announced-this-thursday-september/"><time>Sep 24, 2026</time>GTA 6 Collector&#x27;s Edition Announced!</a></li>
+      <li data-categoria="gta"><a href="../../news/20260922-the-gta-6-map-might-be-larger-than-expected-according-to/"><time>Sep 22, 2026</time>The GTA 6 map might be larger than expected!</a></li>
+      <li data-categoria="gta"><a href="../../news/20260918-another-leak-at-rockstar-approximately-192gb-of-data-related/"><time>Sep 18, 2026</time>Another leak at Rockstar!</a></li>
+      <li data-categoria="gta"><a href="../../news/20260915-confirmed-american-actor-stephen-root-has-confirmed-that-he/"><time>Sep 15, 2026</time>Confirmed!</a></li>
+      <li data-categoria="gta"><a href="../../news/20260914-65-days-until-gta-6-rob-nelson-gave-more-details-to-the/"><time>Sep 14, 2026</time>65 days until GTA 6!</a></li>
     </ul>
   </section>
 </main>
@@ -2254,6 +2268,35 @@ The biggest change to the HUD affects the Wanted system. The classic red dots on
       if(pai && pai.tagName === "A" && !pai.textContent.trim()) pai.remove();
     });
   });
+
+  /* ---- Filtro da página de notícias: Todas / GTA 6 / Off.
+     Os botões só existem se houver notícia "off"; sem JS, tudo continua visível.
+     O endereço guarda a escolha: /news/#off abre já filtrado. ---- */
+  (function(){
+    const filtro = document.querySelector(".filtro");
+    if(!filtro) return;
+    const secao = filtro.closest("section") || document;
+    const itens = secao.querySelectorAll("[data-categoria]");
+    const vazio = secao.querySelector(".filtro__vazio");
+    const cards = secao.querySelectorAll(".feed-auto [data-categoria]");
+    const botoes = filtro.querySelectorAll("[data-filtro]");
+    function aplicar(valor, registrar){
+      if(!["todas", "gta", "off"].includes(valor)) valor = "todas";
+      botoes.forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.filtro === valor)); });
+      itens.forEach(function(el){ el.hidden = valor !== "todas" && el.dataset.categoria !== valor; });
+      if(vazio) vazio.hidden = !Array.prototype.every.call(cards, function(c){ return c.hidden; });
+      if(registrar){
+        const hash = valor === "todas" ? "" : "#" + valor;
+        history.replaceState(null, "", location.pathname + location.search + hash);
+        evento("filtro_noticias", {categoria: valor});
+      }
+    }
+    botoes.forEach(function(b){
+      b.addEventListener("click", function(){ aplicar(b.dataset.filtro, true); });
+    });
+    filtro.hidden = false;
+    aplicar(location.hash.replace("#", ""), false);
+  })();
 
   /* ---- Compartilhar: menu nativo no celular, copiar link no desktop ---- */
   document.querySelectorAll("[data-compartilhar]").forEach(function(b){
