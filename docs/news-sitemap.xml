@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://vvviceversa.com/news/20260929-gta-6-wildlife-blowout-over-170-species-legendary-animals/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-09-29T18:23:17+00:00</news:publication_date>
+      <news:title>GTA 6 Wildlife Blowout: Over 170 Species, Legendary Animals, and Next-Gen Fur Physics Revealed</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20260929-gta-6-wildlife-blowout-over-170-species-legendary-animals/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-09-29T18:23:17+00:00</news:publication_date>
+      <news:title>Explosão de Vida Selvagem em GTA 6: Mais de 170 Espécies, Animais Lendários e Física de Pelos de Nova Geração Revelados</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20260929-gta-6-wildlife-blowout-over-170-species-legendary-animals/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-09-29T18:23:17+00:00</news:publication_date>
+      <news:title>Explosión de vida silvestre en GTA 6: ¡Se revelan más de 170 especies, animales legendarios y físicas de pelaje de nueva generación!</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://vvviceversa.com/news/20260929-gta-6-confirmed-side-activities-from-kayaking-to-zoo-visits/</loc>
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
