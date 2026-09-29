@@ -331,6 +331,29 @@ def extrair_imagem(corpo):
     return m.group(1) if m else None
 
 
+# imagem inteira (markdown ![...](...) ou tag <img ...>), para copiar de um campo
+# do formulário para outro sem perder largura, altura e texto alternativo
+IMAGEM_MARKUP = re.compile(r"!\[[^\]]*\]\(\s*https?://[^\s)]+[^)]*\)|<img\b[^>]*>", re.I)
+
+
+def juntar_imagem(materia, texto):
+    """Garante que a matéria completa tenha a imagem do post.
+
+    O formulário manda arrastar a imagem para o "Texto do post" (o texto curto
+    do X). Quando a "Matéria completa" é preenchida, é ela que vira a página —
+    e, se não tiver imagem própria, a notícia em inglês ficava sem capa, sem
+    miniatura no card e sem foto na imagem de compartilhamento. Aqui a primeira
+    imagem do texto curto vai para o topo da matéria, sozinha num parágrafo,
+    para virar a capa. Matéria que já tem imagem fica como está.
+    """
+    if not materia or IMAGEM_MARKUP.search(materia):
+        return materia
+    m = IMAGEM_MARKUP.search(texto or "")
+    if not m:
+        return materia
+    return f"{m.group(0)}\n\n{materia}"
+
+
 def main():
     repositorio = os.environ.get("GITHUB_REPOSITORY", "")
     token = os.environ.get("GITHUB_TOKEN")
@@ -348,7 +371,8 @@ def main():
         campos = ler_post(issue.get("body"))
         # a página da notícia usa a matéria completa, quando existe; o texto
         # curto do post fica só para o X (botao-x.py)
-        texto = campos["materia"] or campos["texto"]
+        # se a matéria não tiver imagem, herda a do texto curto (juntar_imagem)
+        texto = juntar_imagem(campos["materia"], campos["texto"]) or campos["texto"]
         if not texto:
             log(f"Issue #{issue['number']} sem corpo; pulando.")
             continue
