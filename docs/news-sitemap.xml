@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://vvviceversa.com/news/20260930-hurricanes-and-storms-the-impressive-new-weather-system-in/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-09-30T20:31:02+00:00</news:publication_date>
+      <news:title>Hurricanes and Storms: The Impressive New Weather System in GTA 6</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20260930-hurricanes-and-storms-the-impressive-new-weather-system-in/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-09-30T20:31:02+00:00</news:publication_date>
+      <news:title>Furacões e Tempestades: O Impressionante Novo Sistema de Clima de GTA 6</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20260930-hurricanes-and-storms-the-impressive-new-weather-system-in/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-09-30T20:31:02+00:00</news:publication_date>
+      <news:title>Huracanes y tormentas: El impresionante nuevo sistema meteorológico en GTA 6</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://vvviceversa.com/news/20260929-gta-6-wildlife-blowout-over-170-species-legendary-animals/</loc>
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
