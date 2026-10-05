@@ -24,28 +24,4 @@
       <news:title>GTA VI: La Búsqueda de la Supervivencia y el Fin de los Extras en Leonida</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261003-the-clash-of-two-eras-capcom-orchestrates-an-epic-crossover/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-03T12:45:23+00:00</news:publication_date>
-      <news:title>The Clash of Two Eras: Capcom Orchestrates an Epic &quot;Crossover&quot; Between Resident Evil Timelines</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261003-the-clash-of-two-eras-capcom-orchestrates-an-epic-crossover/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-03T12:45:23+00:00</news:publication_date>
-      <news:title>O Encontro de Duas Eras: Capcom Prepara &quot;Crossover&quot; Épico Entre as Linhas Temporais de Resident Evil</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261003-the-clash-of-two-eras-capcom-orchestrates-an-epic-crossover/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-03T12:45:23+00:00</news:publication_date>
-      <news:title>El choque de dos eras: Capcom prepara un &quot;crossover&quot; épico entre las líneas temporales de Resident Evil</news:title>
-    </news:news>
-  </url>
 </urlset>
