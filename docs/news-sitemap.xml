@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://vvviceversa.com/news/20261005-gta-vi-the-quest-for-survival-and-the-end-of-extras-in/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-05T12:37:54+00:00</news:publication_date>
+      <news:title>GTA VI: The Quest for Survival and the End of Extras in Leonida</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261005-gta-vi-the-quest-for-survival-and-the-end-of-extras-in/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-10-05T12:37:54+00:00</news:publication_date>
+      <news:title>GTA VI: A Busca Pela Sobrevivência e o Fim dos Figurantes em Leonida</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261005-gta-vi-the-quest-for-survival-and-the-end-of-extras-in/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-10-05T12:37:54+00:00</news:publication_date>
+      <news:title>GTA VI: La Búsqueda de la Supervivencia y el Fin de los Extras en Leonida</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://vvviceversa.com/news/20261003-the-clash-of-two-eras-capcom-orchestrates-an-epic-crossover/</loc>
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
