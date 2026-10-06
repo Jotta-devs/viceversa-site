@@ -301,6 +301,76 @@ def baixar_imagens(html, token):
     return re.sub(r'(src)="([^"]*)"', trocar, html, flags=re.I)
 
 
+# tags que abrem ou fecham um bloco: uma quebra de linha encostada nelas é só
+# formatação do HTML, não uma quebra escrita pelo autor
+TAGS_BLOCO = {
+    "p", "ul", "ol", "li", "div", "blockquote", "pre", "table", "thead", "tbody",
+    "tr", "th", "td", "hr", "h1", "h2", "h3", "h4", "h5", "h6", "details", "summary",
+}
+TOKEN_HTML = re.compile(r"<pre\b[\s\S]*?</pre\s*>|<!--[\s\S]*?-->|<[^>]+>|[^<]+", re.I)
+
+
+def _nome_tag(tag):
+    m = re.match(r"</?\s*([a-zA-Z][\w-]*)", tag)
+    return m.group(1).lower() if m else ""
+
+
+def quebras_de_linha(html):
+    """Respeita as quebras de linha simples, como a Issue mostra.
+
+    Na Issue, um Enter (sem linha em branco) já quebra a linha:
+
+        **The "American Dream" Deconstructed**
+        If in previous titles...
+
+    aparece em duas linhas. O renderizador no modo "markdown" junta as duas na
+    mesma linha (padrão do Markdown). Aqui cada quebra simples dentro de um
+    parágrafo, item de lista ou célula vira <br>, igual ao preview da Issue.
+    Blocos de código (<pre>) ficam intactos.
+    """
+    tokens = TOKEN_HTML.findall(html or "")
+
+    def lado_inline(i, passo):
+        """O vizinho (tag ou texto) na direção `passo` é conteúdo de linha?"""
+        j = i + passo
+        while 0 <= j < len(tokens):
+            tok = tokens[j]
+            if tok.startswith("<"):
+                if tok.startswith("<!--"):
+                    j += passo
+                    continue
+                nome = _nome_tag(tok)
+                return nome not in TAGS_BLOCO and nome != "br"
+            if tok.strip():
+                return True
+            j += passo
+        return False
+
+    saida = []
+    for i, tok in enumerate(tokens):
+        if tok.startswith("<") or "\n" not in tok:
+            saida.append(tok)
+            continue
+        linhas = tok.split("\n")
+        pedacos = [linhas[0]]
+        ultimo = len(linhas) - 1
+        for k in range(1, len(linhas)):
+            # o que está imediatamente antes e depois desta quebra
+            if linhas[k - 1].strip():
+                tem_antes = True
+            else:
+                tem_antes = k == 1 and lado_inline(i, -1)
+            if linhas[k].strip():
+                tem_depois = True
+            else:
+                tem_depois = k == ultimo and lado_inline(i, +1)
+            # só vira <br> com conteúdo de linha dos dois lados; quebras entre
+            # blocos (</p>\n<p>, <ul>\n<li>) são só formatação do HTML
+            pedacos.append(("<br>\n" if tem_antes and tem_depois else "\n") + linhas[k])
+        saida.append("".join(pedacos))
+    return "".join(saida)
+
+
 def renderizar_markdown(texto, repositorio, token):
     """Converte para HTML usando o MESMO renderizador do preview do GitHub."""
     if not texto.strip():
@@ -319,7 +389,7 @@ def renderizar_markdown(texto, repositorio, token):
     with urllib.request.urlopen(req, timeout=30) as r:
         html = r.read().decode("utf-8")
     # baixa as imagens ENQUANTO os links assinados ainda são válidos
-    return sanitizar(baixar_imagens(absolutizar(html), token))
+    return sanitizar(baixar_imagens(absolutizar(quebras_de_linha(html)), token))
 
 
 def extrair_imagem(corpo):

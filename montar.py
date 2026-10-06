@@ -205,7 +205,10 @@ def primeira_imagem(html):
 
 
 def html_de_texto(texto):
-    return "".join(f"<p>{esc(par)}</p>" for par in (texto or "").split("\n\n") if par.strip())
+    # reserva para quando o HTML da Issue não veio: linha em branco separa
+    # parágrafos e um Enter simples quebra a linha, como na Issue
+    return "".join(f"<p>{esc(par.strip()).replace(chr(10), '<br>' + chr(10))}</p>"
+                   for par in (texto or "").replace("\r\n", "\n").split("\n\n") if par.strip())
 
 
 def preparar_html(html):
