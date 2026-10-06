@@ -31,7 +31,11 @@ jobs:
   publicar:
     runs-on: ubuntu-latest
     steps:
+      # sempre a versão mais nova do main: uma rodada que esperou na fila não
+      # pode partir do commit de quando a Issue foi editada (já desatualizado)
       - uses: actions/checkout@v6
+        with:
+          ref: main
 
       - uses: actions/setup-python@v6
         with:
@@ -62,24 +66,31 @@ jobs:
         run: python montar.py
 
       - name: Publicar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           git config user.name "viceversa-bot"
           git config user.email "bot@viceversa"
-          git add feed.json slugs.json midia/ docs/
-          if git diff --cached --quiet; then
-            echo "nada mudou, nada a publicar."
-            exit 0
-          fi
-          git commit -m "posts: atualiza o painel de noticias"
-          # o repositorio pode ter recebido outro commit enquanto isto rodava;
-          # sincroniza antes de enviar e tenta de novo em caso de conflito
           for tentativa in 1 2 3; do
-            if git pull --rebase --autostash origin main && git push; then
+            git add feed.json slugs.json midia/ docs/
+            if git diff --cached --quiet; then
+              echo "nada mudou, nada a publicar."
+              exit 0
+            fi
+            git commit -q -m "posts: atualiza o painel de noticias"
+            if git push; then
               echo "publicado."
               exit 0
             fi
-            echo "tentativa $tentativa falhou; repetindo em 5s..."
-            sleep 5
+            # outro commit chegou ao main enquanto isto rodava. Mesclar arquivos
+            # gerados sempre dá conflito; em vez disso, parte da versão mais nova
+            # e gera tudo de novo a partir das Issues (que são a fonte de verdade)
+            echo "tentativa $tentativa: o main mudou; gerando de novo sobre a versão mais nova..."
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            python automacao/posts.py
+            python montar.py
           done
           echo "nao consegui publicar apos 3 tentativas."
           exit 1
