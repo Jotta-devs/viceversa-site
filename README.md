@@ -120,6 +120,14 @@ campo), basta adicionar o rótulo `off` na Issue. Para desmarcar, tire o rótulo
 se o campo do formulário estiver como Off, edite a Issue e mude para `GTA 6`.
 O robô cria o rótulo `off` no repositório na primeira vez que roda.
 
+### Endereço fixo de cada notícia
+
+O endereço da notícia nasce da data, do título e do começo do texto, e fica
+guardado em `slugs.json` (data de criação da Issue → endereço). Depois disso ele não
+muda mais: dá para melhorar o título ou reescrever a matéria inteira sem quebrar o
+link que já está no Google, no X ou no WhatsApp. Não apague esse arquivo; o robô o
+atualiza sozinho a cada notícia nova.
+
 ### Página da notícia
 
 - **Capa:** a primeira imagem do texto, quando está sozinha num parágrafo, sobe para

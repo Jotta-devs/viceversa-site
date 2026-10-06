@@ -261,6 +261,21 @@ def minutos_leitura(html):
 
 
 # ── notícias (feed.json) ────────────────────────────────────────────
+# endereço fixo de cada notícia: {data de criação da Issue: slug}. O slug nasce
+# do título e do começo do texto, mas depois de publicado não muda mais —
+# assim dá para melhorar o título ou reescrever a matéria sem quebrar o link
+# que já está no Google, no X e no WhatsApp.
+ARQ_SLUGS = RAIZ / "slugs.json"
+
+
+def ler_slugs():
+    try:
+        dados = json.loads(ARQ_SLUGS.read_text(encoding="utf-8"))
+        return {str(k): str(v) for k, v in dados.items()} if isinstance(dados, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
 def carregar_posts():
     """Lê feed.json e prepara cada notícia com suas versões por idioma.
 
@@ -280,6 +295,9 @@ def carregar_posts():
         return []
 
     posts, usados = [], set()
+    fixos = ler_slugs()
+    reservados = set(fixos.values())
+    mudou = False
     for p in brutos:
         titulo = (p.get("titulo") or "").strip()
         if not titulo:
@@ -291,13 +309,21 @@ def carregar_posts():
 
         # o slug junta data + título + começo do texto em inglês: títulos curtos
         # ("Confirmed!") sozinhos não dizem nada ao Google. A data de criação da
-        # Issue nunca muda, e o mesmo slug serve às três línguas.
-        palavras = " ".join(corpo.split()[:8])
-        prefixo = quando.strftime("%Y%m%d") if quando else ""
-        slug = slugificar(f"{prefixo} {titulo} {palavras}")
-        base, n = slug, 2
-        while slug in usados:
-            slug, n = f"{base}-{n}", n + 1
+        # Issue nunca muda, e o mesmo slug serve às três línguas. Depois de
+        # criado, o slug fica guardado em slugs.json e não muda mais.
+        chave = (p.get("criado") or p.get("data") or "").strip()
+        slug = fixos.get(chave) if chave else None
+        if not slug or slug in usados:
+            palavras = " ".join(corpo.split()[:8])
+            prefixo = quando.strftime("%Y%m%d") if quando else ""
+            base = slugificar(f"{prefixo} {titulo} {palavras}")
+            slug, n = base, 2
+            while slug in usados or slug in reservados:
+                slug, n = f"{base}-{n}", n + 1
+            if chave:
+                fixos[chave] = slug
+                reservados.add(slug)
+                mudou = True
         usados.add(slug)
 
         imagem = primeira_imagem(html_en) or imagem_absoluta(p.get("imagem"))
@@ -332,6 +358,9 @@ def carregar_posts():
             "fontes": [f for f in (p.get("fontes") or []) if re.match(r"^https?://", f or "")],
             "versoes": versoes,
         })
+    if mudou:
+        ARQ_SLUGS.write_text(json.dumps(dict(sorted(fixos.items())), ensure_ascii=False, indent=2) + "\n",
+                             encoding="utf-8")
     posts.sort(key=lambda q: q["quando"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
     return posts
 
