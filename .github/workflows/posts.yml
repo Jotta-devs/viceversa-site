@@ -65,7 +65,7 @@ jobs:
         run: |
           git config user.name "viceversa-bot"
           git config user.email "bot@viceversa"
-          git add feed.json midia/ docs/
+          git add feed.json slugs.json midia/ docs/
           if git diff --cached --quiet; then
             echo "nada mudou, nada a publicar."
             exit 0
