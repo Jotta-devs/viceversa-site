@@ -104,9 +104,22 @@ SELO_OFF = ("st07", "st08")
 # páginas de cada local do mapa (/map/<local>/): o recorte do mapa vem desta
 # imagem, gerada por mapa/gerar_previa.py
 PREVIA_MAPA = RAIZ / "mapa" / "leonida-noite.webp"
+# categorias do mapa, na ordem da lista lateral: (chave, cor, texto do plural,
+# texto do singular, ícone padrão). Os textos ficam em idiomas/*.json.
+CATEGORIAS_MAPA = [
+    ("regiao",     "#FF3D8A", "mc_regiao",     "lc08",       None),
+    ("cidade",     "#FF5FA2", "mc_cidade",     "mcs_cidade", "predios"),
+    ("transporte", "#3FA9FF", "mc_transporte", "mcs_transporte", "aviao"),
+    ("natureza",   "#2FC87A", "mc_natureza",   "mcs_natureza", "arvore"),
+    ("industria",  "#FF8A3D", "mc_industria",  "mcs_industria", "fabrica"),
+    ("marco",      "#FFD23F", "mc_marco",      "mcs_marco",  "estrela"),
+    ("trailer",    "#FF5A5A", "mp02",          "mp02",       "camera"),
+    ("real",       "#2FE6C8", "mp03",          "mp03",       "estrela"),
+    ("comercio",   "#B07CFF", "mc_comercio",   "mcs_comercio", "loja"),
+]
+COR_CATEGORIA = {c[0]: c[1] for c in CATEGORIAS_MAPA}
 ZOOM_LOCAL = {"regiao": 820, "marco": 430}     # largura do recorte, em unidades do mapa
-CORES_LOCAL = {"regiao": (255, 61, 138), "marco": (47, 230, 200),
-               "trailer": (255, 138, 61), "real": (255, 217, 138)}
+CORES_LOCAL = {c: tuple(int(cor[i:i + 2], 16) for i in (1, 3, 5)) for c, cor in COR_CATEGORIA.items()}
 
 # ── autoria e qualidade (Google AdSense / E-E-A-T) ──────────────────
 # editor responsável: aparece como autor nas notícias, nos guias e nos dados
@@ -933,7 +946,8 @@ def carregar_mapa():
     except (OSError, ValueError) as exc:
         print(f"  ! mapa/pontos.json inválido ({exc}) — mapa sem pontos")
         dados = {}
-    return {"info": info, "pontos": dados.get("pontos", []), "rotulos": dados.get("rotulos", [])}
+    return {"info": info, "pontos": dados.get("pontos", []), "rotulos": dados.get("rotulos", []),
+            "confirmados": dados.get("confirmados", [])}
 
 
 def texto_idioma(valor, cod):
@@ -962,6 +976,13 @@ def config_mapa(mapa, cod, textos, prefixo, com_pagina=()):
         if p.get("video"):
             item["video"] = str(p["video"])
             item["t"] = int(p.get("t") or 0)
+        for campo in ("icone", "nome_tipo"):
+            if p.get(campo):
+                item[campo] = str(p[campo])
+        if p.get("aprox"):
+            item["aprox"] = True
+        if p.get("fontes"):
+            item["fontes"] = [f for f in p["fontes"] if str(f).startswith("http")]
         if item["id"] in com_pagina:
             item["url"] = f'{prefixo}{caminho(cod, "mapa")}/{item["id"]}/'
         pontos.append(item)
@@ -974,15 +995,22 @@ def config_mapa(mapa, cod, textos, prefixo, com_pagina=()):
         except (KeyError, TypeError, ValueError):
             print(f"  ! rótulo do mapa ignorado (faltam id/x/y): {r}")
     versao = int((PASTA_MAPA / "leonida.svg").stat().st_mtime)     # evita cache velho após atualizar
+    usadas = {p["cat"] for p in pontos}
+    categorias = [{"id": c, "cor": cor, "nome": textos.get(plural, c), "singular": textos.get(singular, c),
+                   "icone": icone or ""}
+                  for c, cor, plural, singular, icone in CATEGORIAS_MAPA if c in usadas]
     config = {
         "info": mapa["info"],
         "svg": f"{prefixo}map-data/leonida.svg?v={versao}",
         "pontos": pontos,
         "rotulos": rotulos,
-        "textos": {"video": textos.get("mp06", ""), "copiar": textos.get("mp07", ""),
-                   "pagina": textos.get("lc06", ""),
-                   "copiado": textos.get("mp08", ""), "nada": textos.get("mp09", ""),
-                   "editar": textos.get("mp12", ""), "quadrante": textos.get("mp19", "")},
+        "categorias": categorias,
+        "textos": {chave: textos.get(k, "") for chave, k in (
+            ("video", "mp06"), ("copiar", "mp07"), ("pagina", "lc06"), ("copiado", "mp08"), ("nada", "mp09"),
+            ("editar", "mp12"), ("quadrante", "mp19"), ("inspirado", "lc10"), ("visitado", "mp24"),
+            ("marcar", "mp25"), ("visitados", "mp27"), ("aprox", "mp28"), ("aproximar", "mp29"),
+            ("oficial", "mp33"), ("descritivo", "mp34"), ("comunidade", "mp35"), ("fontes", "mp38"),
+            ("verRegiao", "mp32"))},
     }
     return json.dumps(config, ensure_ascii=False).replace("</", "<\\/")
 
@@ -1031,7 +1059,8 @@ def locais_mapa(mapa, cod, textos):
             "id": pid, "cat": p.get("cat", "marco"), "x": x, "y": y, "nome": nome,
             "real": texto_idioma(p.get("real"), cod) or f.get("real", ""),
             "desc": texto_idioma(p.get("desc"), cod) or f.get("desc", ""),
-            "tags": [texto_idioma(t, cod) for t in p.get("tags") or []] or f.get("tags", []),
+            "tags": ([texto_idioma(t, cod) for t in p.get("tags") or []] or f.get("tags", []))
+                    + selos_local(p, textos),
             "video": str(p["video"]) if p.get("video") else "", "t": int(p.get("t") or 0),
             "quadrante": quadrante,
         })
@@ -1043,12 +1072,58 @@ def rel_local(cod, local):
 
 
 def nome_categoria(local, textos):
-    return textos.get("lc08" if local["cat"] == "regiao" else "lc09", "")
+    for c, _, _, singular, _ in CATEGORIAS_MAPA:
+        if c == local["cat"]:
+            return textos.get(singular) or textos.get("lc09", "")
+    return textos.get("lc09", "")
+
+
+def selos_local(p, textos):
+    """Etiquetas extras de um local: de onde vem o nome e se a posição é aproximada."""
+    extras = []
+    rotulo = {"oficial": "mp33", "descritivo": "mp34", "comunidade": "mp35"}.get(p.get("nome_tipo"))
+    if rotulo and textos.get(rotulo):
+        extras.append(textos[rotulo])
+    if p.get("aprox") and textos.get("mp28"):
+        extras.append(textos["mp28"])
+    return extras
+
+
+def confirmados_html(mapa, cod, textos):
+    """Lista estática (indexável) dos lugares confirmados que ainda não têm posição no mapa."""
+    itens = []
+    for c in (mapa or {}).get("confirmados", []):
+        nome = texto_idioma(c.get("nome"), cod)
+        if not nome:
+            continue
+        tipo = texto_idioma(c.get("tipo"), cod)
+        desc = texto_idioma(c.get("desc"), cod)
+        cor = COR_CATEGORIA.get(c.get("cat"), COR_CATEGORIA["marco"])
+        regiao = c.get("regiao") or ""
+        botao = (f'<button type="button" class="confirmado__ir" data-ir="{esc(regiao)}">'
+                 f'{esc(textos.get("mp32", ""))}</button>') if regiao else ""
+        fontes = "".join(f'<a href="{esc(f)}" target="_blank" rel="noopener nofollow">'
+                         f'{esc(urllib.parse.urlsplit(f).netloc.removeprefix("www."))}</a>'
+                         for f in c.get("fontes") or [] if str(f).startswith("http"))
+        fontes = f'<span class="confirmado__fontes">{esc(textos.get("mp38", ""))}: {fontes}</span>' if fontes else ""
+        itens.append(
+            f'      <li class="confirmado" style="--cor:{cor}" data-icone="{esc(c.get("icone") or "")}">'
+            f'<details><summary><i class="confirmado__cor"></i><span><strong>{esc(nome)}</strong>'
+            f'<small>{esc(tipo)}</small></span></summary>'
+            f'<p>{esc(desc)}</p>{botao}{fontes}</details></li>')
+    if not itens:
+        return ""
+    return (f'    <section class="atlas__confirmados" aria-labelledby="atlas-confirmados-titulo">\n'
+            f'      <h3 id="atlas-confirmados-titulo">{esc(textos.get("mp30", ""))} <span>{len(itens)}</span></h3>\n'
+            f'      <p>{esc(textos.get("mp31", ""))}</p>\n'
+            f'      <ul>\n' + "\n".join(itens) + '\n      </ul>\n    </section>')
 
 
 def cartao_local(local, prefixo, cod, textos):
     real = f'<small>{esc(local["real"])}</small>' if local["real"] else ""
-    return (f'      <li><a class="local-card local-card--{esc(local["cat"])}" href="{prefixo}{rel_local(cod, local)}/">'
+    cor = COR_CATEGORIA.get(local["cat"], COR_CATEGORIA["marco"])
+    return (f'      <li><a class="local-card local-card--{esc(local["cat"])}" style="--cor:{cor}" '
+            f'href="{prefixo}{rel_local(cod, local)}/">'
             f'<span class="local-card__cat">{esc(nome_categoria(local, textos))}</span>'
             f'<strong>{esc(local["nome"])}</strong>{real}</a></li>')
 
@@ -1364,6 +1439,7 @@ def montar():
             elif pagina == "mapa":
                 extras["__locais_lista__"] = (lambda pref, locais=locais, cod=cod, textos=textos:
                                               lista_locais(locais, pref, cod, textos))
+                extras["__confirmados_lista__"] = confirmados_html(mapa, cod, textos)
                 extras["__mapa_config__"] = (
                     lambda pref, cod=cod, textos=textos, ids=ids_locais: config_mapa(mapa, cod, textos, pref, ids)
                     if mapa else "null")

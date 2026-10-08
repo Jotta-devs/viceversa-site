@@ -44,7 +44,14 @@ CORES_SELO = {
     "vazamento": (255, 61, 138),
     "off": (182, 156, 255),         # notícia fora do GTA 6
     "regiao": (255, 61, 138),       # locais do mapa: mesmas cores dos pontos
-    "marco": (47, 230, 200),
+    "marco": (255, 210, 63),
+    "cidade": (255, 95, 162),
+    "transporte": (63, 169, 255),
+    "natureza": (47, 200, 122),
+    "industria": (255, 138, 61),
+    "trailer": (255, 90, 90),
+    "real": (47, 230, 200),
+    "comercio": (176, 124, 255),
 }
 
 _fontes = {}
