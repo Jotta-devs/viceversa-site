@@ -1228,7 +1228,7 @@
     border:1px solid var(--linha);border-radius:18px;overflow:hidden;background:var(--atlas-fundo);isolation:isolate;
   }
   .atlas [hidden]{display:none!important}
-  .atlas svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .atlas svg:not(.atlas-vetor){width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
   /* lateral */
   .atlas__lado{display:flex;flex-direction:column;gap:.85rem;min-height:0;overflow-y:auto;overscroll-behavior:contain;
@@ -1437,7 +1437,8 @@
   .atlas--noite .c-areia{fill:#4A2A3C}
   .atlas--noite .c-urbana{fill:#3C2560}
   .atlas--noite .c-predio{fill:#5A3C86}
-  .atlas--noite .l-ruas{stroke:#8A62C0;stroke-width:calc(var(--traco) * .6px)}
+  .atlas--noite .l-vielas{stroke:#7451A8;stroke-width:calc(var(--traco) * .45px);stroke-dasharray:none}
+  .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
   .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
@@ -1456,13 +1457,15 @@
   .atlas--dia .c-areia{fill:#F3E1A6}
   .atlas--dia .c-urbana{fill:#E1E1E8}
   .atlas--dia .c-predio{fill:#C9C7D4}
-  .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .8px)}
+  .atlas--dia .l-vielas{stroke:#FFFFFF;stroke-opacity:.8;stroke-width:calc(var(--traco) * .55px)}
+  .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
   .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
   .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
+  .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
   .atlas[data-zoom="longe"] .atlas-vetor .c-predio{display:none}
 
   /* nomes das regiões (clicáveis) e rótulos de água */
