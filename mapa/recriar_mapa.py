@@ -18,13 +18,15 @@ O que o script faz
      - relevo em 3 níveis (a partir do sombreado de altitude);
      - areia (junto da água) e áreas industriais/agrícolas (no interior);
      - cidades, quarteirões e prédios;
-     - rodovias, estradas e ruas redesenhadas como linhas centrais.
+     - rodovias, avenidas/estradas, ruas e vielas redesenhadas como linhas
+       centrais com precisão de subpixel (ver mapa/vias.py).
 5. Grava mapa/leonida.svg. As cores NÃO ficam no arquivo: cada camada tem uma
    classe e o site pinta com a paleta escolhida (Noite ou Dia).
 
 Uso:
-    pip install opencv-python-headless numpy
+    pip install opencv-python-headless numpy scipy scikit-image networkx sknw
     python mapa/recriar_mapa.py
+    python mapa/gerar_previa.py
     python montar.py
 
 Com uma imagem maior em mapa/base/ (a versão em alta resolução), o resultado
@@ -53,7 +55,8 @@ REF = 2048
 RECORTE = (586, 0, 2048, 1951)          # x0, y0, x1, y1 — só o mapa, sem a legenda
 PASSO_GRADE = 97.45                     # espaçamento da grade do original (é apagada)
 ESCALA = 3                              # ampliação antes de vetorizar: curvas mais suaves
-CASAS = 1                               # casas decimais no SVG
+CASAS = 1                               # casas decimais no SVG (áreas)
+CASAS_VIAS = 2                          # casas decimais das ruas: 1/100 de pixel
 
 # cores de referência do original (legenda "Terrain" e "Features")
 CLASSES = {
@@ -113,26 +116,38 @@ def media_mascarada(valor, mascara, sigma):
 
 
 # ── limpeza do original ─────────────────────────────────────────────
-def apagar_grade_e_textos(img, k):
-    """Máscara da grade do original e dos textos (brancos e vermelhos) → inpaint."""
+def linhas_da_grade(img, k):
+    """Posições (em px do recorte) das linhas da grade de referência do original."""
     h, w = img.shape[:2]
     g = img.astype(np.float32).mean(2)
     dx = g - (np.roll(g, 3, 1) + np.roll(g, -3, 1)) / 2
     dy = g - (np.roll(g, 3, 0) + np.roll(g, -3, 0)) / 2
-    alvo = np.zeros((h, w), bool)
     passo = PASSO_GRADE * k
+    xs, ys = [], []
     for i in range(1, int(w / passo) + 1):
         c = int(round(i * passo - 1.5 * k))
         faixa = range(max(1, c - 3), min(w - 1, c + 4))
         x = max(faixa, key=lambda x: (dx[:, x] < -5).mean())
         if (dx[:, x] < -5).mean() > 0.2:
-            alvo[:, x - 1:x + 2] |= dx[:, x - 1:x + 2] < -2
+            xs.append(x)
     for j in range(1, int(h / passo) + 1):
         c = int(round(j * passo))
         faixa = range(max(1, c - 3), min(h - 1, c + 4))
         y = max(faixa, key=lambda y: (dy[y] < -5).mean())
         if (dy[y] < -5).mean() > 0.2:
-            alvo[y - 1:y + 2] |= dy[y - 1:y + 2] < -2
+            ys.append(y)
+    return xs, ys, dx, dy
+
+
+def apagar_grade_e_textos(img, k):
+    """Máscara da grade do original e dos textos (brancos e vermelhos) → inpaint."""
+    h, w = img.shape[:2]
+    xs, ys, dx, dy = linhas_da_grade(img, k)
+    alvo = np.zeros((h, w), bool)
+    for x in xs:
+        alvo[:, x - 1:x + 2] |= dx[:, x - 1:x + 2] < -2
+    for y in ys:
+        alvo[y - 1:y + 2] |= dy[y - 1:y + 2] < -2
 
     hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV).astype(np.int32)
     branco = img.min(2) > 228
@@ -361,12 +376,17 @@ def main():
         paths.append(f'<path class="c-{nome}" fill-rule="evenodd" d="{d}"/>')
         print(f"  {nome:10s} {len(d) / 1024:8.1f} KB")
 
-    # linhas: espessura constante na tela, qualquer que seja o zoom
-    rodovias, estradas, ruas = linhas(vias, meia, urbana, k)
-    for classe, d in (("ruas", ruas), ("vias", estradas), ("vias-largas", rodovias)):
+    # ruas e estradas: extraídas do original (sem limpeza), com precisão de subpixel
+    from vias import extrair
+    gx, gy, _, _ = linhas_da_grade(img, k)
+    rel = {}
+    tracos, _ = extrair(img, urbana, agua, gx, gy, k=k, casas=CASAS_VIAS, relatorio=rel)
+    # ordem de desenho: das menores para as maiores (a rodovia passa por cima)
+    for classe, chave in (("vielas", "vielas"), ("ruas", "ruas"), ("vias", "avenidas"), ("vias-largas", "rodovias")):
+        d = tracos[chave]
         paths.append(f'<path class="l-{classe}" fill="none" vector-effect="non-scaling-stroke" '
                      f'stroke-linecap="round" stroke-linejoin="round" d="{d}"/>')
-        print(f"  {classe:10s} {len(d) / 1024:8.1f} KB")
+        print(f"  {classe:11s} {len(d) / 1024:8.1f} KB  ({rel[chave]['trechos']} trechos)")
 
     # grade de referência do VICEVERSA (A1, B2…), estilo guia de ruas
     celula = w / COLUNAS
