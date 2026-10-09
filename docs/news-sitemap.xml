@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://vvviceversa.com/news/20261009-the-sound-of-leonida-rockstar-reveals-first-radio-stations/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-09T18:41:41+00:00</news:publication_date>
+      <news:title>The Sound of Leonida: Rockstar reveals first radio stations, star DJs and original GTA 6 album.</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261009-the-sound-of-leonida-rockstar-reveals-first-radio-stations/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-10-09T18:41:41+00:00</news:publication_date>
+      <news:title>O Som de Leonida: Rockstar revela primeiras rádios, DJs estrelados e álbum original de GTA 6</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261009-the-sound-of-leonida-rockstar-reveals-first-radio-stations/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-10-09T18:41:41+00:00</news:publication_date>
+      <news:title>El sonido de Leonida: Rockstar revela las primeras emisoras de radio, los DJ estrella y el álbum original de GTA 6.</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://vvviceversa.com/news/20261008-cyberleek-returns-new-25-minute-gta-6-leak-reveals-illegal/</loc>
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
@@ -22,30 +46,6 @@
       <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
       <news:publication_date>2026-10-08T15:50:16+00:00</news:publication_date>
       <news:title>Cyberleek regresa: Nueva filtración de 25 minutos de GTA 6 revela carreras ilegales, personalización y desnudez explícita</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261007-xbox-director-denies-gta-6-streaming-exclusivity-and-rules/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-07T16:04:33+00:00</news:publication_date>
-      <news:title>Xbox director denies GTA 6 streaming exclusivity and rules out PC release via cloud.</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261007-xbox-director-denies-gta-6-streaming-exclusivity-and-rules/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-07T16:04:33+00:00</news:publication_date>
-      <news:title>Diretor do Xbox desmente exclusividade de streaming de GTA 6 e descarta jogo no PC via nuvem</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261007-xbox-director-denies-gta-6-streaming-exclusivity-and-rules/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-07T16:04:33+00:00</news:publication_date>
-      <news:title>Director de Xbox desmiente la exclusividad de streaming de GTA 6 y descarta el juego en PC vía la nube</news:title>
     </news:news>
   </url>
 </urlset>
