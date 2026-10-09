@@ -48,28 +48,4 @@
       <news:title>Director de Xbox desmiente la exclusividad de streaming de GTA 6 y descarta el juego en PC vía la nube</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261007-microsoft-closes-exclusivity-deal-for-gta-6-streaming-on/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-07T11:57:52+00:00</news:publication_date>
-      <news:title>[CANCELED] Microsoft closes exclusivity deal for GTA 6 streaming on Xbox Cloud Gaming</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261007-microsoft-closes-exclusivity-deal-for-gta-6-streaming-on/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-07T11:57:52+00:00</news:publication_date>
-      <news:title>Microsoft fecha acordo de exclusividade para streaming de GTA 6 no Xbox Cloud Gaming</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261007-microsoft-closes-exclusivity-deal-for-gta-6-streaming-on/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-07T11:57:52+00:00</news:publication_date>
-      <news:title>Microsoft cierra un acuerdo de exclusividad para el streaming de GTA 6 en Xbox Cloud Gaming</news:title>
-    </news:news>
-  </url>
 </urlset>
