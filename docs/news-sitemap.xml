@@ -24,28 +24,4 @@
       <news:title>El sonido de Leonida: Rockstar revela las primeras emisoras de radio, los DJ estrella y el álbum original de GTA 6.</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261008-cyberleek-returns-new-25-minute-gta-6-leak-reveals-illegal/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-08T15:50:16+00:00</news:publication_date>
-      <news:title>Cyberleek Returns: New 25-Minute GTA 6 Leak Reveals Illegal Racing, Customization, and Explicit Nudity</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261008-cyberleek-returns-new-25-minute-gta-6-leak-reveals-illegal/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-08T15:50:16+00:00</news:publication_date>
-      <news:title>Cyberleek Retorna: Novo Vazamento de 25 Minutos de GTA 6 Revela Corridas Ilegais, Customização e Nudez Explícita</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261008-cyberleek-returns-new-25-minute-gta-6-leak-reveals-illegal/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-08T15:50:16+00:00</news:publication_date>
-      <news:title>Cyberleek regresa: Nueva filtración de 25 minutos de GTA 6 revela carreras ilegales, personalización y desnudez explícita</news:title>
-    </news:news>
-  </url>
 </urlset>
