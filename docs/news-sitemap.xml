@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://vvviceversa.com/news/20261013-gta-6-on-pc-earlier-than-expected-rumor-points-to-early-2027/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-13T18:23:32+00:00</news:publication_date>
+      <news:title>GTA 6 on PC Earlier Than Expected? Rumor Points to Early 2027 Release and Pressure Due to AI</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261013-gta-6-on-pc-earlier-than-expected-rumor-points-to-early-2027/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-10-13T18:23:32+00:00</news:publication_date>
+      <news:title>GTA 6 no PC antes do esperado? Rumor aponta lançamento para o início de 2027 e pressão por conta de IA</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261013-gta-6-on-pc-earlier-than-expected-rumor-points-to-early-2027/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-10-13T18:23:32+00:00</news:publication_date>
+      <news:title>¿GTA 6 en PC antes de lo esperado? Un rumor apunta a un lanzamiento a principios de 2027 y presión debido a la IA</news:title>
+    </news:news>
+  </url>
 </urlset>
