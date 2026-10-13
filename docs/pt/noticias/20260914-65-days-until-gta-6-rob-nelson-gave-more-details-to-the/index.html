@@ -2175,8 +2175,10 @@ O jeito de jogar muda o corpo de Jason e Lucia. Treinar ganha músculos, comer d
     });
 
     const botaoEstilo = document.getElementById("atlas-estilo");
-    let estiloAtual = "noite";
-    function aplicarEstilo(estilo){
+    /* estilo Dia é o padrão; Noite só se o leitor escolher (a escolha fica salva) */
+    const CHAVE_ESTILO = "viceversa_mapa_estilo_escolhido";
+    let estiloAtual = "dia";
+    function aplicarEstilo(estilo, salvar){
       estiloAtual = estilo;
       caixa.classList.remove("atlas--noite", "atlas--dia");
       caixa.classList.add("atlas--" + estilo);
@@ -2184,15 +2186,15 @@ O jeito de jogar muda o corpo de Jason e Lucia. Treinar ganha músculos, comer d
         const proximo = estilo === "noite" ? botaoEstilo.dataset.dia : botaoEstilo.dataset.noite;
         botaoEstilo.title = proximo || ""; botaoEstilo.setAttribute("aria-label", proximo || "");
       }
-      try { localStorage.setItem("viceversa_mapa_estilo", estilo); } catch(e){}
+      if(salvar){ try { localStorage.setItem(CHAVE_ESTILO, estilo); } catch(e){} }
     }
     try {
-      const salvo = localStorage.getItem("viceversa_mapa_estilo");
+      const salvo = localStorage.getItem(CHAVE_ESTILO);
       if(salvo === "dia" || salvo === "noite") estiloAtual = salvo;
     } catch(e){}
-    aplicarEstilo(estiloAtual);
+    aplicarEstilo(estiloAtual, false);
     if(botaoEstilo) botaoEstilo.addEventListener("click", function(){
-      aplicarEstilo(estiloAtual === "noite" ? "dia" : "noite");
+      aplicarEstilo(estiloAtual === "noite" ? "dia" : "noite", true);
       evento("mapa_estilo", {estilo: estiloAtual});
     });
 
