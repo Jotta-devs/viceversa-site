@@ -103,7 +103,7 @@ SELO_OFF = ("st07", "st08")
 
 # páginas de cada local do mapa (/map/<local>/): o recorte do mapa vem desta
 # imagem, gerada por mapa/gerar_previa.py
-PREVIA_MAPA = RAIZ / "mapa" / "leonida-noite.webp"
+PREVIA_MAPA = RAIZ / "mapa" / "leonida-dia.webp"
 # categorias do mapa, na ordem da lista lateral: (chave, cor, texto do plural,
 # texto do singular, ícone padrão). Os textos ficam em idiomas/*.json.
 CATEGORIAS_MAPA = [
@@ -1624,7 +1624,7 @@ def montar():
     if paginas_local:
         print(f"  ✓ {paginas_local} página(s) de locais do mapa")
         if not PREVIA_MAPA.exists():
-            print("  ! mapa/leonida-noite.webp ausente: as páginas de local saem sem o recorte do mapa.\n"
+            print("  ! mapa/leonida-dia.webp ausente: as páginas de local saem sem o recorte do mapa.\n"
                   "    Para gerar: python mapa/gerar_previa.py")
     print("  ✓ feed.xml, pt/feed.xml, es/feed.xml")
 

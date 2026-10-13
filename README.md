@@ -241,15 +241,15 @@ Leonida.
 mapa/base/            a imagem-base do mapa (só no seu computador — fica fora do Git)
 mapa/recriar_mapa.py  redesenha o mapa em vetor → mapa/leonida.svg, mapa/leonida.json
 mapa/pontos.json      pontos clicáveis (regiões, marcos, trailers, vida real) e rótulos
-mapa/gerar_previa.py  "foto" do mapa no estilo Noite → mapa/leonida-noite.webp
-mapa/leonida-noite.webp  usada para recortar a imagem de cada página de local
+mapa/gerar_previa.py  "foto" do mapa no estilo Dia → mapa/leonida-dia.webp
+mapa/leonida-dia.webp  usada para recortar a imagem de cada página de local
 vendor/leaflet/       a biblioteca do mapa (Leaflet, licença BSD), servida pelo próprio site
 ```
 
 O vetor traz: mar em 4 profundidades, relevo em 3 níveis, pântanos, praias,
 áreas industriais, cidades com quarteirões e prédios, e a rede de vias
 redesenhada em rodovias, estradas e ruas (as ruas e os prédios ganham destaque
-ao aproximar). Em cima disso o site oferece os estilos **Noite** e **Dia** (as
+ao aproximar). Em cima disso o site oferece os estilos **Dia** (o padrão) e **Noite** (as
 cores estão em `partes/cabeca.html`, seção "ATLAS recriado"), **grade de
 referência** A1…H11, nomes das regiões e locais nos três idiomas, busca, link
 direto para cada local e tela cheia.
@@ -271,8 +271,8 @@ mapa ganhou o botão "Ver página do local" e as páginas entram no `sitemap.xml
 Quanto mais completa a descrição (`desc` no `pontos.json`, ou os textos `m…` em
 `idiomas/*.json` para os pontos com `ficha`), melhor a página se sai no Google.
 
-O recorte vem de `mapa/leonida-noite.webp`. Quando o mapa mudar (depois do
-`recriar_mapa.py`) ou as cores do estilo Noite mudarem, refaça essa imagem:
+O recorte vem de `mapa/leonida-dia.webp`. Quando o mapa mudar (depois do
+`recriar_mapa.py`) ou as cores do estilo Dia mudarem, refaça essa imagem:
 
 ```bash
 pip install playwright pillow

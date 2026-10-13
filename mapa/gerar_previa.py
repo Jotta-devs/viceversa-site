@@ -3,16 +3,16 @@
 VICEVERSA — imagem do mapa para as páginas de cada local
 =========================================================
 O mapa do site é um vetor (mapa/leonida.svg) que o navegador pinta com as
-cores do estilo Noite. Este script tira uma "foto" desse vetor, já pintado,
+cores do estilo Dia (o padrão do site). Este script tira uma "foto" desse vetor, já pintado,
 em alta resolução:
 
-    mapa/leonida-noite.webp
+    mapa/leonida-dia.webp
 
 O montar.py recorta essa imagem em volta de cada local para a página
 /map/<local>/ e para a imagem de compartilhamento do local.
 
 Só precisa rodar de novo quando o mapa mudar (depois do recriar_mapa.py)
-ou quando as cores do estilo Noite mudarem em partes/cabeca.html:
+ou quando as cores do estilo Dia mudarem em partes/cabeca.html:
 
     pip install playwright pillow
     python -m playwright install chromium
@@ -28,16 +28,16 @@ from pathlib import Path
 PASTA = Path(__file__).parent
 RAIZ = PASTA.parent
 SVG = PASTA / "leonida.svg"
-SAIDA = PASTA / "leonida-noite.webp"
+SAIDA = PASTA / "leonida-dia.webp"
 ESCALA = 3          # 3 px por unidade do mapa: nítido mesmo recortando de perto
 
 
-def css_noite():
-    """As regras do estilo Noite, copiadas de partes/cabeca.html."""
+def css_dia():
+    """As regras do estilo Dia, copiadas de partes/cabeca.html."""
     css = (RAIZ / "partes" / "cabeca.html").read_text(encoding="utf-8")
-    regras = re.findall(r"^\s*\.atlas--noite [^{]+\{[^}]*\}", css, re.M)
+    regras = re.findall(r"^\s*\.atlas--dia [^{]+\{[^}]*\}", css, re.M)
     if not regras:
-        sys.exit("Não achei as cores do estilo Noite em partes/cabeca.html.")
+        sys.exit("Não achei as cores do estilo Dia em partes/cabeca.html.")
     return "\n".join(regras)
 
 
@@ -54,12 +54,12 @@ def main():
     m = re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', svg)
     largura, altura = float(m.group(1)), float(m.group(2))
     pagina = f"""<!doctype html><html><head><style>
-      html,body{{margin:0;background:#07112A}}
+      html,body{{margin:0;background:#3778C2}}
       .atlas{{--traco:1}}
       .atlas-vetor svg{{display:block;width:{largura}px;height:{altura}px}}
       .atlas-vetor .grade{{display:none}}
-      {css_noite()}
-    </style></head><body><div class="atlas atlas--noite"><div class="atlas-vetor">{svg}</div></div></body></html>"""
+      {css_dia()}
+    </style></head><body><div class="atlas atlas--dia"><div class="atlas-vetor">{svg}</div></div></body></html>"""
 
     with sync_playwright() as p:
         navegador = p.chromium.launch()

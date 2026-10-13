@@ -190,7 +190,7 @@ def gerar(destino, titulo, rodape, caminho_foto=None, selo=None, selo_texto=""):
 
 
 # ── locais do mapa ──────────────────────────────────────────────────
-MAR_NOITE = (7, 17, 42)
+MAR = (55, 120, 194)          # cor do mar no estilo Dia
 _mapa_base = {}
 
 
@@ -198,7 +198,7 @@ def recorte_mapa(previa, destino, fx, fy, largura_unid, altura_mapa, largura_map
                  cor=(47, 230, 200), centro_y=0.5, tamanho=(LARGURA, ALTURA)):
     """Recorta a imagem do mapa em volta do ponto (fx, fy) e marca o local.
 
-    previa        mapa/leonida-noite.webp (o mapa inteiro, já pintado)
+    previa        mapa/leonida-dia.webp (o mapa inteiro, já pintado no estilo Dia)
     fx, fy        posição do local em frações do mapa (0 a 1)
     largura_unid  quanto do mapa (em unidades do vetor) cabe na largura do recorte
     centro_y      altura em que o marcador fica (0.5 = meio; menos = mais para cima)
@@ -215,7 +215,7 @@ def recorte_mapa(previa, destino, fx, fy, largura_unid, altura_mapa, largura_map
     caixa = tuple(round(v) for v in (x0, y0, x0 + larg_px, y0 + alt_px))
 
     # o que sair da borda do mapa vira mar
-    tela = Image.new("RGB", (caixa[2] - caixa[0], caixa[3] - caixa[1]), MAR_NOITE)
+    tela = Image.new("RGB", (caixa[2] - caixa[0], caixa[3] - caixa[1]), MAR)
     dentro = (max(0, caixa[0]), max(0, caixa[1]), min(base.width, caixa[2]), min(base.height, caixa[3]))
     if dentro[0] < dentro[2] and dentro[1] < dentro[3]:
         tela.paste(base.crop(dentro), (dentro[0] - caixa[0], dentro[1] - caixa[1]))
