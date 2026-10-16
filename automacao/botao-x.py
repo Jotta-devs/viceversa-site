@@ -52,6 +52,32 @@ def montar_texto(titulo, corpo):
     return f"{titulo}\n\n{corpo}".strip() if corpo else titulo
 
 
+PARTES = (("context", "Contexto"), ("known", "O que se sabe"),
+          ("unknown", "O que ainda não se sabe"), ("take", "Análise do VICEVERSA"))
+
+
+def checklist(corpo):
+    """Confere o padrão VICEVERSA (fontes, matéria e aprofundamento)."""
+    campos = ler_post(corpo)
+    fontes = campos["fontes"]
+    dominios = {urllib.parse.urlsplit(u).netloc.lower().removeprefix("www.") for u in fontes}
+    materia = re.sub(r"<[^>]+>|!\[[^\]]*\]\([^)]*\)|https?://\S+", " ", campos["materia"] or "")
+    palavras = len(materia.split())
+    ap = campos.get("aprofundamento") or {}
+    en = ap.get("en") or {}
+    faltando = [nome for chave, nome in PARTES if not en.get(chave)]
+    itens = [
+        (len(dominios) >= 2, f"Fontes de pelo menos 2 veículos diferentes (agora: {len(dominios)})"),
+        (palavras >= 250, f"Matéria completa com 250 palavras ou mais (agora: {palavras})"),
+        (not faltando, "Aprofundamento em inglês completo" +
+         (f" (falta: {', '.join(faltando)})" if faltando else "")),
+        ("pt-BR" in ap, "Aprofundamento em português"),
+        ("es" in ap, "Aprofundamento em espanhol"),
+    ]
+    linhas = [f"- {'✅' if ok else '⚠️'} {texto}" for ok, texto in itens]
+    return "\n".join(linhas)
+
+
 def comentar(repositorio, numero, corpo, token):
     url = f"https://api.github.com/repos/{repositorio}/issues/{numero}/comments"
     dados = json.dumps({"body": corpo}).encode("utf-8")
@@ -152,6 +178,13 @@ O link abre a caixa de publicação já preenchida. Revise e clique em **Post**.
 {texto}
 ```
 </details>
+
+### Padrão VICEVERSA
+
+{checklist(corpo_bruto)}
+
+*Notícia sem esses itens fica mais fraca para o Google e para o AdSense.
+Edite a Issue e salve: esta lista se atualiza sozinha.*
 
 *Depois de publicar, cole o link do tweet no campo "Link do post no X" da Issue
 para o card do site apontar para ele.*

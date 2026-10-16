@@ -64,3 +64,27 @@ Aba **Actions** → última execução → passo **"Gerar o botão de publicaç�
   formulário "Novo post", que já aplica o rótulo sozinho.
 - Se der erro de permissão, confira **Settings → Actions → General →
   Workflow permissions → "Read and write permissions"**.
+
+## Padrão VICEVERSA: fontes e aprofundamento
+
+Toda notícia leva:
+
+- **Pelo menos 2 fontes** de veículos diferentes (campo **Fontes**, um link por linha).
+- **Aprofundamento** — o campo já vem com quatro subtítulos (`#### Context`,
+  `#### What we know`, `#### What we don't know yet`, `#### VICEVERSA's take`).
+  Escreva embaixo de cada um; nos dois do meio, um item por linha começando com `- `.
+  Há um campo igual em português e outro em espanhol.
+
+No site, isso vira as seções **Contexto**, **O que se sabe / O que ainda não se
+sabe** e **A análise do VICEVERSA**, no fim da matéria, assinadas pelo editor.
+O comentário do robô na Issue mostra uma lista com ✅ e ⚠️ dizendo o que falta.
+
+Notícias antigas recebem o aprofundamento pelos arquivos da pasta
+`aprofundamento/` (um JSON por notícia). Se a Issue também tiver o campo
+preenchido, vale o da Issue.
+
+## Corrigir uma notícia
+
+Edite a Issue e, no fim do texto de cada idioma, acrescente uma nota em itálico:
+`*Correction (16 de outubro de 2026): uma versão anterior dizia X. Na verdade, Y.*`
+Corrigir às claras conta a favor do site.

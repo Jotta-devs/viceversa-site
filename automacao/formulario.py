@@ -30,6 +30,7 @@ ROTULOS = re.compile(
     r"|mat[eé]ria completa|fontes?\b"
     r"|t[ií]tulo em portugu[eê]s|texto em portugu[eê]s"
     r"|t[ií]tulo e[nm] espa[nñ](?:ol|hol)|texto e[nm] espa[nñ](?:ol|hol)"
+    r"|aprofundamento \(ingl[eê]s\)|aprofundamento em portugu[eê]s|aprofundamento e[nm] espa[nñ](?:ol|hol)"
     r")[^\n]*$", re.I | re.M)
 
 
@@ -85,11 +86,49 @@ def ler_assunto(valor):
     return _normalizar(valor or "").startswith("off")
 
 
+# aprofundamento: o campo vem com quatro subtítulos (#### Contexto, #### O que
+# se sabe, #### O que ainda não se sabe, #### Análise). A ordem dos testes
+# importa: "não se sabe" precisa ser visto antes de "se sabe".
+PARTES_APROFUNDAMENTO = (
+    ("unknown", r"n[aã]o se sabe|no se sabe|don.?t know|do not know|not known|unknown|ainda n[aã]o|a[uú]n no"),
+    ("known", r"se sabe|we know|known|confirmad"),
+    ("context", r"context"),
+    ("take", r"an[aá]lis|take|opini"),
+)
+
+
+def ler_aprofundamento(texto):
+    """'#### Contexto ... #### Análise ...' -> {"context": [...], "known": [...], ...}.
+
+    Contexto e análise viram parágrafos (separados por linha em branco); o que
+    se sabe e o que não se sabe viram itens de lista (linhas com "- "). As
+    instruções do modelo (comentários <!-- -->) e itens vazios são ignorados.
+    Devolve {} quando o campo está vazio.
+    """
+    texto = re.sub(r"<!--.*?-->", "", (texto or "").replace("\r\n", "\n"), flags=re.S)
+    blocos = re.split(r"^#{2,6}[ \t]+(.+?)[ \t]*#*[ \t]*$", texto, flags=re.M)
+    resultado = {}
+    for i in range(1, len(blocos) - 1, 2):
+        titulo = _normalizar(blocos[i])
+        chave = next((k for k, padrao in PARTES_APROFUNDAMENTO if re.search(padrao, titulo)), None)
+        if not chave:
+            continue
+        corpo = blocos[i + 1].strip()
+        if chave in ("known", "unknown"):
+            itens = [re.sub(r"^\s*[-*•]\s*", "", l).strip() for l in corpo.splitlines()]
+            valores = [t for t in itens if t]
+        else:
+            valores = [" ".join(p.split()) for p in re.split(r"\n\s*\n", corpo) if p.strip()]
+        if valores:
+            resultado[chave] = resultado.get(chave, []) + valores
+    return resultado
+
+
 def ler_post(corpo):
     """Extrai os campos do post já limpos.
 
     Devolve dict com: texto, materia, fontes, link, status, off, titulo_pt,
-    texto_pt, titulo_es, texto_es.
+    texto_pt, titulo_es, texto_es, aprofundamento.
     """
     s = ler_secoes(corpo)
     texto = campo(s, "texto do post")
@@ -125,4 +164,12 @@ def ler_post(corpo):
         "texto_pt": campo(s, "texto em portugues").strip(),
         "titulo_es": campo(s, "titulo en espanol", "titulo em espanhol").strip(),
         "texto_es": campo(s, "texto en espanol", "texto em espanhol").strip(),
+        # contexto, o que se sabe, o que não se sabe e análise, por idioma
+        "aprofundamento": {
+            cod: dados for cod, dados in (
+                ("en", ler_aprofundamento(campo(s, "aprofundamento (ingles", "aprofundamento em ingles"))),
+                ("pt-BR", ler_aprofundamento(campo(s, "aprofundamento em portugues"))),
+                ("es", ler_aprofundamento(campo(s, "aprofundamento en espanol", "aprofundamento em espanhol"))),
+            ) if dados
+        },
     }

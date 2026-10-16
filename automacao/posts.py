@@ -462,6 +462,10 @@ def main():
         }
         if campos["fontes"]:
             item["fontes"] = campos["fontes"]
+        # contexto / o que se sabe / o que não se sabe / análise (montar.py
+        # monta as seções no fim da matéria)
+        if campos.get("aprofundamento"):
+            item["aprofundamento"] = campos["aprofundamento"]
         status = status_da_issue(issue, campos)
         if status:
             item["status"] = status

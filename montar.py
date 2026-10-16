@@ -330,6 +330,22 @@ def carregar_aprofundamentos():
     return dados
 
 
+def combinar_aprofundamento(arquivo, issue):
+    """Junta o aprofundamento do arquivo (aprofundamento/<slug>.json) com o
+    escrito na própria Issue (campos "Aprofundamento" do formulário).
+
+    Por idioma, o da Issue vale mais: é o texto mais novo e o que o editor
+    controla. O arquivo continua dando as fontes extras e a data de revisão.
+    """
+    if not issue:
+        return arquivo
+    dados = dict(arquivo or {})
+    for cod, partes in issue.items():
+        if isinstance(partes, dict) and any(partes.get(k) for k in ("context", "known", "unknown", "take")):
+            dados[cod] = partes
+    return dados
+
+
 def carregar_posts():
     """Lê feed.json e prepara cada notícia com suas versões por idioma.
 
@@ -413,7 +429,7 @@ def carregar_posts():
             "fontes": [f for f in (p.get("fontes") or []) if re.match(r"^https?://", f or "")],
             "versoes": versoes,
         })
-        aprofundar = aprofundamentos.get(slug)
+        aprofundar = combinar_aprofundamento(aprofundamentos.get(slug), p.get("aprofundamento"))
         if aprofundar:
             post = posts[-1]
             post["aprofundamento"] = aprofundar

@@ -25,6 +25,12 @@ body:
         anunciado, o que isso muda para o jogador e o que ainda não se sabe
         (ideal: 250 palavras ou mais). Sempre preencha a **Fonte**.
 
+        **Padrão VICEVERSA (obrigatório):** toda notícia leva **pelo menos 2
+        fontes independentes** e o **Aprofundamento** — contexto, o que se sabe,
+        o que ainda não se sabe e a análise do VICEVERSA. Ele aparece no fim da
+        matéria, com títulos próprios, e é o que diferencia o site de quem só
+        repete a fonte. O robô avisa no comentário se faltar alguma coisa.
+
         **Português e espanhol (opcional):** preencha os campos traduzidos e a
         notícia ganha também uma página em /pt/noticias/... e /es/noticias/...
         — que é a que o leitor brasileiro ou hispânico encontra no Google.
@@ -63,10 +69,36 @@ body:
     attributes:
       label: Fontes
       description: >
-        Link(s) de onde veio a informação — um por linha. Prefira a fonte
-        original (Rockstar Newswire, perfil oficial, entrevista, veículo que deu
-        a notícia primeiro). Aparece no fim da matéria como "Fontes".
+        Links de onde veio a informação — um por linha, PELO MENOS DOIS, de
+        veículos diferentes. Prefira a fonte original (Rockstar Newswire,
+        perfil oficial, entrevista, veículo que deu a notícia primeiro) e
+        confirme em um segundo veículo sério. Não use o site de quem vazou,
+        Reddit ou post solto no X como única fonte. Aparece no fim da matéria
+        como "Fontes".
       placeholder: https://www.rockstargames.com/newswire/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: aprofundamento_en
+    attributes:
+      label: Aprofundamento (inglês)
+      description: >
+        Contexto, o que se sabe, o que ainda não se sabe e a análise do VICEVERSA, em inglês. Escreva embaixo de cada subtítulo (não apague os subtítulos que começam com ####). As instruções entre <!-- --> não aparecem no site. Ideal: 350 a 450 palavras no total.
+      value: |
+        #### Context
+        <!-- 1 or 2 paragraphs: what came before, why it matters, how it connects to earlier news. -->
+
+        #### What we know
+        <!-- One fact per line, starting with '- '. Only what is official or confirmed by 2+ outlets. -->
+        - 
+
+        #### What we don't know yet
+        <!-- One open question or unconfirmed claim per line, starting with '- '. -->
+        - 
+
+        #### VICEVERSA's take
+        <!-- 2 paragraphs with our opinion: what it means for players, how credible it is, what to watch next. -->
     validations:
       required: true
 
@@ -125,6 +157,29 @@ body:
     validations:
       required: false
 
+  - type: textarea
+    id: aprofundamento_pt
+    attributes:
+      label: Aprofundamento em português (opcional)
+      description: >
+        O mesmo aprofundamento, em português. Se ficar em branco, a página em português fica sem essas seções.
+      value: |
+        #### Contexto
+        <!-- 1 ou 2 parágrafos: o que veio antes, por que importa, como se liga a outras notícias. -->
+
+        #### O que se sabe
+        <!-- Um fato por linha, começando com '- '. Só o que é oficial ou confirmado por 2+ veículos. -->
+        - 
+
+        #### O que ainda não se sabe
+        <!-- Uma dúvida ou alegação não confirmada por linha, começando com '- '. -->
+        - 
+
+        #### A análise do VICEVERSA
+        <!-- 2 parágrafos com a nossa opinião: o que muda para o jogador, se é crível, o que observar. -->
+    validations:
+      required: false
+
   - type: input
     id: titulo_es
     attributes:
@@ -137,6 +192,29 @@ body:
     id: texto_es
     attributes:
       label: Texto en español (opcional)
+    validations:
+      required: false
+
+  - type: textarea
+    id: aprofundamento_es
+    attributes:
+      label: Aprofundamento en español (opcional)
+      description: >
+        O mesmo aprofundamento, em espanhol.
+      value: |
+        #### Contexto
+        <!-- 1 o 2 párrafos: qué pasó antes, por qué importa, cómo se conecta con otras noticias. -->
+
+        #### Lo que se sabe
+        <!-- Un hecho por línea, empezando con '- '. Solo lo oficial o confirmado por 2+ medios. -->
+        - 
+
+        #### Lo que aún no se sabe
+        <!-- Una duda o afirmación no confirmada por línea, empezando con '- '. -->
+        - 
+
+        #### El análisis de VICEVERSA
+        <!-- 2 párrafos con nuestra opinión: qué cambia para el jugador, si es creíble, qué observar. -->
     validations:
       required: false
 
