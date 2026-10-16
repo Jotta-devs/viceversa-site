@@ -1,0 +1,85 @@
+{
+  "slug": "20260914-65-days-until-gta-6-rob-nelson-gave-more-details-to-the",
+  "updated": "2026-10-16",
+  "sources": [
+    {
+      "url": "https://www.notebookcheck.net/GTA-6-preview-reveals-gameplay-mechanics-diet-muscle-fatigue-and-more.1379858.0.html",
+      "name": "Notebookcheck — GTA 6 preview reveals diet, muscle and fatigue mechanics (Rob Nelson to Dazed)"
+    },
+    {
+      "url": "https://insider-gaming.com/gta-6-interview-reveals-new-details-about-the-game/",
+      "name": "Insider Gaming — GTA 6 interview reveals new details about the game (IGN interview with Rob Nelson)"
+    },
+    {
+      "url": "https://www.invenglobal.com/articles/26913/gta-6-full-interview-with-rockstars-rob-nelson-reveals-new-details",
+      "name": "Inven Global — GTA 6 full interview with Rockstar's Rob Nelson reveals new details"
+    }
+  ],
+  "notes": "Os fatos do artigo batem com a tradução da GTAVice (publicada em 09/09), inclusive a cena da cama com Lucia dormindo e o exemplo do clube do Dre'Quan. Dois ajustes possíveis: (1) 'As in Red Dead Redemption 2, some places that matter to the story are off-limits for crime' é interpretação nossa; na entrevista, a menção de Nelson a RDR2 logo depois desse trecho é sobre os moradores de Leonida não serem passivos, não sobre locais protegidos. (2) O artigo não diz que as áreas em volta dos esconderijos também são zonas seguras contra roubo de carro, o que Nelson afirma. O nome do app social, segundo a entrevista da IGN, é Snapmatic. As fontes novas (Dazed via Notebookcheck e IGN via Insider Gaming/Inven) são de entrevistas diferentes da Famitsu e confirmam peso, músculos e a limitação nas redes sociais.",
+  "en": {
+    "context": [
+      "The Famitsu interview, conducted at Rockstar North in Edinburgh and published in English by GTAVice on September 9, is one of several long conversations Rob Nelson gave around the late-August Extended Look. In Dazed, he said food would affect Jason and Lucia's weight, workouts would build visible muscle and lack of sleep would show in their faces. In IGN's interview, later republished in full, he said the couple can only browse the Snapmatic social app because they are fugitives, and compared GTA VI's safehouses to the camps in Red Dead Redemption 2.",
+      "Read together, the interviews describe one design direction from different angles: more physical interaction, fewer abstract menus and a world that keeps track of what you do."
+    ],
+    "known": [
+      "Nelson told Famitsu the phone is now a physical object in the world rather than GTA V's 2D overlay, with video, fitness and banking apps and a car delivery service called Scooter Bros.",
+      "Jason and Lucia can send each other photos but cannot post on social media; in IGN's interview Nelson summed it up as \"You just lurk.\"",
+      "Car theft is blocked around hideouts and at some story locations, such as outside the strip club owned by Jason's friend Dre'Quan.",
+      "Workouts build muscle and overeating leads to weight gain, a point Nelson made to Famitsu, Dazed and IGN.",
+      "Food and drink give temporary boosts, such as an energy drink raising stamina, while training raises base health and stamina."
+    ],
+    "unknown": [
+      "How much body changes affect gameplay beyond health and stamina has not been detailed.",
+      "Rockstar has not listed the protected locations or explained how the game tells players where crime is restricted.",
+      "The full list of phone apps, and whether new ones unlock during the story, is unknown."
+    ],
+    "take": [
+      "These details matter more than they look. A phone that exists in the hand, a mug that needs a surface, cars you cannot steal outside a friend's club: each is a small rule that trades convenience for coherence. Red Dead Redemption 2 was built on the same trade, and Nelson's comparison of safehouses to its camps suggests Rockstar is comfortable carrying that philosophy into a series known for chaos.",
+      "The protected-locations rule is the most practical of them. It solves a real problem, players wrecking a place the story still needs, by restricting freedom in a narrow way instead of breaking a mission later. The risk is in the signalling: an unexplained no-theft zone around a strip club could feel arbitrary. The body system is the other one to watch. San Andreas tied fitness to play back in 2004, and GTA VI now has to show that eating and training matter beyond what players see in the mirror."
+    ]
+  },
+  "pt-BR": {
+    "context": [
+      "A entrevista à Famitsu, feita na Rockstar North, em Edimburgo, e publicada em inglês pela GTAVice em 9 de setembro, é uma de várias conversas longas que Rob Nelson deu em torno do Extended Look, no fim de agosto. À Dazed, ele disse que a comida afeta o peso de Jason e Lucia, que malhar gera músculos visíveis e que noites sem dormir aparecem no rosto. Na entrevista à IGN, depois republicada na íntegra, contou que o casal só pode navegar no app Snapmatic por ser fugitivo e comparou os esconderijos aos acampamentos de Red Dead Redemption 2.",
+      "Lidas juntas, as entrevistas descrevem a mesma direção por ângulos diferentes: mais interação física, menos menus abstratos e um mundo que registra o que você faz."
+    ],
+    "known": [
+      "Nelson disse à Famitsu que o celular agora é um objeto físico no mundo, e não a tela 2D de GTA V, com apps de vídeo, fitness e banco e um serviço de entrega de veículos chamado Scooter Bros.",
+      "Jason e Lucia podem trocar fotos, mas não podem postar em redes sociais; na entrevista à IGN, Nelson resumiu: “You just lurk” (“Você só observa”).",
+      "Roubar carros é bloqueado em volta dos esconderijos e em alguns locais da história, como na frente da boate de strip do amigo de Jason, Dre'Quan.",
+      "Malhar gera músculos e comer demais faz engordar, algo que Nelson repetiu à Famitsu, à Dazed e à IGN.",
+      "Comida e bebida dão bônus temporários, como um energético que aumenta o fôlego, enquanto o treino eleva a vida e o fôlego de base."
+    ],
+    "unknown": [
+      "Não foi detalhado quanto as mudanças no corpo afetam o jogo além de vida e fôlego.",
+      "A Rockstar não listou os locais protegidos nem explicou como o jogo avisa onde o crime é restrito.",
+      "A lista completa de apps do celular, e se novos são liberados ao longo da história, é desconhecida."
+    ],
+    "take": [
+      "Esses detalhes pesam mais do que parecem. Um celular que existe na mão, uma caneca que precisa de uma superfície, carros que não dá para roubar na porta da boate de um amigo: cada um é uma pequena regra que troca conveniência por coerência. Red Dead Redemption 2 foi construído sobre essa mesma troca, e a comparação de Nelson entre os esconderijos e os acampamentos indica que a Rockstar está à vontade para levar essa filosofia a uma série famosa pelo caos.",
+      "A regra dos locais protegidos é a mais prática delas. Resolve um problema real, o jogador destruir um lugar de que a história ainda precisa, limitando a liberdade de forma pontual em vez de quebrar uma missão depois. O risco está na sinalização: uma zona sem roubo de carro na frente de uma boate, sem explicação, pode parecer arbitrária. O sistema de corpo é o outro ponto de atenção. San Andreas já ligava forma física ao gameplay em 2004, e GTA VI agora precisa mostrar que comer e treinar importam além do espelho."
+    ]
+  },
+  "es": {
+    "context": [
+      "La entrevista con Famitsu, realizada en Rockstar North, en Edimburgo, y publicada en inglés por GTAVice el 9 de septiembre, es una de varias conversaciones largas que Rob Nelson dio en torno al Extended Look de finales de agosto. A Dazed le dijo que la comida afecta el peso de Jason y Lucia, que entrenar genera músculo visible y que la falta de sueño se nota en el rostro. En la entrevista con IGN, luego republicada completa, explicó que la pareja solo puede navegar en la app Snapmatic por ser fugitiva y comparó los escondites con los campamentos de Red Dead Redemption 2.",
+      "Leídas en conjunto, las entrevistas describen una misma dirección desde distintos ángulos: más interacción física, menos menús abstractos y un mundo que registra lo que haces."
+    ],
+    "known": [
+      "Nelson le dijo a Famitsu que el celular ahora es un objeto físico en el mundo y no la pantalla 2D de GTA V, con apps de video, fitness y banco, y un servicio de entrega de vehículos llamado Scooter Bros.",
+      "Jason y Lucia pueden enviarse fotos, pero no publicar en redes sociales; en la entrevista con IGN, Nelson lo resumió así: “You just lurk” (“Solo miras”).",
+      "Robar autos está bloqueado alrededor de los escondites y en algunos lugares de la historia, como frente al club de striptease de Dre'Quan, amigo de Jason.",
+      "Entrenar genera músculo y comer de más hace subir de peso, algo que Nelson repitió a Famitsu, Dazed e IGN.",
+      "La comida y la bebida dan mejoras temporales, como una bebida energética que aumenta la resistencia, mientras que el entrenamiento eleva la salud y la resistencia base."
+    ],
+    "unknown": [
+      "No se ha detallado cuánto afectan los cambios corporales al juego más allá de la salud y la resistencia.",
+      "Rockstar no ha enumerado los lugares protegidos ni explicado cómo avisa el juego dónde está restringido el crimen.",
+      "Se desconoce la lista completa de apps del celular y si se desbloquean nuevas durante la historia."
+    ],
+    "take": [
+      "Estos detalles importan más de lo que parece. Un celular que existe en la mano, una taza que necesita una superficie, autos que no se pueden robar frente al club de un amigo: cada uno es una pequeña regla que cambia comodidad por coherencia. Red Dead Redemption 2 se construyó sobre ese mismo intercambio, y la comparación de Nelson entre los escondites y sus campamentos sugiere que Rockstar está cómoda llevando esa filosofía a una serie conocida por el caos.",
+      "La regla de los lugares protegidos es la más práctica. Resuelve un problema real, que el jugador arruine un sitio que la historia todavía necesita, limitando la libertad de forma puntual en vez de romper una misión más adelante. El riesgo está en la señalización: una zona sin robos frente a un club, sin explicación, puede sentirse arbitraria. El sistema corporal es el otro punto a vigilar. San Andreas ya vinculaba la forma física con la jugabilidad en 2004, y GTA VI tiene que demostrar que comer y entrenar importan más allá del espejo."
+    ]
+  }
+}

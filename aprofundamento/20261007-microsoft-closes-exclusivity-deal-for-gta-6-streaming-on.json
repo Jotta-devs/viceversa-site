@@ -1,0 +1,93 @@
+{
+  "slug": "20261007-microsoft-closes-exclusivity-deal-for-gta-6-streaming-on",
+  "updated": "2026-10-16",
+  "sources": [
+    {
+      "url": "https://www.dexerto.com/gta/xbox-confirms-gta-6-wont-stream-on-pc-3416221/",
+      "name": "Dexerto — Xbox confirms GTA 6 won't stream on PC"
+    },
+    {
+      "url": "https://www.pushsquare.com/news/2026/10/confusion-as-erroneous-reports-claim-xbox-has-exclusive-gta-6-cloud-streaming-rights",
+      "name": "Push Square — Confusion as erroneous reports claim Xbox has exclusive GTA 6 cloud streaming rights"
+    },
+    {
+      "url": "https://www.ibtimes.co.uk/xbox-denies-gta-6-exclusive-cloud-streaming-rights-1824271",
+      "name": "IBTimes UK — Xbox denies exclusive GTA 6 streaming rights"
+    },
+    {
+      "url": "https://www.dexerto.com/gaming/xbox-makes-major-cloud-gaming-update-with-new-game-pass-and-pay-as-you-go-changes-3405648/",
+      "name": "Dexerto — Xbox cloud gaming update with new Game Pass and pay-as-you-go changes"
+    },
+    {
+      "url": "https://www.thurrott.com/?p=341114",
+      "name": "Thurrott — Xbox Cloud Gaming is getting monthly usage caps in November"
+    }
+  ],
+  "notes": "O artigo original trata o acordo de exclusividade como fato, mas em 7/10/2026 Matthew Ball, diretor de estratégia (CSO) do Xbox, negou publicamente: o jogo 'não terá streaming exclusivo nem para PC'. Tom Warren atualizou a matéria da Verge dizendo que o acordo é 'mais complicado' do que ele relatou. Portanto, as seções 'salvação para o PC' e 'vida extra do Xbox One' estão sem base (não há confirmação de quais dispositivos poderão fazer streaming). Outro ponto: os limites de horas (15h no Ultimate, 10h no Premium, 5h no Essential) e a compra de horas avulsas NÃO são rumor — foram anunciados oficialmente pelo Xbox em 3/9/2026. O título já tem [CANCELED]; sugiro também uma nota de correção no topo do texto.",
+  "en": {
+    "context": [
+      "On October 6, The Verge's Tom Warren reported that Xbox CEO Asha Sharma had told staff Microsoft was doing something around GTA 6 that “no other platform holder is doing”, and his sources described it as exclusive cloud streaming rights at launch. The next day, Xbox chief strategy officer Matthew Ball wrote on X that the game “will not be streaming exclusively or to PC”, while confirming the November 19 launch on Xbox. Warren then updated his story, saying the deal was more complicated than he first reported.",
+      "The confusion landed weeks after Xbox announced, on September 3, monthly cloud gaming caps for Game Pass starting in November, plus cloud hours sold separately."
+    ],
+    "known": [
+      "Xbox CSO Matthew Ball said GTA 6 will not stream exclusively on Xbox Cloud Gaming and will not stream to PC.",
+      "GTA 6 launches November 19, 2026, on PlayStation 5 and Xbox Series X|S; Rockstar has not announced a PC version.",
+      "Tom Warren still says the game will be on Xbox Cloud Gaming, though the arrangement appears narrower than first described.",
+      "From November, Game Pass cloud play is capped at 15 hours a month on Ultimate, 10 on Premium and 5 on Essential, with extra time sold on the Xbox Store.",
+      "Non-subscribers will be able to buy cloud hours to stream eligible games they own; Xbox has not announced prices."
+    ],
+    "unknown": [
+      "Neither Microsoft nor Rockstar has explained what Asha Sharma's “no other platform holder” deal actually covers.",
+      "Which devices will be able to stream GTA 6, including Xbox One, phones and smart TVs, has not been confirmed.",
+      "It is not known whether GTA 6 will count as an eligible game for the new pay-as-you-go cloud hours."
+    ],
+    "take": [
+      "This episode shows how fast one internal quote can harden into a promise. A line from an all-hands meeting became, within hours, a story about PC owners and Xbox One holdouts playing GTA 6 on day one. Xbox's own strategy chief then corrected it in public, which suggests the company saw the misreading as serious. A denial that quick means the original framing was wrong, not just early.",
+      "For players, the realistic picture is modest. If GTA 6 does show up on Xbox Cloud Gaming, it will most likely be another way for Xbox users to play a copy they bought, under the new monthly caps. Fifteen hours is a long weekend in a game of this size, so the price of extra hours will matter far more than any exclusivity headline. PC players should treat a native release, which Rockstar has not announced, as the only route worth waiting for, and ignore cloud workarounds until Microsoft publishes a list of supported devices."
+    ]
+  },
+  "pt-BR": {
+    "context": [
+      "Em 6 de outubro, Tom Warren, do The Verge, relatou que a CEO do Xbox, Asha Sharma, disse aos funcionários que a Microsoft faria algo em torno de GTA 6 que “nenhuma outra dona de plataforma está fazendo”. Segundo as fontes dele, seriam direitos exclusivos de streaming na nuvem no lançamento. No dia seguinte, Matthew Ball, diretor de estratégia do Xbox, escreveu no X que o jogo “não terá streaming exclusivo nem para PC”, confirmando o lançamento em 19 de novembro no Xbox. Warren atualizou a matéria e admitiu que o acordo é mais complicado do que descreveu.",
+      "A confusão veio semanas depois de o Xbox anunciar, em 3 de setembro, limites mensais de nuvem no Game Pass a partir de novembro, além da venda de horas avulsas."
+    ],
+    "known": [
+      "Matthew Ball, diretor de estratégia do Xbox, afirmou que GTA 6 não terá streaming exclusivo no Xbox Cloud Gaming nem streaming para PC.",
+      "GTA 6 chega em 19 de novembro de 2026 para PlayStation 5 e Xbox Series X|S; a Rockstar não anunciou versão para PC.",
+      "Tom Warren mantém que o jogo estará no Xbox Cloud Gaming, mas com um acordo mais restrito do que o relatado.",
+      "A partir de novembro, o Game Pass limita a nuvem a 15 horas por mês no Ultimate, 10 no Premium e 5 no Essential; horas extras são vendidas na Xbox Store.",
+      "Quem não assina o Game Pass poderá comprar horas avulsas para jogos elegíveis que já possui; os preços não foram divulgados."
+    ],
+    "unknown": [
+      "Nem a Microsoft nem a Rockstar explicaram o que exatamente cobre o acordo citado por Asha Sharma.",
+      "Não há confirmação de quais aparelhos poderão rodar GTA 6 via nuvem, incluindo Xbox One, celulares e smart TVs.",
+      "Não se sabe se GTA 6 entrará na lista de jogos elegíveis para as horas avulsas de nuvem."
+    ],
+    "take": [
+      "O caso mostra como uma frase interna vira promessa em poucas horas. Uma fala numa reunião com funcionários virou a história de que donos de PC e de Xbox One jogariam GTA 6 no primeiro dia. O próprio chefe de estratégia do Xbox corrigiu a informação em público, sinal de que a empresa levou o mal-entendido a sério. Um desmentido tão rápido indica que a leitura original estava errada, e não apenas adiantada.",
+      "Para o jogador, o cenário realista é modesto. Se GTA 6 aparecer no Xbox Cloud Gaming, deve ser mais uma forma de quem tem Xbox jogar uma cópia comprada, dentro dos novos limites. Quinze horas por mês rendem um fim de semana longo num jogo desse tamanho, então o preço das horas extras vai pesar mais do que qualquer manchete sobre exclusividade. Quem joga no PC deve esperar uma versão nativa, ainda não anunciada, e desconfiar de atalhos pela nuvem até a Microsoft listar os aparelhos compatíveis."
+    ]
+  },
+  "es": {
+    "context": [
+      "El 6 de octubre, Tom Warren, de The Verge, informó que la CEO de Xbox, Asha Sharma, dijo a sus empleados que Microsoft haría algo con GTA 6 que “ningún otro dueño de plataforma está haciendo”. Según sus fuentes, se trataba de derechos exclusivos de streaming en la nube en el lanzamiento. Al día siguiente, Matthew Ball, director de estrategia de Xbox, escribió en X que el juego “no tendrá streaming exclusivo ni en PC”, y confirmó la salida del 19 de noviembre en Xbox. Warren actualizó su nota y reconoció que el acuerdo es más complicado de lo que contó.",
+      "La confusión llegó semanas después de que Xbox anunciara, el 3 de septiembre, topes mensuales de nube en Game Pass desde noviembre y horas de venta por separado."
+    ],
+    "known": [
+      "Matthew Ball, director de estrategia de Xbox, aseguró que GTA 6 no tendrá streaming exclusivo en Xbox Cloud Gaming ni llegará por streaming a PC.",
+      "GTA 6 sale el 19 de noviembre de 2026 en PlayStation 5 y Xbox Series X|S; Rockstar no ha anunciado versión para PC.",
+      "Tom Warren sostiene que el juego estará en Xbox Cloud Gaming, aunque con un acuerdo más limitado de lo informado.",
+      "Desde noviembre, Game Pass limita la nube a 15 horas al mes en Ultimate, 10 en Premium y 5 en Essential; las horas extra se venden en la Xbox Store.",
+      "Quienes no estén suscritos podrán comprar horas de nube para juegos elegibles que ya tengan; no hay precios aún."
+    ],
+    "unknown": [
+      "Ni Microsoft ni Rockstar han explicado qué cubre en realidad el acuerdo que mencionó Asha Sharma.",
+      "No está confirmado en qué dispositivos se podrá jugar GTA 6 por streaming, incluidos Xbox One, celulares y smart TV.",
+      "Se desconoce si GTA 6 será uno de los juegos elegibles para las horas de nube de pago por uso."
+    ],
+    "take": [
+      "Este caso muestra lo rápido que una frase interna se vuelve promesa. Un comentario en una reunión con empleados terminó, en pocas horas, en la idea de que los jugadores de PC y de Xbox One tendrían GTA 6 desde el primer día. El propio jefe de estrategia de Xbox lo corrigió en público, señal de que la empresa se tomó en serio el malentendido. Un desmentido tan veloz indica que la lectura original era errónea, no solo prematura.",
+      "Para los jugadores, el panorama realista es modesto. Si GTA 6 llega a Xbox Cloud Gaming, lo más probable es que sea otra forma de jugar en Xbox una copia comprada, dentro de los nuevos topes. Quince horas al mes dan para un fin de semana largo en un juego de este tamaño, así que el precio de las horas extra pesará más que cualquier titular sobre exclusividad. Quien juega en PC debería esperar una versión nativa, aún no anunciada, y desconfiar de los atajos por la nube hasta que Microsoft publique la lista de dispositivos compatibles."
+    ]
+  }
+}

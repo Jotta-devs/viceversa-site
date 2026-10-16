@@ -1,0 +1,89 @@
+{
+  "slug": "20260909-bounce-the-cops-is-harder-now-losing-the-cops-just-got",
+  "updated": "2026-10-16",
+  "sources": [
+    {
+      "url": "https://www.svg.com/2246084/gta-6-wanted-system-explained-rockstar/",
+      "name": "SVG — GTA 6's wanted system explained: everything Rockstar has confirmed"
+    },
+    {
+      "url": "https://www.techspot.com/news/113647-gta-6-80-hour-story-3x-bigger-map.html",
+      "name": "TechSpot — This is GTA 6: an 80-hour story, 3x bigger map than Red Dead 2, and cops that remember your face"
+    },
+    {
+      "url": "https://www.notebookcheck.net/GTA-6-details-Red-Dead-Redemption-2-systems-taken-to-the-next-level-physical-intimacy-and-more.1418407.0.html",
+      "name": "Notebookcheck — GTA 6 details from IGN's big interview with Rob Nelson"
+    },
+    {
+      "url": "https://www.gtaboom.com/gta-6-minimap-c6d7",
+      "name": "GTA BOOM — GTA 6 minimap: what the Extended Look and previews show"
+    }
+  ],
+  "notes": "1) O texto atribui o nível de seis estrelas à entrevista da Famitsu, mas a tradução do GTAVice não fala em seis estrelas. A volta da sexta estrela foi mostrada no próprio Extended Look (SVG, TechSpot, GameSpot). Sugiro corrigir a atribuição. 2) 'A Rockstar chama esse estado de Heat': não encontrei fonte oficial; Nelson usa 'heat' de forma informal ('trocar de roupa limpa o heat'). Melhor suavizar. 3) Ícones: a SVG lista também um ícone de câmera (CCTV) e um ícone de pessoa (descrição física), além de cabide, carro e dupla; e uma estrela 'vazada' quando a polícia sabe do crime mas não tem descrição. 4) O texto não menciona o modo Focus, que, segundo o IGN e a Push Square, é a forma de localizar policiais agora.",
+  "en": {
+    "context": [
+      "In GTA V, police showed up on the radar with vision cones, so escaping was mostly a matter of staying out of their sight lines. The Extended Look, which premiered on Netflix on August 27, showed that GTA VI drops that model. During a four-star chase, the minimap displayed a red search area instead of individual officers, and players now spot nearby police with Focus, a new ability that highlights useful details in the world.",
+      "The change comes with a sixth wanted star, absent from GTA V, and a description system that records what police know about the player's outfit, appearance, car and accomplice."
+    ],
+    "known": [
+      "Police no longer appear as individual dots on the minimap; a search area marks where they are looking.",
+      "Icons under the wanted stars show what police know, such as your outfit, appearance, vehicle and whether you had an accomplice; a hollow star means they know a crime happened but not who did it.",
+      "Crimes are reported only if a witness sees them or an alarm goes off.",
+      "A full outfit change helps shed a description; sunglasses or a hat do not, and a mask during a job can keep your face unknown.",
+      "The wanted level goes up to six stars, one more than GTA V."
+    ],
+    "unknown": [
+      "A preview mentioned HUD options, including a classic minimap mode, but Rockstar has not said whether any setting shows individual officers again.",
+      "How long police keep a description on record, and how the CCTV indicator works in practice, has not been detailed.",
+      "Rockstar has not explained what triggers six stars or how police behave at that level."
+    ],
+    "take": [
+      "This is the most consequential design change Rockstar has shown so far, because it touches the loop players repeat most often. In GTA V, a chase ended once you slipped out of the cones on the radar. In GTA VI, the HUD reports what the police know rather than where they are, which moves the work from reflexes to preparation: a mask before the job, a spare outfit in the car, a second vehicle parked nearby.",
+      "The risk is that friction turns into tedium in a series that also sells itself on chaos. Rockstar appears to be aware of it. Nelson has said that actions taken during missions do not count against the criminal profile, and Focus gives players a way to find officers without the radar doing it for them. Whether that balance holds over 80 hours of play is the real test, and it cannot be judged from a curated showcase. The direction, at least, is coherent."
+    ]
+  },
+  "pt-BR": {
+    "context": [
+      "Em GTA V, a polícia aparecia no radar com cones de visão, e fugir era basicamente questão de ficar fora do campo de vista dos policiais. O Extended Look, exibido na Netflix em 27 de agosto, mostrou que GTA VI abandona esse modelo. Durante uma perseguição de quatro estrelas, o minimapa exibia uma área de busca vermelha em vez dos policiais, e o jogador agora localiza os agentes próximos com o Focus, uma nova habilidade que destaca detalhes úteis do cenário.",
+      "A mudança vem acompanhada da sexta estrela de procurado, ausente em GTA V, e de um sistema que registra o que a polícia sabe sobre a roupa, a aparência, o carro e o parceiro do jogador."
+    ],
+    "known": [
+      "Os policiais não aparecem mais como pontos no minimapa; uma área de busca indica onde eles estão procurando.",
+      "Ícones abaixo das estrelas mostram o que a polícia sabe, como roupa, aparência, veículo e se havia um cúmplice; uma estrela vazada indica que ela sabe do crime, mas não de quem o cometeu.",
+      "Os crimes só são denunciados se uma testemunha vê ou se um alarme dispara.",
+      "Trocar a roupa inteira ajuda a se livrar da descrição; óculos escuros ou boné não bastam, e uma máscara durante um assalto pode manter o rosto desconhecido.",
+      "O nível de procurado vai até seis estrelas, uma a mais do que em GTA V."
+    ],
+    "unknown": [
+      "Uma prévia citou opções de HUD, incluindo um modo de minimapa clássico, mas a Rockstar não disse se alguma configuração volta a mostrar os policiais.",
+      "Não foi detalhado por quanto tempo a polícia guarda uma descrição nem como o indicador de câmeras funciona na prática.",
+      "A Rockstar não explicou o que ativa as seis estrelas nem como a polícia age nesse nível."
+    ],
+    "take": [
+      "É a mudança de design com mais consequências que a Rockstar mostrou até agora, porque mexe no ciclo que o jogador mais repete. Em GTA V, a perseguição acabava quando você saía dos cones no radar. Em GTA VI, o HUD informa o que a polícia sabe, e não onde ela está, o que troca reflexo por preparação: máscara antes do assalto, roupa reserva no carro, um segundo veículo estacionado por perto.",
+      "O risco é o atrito virar tédio numa série que também se vende pelo caos. A Rockstar parece saber disso. Nelson disse que ações dentro das missões não pesam no perfil criminal, e o Focus dá ao jogador um jeito de achar policiais sem que o radar faça o trabalho. Se esse equilíbrio se sustenta ao longo de 80 horas de jogo é o teste de verdade, e não dá para julgar isso a partir de uma demonstração editada. A direção, pelo menos, é coerente."
+    ]
+  },
+  "es": {
+    "context": [
+      "En GTA V, la policía aparecía en el radar con conos de visión, así que escapar era sobre todo cuestión de mantenerse fuera de su campo visual. El Extended Look, estrenado en Netflix el 27 de agosto, mostró que GTA VI abandona ese modelo. Durante una persecución de cuatro estrellas, el minimapa mostraba una zona de búsqueda roja en lugar de cada agente, y el jugador ahora ubica a los policías cercanos con Focus, una nueva habilidad que resalta detalles útiles del entorno.",
+      "El cambio llega junto con una sexta estrella de búsqueda, ausente en GTA V, y un sistema que registra lo que la policía sabe sobre la ropa, la apariencia, el auto y el cómplice del jugador."
+    ],
+    "known": [
+      "Los policías ya no aparecen como puntos en el minimapa; una zona de búsqueda indica dónde están buscando.",
+      "Íconos debajo de las estrellas muestran lo que sabe la policía, como tu ropa, tu apariencia, tu vehículo y si tenías un cómplice; una estrella hueca indica que sabe del delito, pero no quién lo cometió.",
+      "Los delitos solo se denuncian si un testigo los ve o se activa una alarma.",
+      "Cambiarse toda la ropa ayuda a quitarse la descripción; unos lentes de sol o una gorra no alcanzan, y una máscara durante un golpe puede ocultar tu rostro.",
+      "El nivel de búsqueda llega a seis estrellas, una más que en GTA V."
+    ],
+    "unknown": [
+      "Un avance mencionó opciones de HUD, incluido un modo de minimapa clásico, pero Rockstar no ha dicho si alguna configuración vuelve a mostrar a los agentes.",
+      "No se ha detallado cuánto tiempo conserva la policía una descripción ni cómo funciona en la práctica el indicador de cámaras.",
+      "Rockstar no ha explicado qué activa las seis estrellas ni cómo actúa la policía en ese nivel."
+    ],
+    "take": [
+      "Es el cambio de diseño con más consecuencias que Rockstar ha mostrado hasta ahora, porque toca el ciclo que el jugador más repite. En GTA V, una persecución terminaba al salir de los conos del radar. En GTA VI, el HUD informa lo que sabe la policía y no dónde está, lo que cambia reflejos por preparación: una máscara antes del golpe, ropa de repuesto en el auto, un segundo vehículo estacionado cerca.",
+      "El riesgo es que la fricción se vuelva tedio en una serie que también se vende por el caos. Rockstar parece consciente de ello. Nelson dijo que lo que haces dentro de las misiones no cuenta para el perfil criminal, y Focus te da una forma de encontrar policías sin que el radar haga el trabajo. Si ese equilibrio aguanta a lo largo de 80 horas de juego es la verdadera prueba, y no se puede juzgar con una demostración editada. La dirección, al menos, es coherente."
+    ]
+  }
+}

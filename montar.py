@@ -135,6 +135,14 @@ MIN_PALAVRAS_LOCAL = 120
 ROBOTS_PADRAO = "index, follow, max-image-preview:large"
 ROBOTS_FINA = "noindex, follow"
 PASTA_GUIAS = RAIZ / "guias"         # guias longos e permanentes (conteúdo próprio)
+# aprofundamento das notícias: um JSON por notícia (aprofundamento/<slug>.json)
+# com contexto, o que se sabe, o que não se sabe, a análise do editor e fontes
+# extras, nos três idiomas. Entra no fim da matéria sem mexer no texto da Issue.
+PASTA_APROFUNDAMENTO = RAIZ / "aprofundamento"
+# matérias de vazamento: continuam no site para quem segue o link, mas ficam
+# fora do Google (noindex + fora dos sitemaps) e sem anúncios. Conteúdo vazado
+# é arriscado para o AdSense e não é o tipo de página que queremos monetizar.
+STATUS_SEM_ANUNCIO = {"vazamento"}
 
 LANCAMENTO = datetime(2026, 11, 19, 3, 0, tzinfo=timezone.utc)   # 19/11 00:00 em Brasília
 CARDS_NOTICIAS = 20     # cards completos na página de notícias; o resto vai para o arquivo
@@ -224,8 +232,25 @@ def html_de_texto(texto):
                    for par in (texto or "").replace("\r\n", "\n").split("\n\n") if par.strip())
 
 
+def titulos_reais(html):
+    """Linha só em negrito no começo de um parágrafo vira título de seção.
+
+    Na Issue o subtítulo é escrito como **Texto** numa linha própria; o GitHub
+    devolve <p><strong>Texto</strong><br>…</p>. Para o leitor e para o Google,
+    isso é um título: vira <h2> (ou <h3>, quando termina em dois-pontos, que é
+    o rótulo de um item: "Quando:", "Preço:").
+    """
+    def trocar(m):
+        texto, depois = m.group(1).strip(), m.group(2)
+        nivel = "h3" if texto.endswith(":") else "h2"
+        titulo = f"<{nivel}>{texto.rstrip(':').strip()}</{nivel}>"
+        return titulo + ("" if depois.startswith("</p>") else "\n<p>")
+    return re.sub(r"<p>\s*<strong>([^<]{2,140})</strong>\s*(<br>\s*|</p>)", trocar, html or "")
+
+
 def preparar_html(html):
     # imagens preguiçosas: o texto aparece antes, a página fica mais leve
+    html = titulos_reais(html)
     return re.sub(r"<img(?![^>]*loading=)", '<img loading="lazy" decoding="async"', html or "")
 
 
@@ -289,6 +314,22 @@ def ler_slugs():
         return {}
 
 
+def carregar_aprofundamentos():
+    """{slug: dados} de aprofundamento/*.json (ver PASTA_APROFUNDAMENTO)."""
+    dados = {}
+    if not PASTA_APROFUNDAMENTO.is_dir():
+        return dados
+    for arq in sorted(PASTA_APROFUNDAMENTO.glob("*.json")):
+        try:
+            d = json.loads(arq.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as erro:
+            print(f"  ! aprofundamento/{arq.name}: JSON inválido ({erro})")
+            continue
+        if isinstance(d, dict):
+            dados[str(d.get("slug") or arq.stem)] = d
+    return dados
+
+
 def carregar_posts():
     """Lê feed.json e prepara cada notícia com suas versões por idioma.
 
@@ -308,6 +349,7 @@ def carregar_posts():
         return []
 
     posts, usados = [], set()
+    aprofundamentos = carregar_aprofundamentos()
     fixos = ler_slugs()
     reservados = set(fixos.values())
     mudou = False
@@ -371,6 +413,25 @@ def carregar_posts():
             "fontes": [f for f in (p.get("fontes") or []) if re.match(r"^https?://", f or "")],
             "versoes": versoes,
         })
+        aprofundar = aprofundamentos.get(slug)
+        if aprofundar:
+            post = posts[-1]
+            post["aprofundamento"] = aprofundar
+            # fontes extras (com nome do veículo) depois das da Issue, sem repetir
+            vistas = set(post["fontes"])
+            for f in aprofundar.get("sources") or []:
+                u = (f.get("url") if isinstance(f, dict) else f) or ""
+                if re.match(r"^https?://", u) and u not in vistas:
+                    post["fontes"].append(f if isinstance(f, dict) else u)
+                    vistas.add(u)
+            revisado = ler_data(aprofundar.get("updated"), "%Y-%m-%d")
+            if revisado and (not atualizado or revisado > atualizado):
+                post["atualizado"] = revisado
+            for cod_v, v in versoes.items():
+                extra = " ".join(" ".join(aprofundar.get(cod_v, {}).get(k) or [])
+                                 for k in ("context", "known", "unknown", "take"))
+                v["palavras"] += len(extra.split())
+                v["leitura"] = max(1, math.ceil(v["palavras"] / 220))
     if mudou:
         ARQ_SLUGS.write_text(json.dumps(dict(sorted(fixos.items())), ensure_ascii=False, indent=2) + "\n",
                              encoding="utf-8")
@@ -381,6 +442,43 @@ def carregar_posts():
 def post_fino(post, cod):
     """Notícia curta demais para o Google (fica fora do índice e do sitemap)."""
     return post["versoes"][cod]["palavras"] < MIN_PALAVRAS_NOTICIA
+
+
+def post_sem_anuncio(post):
+    """Matéria de vazamento: no ar, mas sem anúncios e fora do Google."""
+    return post.get("status") in STATUS_SEM_ANUNCIO
+
+
+def post_fora_do_google(post, cod):
+    return post_fino(post, cod) or post_sem_anuncio(post)
+
+
+def aprofundamento_html(post, cod, textos):
+    """Contexto, o que se sabe / não se sabe e a análise do editor, no fim da matéria."""
+    dados = (post.get("aprofundamento") or {}).get(versao(post, cod)[0]) or {}
+    if not any(dados.get(k) for k in ("context", "known", "unknown", "take")):
+        return ""
+    def pars(itens):
+        return "".join(f"<p>{esc(t)}</p>" for t in itens or [] if str(t).strip())
+    def lista(itens):
+        return "<ul>" + "".join(f"<li>{esc(t)}</li>" for t in itens or [] if str(t).strip()) + "</ul>"
+    partes = ['<section class="aprofundar">']
+    if dados.get("context"):
+        partes.append(f'<h2>{esc(textos.get("ap01", "Context"))}</h2>{pars(dados["context"])}')
+    if dados.get("known") or dados.get("unknown"):
+        partes.append('<div class="aprofundar__colunas">')
+        if dados.get("known"):
+            partes.append(f'<div class="aprofundar__sabe"><h3>{esc(textos.get("ap02", "What we know"))}</h3>'
+                          f'{lista(dados["known"])}</div>')
+        if dados.get("unknown"):
+            partes.append(f'<div class="aprofundar__falta"><h3>{esc(textos.get("ap03", "What we do not know yet"))}'
+                          f'</h3>{lista(dados["unknown"])}</div>')
+        partes.append("</div>")
+    if dados.get("take"):
+        partes.append(f'<h2>{esc(textos.get("ap04", "Our take"))}</h2>{pars(dados["take"])}'
+                      f'<p class="aprofundar__assina">{esc(AUTOR)}, {esc(textos.get("ap05", "editor"))}</p>')
+    partes.append("</section>")
+    return "\n".join(partes)
 
 
 def local_fino(local):
@@ -628,9 +726,12 @@ def fontes_html(fontes, textos):
     """Lista "Fontes" no fim da notícia (campo Fonte do formulário)."""
     if not fontes:
         return ""
-    itens = "".join(
-        f'<li><a href="{esc(f)}" target="_blank" rel="noopener nofollow">'
-        f'{esc(urllib.parse.urlsplit(f).netloc.removeprefix("www.") or f)}</a></li>' for f in fontes)
+    def item(f):
+        u = f.get("url", "") if isinstance(f, dict) else f
+        nome = (f.get("name") if isinstance(f, dict) else "") or \
+            urllib.parse.urlsplit(u).netloc.removeprefix("www.") or u
+        return f'<li><a href="{esc(u)}" target="_blank" rel="noopener nofollow">{esc(nome)}</a></li>'
+    itens = "".join(item(f) for f in fontes)
     return (f'    <div class="artigo__fontes"><p>{esc(textos.get("gd04", ""))}</p>'
             f'<ul>{itens}</ul></div>')
 
@@ -780,6 +881,13 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
     html = re.sub(r'<div class="anuncio[^"]*" data-anuncio="\w+">(?:(?!</div>).)*?'
                   r'data-ad-slot=""(?:(?!</div>).)*?</div>\s*', "", html, flags=re.S)
 
+    # página sem anúncios (matéria de vazamento): sem o script do AdSense, o Auto
+    # ads não roda, e os blocos manuais também saem
+    if extras.get("__sem_anuncios__"):
+        html = re.sub(r'<script async src="https://pagead2\.googlesyndication\.com[^>]*>\s*</script>\s*', "", html)
+        html = re.sub(r'<div class="anuncio[^"]*" data-anuncio="\w+">(?:(?!</div>).)*?</div>\s*', "", html,
+                      flags=re.S)
+
     restantes = set(re.findall(r"\{\{__[^}]+\}\}|\{\{[a-z]+\d+\}\}|\{\{inst_[^}]+\}\}", html))
     if restantes:
         print(f"  ! {rel or '/'}: marcadores não substituídos: {restantes}")
@@ -868,7 +976,7 @@ def gerar_news_sitemap(posts):
         if not post["quando"] or post["quando"] < limite:
             continue
         for cod in post["versoes"]:
-            if post_fino(post, cod):
+            if post_fora_do_google(post, cod):
                 continue
             v = post["versoes"][cod]
             urls.append(f"""  <url>
@@ -900,7 +1008,7 @@ def gerar_sitemap(posts, hoje, locais_por_cod=None, guias=()):
         mod = mod.strftime("%Y-%m-%d") if mod else hoje
         alternativas = alternativas_post(post)
         for cod in post["versoes"]:
-            if post_fino(post, cod):
+            if post_fora_do_google(post, cod):
                 continue
             alt = ""
             if len(alternativas) > 1:
@@ -1523,9 +1631,11 @@ def montar():
                     seguinte, pref, cod, textos),
                 "__canais__": botoes_canais(textos, "fim"),
                 "__art_fontes__": fontes_html(post.get("fontes"), textos),
-                "__robots__": ROBOTS_FINA if post_fino(post, cod) else ROBOTS_PADRAO,
+                "__robots__": ROBOTS_FINA if post_fora_do_google(post, cod) else ROBOTS_PADRAO,
+                "__sem_anuncios__": "sim" if post_sem_anuncio(post) else "",
                 # conteúdo do post: sempre o último a ser trocado
-                "__art_html__": inserir_no_meio(v["html"], meio_html(textos)) if meio_html(textos) else v["html"],
+                "__art_html__": (inserir_no_meio(v["html"], meio_html(textos)) if meio_html(textos)
+                                 else v["html"]) + aprofundamento_html(post, cod, textos),
             })
             montar_pagina(cabeca, rodape, corpo_post, base, textos_post, cod, "noticias", rel, extras,
                           alternativas=alternativas_post(post))

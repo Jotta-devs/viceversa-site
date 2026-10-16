@@ -18,6 +18,7 @@ on:
       - "idiomas/**"
       - "institucional/**"
       - "mapa/pontos.json"
+      - "aprofundamento/**"
 
 concurrency:
   group: publicar-posts
