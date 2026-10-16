@@ -92,7 +92,7 @@
     "https://vvviceversa.com/og/20260909-bounce-the-cops-is-harder-now-losing-the-cops-just-got-en.jpg"
   ],
   "datePublished": "2026-09-09T11:44:21+00:00",
-  "dateModified": "2026-10-06T18:53:19+00:00"
+  "dateModified": "2026-10-16T00:00:00+00:00"
 }
 </script>
 <script type="application/ld+json">
@@ -1164,6 +1164,19 @@
   .artigo__corpo li p{margin:0 0 .4rem}
   .artigo__corpo img{max-width:100%;height:auto;border-radius:12px;margin:.6rem 0}
   .artigo__corpo a{color:var(--agua)}
+  .artigo__corpo h2{font-family:var(--font-body);font-size:1.3rem;font-weight:700;line-height:1.35;color:var(--creme);margin:2.2rem 0 .8rem;letter-spacing:0}
+  .artigo__corpo h3{font-family:var(--font-body);font-size:1.05rem;font-weight:700;line-height:1.4;color:var(--creme);margin:1.6rem 0 .5rem}
+  .aprofundar{margin:2.6rem 0 0;padding-top:1.6rem;border-top:1px solid var(--linha)}
+  .aprofundar h2:first-child{margin-top:0}
+  .aprofundar__colunas{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.6rem 0}
+  .aprofundar__colunas > div{border:1px solid var(--linha);border-radius:12px;padding:1rem 1.1rem}
+  .aprofundar__colunas h3{margin:0 0 .6rem;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase}
+  .aprofundar__sabe h3{color:var(--agua)}
+  .aprofundar__falta h3{color:var(--laranja)}
+  .aprofundar__colunas ul{margin:0 0 0 1.1rem}
+  .aprofundar__colunas li{margin:0 0 .5rem;font-size:.95rem;line-height:1.6}
+  .aprofundar__assina{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--laranja)}
+  @media (max-width:700px){.aprofundar__colunas{grid-template-columns:1fr}}
   .compartilhar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:2.2rem 0;padding:1.2rem 0;border-top:1px solid var(--linha);border-bottom:1px solid var(--linha)}
   .compartilhar__rotulo{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--creme-70);margin-right:.4rem}
   .compartilhar a,.compartilhar button{
@@ -1686,7 +1699,7 @@
 <main class="artigo" data-post="20260909-bounce-the-cops-is-harder-now-losing-the-cops-just-got">
   <a class="artigo__voltar" href="../../news/">← All news</a>
   <article>
-    <p class="artigo__meta"><span class="selo selo--confirmado" title="Officially confirmed by Rockstar, Take-Two or someone involved in the game.">Confirmed</span><span>Published <time datetime="2026-09-09T11:44:21+00:00">Sep 9, 2026</time></span><span class="artigo__autor">By <a href="../../about/#editor" rel="author">Mike Pagani</a></span><span class="artigo__leitura">2 min read</span></p>
+    <p class="artigo__meta"><span class="selo selo--confirmado" title="Officially confirmed by Rockstar, Take-Two or someone involved in the game.">Confirmed</span><span>Published <time datetime="2026-09-09T11:44:21+00:00">Sep 9, 2026</time></span><span class="artigo__autor">By <a href="../../about/#editor" rel="author">Mike Pagani</a></span><span class="artigo__leitura">4 min read</span></p>
     <h1>GTA 6&#x27;s New HUD Makes Losing the Cops Harder: No More Police Dots on the Minimap</h1>
     <figure class="artigo__capa"><img src="/midia/49a7b989c708054f.webp" alt="Lucia firing from a car during a police chase in GTA 6, official screenshot" width="2000" height="1125" fetchpriority="high" decoding="async"></figure>
 
@@ -1698,32 +1711,39 @@
 <p>Check out the main changes to the wanted system's HUD:</p>
 <ul>
 <li>
-<p><strong>No more "all-seeing" minimap:</strong><br>
-The classic red dots showing each officer's exact position and line of sight have disappeared. Instead, a flashing red-and-blue zone marks the general area where the police are searching for you. Rockstar calls this state <strong>Heat</strong>.</p>
+<h3>No more "all-seeing" minimap</h3>
+<p>The classic red dots showing each officer's exact position and line of sight have disappeared. Instead, a flashing red-and-blue zone marks the general area where the police are searching for you. Rockstar calls this state <strong>Heat</strong>.</p>
 </li>
 <li>
-<p><strong>Hanger icon — your clothes:</strong><br>
-Shows that the police know what you are wearing. Changing outfits becomes a real way to throw them off.</p>
+<h3>Hanger icon — your clothes</h3>
+<p>Shows that the police know what you are wearing. Changing outfits becomes a real way to throw them off.</p>
 </li>
 <li>
-<p><strong>Face icon — your identity:</strong><br>
-Shows whether a witness or a security camera has identified you, or whether a mask kept your face hidden.</p>
+<h3>Face icon — your identity</h3>
+<p>Shows whether a witness or a security camera has identified you, or whether a mask kept your face hidden.</p>
 </li>
 <li>
-<p><strong>Vehicle icon — your getaway car:</strong><br>
-Lets you know if the cops or cameras have identified the car you are using.</p>
+<h3>Vehicle icon — your getaway car</h3>
+<p>Lets you know if the cops or cameras have identified the car you are using.</p>
 </li>
 <li>
-<p><strong>Partner icon — your accomplice:</strong><br>
-Shows whether the police know you had someone with you during the crime, which matters in a game built around Jason and Lucia working as a pair.</p>
+<h3>Partner icon — your accomplice</h3>
+<p>Shows whether the police know you had someone with you during the crime, which matters in a game built around Jason and Lucia working as a pair.</p>
 </li>
 </ul>
 <p>In practice, the HUD now tells you what the police <strong>know</strong>, not where they <strong>are</strong>. To find officers, you have to look around, use cover and blend into traffic. Rockstar's Rob Nelson later added in an interview with Famitsu that crimes depend on witnesses and that the scale goes up to six stars again.</p>
 <p>It is a big shift for a series that made fleeing the cops almost routine. Expect getaways to take more planning: masks, a change of clothes and a backup car may be as important as a fast engine. For tips on how to lose the police based on everything Rockstar has shown, read our guide: <a href="https://vvviceversa.com/guides/gta-6-wanted-system-police/" rel="nofollow">the GTA 6 wanted system</a>.</p>
 <p>GTA VI launches November 19, 2026 on PlayStation 5 and Xbox Series X|S.</p>
-<p>Stay tuned to our website for more updates and full coverage as soon as new information about GTA 6 emerges!</p>
+<p>Stay tuned to our website for more updates and full coverage as soon as new information about GTA 6 emerges!</p><section class="aprofundar">
+<h2>Context</h2><p>In GTA V, police showed up on the radar with vision cones, so escaping was mostly a matter of staying out of their sight lines. The Extended Look, which premiered on Netflix on August 27, showed that GTA VI drops that model. During a four-star chase, the minimap displayed a red search area instead of individual officers, and players now spot nearby police with Focus, a new ability that highlights useful details in the world.</p><p>The change comes with a sixth wanted star, absent from GTA V, and a description system that records what police know about the player&#x27;s outfit, appearance, car and accomplice.</p>
+<div class="aprofundar__colunas">
+<div class="aprofundar__sabe"><h3>What we know</h3><ul><li>Police no longer appear as individual dots on the minimap; a search area marks where they are looking.</li><li>Icons under the wanted stars show what police know, such as your outfit, appearance, vehicle and whether you had an accomplice; a hollow star means they know a crime happened but not who did it.</li><li>Crimes are reported only if a witness sees them or an alarm goes off.</li><li>A full outfit change helps shed a description; sunglasses or a hat do not, and a mask during a job can keep your face unknown.</li><li>The wanted level goes up to six stars, one more than GTA V.</li></ul></div>
+<div class="aprofundar__falta"><h3>What we don&#x27;t know yet</h3><ul><li>A preview mentioned HUD options, including a classic minimap mode, but Rockstar has not said whether any setting shows individual officers again.</li><li>How long police keep a description on record, and how the CCTV indicator works in practice, has not been detailed.</li><li>Rockstar has not explained what triggers six stars or how police behave at that level.</li></ul></div>
+</div>
+<h2>VICEVERSA&#x27;s take</h2><p>This is the most consequential design change Rockstar has shown so far, because it touches the loop players repeat most often. In GTA V, a chase ended once you slipped out of the cones on the radar. In GTA VI, the HUD reports what the police know rather than where they are, which moves the work from reflexes to preparation: a mask before the job, a spare outfit in the car, a second vehicle parked nearby.</p><p>The risk is that friction turns into tedium in a series that also sells itself on chaos. Rockstar appears to be aware of it. Nelson has said that actions taken during missions do not count against the criminal profile, and Focus gives players a way to find officers without the radar doing it for them. Whether that balance holds over 80 hours of play is the real test, and it cannot be judged from a curated showcase. The direction, at least, is coherent.</p><p class="aprofundar__assina">Mike Pagani, editor</p>
+</section>
     </div>
-    <div class="artigo__fontes"><p>Sources</p><ul><li><a href="https://www.rockstargames.com/newswire/article/9k2kaa1o3297k9/grand-theft-auto-vi-an-extended-look" target="_blank" rel="noopener nofollow">rockstargames.com</a></li><li><a href="https://www.pushsquare.com/guides/gta-6-netflix-extended-look-when-and-how-to-watch" target="_blank" rel="noopener nofollow">pushsquare.com</a></li><li><a href="https://www.gtavice.net/news/gta-6-famitsus-full-rob-nelson-interview-translated-into-english" target="_blank" rel="noopener nofollow">gtavice.net</a></li></ul></div>
+    <div class="artigo__fontes"><p>Sources</p><ul><li><a href="https://www.rockstargames.com/newswire/article/9k2kaa1o3297k9/grand-theft-auto-vi-an-extended-look" target="_blank" rel="noopener nofollow">rockstargames.com</a></li><li><a href="https://www.pushsquare.com/guides/gta-6-netflix-extended-look-when-and-how-to-watch" target="_blank" rel="noopener nofollow">pushsquare.com</a></li><li><a href="https://www.gtavice.net/news/gta-6-famitsus-full-rob-nelson-interview-translated-into-english" target="_blank" rel="noopener nofollow">gtavice.net</a></li><li><a href="https://www.svg.com/2246084/gta-6-wanted-system-explained-rockstar/" target="_blank" rel="noopener nofollow">SVG — GTA 6&#x27;s wanted system explained: everything Rockstar has confirmed</a></li><li><a href="https://www.techspot.com/news/113647-gta-6-80-hour-story-3x-bigger-map.html" target="_blank" rel="noopener nofollow">TechSpot — This is GTA 6: an 80-hour story, 3x bigger map than Red Dead 2, and cops that remember your face</a></li><li><a href="https://www.notebookcheck.net/GTA-6-details-Red-Dead-Redemption-2-systems-taken-to-the-next-level-physical-intimacy-and-more.1418407.0.html" target="_blank" rel="noopener nofollow">Notebookcheck — GTA 6 details from IGN&#x27;s big interview with Rob Nelson</a></li><li><a href="https://www.gtaboom.com/gta-6-minimap-c6d7" target="_blank" rel="noopener nofollow">GTA BOOM — GTA 6 minimap: what the Extended Look and previews show</a></li></ul></div>
   </article>
 
   <div class="compartilhar">
