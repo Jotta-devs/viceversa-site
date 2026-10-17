@@ -48,28 +48,4 @@
       <news:title>GTA 6: El Tráiler de Lanzamiento Revela el Pasado de Jason, Fotorrealismo y una Banda Sonora Épica</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261015-only-34-days-until-gta-6-new-trailer-physical-map-and/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-15T14:07:25+00:00</news:publication_date>
-      <news:title>Only 34 Days Until GTA 6: New Trailer, Physical Map, and Rockstar&#x27;s Promising Future</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261015-only-34-days-until-gta-6-new-trailer-physical-map-and/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-15T14:07:25+00:00</news:publication_date>
-      <news:title>Apenas 34 Dias para GTA 6: Novo Trailer, Mapa Físico e o Futuro Promissor da Rockstar</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261015-only-34-days-until-gta-6-new-trailer-physical-map-and/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-15T14:07:25+00:00</news:publication_date>
-      <news:title>A solo 34 días de GTA 6: Nuevo tráiler, mapa físico y un futuro prometedor para Rockstar</news:title>
-    </news:news>
-  </url>
 </urlset>
