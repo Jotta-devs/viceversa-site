@@ -24,28 +24,4 @@
       <news:title>GTA VI entra en su fase final de desarrollo con foco en la corrección de errores y la reducción del crunch</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261016-gta-6-launch-trailer-reveals-jason-s-past-photorealistic/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-16T12:35:21+00:00</news:publication_date>
-      <news:title>GTA 6: Launch Trailer Reveals Jason&#x27;s Past, Photorealistic Graphics, and Heavyweight Original Soundtrack</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261016-gta-6-launch-trailer-reveals-jason-s-past-photorealistic/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-16T12:35:21+00:00</news:publication_date>
-      <news:title>GTA 6: Trailer de Lançamento Revela Passado de Jason, Fotorrealismo e Trilha Original de Peso</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261016-gta-6-launch-trailer-reveals-jason-s-past-photorealistic/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-16T12:35:21+00:00</news:publication_date>
-      <news:title>GTA 6: El Tráiler de Lanzamiento Revela el Pasado de Jason, Fotorrealismo y una Banda Sonora Épica</news:title>
-    </news:news>
-  </url>
 </urlset>
