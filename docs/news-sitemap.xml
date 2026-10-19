@@ -1,27 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
-  <url>
-    <loc>https://vvviceversa.com/news/20261016-gta-vi-enters-the-final-phase-of-development-focusing-on-bug/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-16T20:29:38+00:00</news:publication_date>
-      <news:title>GTA VI enters the final phase of development, focusing on bug fixes and crunch reduction.</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261016-gta-vi-enters-the-final-phase-of-development-focusing-on-bug/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-16T20:29:38+00:00</news:publication_date>
-      <news:title>GTA VI entra na fase final de desenvolvimento, com foco na correção de erros e na redução do crunch</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261016-gta-vi-enters-the-final-phase-of-development-focusing-on-bug/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-16T20:29:38+00:00</news:publication_date>
-      <news:title>GTA VI entra en su fase final de desarrollo con foco en la corrección de errores y la reducción del crunch</news:title>
-    </news:news>
-  </url>
 </urlset>
