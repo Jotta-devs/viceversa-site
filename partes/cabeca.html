@@ -22,8 +22,12 @@
 <link rel="alternate" type="application/rss+xml" title="VICEVERSA" href="{{__rss__}}">
 <meta name="theme-color" content="#120720">
 <meta name="robots" content="{{__robots__}}">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23120720'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FF8A3D'/%3E%3Cstop offset='1' stop-color='%23FF3D8A'/%3E%3C/linearGradient%3E%3Cmask id='m'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Crect y='7' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='12.4' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='17.8' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='23.2' width='32' height='2.6' fill='%23fff'/%3E%3C/mask%3E%3C/defs%3E%3Ccircle cx='16' cy='17' r='10.5' fill='url(%23g)' mask='url(%23m)'/%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="{{__base__}}{{__ogimage__}}">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="{{__base__}}marca/icone-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="{{__base__}}marca/icone-192.png">
+<link rel="apple-touch-icon" href="{{__base__}}marca/icone-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="vv-versao" content="{{__versao__}}">
 
 <!-- Preview ao compartilhar (Open Graph / X Cards) -->
 <meta property="og:type" content="{{__ogtype__}}">
@@ -252,6 +256,9 @@
   }
   .marca{font-family:var(--font-display);font-size:1.7rem;letter-spacing:.08em;color:var(--creme)}
   .marca em{font-style:normal;color:var(--magenta)}
+  .marca{display:inline-flex;align-items:center;gap:.5rem}
+  .marca__logo{height:1.25em;width:auto;flex:none;filter:drop-shadow(0 0 6px rgba(255,61,138,.35))}
+  footer .marca .marca__logo{height:1.1em}
   .nav-links{display:flex;gap:1.6rem;font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;align-items:center}
   .nav-links a{color:var(--creme-70);position:relative;transition:color .25s}
   .nav-links a::after{
@@ -394,6 +401,7 @@
   h1 .vice{color:var(--magenta)}
   h1 .versa{color:var(--creme)}
   /* glitch de aberração cromática */
+  .hero__logo{display:block;height:clamp(64px,10vw,96px);width:auto;margin:0 auto .6rem;filter:drop-shadow(0 0 18px rgba(255,61,138,.45))}
   .glitch{position:relative;display:inline-block}
   .glitch::before,.glitch::after{
     content:attr(data-texto);
@@ -1565,7 +1573,7 @@
 </div>
 
 <nav>
-  <a class="marca" href="{{__home__}}">VICE<em>VERSA</em></a>
+  <a class="marca" href="{{__home__}}"><img class="marca__logo" src="{{__base__}}marca/logo-64.webp" srcset="{{__base__}}marca/logo-64.webp 1x, {{__base__}}marca/logo-128.webp 2x" width="48" height="32" alt="" aria-hidden="true">VICE<em>VERSA</em></a>
   <div class="nav-links">
     <a href="{{__home__}}"{{__at_home__}}>{{nav01}}</a>
     <a href="{{__news__}}"{{__at_news__}}>{{nav02}}</a>

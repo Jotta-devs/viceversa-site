@@ -24,6 +24,7 @@ Contato, Privacidade e Política editorial) — nunca a pasta docs/, que é
 apagada e regerada.
 """
 
+import hashlib
 import html as html_lib
 import json
 import math
@@ -52,7 +53,7 @@ PASTA_VENDOR = RAIZ / "vendor"      # bibliotecas de terceiros servidas pelo pr�
 SAIDA = RAIZ / "docs"   # o GitHub Pages serve a raiz ou /docs
 ESTATICOS = ["ebook-capa-en.png", "ebook-capa-pt.png", "ebook-capa-es.png",
              "og-image-en.png", "og-image-pt.png", "og-image-es.png",
-             "feed.json", "ads.txt"]
+             "feed.json", "ads.txt", "favicon.ico", "site.webmanifest"]
 
 # ── troque pelo endereço real antes de publicar ─────────────────────
 DOMINIO = "https://vvviceversa.com"
@@ -731,7 +732,7 @@ def jsonld_faq(textos):
 
 def organizacao(cod):
     return {"@type": "Organization", "name": NOME_SITE, "url": url(cod, "sobre"),
-            "logo": {"@type": "ImageObject", "url": DOMINIO + "/og-image-en.png"}}
+            "logo": {"@type": "ImageObject", "url": DOMINIO + "/marca/logo-512.png", "width": 512, "height": 512}}
 
 
 def autor_jsonld(cod):
@@ -922,15 +923,26 @@ def link_guia_mapa(pref, cod):
     return f"{pref}{rel_guia(guia, cod)}/" if guia else f'{pref}{caminho(cod, "guias")}/'
 
 
+VERSAO_CONTEUDO = ""     # definida em montar(): muda quando alguma notícia muda
+
+
+def versao_conteudo(posts):
+    """Assinatura curta das notícias publicadas (endereço, título, data de edição)."""
+    base = "|".join(f'{p["slug"]}:{p["atualizado"].isoformat() if p["atualizado"] else ""}:'
+                    f'{",".join(v["titulo"] for v in p["versoes"].values())}' for p in posts)
+    return hashlib.sha1(base.encode("utf-8")).hexdigest()[:12]
+
+
 def extras_comuns(posts, cod, textos):
     """Faixa do topo e barra "última notícia", presentes em todas as páginas."""
     if not posts:
-        return {"__ticker_posts__": "",
+        return {"__ticker_posts__": "", "__versao__": VERSAO_CONTEUDO,
                 "__ultima_titulo__": textos.get("t009", ""),
                 "__ultima_link__": lambda pref, cod=cod: pref + caminho(cod, "noticias") + "/",
                 "__guia_mapa__": lambda pref, cod=cod: link_guia_mapa(pref, cod)}
     ultima = posts[0]
     return {
+        "__versao__": VERSAO_CONTEUDO,
         "__ticker_posts__": "\n    ".join(
             f"<span>◆ {esc(versao(p, cod)[1]['titulo'])}</span>" for p in posts[:3]),
         "__ultima_titulo__": esc(versao(ultima, cod)[1]["titulo"]),
@@ -1496,7 +1508,9 @@ def montar():
     locais_por_cod = {}
     imagens_locais = {}         # id -> (capa, base da arte): o recorte é o mesmo nos 3 idiomas
     paginas_local = 0
+    global VERSAO_CONTEUDO
     posts = carregar_posts()
+    VERSAO_CONTEUDO = versao_conteudo(posts)
     guias = carregar_guias()
     _GUIAS[:] = guias
     paginas_guia = 0
@@ -1769,6 +1783,12 @@ def montar():
         print("  ✓ map-data/ (mapa recriado)")
     if PASTA_VENDOR.is_dir():
         shutil.copytree(PASTA_VENDOR, SAIDA / "vendor")
+    # logo oficial e ícones (favicon, app, dados estruturados)
+    if (RAIZ / "marca").is_dir():
+        shutil.copytree(RAIZ / "marca", SAIDA / "marca", dirs_exist_ok=True)
+    # versão do conteúdo: o navegador compara com a da página (meta vv-versao)
+    # e, se a página veio de um cache antigo, busca as notícias novas sozinho
+    (SAIDA / "versao.json").write_text(json.dumps({"v": VERSAO_CONTEUDO}) + "\n", encoding="utf-8")
 
     # imagens dos posts, baixadas pelo automacao/posts.py
     midia = RAIZ / "midia"
