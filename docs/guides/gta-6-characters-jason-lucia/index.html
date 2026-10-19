@@ -319,6 +319,7 @@
   .marca em{font-style:normal;color:var(--magenta)}
   .marca{display:inline-flex;align-items:center;gap:.5rem}
   .marca__logo{height:1.25em;width:auto;flex:none;filter:drop-shadow(0 0 6px rgba(255,61,138,.35))}
+  .marca__nome{display:inline-block;line-height:1;white-space:nowrap}
   footer .marca .marca__logo{height:1.1em}
   .nav-links{display:flex;gap:1.6rem;font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;align-items:center}
   .nav-links a{color:var(--creme-70);position:relative;transition:color .25s}
@@ -1115,7 +1116,9 @@
     background-size:200% 100%;
   }
   @keyframes varrer{to{background-position:-200% 0}}
-  footer .marca{font-size:2.4rem;display:block;margin-bottom:1rem}
+  footer .marca{font-size:2.4rem;display:flex;justify-content:center;align-items:center;gap:.5rem;height:64px;margin-bottom:1rem;line-height:1}
+  footer .marca .marca__logo{height:42px;width:63px}
+  footer .marca .marca__nome{height:38px;line-height:38px}
   .footer-social{display:flex;justify-content:center;gap:1rem;margin-bottom:1.6rem}
   .footer-social a{
     width:44px;height:44px;border:1px solid var(--linha);border-radius:50%;
@@ -1636,7 +1639,7 @@
 </div>
 
 <nav>
-  <a class="marca" href="../../"><img class="marca__logo" src="../../marca/logo-64.webp" srcset="../../marca/logo-64.webp 1x, ../../marca/logo-128.webp 2x" width="48" height="32" alt="" aria-hidden="true">VICE<em>VERSA</em></a>
+  <a class="marca" href="../../"><img class="marca__logo" src="../../marca/logo-64.webp" srcset="../../marca/logo-64.webp 1x, ../../marca/logo-128.webp 2x" width="48" height="32" alt="" aria-hidden="true"><span class="marca__nome">VICE<em>VERSA</em></span></a>
   <div class="nav-links">
     <a href="../../">Home</a>
     <a href="../../news/">News</a>
@@ -1805,7 +1808,7 @@
 </main>
 
 <footer>
-  <span class="marca"><img class="marca__logo" src="../../marca/logo-128.webp" width="96" height="64" alt="" aria-hidden="true" loading="lazy">VICE<em>VERSA</em></span>
+  <span class="marca"><img class="marca__logo" src="../../marca/logo-128.webp" width="96" height="64" alt="" aria-hidden="true" loading="lazy"><span class="marca__nome">VICE<em>VERSA</em></span></span>
   <div class="footer-social">
     <a href="https://instagram.com/vvviceversaa" target="_blank" rel="noopener" aria-label="Instagram @vvviceversaa">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.8 2.2h8.4a5.6 5.6 0 0 1 5.6 5.6v8.4a5.6 5.6 0 0 1-5.6 5.6H7.8a5.6 5.6 0 0 1-5.6-5.6V7.8a5.6 5.6 0 0 1 5.6-5.6Zm0 1.9A3.7 3.7 0 0 0 4.1 7.8v8.4a3.7 3.7 0 0 0 3.7 3.7h8.4a3.7 3.7 0 0 0 3.7-3.7V7.8a3.7 3.7 0 0 0-3.7-3.7H7.8Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12 7.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8Zm0 1.9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><circle cx="17.4" cy="6.6" r="1.25"/></svg>
