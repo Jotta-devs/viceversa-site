@@ -25,8 +25,12 @@
 <link rel="alternate" type="application/rss+xml" title="VICEVERSA" href="https://vvviceversa.com/es/feed.xml">
 <meta name="theme-color" content="#120720">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23120720'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FF8A3D'/%3E%3Cstop offset='1' stop-color='%23FF3D8A'/%3E%3C/linearGradient%3E%3Cmask id='m'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Crect y='7' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='12.4' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='17.8' width='32' height='3.4' fill='%23fff'/%3E%3Crect y='23.2' width='32' height='2.6' fill='%23fff'/%3E%3C/mask%3E%3C/defs%3E%3Ccircle cx='16' cy='17' r='10.5' fill='url(%23g)' mask='url(%23m)'/%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="../../../og-image-es.png">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="../../../marca/icone-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../marca/icone-192.png">
+<link rel="apple-touch-icon" href="../../../marca/icone-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="vv-versao" content="98ff94a47d67">
 
 <!-- Preview ao compartilhar (Open Graph / X Cards) -->
 <meta property="og:type" content="article">
@@ -84,7 +88,9 @@
     "url": "https://vvviceversa.com/es/sobre/",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://vvviceversa.com/og-image-en.png"
+      "url": "https://vvviceversa.com/marca/logo-512.png",
+      "width": 512,
+      "height": 512
     }
   },
   "image": [
@@ -312,6 +318,9 @@
   }
   .marca{font-family:var(--font-display);font-size:1.7rem;letter-spacing:.08em;color:var(--creme)}
   .marca em{font-style:normal;color:var(--magenta)}
+  .marca{display:inline-flex;align-items:center;gap:.5rem}
+  .marca__logo{height:1.25em;width:auto;flex:none;filter:drop-shadow(0 0 6px rgba(255,61,138,.35))}
+  footer .marca .marca__logo{height:1.1em}
   .nav-links{display:flex;gap:1.6rem;font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;align-items:center}
   .nav-links a{color:var(--creme-70);position:relative;transition:color .25s}
   .nav-links a::after{
@@ -454,6 +463,7 @@
   h1 .vice{color:var(--magenta)}
   h1 .versa{color:var(--creme)}
   /* glitch de aberração cromática */
+  .hero__logo{display:block;height:clamp(64px,10vw,96px);width:auto;margin:0 auto .6rem;filter:drop-shadow(0 0 18px rgba(255,61,138,.45))}
   .glitch{position:relative;display:inline-block}
   .glitch::before,.glitch::after{
     content:attr(data-texto);
@@ -1627,7 +1637,7 @@
 </div>
 
 <nav>
-  <a class="marca" href="../../../es/">VICE<em>VERSA</em></a>
+  <a class="marca" href="../../../es/"><img class="marca__logo" src="../../../marca/logo-64.webp" srcset="../../../marca/logo-64.webp 1x, ../../../marca/logo-128.webp 2x" width="48" height="32" alt="" aria-hidden="true">VICE<em>VERSA</em></a>
   <div class="nav-links">
     <a href="../../../es/">Inicio</a>
     <a href="../../../es/noticias/" aria-current="page">Noticias</a>
@@ -1771,7 +1781,7 @@
 </main>
 
 <footer>
-  <span class="marca">VICE<em>VERSA</em></span>
+  <span class="marca"><img class="marca__logo" src="../../../marca/logo-128.webp" width="96" height="64" alt="" aria-hidden="true" loading="lazy">VICE<em>VERSA</em></span>
   <div class="footer-social">
     <a href="https://instagram.com/vvviceversaa" target="_blank" rel="noopener" aria-label="Instagram @vvviceversaa">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.8 2.2h8.4a5.6 5.6 0 0 1 5.6 5.6v8.4a5.6 5.6 0 0 1-5.6 5.6H7.8a5.6 5.6 0 0 1-5.6-5.6V7.8a5.6 5.6 0 0 1 5.6-5.6Zm0 1.9A3.7 3.7 0 0 0 4.1 7.8v8.4a3.7 3.7 0 0 0 3.7 3.7h8.4a3.7 3.7 0 0 0 3.7-3.7V7.8a3.7 3.7 0 0 0-3.7-3.7H7.8Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12 7.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8Zm0 1.9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><circle cx="17.4" cy="6.6" r="1.25"/></svg>
@@ -2568,12 +2578,15 @@
     const filtro = document.querySelector(".filtro");
     if(!filtro) return;
     const secao = filtro.closest("section") || document;
-    const itens = secao.querySelectorAll("[data-categoria]");
-    const vazio = secao.querySelector(".filtro__vazio");
-    const cards = secao.querySelectorAll(".feed-auto [data-categoria]");
     const botoes = filtro.querySelectorAll("[data-filtro]");
+    let atual = "todas";
     function aplicar(valor, registrar){
       if(!["todas", "gta", "off"].includes(valor)) valor = "todas";
+      atual = valor;
+      // busca os cards a cada vez: a lista pode ter sido trocada pela atualização automática
+      const itens = secao.querySelectorAll("[data-categoria]");
+      const vazio = secao.querySelector(".filtro__vazio");
+      const cards = secao.querySelectorAll(".feed-auto [data-categoria]");
       botoes.forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.filtro === valor)); });
       itens.forEach(function(el){ el.hidden = valor !== "todas" && el.dataset.categoria !== valor; });
       if(vazio) vazio.hidden = !Array.prototype.every.call(cards, function(c){ return c.hidden; });
@@ -2588,6 +2601,41 @@
     });
     filtro.hidden = false;
     aplicar(location.hash.replace("#", ""), false);
+    window.vvReaplicarFiltro = function(){ aplicar(atual, false); };
+  })();
+
+  /* ---- Notícias sempre atualizadas, mesmo com cache.
+     O GitHub Pages (e o navegador) guardam o HTML por até 10 minutos, então
+     quem abre a página logo depois de uma notícia nova pode ver a lista antiga.
+     Cada página traz a versão do conteúdo (meta vv-versao); aqui conferimos a
+     versão atual em /versao.json, sem cache. Se mudou, baixamos a mesma página
+     com um endereço novo (?v=...), que pula todos os caches, e trocamos só as
+     partes com notícias. Sem JS, nada muda: a página continua funcionando. ---- */
+  (function(){
+    const meta = document.querySelector('meta[name="vv-versao"]');
+    if(!meta || !window.fetch || !window.DOMParser) return;
+    const PARTES = ["#barra-evento", "#feed-auto", ".arquivo", "#noticias .grade-noticias"];
+    if(!PARTES.some(function(s){ return document.querySelector(s); })) return;
+    fetch("/versao.json?t=" + Date.now(), {cache: "no-store"})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if(!d || !d.v || d.v === meta.content) return null;
+        return fetch(location.pathname + "?v=" + encodeURIComponent(d.v), {cache: "no-store"})
+          .then(function(r){ return r.ok ? r.text() : null; })
+          .then(function(html){
+            if(!html) return;
+            const novo = new DOMParser().parseFromString(html, "text/html");
+            const vNova = novo.querySelector('meta[name="vv-versao"]');
+            if(!vNova || vNova.content !== d.v) return;   // ainda não publicado: tenta na próxima visita
+            PARTES.forEach(function(s){
+              const velho = document.querySelector(s), fresco = novo.querySelector(s);
+              if(velho && fresco) velho.innerHTML = fresco.innerHTML;
+            });
+            meta.content = d.v;
+            if(window.vvReaplicarFiltro) window.vvReaplicarFiltro();
+          });
+      })
+      .catch(function(){});
   })();
 
   /* ---- Compartilhar: menu nativo no celular, copiar link no desktop ---- */
