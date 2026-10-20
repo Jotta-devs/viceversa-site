@@ -1909,16 +1909,27 @@
     }, 3200);
   }
 
-  /* ---- Revelação no scroll ---- */
-  const obs = new IntersectionObserver(function(entradas){
-    entradas.forEach(function(e){
-      if(e.isIntersecting){
-        e.target.classList.add("visivel");
-        obs.unobserve(e.target);
-      }
-    });
-  }, {threshold:.12});
-  document.querySelectorAll(".observa").forEach(function(s){ obs.observe(s); });
+  /* ---- Revelação no scroll ----
+     A seção aparece assim que o topo dela entra na tela (10% acima da borda
+     de baixo), qualquer que seja a altura. Antes era preciso ver 12% da área
+     da seção: a lista de notícias no celular tem ~7.000 px e a tela ~700 px,
+     então nunca passava de 10% e as notícias ficavam invisíveis. Seções que
+     já ficaram para trás (página aberta no meio, link com #) também aparecem. */
+  const secoes = document.querySelectorAll(".observa");
+  const mostrar = function(s){ s.classList.add("visivel"); };
+  if(!("IntersectionObserver" in window)){
+    secoes.forEach(mostrar);
+  } else {
+    const obs = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){
+        if(e.isIntersecting || e.boundingClientRect.top < 0){
+          mostrar(e.target);
+          obs.unobserve(e.target);
+        }
+      });
+    }, {threshold:0, rootMargin:"0px 0px -10% 0px"});
+    secoes.forEach(function(s){ obs.observe(s); });
+  }
 
   /* ---- Tilt 3D nos cards de notícia (desktop, mouse) ---- */
   const podeTilt = !reduzido && window.matchMedia("(hover:hover) and (pointer:fine)").matches;
