@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /v/
 
 Sitemap: https://vvviceversa.com/sitemap.xml
 Sitemap: https://vvviceversa.com/news-sitemap.xml
