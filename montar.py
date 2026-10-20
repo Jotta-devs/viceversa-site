@@ -616,6 +616,19 @@ def cartao_home(post, prefixo, cod, textos, destaque=False):
             f'<span class="noticia__ler">{textos.get("ul04", "")}</span></a></article>')
 
 
+def ultimas_home_html(posts, prefixo, cod, textos):
+    """As 4 notícias da página inicial."""
+    return ("\n".join(cartao_home(p, prefixo, cod, textos, destaque=(i == 0))
+                      for i, p in enumerate(posts[:4]))
+            or f'    <p class="feed-vazio">{textos.get("t124", "")}</p>')
+
+
+def feed_html(posts, prefixo, cod, textos):
+    """Os cards da página de notícias."""
+    return ("\n".join(cartao_feed(p, prefixo, cod, textos) for p in posts[:CARDS_NOTICIAS])
+            or f'      <p class="feed-vazio">{textos.get("t124", "")}</p>')
+
+
 def item_lista(post, prefixo, cod):
     _, v = versao(post, cod)
     return (f'      <li data-categoria="{categoria(post)}"{atributo_lang(post, cod)}><a href="{link_post(post, cod, prefixo)}">'
@@ -924,6 +937,8 @@ def link_guia_mapa(pref, cod):
 
 
 VERSAO_CONTEUDO = ""     # definida em montar(): muda quando alguma notícia muda
+VERSAO_MOMENTO = 0       # quando essa versão surgiu (segundos desde 1970): só cresce
+PONTEIROS = 60           # /v/agora/0..59.json, um a cada 20 s (ciclo de 20 min)
 
 
 def versao_conteudo(posts):
@@ -933,22 +948,80 @@ def versao_conteudo(posts):
     return hashlib.sha1(base.encode("utf-8")).hexdigest()[:12]
 
 
+def momento_da_versao(versao):
+    """Mantém o momento da versão anterior se o conteúdo não mudou; senão, agora.
+    Assim as páginas só mudam quando alguma notícia muda (sem commits à toa)."""
+    try:
+        antiga = json.loads((SAIDA / "versao.json").read_text(encoding="utf-8"))
+        if antiga.get("v") == versao and int(antiga.get("t", 0)) > 0:
+            return int(antiga["t"])
+    except (OSError, ValueError, TypeError):
+        pass
+    return int(datetime.now(timezone.utc).timestamp())
+
+
 def extras_comuns(posts, cod, textos):
     """Faixa do topo e barra "última notícia", presentes em todas as páginas."""
     if not posts:
         return {"__ticker_posts__": "", "__versao__": VERSAO_CONTEUDO,
+                "__versao_t__": str(VERSAO_MOMENTO),
                 "__ultima_titulo__": textos.get("t009", ""),
                 "__ultima_link__": lambda pref, cod=cod: pref + caminho(cod, "noticias") + "/",
                 "__guia_mapa__": lambda pref, cod=cod: link_guia_mapa(pref, cod)}
     ultima = posts[0]
     return {
         "__versao__": VERSAO_CONTEUDO,
+        "__versao_t__": str(VERSAO_MOMENTO),
         "__ticker_posts__": "\n    ".join(
             f"<span>◆ {esc(versao(p, cod)[1]['titulo'])}</span>" for p in posts[:3]),
         "__ultima_titulo__": esc(versao(ultima, cod)[1]["titulo"]),
         "__ultima_link__": lambda pref, ultima=ultima, cod=cod: link_post(ultima, cod, pref),
         "__guia_mapa__": lambda pref, cod=cod: link_guia_mapa(pref, cod),
     }
+
+
+def escrever_novidades(posts, cod, textos):
+    """Partes com notícias de todas as páginas, em /v/<versão>/<idioma>.json.
+
+    O GitHub Pages guarda cada endereço por até 10 minutos (no navegador e no
+    CDN, que ignora ?parâmetros). Um endereço com a versão no nome é novo a
+    cada versão, então nenhum cache consegue entregar uma cópia antiga dele.
+    Os links usam caminhos absolutos ("/..."): servem em qualquer página."""
+    pref = "/"
+    ex = extras_comuns(posts, cod, textos)
+    faixa = "\n    ".join([ex["__ticker_posts__"]] + [
+        f"<span>{textos.get(k, '')}</span>" for k in ("t002", "t003", "t004", "t005", "t006", "t007")])
+    barra = (f'\n  <span class="badge-vivo"></span>\n  <strong>{textos.get("t008", "")}</strong>\n'
+             f'  <span class="relogio">{ex["__ultima_titulo__"]}</span>\n'
+             f'  <a href="{ex["__ultima_link__"](pref)}">{textos.get("t010", "")}</a>\n')
+    dados = {
+        "v": VERSAO_CONTEUDO,
+        "t": VERSAO_MOMENTO,
+        "faixa": faixa,
+        "barra": barra,
+        "ultimas": ultimas_home_html(posts, pref, cod, textos),
+        "feed": feed_html(posts, pref, cod, textos),
+        "arquivo": arquivo_html(posts, pref, cod, textos),
+    }
+    pasta = SAIDA / "v" / VERSAO_CONTEUDO
+    pasta.mkdir(parents=True, exist_ok=True)
+    (pasta / f"{IDIOMAS[cod][1]}.json").write_text(
+        json.dumps(dados, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
+
+def escrever_ponteiros():
+    """/versao.json e 60 cópias em /v/agora/<n>.json.
+
+    O navegador lê a cópia da janela de 20 s em que está (n = minuto/20 s do
+    relógio). Cada cópia só é pedida durante a sua janela e o ciclo leva
+    20 minutos, mais que os 10 minutos do cache do CDN: a cópia pedida nunca
+    tem mais de ~20 s, sem precisar de ?parâmetros nem de páginas 404."""
+    ponteiro = json.dumps({"v": VERSAO_CONTEUDO, "t": VERSAO_MOMENTO}) + "\n"
+    (SAIDA / "versao.json").write_text(ponteiro, encoding="utf-8")
+    agora = SAIDA / "v" / "agora"
+    agora.mkdir(parents=True, exist_ok=True)
+    for n in range(PONTEIROS):
+        (agora / f"{n}.json").write_text(ponteiro, encoding="utf-8")
 
 
 # ── RSS e sitemaps ──────────────────────────────────────────────────
@@ -1508,9 +1581,10 @@ def montar():
     locais_por_cod = {}
     imagens_locais = {}         # id -> (capa, base da arte): o recorte é o mesmo nos 3 idiomas
     paginas_local = 0
-    global VERSAO_CONTEUDO
+    global VERSAO_CONTEUDO, VERSAO_MOMENTO
     posts = carregar_posts()
     VERSAO_CONTEUDO = versao_conteudo(posts)
+    VERSAO_MOMENTO = momento_da_versao(VERSAO_CONTEUDO)    # lê o docs/versao.json anterior
     guias = carregar_guias()
     _GUIAS[:] = guias
     paginas_guia = 0
@@ -1549,6 +1623,7 @@ def montar():
         locais = locais_mapa(mapa, cod, textos)
         locais_por_cod[cod] = locais
         ids_locais = {l["id"] for l in locais}
+        escrever_novidades(posts, cod, textos)
 
         # ── páginas fixas ──
         for pagina, (arquivo, _) in PAGINAS_SITE.items():
@@ -1563,14 +1638,11 @@ def montar():
                 extras["__jsonld_extra__"] = jsonld_faq(textos)
                 extras["__guias_home__"] = lambda pref, cod=cod, textos=textos: "\n".join(
                     cartao_guia(g, pref, cod, textos) for g in guias[:6])
-                extras["__ultimas_home__"] = lambda pref, cod=cod, textos=textos: (
-                    "\n".join(cartao_home(p, pref, cod, textos, destaque=(i == 0))
-                              for i, p in enumerate(posts[:4]))
-                    or f'    <p class="feed-vazio">{textos.get("t124", "")}</p>')
+                extras["__ultimas_home__"] = lambda pref, cod=cod, textos=textos: ultimas_home_html(
+                    posts, pref, cod, textos)
             elif pagina == "noticias":
-                extras["__feed_html__"] = lambda pref, cod=cod, textos=textos: (
-                    "\n".join(cartao_feed(p, pref, cod, textos) for p in posts[:CARDS_NOTICIAS])
-                    or f'      <p class="feed-vazio">{textos.get("t124", "")}</p>')
+                extras["__feed_html__"] = lambda pref, cod=cod, textos=textos: feed_html(
+                    posts, pref, cod, textos)
                 extras["__arquivo_html__"] = lambda pref, cod=cod, textos=textos: arquivo_html(
                     posts, pref, cod, textos)
                 extras["__filtro_noticias__"] = filtro_noticias(posts, textos)
@@ -1788,7 +1860,7 @@ def montar():
         shutil.copytree(RAIZ / "marca", SAIDA / "marca", dirs_exist_ok=True)
     # versão do conteúdo: o navegador compara com a da página (meta vv-versao)
     # e, se a página veio de um cache antigo, busca as notícias novas sozinho
-    (SAIDA / "versao.json").write_text(json.dumps({"v": VERSAO_CONTEUDO}) + "\n", encoding="utf-8")
+    escrever_ponteiros()
 
     # imagens dos posts, baixadas pelo automacao/posts.py
     midia = RAIZ / "midia"
@@ -1800,7 +1872,7 @@ def montar():
     (SAIDA / "sitemap.xml").write_text(gerar_sitemap(posts, hoje, locais_por_cod, guias), encoding="utf-8")
     (SAIDA / "news-sitemap.xml").write_text(gerar_news_sitemap(posts), encoding="utf-8")
     (SAIDA / "robots.txt").write_text(
-        f"User-agent: *\nAllow: /\n\nSitemap: {DOMINIO}/sitemap.xml\n"
+        f"User-agent: *\nAllow: /\nDisallow: /v/\n\nSitemap: {DOMINIO}/sitemap.xml\n"
         f"Sitemap: {DOMINIO}/news-sitemap.xml\n", encoding="utf-8")
     print("  ✓ sitemap.xml, news-sitemap.xml, robots.txt")
 
