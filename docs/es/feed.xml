@@ -6,9 +6,43 @@
     <link>https://vvviceversa.com/es/noticias/</link>
     <description>VICEVERSA: noticias, cronología y curiosidades sobre Grand Theft Auto VI — Extended Look, filtraciones, reservas y cuenta atrás. Sigue a @vvviceversaa en X e Instagram, @vvviceversa en TikTok y @vvViceVersa en YouTube.</description>
     <language>es</language>
-    <lastBuildDate>Tue, 20 Oct 2026 15:38:49 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 21 Oct 2026 02:36:13 +0000</lastBuildDate>
     <atom:link href="https://vvviceversa.com/es/feed.xml" rel="self" type="application/rss+xml"/>
     <image><url>https://vvviceversa.com/og-image-es.png</url><title>VICEVERSA</title><link>https://vvviceversa.com/es/</link></image>
+    <item>
+      <title>Xbox Series S recibirá la tecnología FSR 4.1 de AMD con reconstrucción de imagen mediante IA</title>
+      <link>https://vvviceversa.com/es/noticias/20261021-xbox-series-s-to-get-amds-fsr-4-1-upscaling-technology-with/</link>
+      <guid isPermaLink="true">https://vvviceversa.com/es/noticias/20261021-xbox-series-s-to-get-amds-fsr-4-1-upscaling-technology-with/</guid>
+      <pubDate>Wed, 21 Oct 2026 02:36:13 +0000</pubDate>
+      <dc:creator>VICEVERSA</dc:creator>
+      <dc:language>es</dc:language>
+      <description>AMD ha anunciado la llegada de FSR 4.1 a las consolas Xbox Series X|S. La tecnología podría mejorar la calidad de imagen y la eficiencia gráfica, aunque…</description>
+      <content:encoded><![CDATA[<p>AMD ha anunciado la llegada de FSR 4.1 a las consolas Xbox Series X|S. La tecnología podría mejorar la calidad de imagen y la eficiencia gráfica, aunque los resultados dependerán de su implementación en cada juego.</p>
+<p>AMD ha anunciado que su tecnología de escalado de imagen FSR 4.1 llegará a las consolas Xbox Series X|S. El anuncio, realizado el 20 de octubre de 2026, amplía la colaboración entre el fabricante de chips y Microsoft para mejorar el rendimiento gráfico mediante soluciones de software.</p>
+<p>La novedad podría beneficiar especialmente a Xbox Series S, una consola que cuenta con una GPU menos potente y menos memoria que Series X. Las técnicas de escalado pueden ayudar a los desarrolladores a equilibrar la calidad visual y el rendimiento, facilitando la optimización de juegos exigentes para el modelo más económico.</p>
+<p>Sin embargo, AMD y Microsoft todavía no han anunciado una fecha concreta para la actualización de las consolas ni han publicado comparativas que permitan determinar cuánto mejorará el rendimiento.</p>
+<h2>¿Cómo funciona FSR 4.1?</h2>
+<p>FSR 4.1 es una evolución de la tecnología de escalado de imagen de AMD. En lugar de renderizar cada fotograma directamente a la resolución final, el sistema utiliza modelos de aprendizaje automático para reconstruir una imagen de mayor resolución a partir de una imagen renderizada a una resolución inferior.</p>
+<p>El objetivo es reducir parte de la carga de trabajo de la GPU y mantener una calidad visual elevada. Dependiendo del juego y de cómo se implemente la tecnología, esto puede traducirse en imágenes más nítidas o en una mayor disponibilidad de recursos para otras tareas gráficas.</p>
+<p>La tecnología también busca reducir algunos defectos visuales asociados a los métodos de reconstrucción temporal, como las estelas alrededor de objetos en movimiento y la pérdida de detalles en determinadas escenas.</p>
+<p>Los resultados pueden variar considerablemente entre títulos. La calidad de imagen y el rendimiento dependen de factores como la resolución de renderizado inicial, los ajustes gráficos y la forma en que los desarrolladores integren la tecnología en sus juegos.</p>
+<h2>¿Por qué podría beneficiar a Xbox Series S?</h2>
+<p>Microsoft presentó Xbox Series S como la alternativa más económica de su actual generación de consolas. Su configuración de hardware es inferior a la de Series X, lo que obliga a los desarrolladores a tomar decisiones de optimización diferentes al adaptar juegos exigentes a la plataforma.</p>
+<p>El escalado de imagen puede reducir el trabajo necesario para generar imágenes a resoluciones de salida más altas. En determinados títulos, esto podría mejorar la nitidez, ofrecer una tasa de fotogramas más estable o dejar margen para incorporar otros efectos gráficos.</p>
+<p>No obstante, FSR 4.1 no aumenta la capacidad física de la GPU ni amplía la memoria disponible en la consola. Tampoco garantiza que todos los juegos compatibles funcionen a más FPS o alcancen resoluciones de 1080p o superiores.</p>
+<p>La principal ventaja potencial consiste en aprovechar de forma más eficiente los recursos de hardware existentes. El alcance de las mejoras solo podrá determinarse cuando los desarrolladores implementen la tecnología y se publiquen pruebas de rendimiento.</p>
+<h2>¿Qué supone para el ecosistema Xbox?</h2>
+<p>El anuncio forma parte de la colaboración entre AMD y Microsoft para ampliar las herramientas gráficas disponibles en el ecosistema Xbox.</p>
+<p>Además de las consolas Series X|S, AMD también ha anunciado planes para llevar la tecnología a dispositivos de la familia ROG Xbox Ally. En PC, la compañía trabaja en ampliar el soporte de sus soluciones gráficas a determinadas tarjetas Radeon y procesadores Ryzen, siempre que se cumplan los requisitos de hardware y software correspondientes.</p>
+<p>Este anuncio también debe diferenciarse de los planes de Microsoft para su próxima generación de consolas. La compañía ha mencionado FSR Next en el contexto de Project Helix, su futura plataforma, mientras que FSR 4.1 se presenta como una tecnología destinada a la familia Xbox actual.</p>
+<p>Estos avances reflejan el interés de la industria por utilizar técnicas de aprendizaje automático para mejorar los gráficos sin depender exclusivamente de un aumento de la potencia del hardware.</p>
+<h2>¿Cuándo llegará FSR 4.1 a Xbox Series S?</h2>
+<p>AMD ha confirmado sus planes de llevar la tecnología a las consolas Xbox, pero todavía no ha publicado un calendario detallado para su disponibilidad.</p>
+<p>Tampoco se ha presentado una lista de juegos compatibles ni pruebas oficiales que comparen el rendimiento actual con el que podrían ofrecer las futuras implementaciones de FSR 4.1.</p>
+<p>La adopción dependerá de los desarrolladores y de la integración de la tecnología en cada título. Por tanto, los usuarios no deberían esperar mejoras automáticas en todos los juegos instalados en sus consolas.</p>
+<p>Para los propietarios de Xbox Series S, el anuncio abre la posibilidad de mejorar la reconstrucción de imagen y la eficiencia gráfica mediante software. Sin embargo, el impacto real dependerá de los primeros juegos compatibles y de los resultados que se obtengan en las pruebas de rendimiento.</p>]]></content:encoded>
+      <media:content url="https://vvviceversa.com/midia/0af48d99070b6d53.webp" medium="image"/>
+    </item>
     <item>
       <title>Call of Duty: Modern Warfare 4 recibe críticas positivas tras el acceso anticipado a su campaña</title>
       <link>https://vvviceversa.com/es/noticias/20261020-call-of-duty-modern-warfare-4-campaign-receives-positive/</link>

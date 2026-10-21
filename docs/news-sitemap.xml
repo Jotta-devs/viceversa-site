@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://vvviceversa.com/news/20261021-xbox-series-s-to-get-amds-fsr-4-1-upscaling-technology-with/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-21T02:36:13+00:00</news:publication_date>
+      <news:title>Xbox Series S to Get AMD’s FSR 4.1 Upscaling Technology With AI-Powered Image Reconstruction</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261021-xbox-series-s-to-get-amds-fsr-4-1-upscaling-technology-with/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-10-21T02:36:13+00:00</news:publication_date>
+      <news:title>Xbox Series S terá suporte ao FSR 4.1, tecnologia de upscaling com inteligência artificial da AMD</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261021-xbox-series-s-to-get-amds-fsr-4-1-upscaling-technology-with/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-10-21T02:36:13+00:00</news:publication_date>
+      <news:title>Xbox Series S recibirá la tecnología FSR 4.1 de AMD con reconstrucción de imagen mediante IA</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://vvviceversa.com/news/20261020-call-of-duty-modern-warfare-4-campaign-receives-positive/</loc>
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
