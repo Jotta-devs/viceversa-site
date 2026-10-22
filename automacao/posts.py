@@ -407,21 +407,37 @@ IMAGEM_MARKUP = re.compile(r"!\[[^\]]*\]\(\s*https?://[^\s)]+[^)]*\)|<img\b[^>]*
 
 
 def juntar_imagem(materia, texto):
-    """Garante que a matéria completa tenha a imagem do post.
+    """Garante que a matéria completa abra com a imagem do post.
 
     O formulário manda arrastar a imagem para o "Texto do post" (o texto curto
-    do X). Quando a "Matéria completa" é preenchida, é ela que vira a página —
-    e, se não tiver imagem própria, a notícia em inglês ficava sem capa, sem
-    miniatura no card e sem foto na imagem de compartilhamento. Aqui a primeira
-    imagem do texto curto vai para o topo da matéria, sozinha num parágrafo,
-    para virar a capa. Matéria que já tem imagem fica como está.
+    do X). Quando a "Matéria completa" é preenchida, é ela que vira a página,
+    e a primeira imagem da página vira a capa. Antes, a imagem do post só era
+    copiada quando a matéria não tinha imagem nenhuma: se a matéria tivesse
+    uma imagem no meio do texto (um print de comunicado, por exemplo), essa
+    imagem virava a capa em inglês e a foto principal sumia, enquanto em PT e
+    ES (que trazem a própria imagem no topo) a capa ficava certa.
+
+    Agora: se a matéria já começa com uma imagem, ela é a capa e nada muda.
+    Se não, a imagem do texto curto vai para o topo, sozinha num parágrafo.
+    Se essa mesma imagem já estava mais abaixo na matéria, ela sai de lá
+    (para não aparecer duas vezes).
     """
-    if not materia or IMAGEM_MARKUP.search(materia):
+    if not materia:
+        return materia
+    if IMAGEM_MARKUP.match(materia.lstrip()):
         return materia
     m = IMAGEM_MARKUP.search(texto or "")
     if not m:
         return materia
-    return f"{m.group(0)}\n\n{materia}"
+    imagem = m.group(0)
+    url = re.search(r"https?://[^\s\"')]+", imagem)
+    if url:
+        # a mesma imagem (pela URL) mais abaixo na matéria: tira de lá
+        def mesma(x):
+            return "" if url.group(0) in x.group(0) else x.group(0)
+        materia = IMAGEM_MARKUP.sub(mesma, materia)
+        materia = re.sub(r"\n{3,}", "\n\n", materia).strip()
+    return f"{imagem}\n\n{materia}"
 
 
 def main():
