@@ -72,28 +72,4 @@
       <news:title>Xbox Series S recibirá la tecnología FSR 4.1 de AMD con reconstrucción de imagen mediante IA</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261020-call-of-duty-modern-warfare-4-campaign-receives-positive/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-20T15:38:49+00:00</news:publication_date>
-      <news:title>Call of Duty: Modern Warfare 4 Campaign Receives Positive Early Reviews Ahead of Launch</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261020-call-of-duty-modern-warfare-4-campaign-receives-positive/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-20T15:38:49+00:00</news:publication_date>
-      <news:title>Call of Duty: Modern Warfare 4 recebe avaliações positivas após início do acesso antecipado à campanha</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261020-call-of-duty-modern-warfare-4-campaign-receives-positive/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-20T15:38:49+00:00</news:publication_date>
-      <news:title>Call of Duty: Modern Warfare 4 recibe críticas positivas tras el acceso anticipado a su campaña</news:title>
-    </news:news>
-  </url>
 </urlset>
