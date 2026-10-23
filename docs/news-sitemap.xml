@@ -48,28 +48,4 @@
       <news:title>EA cierra BioWare y cancela un nuevo proyecto de Mass Effect</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261021-gta-6-enters-the-final-stretch-ahead-of-its-expected/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-21T16:21:04+00:00</news:publication_date>
-      <news:title>GTA 6 Enters the Final Stretch Ahead of Its Expected November Launch</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261021-gta-6-enters-the-final-stretch-ahead-of-its-expected/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-21T16:21:04+00:00</news:publication_date>
-      <news:title>GTA 6 entra na reta final antes do lançamento previsto para novembro</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261021-gta-6-enters-the-final-stretch-ahead-of-its-expected/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-21T16:21:04+00:00</news:publication_date>
-      <news:title>GTA 6 entra en la recta final antes de su esperado lanzamiento en noviembre</news:title>
-    </news:news>
-  </url>
 </urlset>
