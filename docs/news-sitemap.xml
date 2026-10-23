@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://vvviceversa.com/news/20261023-gta-6-turns-miami-into-vice-city-as-report-predicts/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-23T17:34:40+00:00</news:publication_date>
+      <news:title>GTA 6 Turns Miami Into Vice City as Report Predicts Potential $1 Billion Hit to Workplace Productivity</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261023-gta-6-turns-miami-into-vice-city-as-report-predicts/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-10-23T17:34:40+00:00</news:publication_date>
+      <news:title>GTA 6 transforma Miami em Vice City e pode provocar onda de faltas no trabalho, diz estimativa</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261023-gta-6-turns-miami-into-vice-city-as-report-predicts/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-10-23T17:34:40+00:00</news:publication_date>
+      <news:title>GTA 6 convierte Miami en Vice City y una estimación advierte de un posible impacto de 1.000 millones de dólares en la productividad laboral</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://vvviceversa.com/news/20261023-rockstar-brings-burger-shot-and-cluckin-bell-to-real-life-in/</loc>
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
