@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://vvviceversa.com/news/20261023-rockstar-brings-burger-shot-and-cluckin-bell-to-real-life-in/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-23T01:05:59+00:00</news:publication_date>
+      <news:title>Rockstar Brings Burger Shot and Cluckin&#x27; Bell to Real Life in Miami Ahead of GTA 6 Launch</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261023-rockstar-brings-burger-shot-and-cluckin-bell-to-real-life-in/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-10-23T01:05:59+00:00</news:publication_date>
+      <news:title>Rockstar leva Burger Shot e Cluckin&#x27; Bell à vida real em Miami antes do lançamento de GTA 6</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261023-rockstar-brings-burger-shot-and-cluckin-bell-to-real-life-in/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-10-23T01:05:59+00:00</news:publication_date>
+      <news:title>Rockstar lleva Burger Shot y Cluckin&#x27; Bell al mundo real en Miami antes del lanzamiento de GTA 6</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://vvviceversa.com/news/20261022-ea-shuts-down-bioware-and-cancels-new-mass-effect-project/</loc>
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
