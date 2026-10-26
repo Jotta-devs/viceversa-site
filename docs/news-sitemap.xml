@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://vvviceversa.com/news/20261026-rockstar-sends-gta-vi-promotional-kits-to-content-creators/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-26T20:07:39+00:00</news:publication_date>
+      <news:title>Rockstar Sends GTA VI Promotional Kits to Content Creators</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261026-rockstar-sends-gta-vi-promotional-kits-to-content-creators/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-10-26T20:07:39+00:00</news:publication_date>
+      <news:title>Rockstar envia kits promocionais de GTA VI a criadores de conteúdo</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261026-rockstar-sends-gta-vi-promotional-kits-to-content-creators/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-10-26T20:07:39+00:00</news:publication_date>
+      <news:title>Rockstar envía kits promocionales de GTA VI a creadores de contenido</news:title>
+    </news:news>
+  </url>
 </urlset>
