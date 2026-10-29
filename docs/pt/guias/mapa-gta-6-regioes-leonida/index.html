@@ -95,7 +95,7 @@
   "image": [
     "https://vvviceversa.com/og-image-pt.png"
   ],
-  "wordCount": 1312,
+  "wordCount": 1327,
   "datePublished": "2026-09-28",
   "dateModified": "2026-09-28"
 }
@@ -1499,13 +1499,16 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
-  .atlas--noite{--atlas-mar:#07112A}
-  .atlas--dia{--atlas-mar:#3778C2}
+  /* ---- ATLAS: arte-base do mapa (mapa/leonida.svg traz a imagem + a grade) ---- */
+  .atlas--noite{--atlas-mar:#022136}
+  .atlas--dia{--atlas-mar:#014771}
+  /* Noite: a mesma arte, escurecida (o filtro vale em todos os navegadores porque fica no <svg>) */
+  .atlas--noite svg.atlas-vetor{filter:brightness(.55) saturate(.8) contrast(1.06)}
+  .atlas-vetor .c-arte{image-rendering:auto}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.05em}
 
   .atlas--noite .c-mar{fill:#07112A}
   .atlas--noite .c-raso3{fill:#0A1B38}
@@ -1523,8 +1526,8 @@
   .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
-  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
-  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.75)}
+  .atlas--noite .grade text{fill:#2FE6C8;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
 
   /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
   .atlas--dia .c-mar{fill:#3778C2}
@@ -1543,8 +1546,8 @@
   .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
-  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
+  .atlas--dia .grade path{stroke:rgba(255,243,228,.6)}
+  .atlas--dia .grade text{fill:#FFF3E4;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
   .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
@@ -1557,8 +1560,9 @@
     font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
   .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
-  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
+  /* sobre a arte (mar, mata e cidade), o nome claro com contorno escuro lê melhor também no Dia */
+  .atlas--dia .atlas-regiao b{color:#FFFFFF;text-shadow:0 0 4px #0B0414,0 0 2px #0B0414,0 0 1px #0B0414,0 0 6px #FF3D8A}
+  .atlas--dia .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 3px #0B0414,0 0 2px #0B0414}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1713,7 +1717,7 @@
     <a href="../../../pt/guias/">Guias</a><span aria-hidden="true">›</span><span>Guia do mapa de Leonida</span>
   </div>
   <article>
-    <p class="artigo__meta"><span class="selo selo--guia">Guia</span><span class="artigo__autor">Por <a href="../../../pt/sobre/#editor" rel="author">Mike Pagani</a></span><span>Atualizado em <time datetime="2026-09-28">28 set 2026</time></span><span class="artigo__leitura">6 min de leitura</span></p>
+    <p class="artigo__meta"><span class="selo selo--guia">Guia</span><span class="artigo__autor">Por <a href="../../../pt/sobre/#editor" rel="author">Mike Pagani</a></span><span>Atualizado em <time datetime="2026-09-28">28 set 2026</time></span><span class="artigo__leitura">7 min de leitura</span></p>
     <h1>Guia do mapa de GTA 6: as seis regiões de Leonida e os lugares reais da Flórida por trás delas</h1>
     <p class="guia__lead">Um passeio região por região por Leonida — Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia e Mount Kalaga — com as inspirações reais e o que cada uma significa no jogo.</p>
     <div class="guia__indice" role="navigation" aria-label="Neste guia"><p>Neste guia</p><ol><li><a href="#visao-geral">Visão geral</a></li><li><a href="#vice-city">Vice City</a></li><li><a href="#leonida-keys">Leonida Keys</a></li><li><a href="#grassrivers">Grassrivers</a></li><li><a href="#port-gellhorn">Port Gellhorn</a></li><li><a href="#ambrosia">Ambrosia</a></li><li><a href="#parque-nacional-mount-kalaga">Parque Nacional Mount Kalaga</a></li><li><a href="#alem-de-leonida-o-mapa-e-maior">Além de Leonida: o mapa é maior?</a></li><li><a href="#perguntas-frequentes">Perguntas frequentes</a></li><li><a href="#fontes">Fontes</a></li></ol></div>
@@ -1723,7 +1727,7 @@
 <p class="nota"><strong>Sobre o nosso mapa:</strong> o mapa do VICEVERSA é uma ilustração própria, desenhada a partir do que a Rockstar mostrou em trailers, capturas e no Extended Look, conferida com o trabalho de mapeamento da comunidade. Nomes que a Rockstar nunca usou aparecem como <em>descritivos</em> (dados por nós) ou <em>especulativos</em> (apelidos da comunidade). Nada ali é oficial até o jogo sair.</p>
 
 <h2 id="visao-geral">Visão geral</h2>
-<p>Leonida segue o formato da península da Flórida. A metrópole, Vice City, fica na costa sudeste. As Keys se espalham ao sul, os pântanos de Grassrivers ocupam o sudoeste, um grande lago domina o centro, Port Gellhorn fica na costa oeste e florestas e morros sobem ao norte. A Rockstar não divulgou o tamanho do mapa, mas as rodovias longas, os pântanos extensos e as várias cidades separadas indicam um estado pensado para viagens de carro, barco e avião — e não uma cidade com um pouco de interior em volta.</p>
+<p>Leonida segue o formato da península da Flórida. A metrópole, Vice City, fica na costa sudeste. As Keys se espalham ao sul, os pântanos de Grassrivers ocupam o meio do estado, um grande lago domina o centro, Port Gellhorn fica na costa oeste e florestas e morros sobem ao norte. A Rockstar não divulgou o tamanho do mapa, mas as rodovias longas, os pântanos extensos e as várias cidades separadas indicam um estado pensado para viagens de carro, barco e avião — e não uma cidade com um pouco de interior em volta.</p>
 <div class="tabela-rolagem"><table>
   <thead><tr><th>Região</th><th>Inspiração real</th><th>Do que se trata</th></tr></thead>
   <tbody>
@@ -1738,7 +1742,7 @@
 
 <h2 id="vice-city">Vice City</h2>
 <p>Vice City é o coração de Leonida e o centro da história de Jason e Lucia. É a Miami da Rockstar, visitada pela última vez no Vice City de 2002 (ambientado em 1986) e no Vice City Stories de 2006. A versão moderna mantém o art déco em tons pastel e a praia, e acrescenta tudo o que Miami virou desde então: torres de vidro, festas em coberturas, carros de luxo, influenciadores e uma vida noturna que o Extended Look mostrou com multidões mais densas que qualquer coisa já feita pela Rockstar.</p>
-<p>No nosso mapa a cidade é dividida em áreas reconhecíveis. O <strong>Centro</strong>, na margem oeste da baía, tem a malha de ruas mais apertada do estado e é cortado pela rodovia norte–sul. Do outro lado da baía, <strong>Vice Beach</strong> é a ilha-barreira inspirada em Miami Beach, com a orla, um parque comprido e o polo da vida noturna; as suas <strong>praias</strong> aparecem em muitas cenas dos trailers. Entre as duas, uma <strong>ilha portuária</strong> artificial espelha o PortMiami, em Dodge Island. Ao norte fica o <strong>aeroporto internacional</strong>, um dos pontos que devem ligar Vice City ao resto do estado.</p>
+<p>No nosso mapa a cidade é dividida em áreas reconhecíveis. O <strong>Centro</strong>, na margem oeste da baía, tem as torres mais altas e a malha de ruas mais apertada do estado. Do outro lado da baía, <strong>Vice Beach</strong> é a ilha-barreira inspirada em Miami Beach, com a orla, um parque comprido e o polo da vida noturna; as suas <strong>praias</strong> aparecem em muitas cenas dos trailers. Entre as duas, uma <strong>ilha portuária</strong> artificial espelha o PortMiami, em Dodge Island. Logo a oeste do Centro fica o <strong>aeroporto internacional</strong>, um dos pontos que devem ligar Vice City ao resto do estado.</p>
 <p><strong>O que isso significa no jogo:</strong> espere a maior concentração de missões, lojas, boates e alvos de assalto. Rob Nelson contou à Famitsu que há vários pontos de assalto espalhados por Vice City — e as multidões da cidade também significam mais testemunhas, o que, com o novo sistema de procurado, torna o crime ali mais arriscado que no interior.</p>
 
 <h2 id="leonida-keys">Leonida Keys</h2>
@@ -1746,11 +1750,11 @@
 <p>É o território de Jason. Segundo a Rockstar, ele foi parar nas Keys trabalhando para traficantes locais, e a entrevista à Famitsu confirmou que a história começa ali, onde Jason tem sua primeira casa. Brian Heder, o traficante dublado por Stephen Root, também vive por lá. Espere barcos, jet skis e mergulho — tudo mostrado no Extended Look — e contrabando como tema recorrente.</p>
 
 <h2 id="grassrivers">Grassrivers</h2>
-<p>Grassrivers são os Everglades de Leonida: uma área enorme de pântano, capim e manguezais no sudoeste, cortada por rios e canais e salpicada de comunidades isoladas, como <strong>Watson Bay</strong>, na borda oeste. Os trailers e capturas da Rockstar mostram jacarés, aerobarcos e acampamentos de pesca: é Leonida no seu estado mais selvagem.</p>
+<p>Grassrivers são os Everglades de Leonida: uma área enorme de pântano, capim e manguezais no meio do estado, que desce até a costa sul, cortada por rios e canais e salpicada de comunidades isoladas, como <strong>Watson Bay</strong>, no litoral sudoeste. Os trailers e capturas da Rockstar mostram jacarés, aerobarcos e acampamentos de pesca: é Leonida no seu estado mais selvagem.</p>
 <p>O interior dos GTAs anteriores muitas vezes era só espaço vazio entre cidades. Grassrivers parece pensado como destino por si só: os aerobarcos aparecem como uma classe de veículo feita para águas rasas, e a fauna é perigosa longe da estrada principal. Se você gostou de explorar a natureza em Red Dead Redemption 2, esta deve ser a sua região.</p>
 
 <h2 id="port-gellhorn">Port Gellhorn</h2>
-<p>Port Gellhorn é a cidade da costa oeste cujos melhores dias ficaram para trás. A Rockstar a apresenta sem glamour nenhum: um antigo destino turístico hoje sustentado por motéis baratos, atrações fechadas, centros comerciais de beira de estrada, paradas de caminhoneiros e um <strong>porto de cargas</strong> em atividade, cheio de contêineres, guindastes e trilhos. Há ainda uma pequena <strong>pista de pouso</strong> na península ao sul.</p>
+<p>Port Gellhorn é a cidade da costa oeste cujos melhores dias ficaram para trás. A Rockstar a apresenta sem glamour nenhum: um antigo destino turístico hoje sustentado por motéis baratos, atrações fechadas, centros comerciais de beira de estrada, paradas de caminhoneiros e um <strong>porto de cargas</strong> em atividade, cheio de contêineres, guindastes e trilhos. Mapas de fãs também indicam uma pequena <strong>pista de pouso</strong> ao sul da cidade.</p>
 <p>É o lado mais áspero de Leonida e um contraste claro com Vice City. O Extended Look mostrou que Port Gellhorn tem <strong>polícia própria</strong>, sinal de que Leonida terá jurisdições diferentes — e, talvez, polícias com comportamentos diferentes em cada região.</p>
 
 <h2 id="ambrosia">Ambrosia</h2>
@@ -2218,7 +2222,13 @@
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + 3);
+    mapa.setMaxZoom(Z + (typeof info.zoom_extra === "number" ? info.zoom_extra : 3));
+    if(info.credito && info.credito.texto){
+      const cred = document.createElement("a");
+      cred.textContent = info.credito.texto;
+      if(info.credito.url){ cred.href = info.credito.url; cred.target = "_blank"; cred.rel = "noopener"; }
+      mapa.attributionControl.addAttribution(cred.outerHTML);
+    }
 
     /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
     function porZoom(){
@@ -2228,7 +2238,7 @@
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
+    /* ── base: a arte do mapa (mapa/leonida.svg), no estilo Dia ou Noite ── */
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
       tmp.innerHTML = t;

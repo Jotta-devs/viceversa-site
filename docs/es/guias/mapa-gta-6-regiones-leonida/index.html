@@ -95,7 +95,7 @@
   "image": [
     "https://vvviceversa.com/og-image-es.png"
   ],
-  "wordCount": 1361,
+  "wordCount": 1376,
   "datePublished": "2026-09-28",
   "dateModified": "2026-09-28"
 }
@@ -1499,13 +1499,16 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
-  .atlas--noite{--atlas-mar:#07112A}
-  .atlas--dia{--atlas-mar:#3778C2}
+  /* ---- ATLAS: arte-base do mapa (mapa/leonida.svg traz a imagem + a grade) ---- */
+  .atlas--noite{--atlas-mar:#022136}
+  .atlas--dia{--atlas-mar:#014771}
+  /* Noite: a mesma arte, escurecida (o filtro vale em todos os navegadores porque fica no <svg>) */
+  .atlas--noite svg.atlas-vetor{filter:brightness(.55) saturate(.8) contrast(1.06)}
+  .atlas-vetor .c-arte{image-rendering:auto}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.05em}
 
   .atlas--noite .c-mar{fill:#07112A}
   .atlas--noite .c-raso3{fill:#0A1B38}
@@ -1523,8 +1526,8 @@
   .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
-  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
-  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.75)}
+  .atlas--noite .grade text{fill:#2FE6C8;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
 
   /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
   .atlas--dia .c-mar{fill:#3778C2}
@@ -1543,8 +1546,8 @@
   .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
-  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
+  .atlas--dia .grade path{stroke:rgba(255,243,228,.6)}
+  .atlas--dia .grade text{fill:#FFF3E4;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
   .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
@@ -1557,8 +1560,9 @@
     font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
   .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
-  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
+  /* sobre a arte (mar, mata e cidade), o nome claro com contorno escuro lê melhor também no Dia */
+  .atlas--dia .atlas-regiao b{color:#FFFFFF;text-shadow:0 0 4px #0B0414,0 0 2px #0B0414,0 0 1px #0B0414,0 0 6px #FF3D8A}
+  .atlas--dia .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 3px #0B0414,0 0 2px #0B0414}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1723,7 +1727,7 @@
 <p class="nota"><strong>Sobre nuestro mapa:</strong> el mapa de VICEVERSA es una ilustración propia, dibujada a partir de lo que Rockstar ha mostrado en tráileres, capturas y el Extended Look, y contrastada con el trabajo de cartografía de la comunidad. Los nombres que Rockstar nunca ha usado aparecen como <em>descriptivos</em> (puestos por nosotros) o <em>especulativos</em> (apodos de la comunidad). Nada es oficial hasta que salga el juego.</p>
 
 <h2 id="vision-general">Visión general</h2>
-<p>Leonida sigue la forma de la península de Florida. La metrópolis, Vice City, está en la costa sureste. Los Cayos se extienden al sur, los pantanos de Grassrivers ocupan el suroeste, un gran lago domina el centro, Port Gellhorn está en la costa oeste y al norte se elevan bosques y colinas. Rockstar no ha publicado el tamaño del mapa, pero las largas autopistas, los extensos pantanos y las distintas poblaciones apuntan a un estado pensado para viajar en coche, barco y avión, y no a una ciudad con algo de campo alrededor.</p>
+<p>Leonida sigue la forma de la península de Florida. La metrópolis, Vice City, está en la costa sureste. Los Cayos se extienden al sur, los pantanos de Grassrivers ocupan el centro del estado, un gran lago domina el centro, Port Gellhorn está en la costa oeste y al norte se elevan bosques y colinas. Rockstar no ha publicado el tamaño del mapa, pero las largas autopistas, los extensos pantanos y las distintas poblaciones apuntan a un estado pensado para viajar en coche, barco y avión, y no a una ciudad con algo de campo alrededor.</p>
 <div class="tabela-rolagem"><table>
   <thead><tr><th>Región</th><th>Inspiración real</th><th>De qué va</th></tr></thead>
   <tbody>
@@ -1738,7 +1742,7 @@
 
 <h2 id="vice-city">Vice City</h2>
 <p>Vice City es el corazón de Leonida y el centro de la historia de Jason y Lucia. Es la Miami de Rockstar, visitada por última vez en el Vice City de 2002 (ambientado en 1986) y en el Vice City Stories de 2006. La versión moderna conserva el art déco en tonos pastel y la playa, y suma todo lo que Miami ha llegado a ser: torres de cristal, fiestas en azoteas, coches de lujo, buscavidas de las redes sociales y una vida nocturna que el Extended Look mostró con multitudes más densas que nada de lo que Rockstar había hecho.</p>
-<p>En nuestro mapa la ciudad se divide en zonas reconocibles. El <strong>centro</strong>, en la orilla oeste de la bahía, tiene la trama de calles más apretada del estado y lo cruza la autopista norte–sur. Al otro lado de la bahía, <strong>Vice Beach</strong> es la isla barrera inspirada en Miami Beach, con el paseo marítimo, un largo parque y la zona de ocio nocturno; sus <strong>playas</strong> aparecen en muchas escenas de los tráileres. Entre ambas, una <strong>isla portuaria</strong> artificial refleja PortMiami, en Dodge Island. Al norte está el <strong>aeropuerto internacional</strong>, uno de los puntos que se espera que conecten Vice City con el resto del estado.</p>
+<p>En nuestro mapa la ciudad se divide en zonas reconocibles. El <strong>centro</strong>, en la orilla oeste de la bahía, tiene las torres más altas y la trama de calles más apretada del estado. Al otro lado de la bahía, <strong>Vice Beach</strong> es la isla barrera inspirada en Miami Beach, con el paseo marítimo, un largo parque y la zona de ocio nocturno; sus <strong>playas</strong> aparecen en muchas escenas de los tráileres. Entre ambas, una <strong>isla portuaria</strong> artificial refleja PortMiami, en Dodge Island. Justo al oeste del centro está el <strong>aeropuerto internacional</strong>, uno de los puntos que se espera que conecten Vice City con el resto del estado.</p>
 <p><strong>Qué significa para el juego:</strong> espera la mayor concentración de misiones, tiendas, discotecas y objetivos de atraco. Rob Nelson contó a Famitsu que hay varios puntos de atraco repartidos por Vice City, y las multitudes también significan más testigos, lo que con el nuevo sistema de búsqueda hace el delito aquí más arriesgado que en el campo.</p>
 
 <h2 id="leonida-keys">Leonida Keys</h2>
@@ -1746,11 +1750,11 @@
 <p>Es el territorio de Jason. Según Rockstar, acabó en los Cayos trabajando para narcotraficantes locales, y la entrevista con Famitsu confirmó que la historia empieza aquí, donde Jason tiene su primera casa. Brian Heder, el narco con la voz de Stephen Root, también vive aquí. Espera barcos, motos de agua y buceo —todo aparece en el Extended Look— y el contrabando como tema recurrente.</p>
 
 <h2 id="grassrivers">Grassrivers</h2>
-<p>Grassrivers son los Everglades de Leonida: una enorme extensión de pantanos, juncales y manglares en el suroeste, surcada por ríos y canales y salpicada de comunidades aisladas como <strong>Watson Bay</strong>, en su borde occidental. Los tráileres y capturas de Rockstar muestran caimanes, hidrodeslizadores y campamentos de pesca: es Leonida en su versión más salvaje.</p>
+<p>Grassrivers son los Everglades de Leonida: una enorme extensión de pantanos, juncales y manglares en el centro del estado que baja hasta la costa sur, surcada por ríos y canales y salpicada de comunidades aisladas como <strong>Watson Bay</strong>, en el litoral suroeste. Los tráileres y capturas de Rockstar muestran caimanes, hidrodeslizadores y campamentos de pesca: es Leonida en su versión más salvaje.</p>
 <p>El campo de los GTA anteriores solía ser espacio vacío entre ciudades. Grassrivers parece pensado como destino en sí mismo: los hidrodeslizadores aparecen como una clase de vehículo para aguas poco profundas y la fauna es peligrosa lejos de la carretera principal. Si disfrutaste explorando la naturaleza en Red Dead Redemption 2, esta será probablemente tu región.</p>
 
 <h2 id="port-gellhorn">Port Gellhorn</h2>
-<p>Port Gellhorn es el pueblo de la costa oeste cuyos mejores días quedaron atrás. Rockstar lo presenta sin ningún glamur: un antiguo destino turístico que hoy sobrevive con moteles baratos, atracciones cerradas, centros comerciales de carretera, áreas de descanso para camioneros y un <strong>puerto de carga</strong> en activo, lleno de contenedores, grúas y vías de tren. También hay una pequeña <strong>pista de aterrizaje</strong> en la península del sur.</p>
+<p>Port Gellhorn es el pueblo de la costa oeste cuyos mejores días quedaron atrás. Rockstar lo presenta sin ningún glamur: un antiguo destino turístico que hoy sobrevive con moteles baratos, atracciones cerradas, centros comerciales de carretera, áreas de descanso para camioneros y un <strong>puerto de carga</strong> en activo, lleno de contenedores, grúas y vías de tren. Los mapas de fans también sitúan una pequeña <strong>pista de aterrizaje</strong> al sur del pueblo.</p>
 <p>Es la cara más áspera de Leonida y un contraste claro con Vice City. El Extended Look mostró que Port Gellhorn tiene <strong>su propia policía</strong>, señal de que Leonida tendrá distintas jurisdicciones y, quizá, policías con comportamientos distintos en cada región.</p>
 
 <h2 id="ambrosia">Ambrosia</h2>
@@ -2218,7 +2222,13 @@
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + 3);
+    mapa.setMaxZoom(Z + (typeof info.zoom_extra === "number" ? info.zoom_extra : 3));
+    if(info.credito && info.credito.texto){
+      const cred = document.createElement("a");
+      cred.textContent = info.credito.texto;
+      if(info.credito.url){ cred.href = info.credito.url; cred.target = "_blank"; cred.rel = "noopener"; }
+      mapa.attributionControl.addAttribution(cred.outerHTML);
+    }
 
     /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
     function porZoom(){
@@ -2228,7 +2238,7 @@
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
+    /* ── base: a arte do mapa (mapa/leonida.svg), no estilo Dia ou Noite ── */
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
       tmp.innerHTML = t;
