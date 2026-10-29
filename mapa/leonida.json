@@ -1,20 +1,16 @@
 {
-  "largura": 1462,
-  "altura": 1951,
-  "origem": "leonida-mapa-v16.jpg",
-  "recorte": [
-    586,
-    0,
-    2048,
-    1951
-  ],
-  "imagem": [
-    2048,
-    1951
-  ],
+  "largura": 1086,
+  "altura": 1448,
+  "origem": "leonida-satelite.webp",
+  "tipo": "arte",
+  "zoom_extra": 1.75,
+  "credito": {
+    "texto": "VICEVERSA & gta6mapsize.com",
+    "url": "https://gta6mapsize.com"
+  },
   "grade": {
     "colunas": 8,
     "linhas": 11,
-    "celula": 182.75
+    "celula": 135.75
   }
 }

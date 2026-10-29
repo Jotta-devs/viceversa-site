@@ -119,7 +119,7 @@ CATEGORIAS_MAPA = [
     ("comercio",   "#B07CFF", "mc_comercio",   "mcs_comercio", "loja"),
 ]
 COR_CATEGORIA = {c[0]: c[1] for c in CATEGORIAS_MAPA}
-ZOOM_LOCAL = {"regiao": 820, "marco": 430}     # largura do recorte, em unidades do mapa
+ZOOM_LOCAL = {"regiao": 0.56, "marco": 0.29}     # largura do recorte, em fração da largura do mapa
 CORES_LOCAL = {c: tuple(int(cor[i:i + 2], 16) for i in (1, 3, 5)) for c, cor in COR_CATEGORIA.items()}
 
 # ── autoria e qualidade (Google AdSense / E-E-A-T) ──────────────────
@@ -1365,7 +1365,7 @@ def imagens_local(local, mapa):
     if not (imagens_og and imagens_og.DISPONIVEL and PREVIA_MAPA.exists()):
         return None, None
     info = mapa["info"]
-    largura = ZOOM_LOCAL.get(local["cat"], ZOOM_LOCAL["marco"])
+    largura = ZOOM_LOCAL.get(local["cat"], ZOOM_LOCAL["marco"]) * info["largura"]
     cor = CORES_LOCAL.get(local["cat"], CORES_LOCAL["marco"])
     capa = SAIDA / "map-data" / "locais" / f"{local['id']}.webp"
     base_og = Path(tempfile.gettempdir()) / f"viceversa-local-{local['id']}.jpg"
