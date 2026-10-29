@@ -24,28 +24,4 @@
       <news:title>GTA 6: una filtración apunta a 210 GB en PS5 mientras la campaña de marketing llega a Nueva York y São Paulo</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261027-gta-vi-leonida-inspired-coffee-and-dan-housers-revelations/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-27T14:15:44+00:00</news:publication_date>
-      <news:title>GTA VI: Leonida-Inspired Coffee and Dan Houser’s Revelations Revisit Vice City’s Legacy</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261027-gta-vi-leonida-inspired-coffee-and-dan-housers-revelations/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-27T14:15:44+00:00</news:publication_date>
-      <news:title>GTA VI: Café inspirado em Leonida e revelações de Dan Houser resgatam a história de Vice City</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261027-gta-vi-leonida-inspired-coffee-and-dan-housers-revelations/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-27T14:15:44+00:00</news:publication_date>
-      <news:title>GTA VI: el café inspirado en Leonida y las revelaciones de Dan Houser recuperan el legado de Vice City</news:title>
-    </news:news>
-  </url>
 </urlset>
