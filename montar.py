@@ -119,13 +119,13 @@ CATEGORIAS_MAPA = [
     ("comercio",   "#B07CFF", "mc_comercio",   "mcs_comercio", "loja"),
 ]
 COR_CATEGORIA = {c[0]: c[1] for c in CATEGORIAS_MAPA}
-ZOOM_LOCAL = {"regiao": 0.56, "marco": 0.29}     # largura do recorte, em fração da largura do mapa
+ZOOM_LOCAL = {"regiao": 820, "marco": 430}     # largura do recorte, em unidades do mapa
 CORES_LOCAL = {c: tuple(int(cor[i:i + 2], 16) for i in (1, 3, 5)) for c, cor in COR_CATEGORIA.items()}
 
 # ── autoria e qualidade (Google AdSense / E-E-A-T) ──────────────────
 # editor responsável: aparece como autor nas notícias, nos guias e nos dados
 # estruturados, e na página Sobre
-AUTOR = "Mike Pagani"
+AUTOR = "Mike Novinski Pagani"
 EMAIL_CONTATO = "vi.versavv@gmail.com"
 # páginas curtas demais são "conteúdo de baixo valor" para o Google. Abaixo
 # destes mínimos a página continua no ar (o link não quebra), mas sai do
@@ -144,6 +144,9 @@ PASTA_APROFUNDAMENTO = RAIZ / "aprofundamento"
 # fora do Google (noindex + fora dos sitemaps) e sem anúncios. Conteúdo vazado
 # é arriscado para o AdSense e não é o tipo de página que queremos monetizar.
 STATUS_SEM_ANUNCIO = {"vazamento"}
+# sites que hospedam ou distribuem material vazado: links para eles nunca saem
+# no site (nem nas Fontes nem no texto), como diz a política editorial
+DOMINIOS_VAZAMENTO = ("cyberleek.co.uk",)
 
 LANCAMENTO = datetime(2026, 11, 19, 3, 0, tzinfo=timezone.utc)   # 19/11 00:00 em Brasília
 CARDS_NOTICIAS = 20     # cards completos na página de notícias; o resto vai para o arquivo
@@ -427,7 +430,8 @@ def carregar_posts():
             "link_x": link if re.match(r"^https?://(www\.)?(x|twitter)\.com/", link) else None,
             "status": p.get("status") if p.get("status") in SELOS else "",
             "off": bool(p.get("off")),
-            "fontes": [f for f in (p.get("fontes") or []) if re.match(r"^https?://", f or "")],
+            "fontes": [f for f in (p.get("fontes") or [])
+                       if re.match(r"^https?://", f or "") and not link_de_vazamento(f)],
             "versoes": versoes,
         })
         aprofundar = combinar_aprofundamento(aprofundamentos.get(slug), p.get("aprofundamento"))
@@ -459,6 +463,19 @@ def carregar_posts():
 def post_fino(post, cod):
     """Notícia curta demais para o Google (fica fora do índice e do sitemap)."""
     return post["versoes"][cod]["palavras"] < MIN_PALAVRAS_NOTICIA
+
+
+def link_de_vazamento(url):
+    """True para links de sites que distribuem material vazado (DOMINIOS_VAZAMENTO)."""
+    host = urllib.parse.urlsplit(str(url or "")).netloc.lower().split(":")[0]
+    return any(host == d or host.endswith("." + d) for d in DOMINIOS_VAZAMENTO)
+
+
+def sem_links_de_vazamento(html):
+    """Tira o link (mantém o texto) de qualquer <a> que aponte para material vazado."""
+    def trocar(m):
+        return m.group(0) if not link_de_vazamento(m.group(1)) else m.group(2)
+    return re.sub(r'<a\s[^>]*?href="([^"]+)"[^>]*>(.*?)</a>', trocar, html, flags=re.S | re.I)
 
 
 def post_sem_anuncio(post):
@@ -918,6 +935,8 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
         html = re.sub(r'<div class="anuncio[^"]*" data-anuncio="\w+">(?:(?!</div>).)*?</div>\s*', "", html,
                       flags=re.S)
 
+    html = sem_links_de_vazamento(html)
+
     restantes = set(re.findall(r"\{\{__[^}]+\}\}|\{\{[a-z]+\d+\}\}|\{\{inst_[^}]+\}\}", html))
     if restantes:
         print(f"  ! {rel or '/'}: marcadores não substituídos: {restantes}")
@@ -1365,7 +1384,7 @@ def imagens_local(local, mapa):
     if not (imagens_og and imagens_og.DISPONIVEL and PREVIA_MAPA.exists()):
         return None, None
     info = mapa["info"]
-    largura = ZOOM_LOCAL.get(local["cat"], ZOOM_LOCAL["marco"]) * info["largura"]
+    largura = ZOOM_LOCAL.get(local["cat"], ZOOM_LOCAL["marco"])
     cor = CORES_LOCAL.get(local["cat"], CORES_LOCAL["marco"])
     capa = SAIDA / "map-data" / "locais" / f"{local['id']}.webp"
     base_og = Path(tempfile.gettempdir()) / f"viceversa-local-{local['id']}.jpg"
@@ -1734,7 +1753,8 @@ def montar():
                 "__canais__": botoes_canais(textos, "fim"),
                 "__art_fontes__": fontes_html(post.get("fontes"), textos),
                 "__robots__": ROBOTS_FINA if post_fora_do_google(post, cod) else ROBOTS_PADRAO,
-                "__sem_anuncios__": "sim" if post_sem_anuncio(post) else "",
+                # sem anúncios em vazamento e em notícia curta (tela de "baixo valor" para o AdSense)
+                "__sem_anuncios__": "sim" if post_fora_do_google(post, cod) else "",
                 # conteúdo do post: sempre o último a ser trocado
                 "__art_html__": (inserir_no_meio(v["html"], meio_html(textos)) if meio_html(textos)
                                  else v["html"]) + aprofundamento_html(post, cod, textos),
@@ -1795,7 +1815,9 @@ def montar():
             novos, titulo = extras_local(local, locais, posts, mapa, cod, textos, capa, imagem_og)
             extras.update(novos)
             if local_fino(local):
+                # página curta: fora do Google e sem anúncios (tela de "baixo valor" para o AdSense)
                 extras["__robots__"] = ROBOTS_FINA
+                extras["__sem_anuncios__"] = "sim"
             descricao = resumo(local["desc"], 155) if local["desc"] else \
                 textos.get("lc02", "").replace("{nome}", local["nome"])
             textos_local = dict(textos)

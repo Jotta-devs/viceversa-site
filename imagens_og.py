@@ -190,7 +190,7 @@ def gerar(destino, titulo, rodape, caminho_foto=None, selo=None, selo_texto=""):
 
 
 # ── locais do mapa ──────────────────────────────────────────────────
-MAR = (1, 71, 113)            # cor do mar na borda da arte-base do mapa
+MAR = (55, 120, 194)          # cor do mar no estilo Dia
 _mapa_base = {}
 
 

@@ -57,3 +57,18 @@ confiança do leitor). Eu só usaria essas duas como último recurso.
 
 Quando o site passar de ~50 mil sessões/mês, vale migrar para **Mediavine** ou
 **Raptive**: os RPMs são de 2 a 5 vezes maiores que os do AdSense.
+
+## Consentimento já preparado no site (29/10/2026)
+
+- `partes/cabeca.html` define o **modo de consentimento do Google** antes do Analytics: no
+  EEE, no Reino Unido e na Suíça, anúncios e Analytics começam sem cookies até o visitante
+  responder à mensagem de consentimento. A mensagem em si é ativada no painel do AdSense
+  (Privacidade e mensagens → Europeias). Sem ativá-la, o tráfego dessas regiões fica sem
+  anúncios personalizados.
+- O rodapé tem o link **Preferências de privacidade**: quando a mensagem do Google está ativa,
+  ele a reabre para o visitante mudar a escolha; nas outras regiões, leva à seção
+  "Consentimento e preferências" da política de privacidade.
+- Páginas sem anúncios (sem o script do AdSense): matérias de vazamento, notícias com menos
+  de 120 palavras e páginas de local do mapa com menos de 120 palavras de descrição.
+- Links para sites que distribuem material vazado (`DOMINIOS_VAZAMENTO` no `montar.py`)
+  são retirados de todas as páginas.

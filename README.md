@@ -201,7 +201,7 @@ sozinho, e estas regras valem para tudo o que for publicado daqui em diante:
   novo campo **Matéria completa** é a versão do site (mire em 250+ palavras: contexto,
   o que foi confirmado, o que muda para o jogador, o que ainda não se sabe). O campo
   **Fontes** (obrigatório) aparece no fim da matéria.
-- **Autoria:** notícias e guias são assinados por `AUTOR` (Mike Pagani), com link para
+- **Autoria:** notícias e guias são assinados por `AUTOR` (Mike Novinski Pagani), com link para
   a seção "Quem faz o VICEVERSA" da página Sobre; o e-mail `EMAIL_CONTATO` aparece em
   Sobre e Contato. Os dois ficam no começo do `montar.py`.
 - Títulos que dizem o fato ("Stephen Root confirma que dubla Brian Heder em GTA 6")
