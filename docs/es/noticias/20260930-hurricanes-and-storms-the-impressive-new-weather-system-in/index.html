@@ -6,6 +6,15 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  /* Modo de consentimento do Google: no Espaço Econômico Europeu, no Reino Unido e na
+     Suíça, anúncios e Analytics só usam cookies depois do consentimento dado na mensagem
+     de privacidade do Google (CMP certificada, ativada no painel do AdSense). */
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+    wait_for_update: 500,
+    region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+             'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+  });
   gtag('js', new Date());
 
   gtag('config', 'G-0HQG842LBW');
@@ -79,7 +88,7 @@
   "articleSection": "GTA VI",
   "author": {
     "@type": "Person",
-    "name": "Mike Pagani",
+    "name": "Mike Novinski Pagani",
     "url": "https://vvviceversa.com/es/sobre/#editor"
   },
   "publisher": {
@@ -606,6 +615,7 @@
     transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1);
   }
   article.noticia:hover .noticia__risco{transform:scaleX(1)}
+  h2[id],h3[id]{scroll-margin-top:110px}
   .grade-noticias{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
   article.noticia{
     background:var(--card);
@@ -1500,16 +1510,13 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS: arte-base do mapa (mapa/leonida.svg traz a imagem + a grade) ---- */
-  .atlas--noite{--atlas-mar:#022136}
-  .atlas--dia{--atlas-mar:#014771}
-  /* Noite: a mesma arte, escurecida (o filtro vale em todos os navegadores porque fica no <svg>) */
-  .atlas--noite svg.atlas-vetor{filter:brightness(.55) saturate(.8) contrast(1.06)}
-  .atlas-vetor .c-arte{image-rendering:auto}
+  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
+  .atlas--noite{--atlas-mar:#07112A}
+  .atlas--dia{--atlas-mar:#3778C2}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.05em}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
 
   .atlas--noite .c-mar{fill:#07112A}
   .atlas--noite .c-raso3{fill:#0A1B38}
@@ -1527,8 +1534,8 @@
   .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
-  .atlas--noite .grade path{stroke:rgba(47,230,200,.75)}
-  .atlas--noite .grade text{fill:#2FE6C8;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
+  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
 
   /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
   .atlas--dia .c-mar{fill:#3778C2}
@@ -1547,8 +1554,8 @@
   .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(255,243,228,.6)}
-  .atlas--dia .grade text{fill:#FFF3E4;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
+  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
   .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
@@ -1561,9 +1568,8 @@
     font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
   .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  /* sobre a arte (mar, mata e cidade), o nome claro com contorno escuro lê melhor também no Dia */
-  .atlas--dia .atlas-regiao b{color:#FFFFFF;text-shadow:0 0 4px #0B0414,0 0 2px #0B0414,0 0 1px #0B0414,0 0 6px #FF3D8A}
-  .atlas--dia .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 3px #0B0414,0 0 2px #0B0414}
+  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
+  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1632,7 +1638,7 @@
     <span>◆ La fecha se mantiene: 19 DE NOVIEMBRE DE 2026</span>
     <span>◆ Reservas abiertas — 79,99 € (estándar) y 99,99 € (Ultimate)</span>
     <span>◆ Sigue a @vvviceversaa en X e Instagram · @vvviceversa en TikTok · @vvViceVersa en YouTube</span>
-    <span>◆ Ebook "Cómo GTA VI va a cambiar tu vida" — 5,90 € en oferta de lanzamiento</span>
+    <span>◆ Ebook "Cómo GTA VI va a cambiar tu vida" — 5,90 €, en PDF</span>
   </div>
 </div>
 
@@ -1716,7 +1722,7 @@
 <main class="artigo" data-post="20260930-hurricanes-and-storms-the-impressive-new-weather-system-in">
   <a class="artigo__voltar" href="../../../es/noticias/">← Todas las noticias</a>
   <article>
-    <p class="artigo__meta"><span class="selo selo--confirmado" title="Confirmado oficialmente por Rockstar, Take-Two o alguien involucrado en el juego.">Confirmado</span><span>Publicado el <time datetime="2026-09-30T20:31:02+00:00">30 sep 2026</time></span><span class="artigo__autor">Por <a href="../../../es/sobre/#editor" rel="author">Mike Pagani</a></span><span class="artigo__leitura">5 min de lectura</span></p>
+    <p class="artigo__meta"><span class="selo selo--confirmado" title="Confirmado oficialmente por Rockstar, Take-Two o alguien involucrado en el juego.">Confirmado</span><span>Publicado el <time datetime="2026-09-30T20:31:02+00:00">30 sep 2026</time></span><span class="artigo__autor">Por <a href="../../../es/sobre/#editor" rel="author">Mike Novinski Pagani</a></span><span class="artigo__leitura">5 min de lectura</span></p>
     <h1>Huracanes y tormentas: El impresionante nuevo sistema meteorológico en GTA 6</h1>
     <figure class="artigo__capa"><img src="/midia/6c0541aed40871fa.webp" alt="Huracanes y tormentas: El impresionante nuevo sistema meteorológico en GTA 6" width="1920" height="1080" fetchpriority="high" decoding="async"></figure>
 
@@ -1752,7 +1758,7 @@
 <div class="aprofundar__sabe"><h3>Lo que se sabe</h3><ul><li>Rockstar confirmó tormentas tropicales y huracanes, con nubes cargadas, vientos fuertes, truenos, relámpagos y lluvia intensa.</li><li>El clima es localizado: se puede estar bajo el sol mientras una tormenta azota otra parte del mapa.</li><li>Las superficies mojadas y los charcos permanecen después de la lluvia, y pueden formarse arcoíris con la luz adecuada.</li><li>El viento tiene en cuenta la brisa de tierra hacia el mar tras el atardecer, el aire caliente que sube y los edificios que frenan las ráfagas, y mueve cabello, basura, agua y pasto de los pantanos.</li></ul></div>
 <div class="aprofundar__falta"><h3>Lo que aún no se sabe</h3><ul><li>Rockstar no ha dicho con qué frecuencia ocurren los huracanes ni si son aleatorios o están ligados a misiones.</li><li>No hay información sobre inundaciones o daños a edificios.</li><li>No se ha confirmado oficialmente si el clima cambia la conducción o la física del agua, como afirmó un reporte de 2023.</li></ul></div>
 </div>
-<h2>El análisis de VICEVERSA</h2><p>El clima localizado es el cambio más importante de la lista, más que los huracanes. Una tormenta que ves acercarse, y charcos que muestran por dónde pasó, convierten el clima de un filtro sobre la pantalla en parte de la geografía. En un mapa de este tamaño, eso debería hacer menos monótonos los viajes largos en auto o en lancha, y aprovecha un punto fuerte de Rockstar, la iluminación, que es justo el área de Shepherd.</p><p>Los huracanes piden más cautela. Rockstar eligió bien sus palabras: las tormentas traen viento, lluvia y atmósfera densa, y nadie ha dicho que derriben edificios o inunden calles. Por el caos que un huracán completo causaría en el tráfico y las misiones, esperamos que sean raros o guionizados y no algo que aparece a cualquier hora, aunque esa es nuestra lectura, no la de Rockstar. Lo que conviene revisar en el lanzamiento, el 19 de noviembre, es si la lluvia cambia el manejo de los autos y la reacción de la gente en la calle. Ahí es donde un sistema visual se vuelve jugable.</p><p class="aprofundar__assina">Mike Pagani, editor</p>
+<h2>El análisis de VICEVERSA</h2><p>El clima localizado es el cambio más importante de la lista, más que los huracanes. Una tormenta que ves acercarse, y charcos que muestran por dónde pasó, convierten el clima de un filtro sobre la pantalla en parte de la geografía. En un mapa de este tamaño, eso debería hacer menos monótonos los viajes largos en auto o en lancha, y aprovecha un punto fuerte de Rockstar, la iluminación, que es justo el área de Shepherd.</p><p>Los huracanes piden más cautela. Rockstar eligió bien sus palabras: las tormentas traen viento, lluvia y atmósfera densa, y nadie ha dicho que derriben edificios o inunden calles. Por el caos que un huracán completo causaría en el tráfico y las misiones, esperamos que sean raros o guionizados y no algo que aparece a cualquier hora, aunque esa es nuestra lectura, no la de Rockstar. Lo que conviene revisar en el lanzamiento, el 19 de noviembre, es si la lluvia cambia el manejo de los autos y la reacción de la gente en la calle. Ahí es donde un sistema visual se vuelve jugable.</p><p class="aprofundar__assina">Mike Novinski Pagani, editor</p>
 </section>
     </div>
     <div class="artigo__fontes"><p>Fuentes</p><ul><li><a href="https://gameinformer.com/feature/2026/09/29/grand-theft-auto-vi-welcome-to-leonida" target="_blank" rel="noopener nofollow">gameinformer.com</a></li><li><a href="https://gamingbolt.com/gta-6s-weather-system-includes-moving-storm-systems-dense-atmospherics-and-hurricanes" target="_blank" rel="noopener nofollow">gamingbolt.com</a></li><li><a href="https://www.dexerto.com/gta/gta-6s-weather-system-revealed-with-hurricanes-tropical-storms-dynamic-wind-3413591/" target="_blank" rel="noopener nofollow">dexerto.com</a></li><li><a href="https://www.svg.com/2272767/gta-6-advanced-weather-system-rockstar/" target="_blank" rel="noopener nofollow">svg.com</a></li><li><a href="https://www.bluewin.ch/en/digital/what-gta-6-aims-to-do-better-than-any-game-before-it-li.3619527" target="_blank" rel="noopener nofollow">bluewin.ch</a></li></ul></div>
@@ -1811,13 +1817,25 @@
     <a href="../../../es/contacto/">Contacto</a>
     <a href="../../../es/politica-editorial/">Política editorial</a>
     <a href="../../../es/privacidad/">Privacidad</a>
+    <a href="../../../es/privacidad/#consentimento" data-privacidade>Preferencias de privacidad</a>
     <a href="https://vvviceversa.com/es/feed.xml">RSS</a>
   </nav>
-  <p class="disclaimer">VICEVERSA es un sitio de fans, creado únicamente con fines informativos y de entretenimiento. No tiene afiliación con Rockstar Games, Take-Two Interactive ni la franquicia Grand Theft Auto. Todas las marcas citadas pertenecen a sus respectivos dueños. No se ha reproducido ningún arte, logotipo o material oficial.</p>
+  <p class="disclaimer">VICEVERSA es un sitio de fans, creado únicamente con fines informativos y de entretenimiento. No tiene afiliación con Rockstar Games, Take-Two Interactive ni la franquicia Grand Theft Auto. Todas las marcas citadas pertenecen a sus respectivos dueños. Las imágenes oficiales que aparecen en las noticias pertenecen a sus dueños y se usan solo con fines informativos.</p>
   <p class="mono">Transmitiendo desde Leonida · 87.6 FM · desde 2026 · @vvviceversaa en X e Instagram · @vvviceversa en TikTok · @vvViceVersa en YouTube</p>
 </footer>
 
 <script>
+/* "Preferências de privacidade": reabre a mensagem de consentimento do Google (quando ela
+   está ativa para o visitante); sem ela, o link leva à seção da política de privacidade */
+document.querySelectorAll("[data-privacidade]").forEach(function(a){
+  a.addEventListener("click", function(e){
+    const fc = window.googlefc;
+    if(fc && typeof fc.showRevocationMessage === "function"){
+      e.preventDefault();
+      (fc.callbackQueue = fc.callbackQueue || []).push(fc.showRevocationMessage);
+    }
+  });
+});
 (function(){
   /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
      (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
@@ -2200,13 +2218,7 @@
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + (typeof info.zoom_extra === "number" ? info.zoom_extra : 3));
-    if(info.credito && info.credito.texto){
-      const cred = document.createElement("a");
-      cred.textContent = info.credito.texto;
-      if(info.credito.url){ cred.href = info.credito.url; cred.target = "_blank"; cred.rel = "noopener"; }
-      mapa.attributionControl.addAttribution(cred.outerHTML);
-    }
+    mapa.setMaxZoom(Z + 3);
 
     /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
     function porZoom(){
@@ -2216,7 +2228,7 @@
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: a arte do mapa (mapa/leonida.svg), no estilo Dia ou Noite ── */
+    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
       tmp.innerHTML = t;

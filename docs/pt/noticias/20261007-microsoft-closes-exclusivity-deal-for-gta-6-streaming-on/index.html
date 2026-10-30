@@ -6,6 +6,15 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  /* Modo de consentimento do Google: no Espaço Econômico Europeu, no Reino Unido e na
+     Suíça, anúncios e Analytics só usam cookies depois do consentimento dado na mensagem
+     de privacidade do Google (CMP certificada, ativada no painel do AdSense). */
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+    wait_for_update: 500,
+    region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+             'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+  });
   gtag('js', new Date());
 
   gtag('config', 'G-0HQG842LBW');
@@ -79,7 +88,7 @@
   "articleSection": "GTA VI",
   "author": {
     "@type": "Person",
-    "name": "Mike Pagani",
+    "name": "Mike Novinski Pagani",
     "url": "https://vvviceversa.com/pt/sobre/#editor"
   },
   "publisher": {
@@ -606,6 +615,7 @@
     transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1);
   }
   article.noticia:hover .noticia__risco{transform:scaleX(1)}
+  h2[id],h3[id]{scroll-margin-top:110px}
   .grade-noticias{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
   article.noticia{
     background:var(--card);
@@ -1500,16 +1510,13 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS: arte-base do mapa (mapa/leonida.svg traz a imagem + a grade) ---- */
-  .atlas--noite{--atlas-mar:#022136}
-  .atlas--dia{--atlas-mar:#014771}
-  /* Noite: a mesma arte, escurecida (o filtro vale em todos os navegadores porque fica no <svg>) */
-  .atlas--noite svg.atlas-vetor{filter:brightness(.55) saturate(.8) contrast(1.06)}
-  .atlas-vetor .c-arte{image-rendering:auto}
+  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
+  .atlas--noite{--atlas-mar:#07112A}
+  .atlas--dia{--atlas-mar:#3778C2}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.05em}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
 
   .atlas--noite .c-mar{fill:#07112A}
   .atlas--noite .c-raso3{fill:#0A1B38}
@@ -1527,8 +1534,8 @@
   .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
-  .atlas--noite .grade path{stroke:rgba(47,230,200,.75)}
-  .atlas--noite .grade text{fill:#2FE6C8;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
+  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
 
   /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
   .atlas--dia .c-mar{fill:#3778C2}
@@ -1547,8 +1554,8 @@
   .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(255,243,228,.6)}
-  .atlas--dia .grade text{fill:#FFF3E4;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
+  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
   .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
@@ -1561,9 +1568,8 @@
     font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
   .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  /* sobre a arte (mar, mata e cidade), o nome claro com contorno escuro lê melhor também no Dia */
-  .atlas--dia .atlas-regiao b{color:#FFFFFF;text-shadow:0 0 4px #0B0414,0 0 2px #0B0414,0 0 1px #0B0414,0 0 6px #FF3D8A}
-  .atlas--dia .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 3px #0B0414,0 0 2px #0B0414}
+  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
+  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1632,7 +1638,7 @@
     <span>◆ Lançamento mantido: 19 DE NOVEMBRO DE 2026</span>
     <span>◆ Pré-venda aberta — R$ 449,90 (padrão) e R$ 549,90 (Ultimate)</span>
     <span>◆ Siga @vvviceversaa no X e no Instagram · @vvviceversa no TikTok · @vvViceVersa no YouTube</span>
-    <span>◆ Ebook "Como GTA VI vai mudar a sua vida" — R$ 27 na promoção de lançamento</span>
+    <span>◆ Ebook "Como GTA VI vai mudar a sua vida" — R$ 27, em PDF</span>
   </div>
 </div>
 
@@ -1716,7 +1722,7 @@
 <main class="artigo" data-post="20261007-microsoft-closes-exclusivity-deal-for-gta-6-streaming-on">
   <a class="artigo__voltar" href="../../../pt/noticias/">← Todas as notícias</a>
   <article>
-    <p class="artigo__meta"><span class="selo selo--confirmado" title="Confirmado oficialmente pela Rockstar, pela Take-Two ou por alguém envolvido no jogo.">Confirmado</span><span>Publicado em <time datetime="2026-10-07T11:57:52+00:00">7 out 2026</time></span><span class="artigo__autor">Por <a href="../../../pt/sobre/#editor" rel="author">Mike Pagani</a></span><span class="artigo__leitura">6 min de leitura</span></p>
+    <p class="artigo__meta"><span class="selo selo--confirmado" title="Confirmado oficialmente pela Rockstar, pela Take-Two ou por alguém envolvido no jogo.">Confirmado</span><span>Publicado em <time datetime="2026-10-07T11:57:52+00:00">7 out 2026</time></span><span class="artigo__autor">Por <a href="../../../pt/sobre/#editor" rel="author">Mike Novinski Pagani</a></span><span class="artigo__leitura">6 min de leitura</span></p>
     <h1>[CANCELADO] Microsoft fecha acordo de exclusividade para streaming de GTA 6 no Xbox Cloud Gaming</h1>
     <figure class="artigo__capa"><img src="/midia/8e47662b897612e1.webp" alt="[CANCELADO] Microsoft fecha acordo de exclusividade para streaming de GTA 6 no Xbox Cloud Gaming" width="2000" height="1116" fetchpriority="high" decoding="async"></figure>
 
@@ -1744,7 +1750,7 @@ Apesar da contundência das fontes ouvidas pelo The Verge, alguns detalhes comer
 <div class="aprofundar__sabe"><h3>O que se sabe</h3><ul><li>Matthew Ball, diretor de estratégia do Xbox, afirmou que GTA 6 não terá streaming exclusivo no Xbox Cloud Gaming nem streaming para PC.</li><li>GTA 6 chega em 19 de novembro de 2026 para PlayStation 5 e Xbox Series X|S; a Rockstar não anunciou versão para PC.</li><li>Tom Warren mantém que o jogo estará no Xbox Cloud Gaming, mas com um acordo mais restrito do que o relatado.</li><li>A partir de novembro, o Game Pass limita a nuvem a 15 horas por mês no Ultimate, 10 no Premium e 5 no Essential; horas extras são vendidas na Xbox Store.</li><li>Quem não assina o Game Pass poderá comprar horas avulsas para jogos elegíveis que já possui; os preços não foram divulgados.</li></ul></div>
 <div class="aprofundar__falta"><h3>O que ainda não se sabe</h3><ul><li>Nem a Microsoft nem a Rockstar explicaram o que exatamente cobre o acordo citado por Asha Sharma.</li><li>Não há confirmação de quais aparelhos poderão rodar GTA 6 via nuvem, incluindo Xbox One, celulares e smart TVs.</li><li>Não se sabe se GTA 6 entrará na lista de jogos elegíveis para as horas avulsas de nuvem.</li></ul></div>
 </div>
-<h2>A análise do VICEVERSA</h2><p>O caso mostra como uma frase interna vira promessa em poucas horas. Uma fala numa reunião com funcionários virou a história de que donos de PC e de Xbox One jogariam GTA 6 no primeiro dia. O próprio chefe de estratégia do Xbox corrigiu a informação em público, sinal de que a empresa levou o mal-entendido a sério. Um desmentido tão rápido indica que a leitura original estava errada, e não apenas adiantada.</p><p>Para o jogador, o cenário realista é modesto. Se GTA 6 aparecer no Xbox Cloud Gaming, deve ser mais uma forma de quem tem Xbox jogar uma cópia comprada, dentro dos novos limites. Quinze horas por mês rendem um fim de semana longo num jogo desse tamanho, então o preço das horas extras vai pesar mais do que qualquer manchete sobre exclusividade. Quem joga no PC deve esperar uma versão nativa, ainda não anunciada, e desconfiar de atalhos pela nuvem até a Microsoft listar os aparelhos compatíveis.</p><p class="aprofundar__assina">Mike Pagani, editor</p>
+<h2>A análise do VICEVERSA</h2><p>O caso mostra como uma frase interna vira promessa em poucas horas. Uma fala numa reunião com funcionários virou a história de que donos de PC e de Xbox One jogariam GTA 6 no primeiro dia. O próprio chefe de estratégia do Xbox corrigiu a informação em público, sinal de que a empresa levou o mal-entendido a sério. Um desmentido tão rápido indica que a leitura original estava errada, e não apenas adiantada.</p><p>Para o jogador, o cenário realista é modesto. Se GTA 6 aparecer no Xbox Cloud Gaming, deve ser mais uma forma de quem tem Xbox jogar uma cópia comprada, dentro dos novos limites. Quinze horas por mês rendem um fim de semana longo num jogo desse tamanho, então o preço das horas extras vai pesar mais do que qualquer manchete sobre exclusividade. Quem joga no PC deve esperar uma versão nativa, ainda não anunciada, e desconfiar de atalhos pela nuvem até a Microsoft listar os aparelhos compatíveis.</p><p class="aprofundar__assina">Mike Novinski Pagani, editor</p>
 </section>
     </div>
     <div class="artigo__fontes"><p>Fontes</p><ul><li><a href="https://www.theverge.com/report/1005859/microsoft-xbox-gta-6-streaming-rights" target="_blank" rel="noopener nofollow">theverge.com</a></li><li><a href="https://www.dexerto.com/gta/xbox-confirms-gta-6-wont-stream-on-pc-3416221/" target="_blank" rel="noopener nofollow">dexerto.com</a></li><li><a href="https://www.pushsquare.com/news/2026/10/confusion-as-erroneous-reports-claim-xbox-has-exclusive-gta-6-cloud-streaming-rights" target="_blank" rel="noopener nofollow">pushsquare.com</a></li><li><a href="https://www.ibtimes.co.uk/xbox-denies-gta-6-exclusive-cloud-streaming-rights-1824271" target="_blank" rel="noopener nofollow">ibtimes.co.uk</a></li><li><a href="https://www.dexerto.com/gaming/xbox-makes-major-cloud-gaming-update-with-new-game-pass-and-pay-as-you-go-changes-3405648/" target="_blank" rel="noopener nofollow">dexerto.com</a></li><li><a href="https://www.thurrott.com/?p=341114" target="_blank" rel="noopener nofollow">thurrott.com</a></li></ul></div>
@@ -1803,13 +1809,25 @@ Apesar da contundência das fontes ouvidas pelo The Verge, alguns detalhes comer
     <a href="../../../pt/contato/">Contato</a>
     <a href="../../../pt/politica-editorial/">Política editorial</a>
     <a href="../../../pt/privacidade/">Privacidade</a>
+    <a href="../../../pt/privacidade/#consentimento" data-privacidade>Preferências de privacidade</a>
     <a href="https://vvviceversa.com/pt/feed.xml">RSS</a>
   </nav>
-  <p class="disclaimer">VICEVERSA é um site de fãs, criado apenas para fins informativos e de entretenimento. Não possui afiliação com a Rockstar Games, a Take-Two Interactive ou a franquia Grand Theft Auto. Todas as marcas citadas pertencem aos seus respectivos donos. Nenhuma arte, logotipo ou material oficial foi reproduzido.</p>
+  <p class="disclaimer">VICEVERSA é um site de fãs, criado apenas para fins informativos e de entretenimento. Não possui afiliação com a Rockstar Games, a Take-Two Interactive ou a franquia Grand Theft Auto. Todas as marcas citadas pertencem aos seus respectivos donos. Imagens oficiais que aparecem nas notícias pertencem aos seus donos e são usadas apenas para fins informativos.</p>
   <p class="mono">Transmitindo de Leonida · 87.6 FM · desde 2026 · @vvviceversaa no X e Instagram · @vvviceversa no TikTok · @vvViceVersa no YouTube</p>
 </footer>
 
 <script>
+/* "Preferências de privacidade": reabre a mensagem de consentimento do Google (quando ela
+   está ativa para o visitante); sem ela, o link leva à seção da política de privacidade */
+document.querySelectorAll("[data-privacidade]").forEach(function(a){
+  a.addEventListener("click", function(e){
+    const fc = window.googlefc;
+    if(fc && typeof fc.showRevocationMessage === "function"){
+      e.preventDefault();
+      (fc.callbackQueue = fc.callbackQueue || []).push(fc.showRevocationMessage);
+    }
+  });
+});
 (function(){
   /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
      (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
@@ -2192,13 +2210,7 @@ Apesar da contundência das fontes ouvidas pelo The Verge, alguns detalhes comer
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + (typeof info.zoom_extra === "number" ? info.zoom_extra : 3));
-    if(info.credito && info.credito.texto){
-      const cred = document.createElement("a");
-      cred.textContent = info.credito.texto;
-      if(info.credito.url){ cred.href = info.credito.url; cred.target = "_blank"; cred.rel = "noopener"; }
-      mapa.attributionControl.addAttribution(cred.outerHTML);
-    }
+    mapa.setMaxZoom(Z + 3);
 
     /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
     function porZoom(){
@@ -2208,7 +2220,7 @@ Apesar da contundência das fontes ouvidas pelo The Verge, alguns detalhes comer
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: a arte do mapa (mapa/leonida.svg), no estilo Dia ou Noite ── */
+    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
       tmp.innerHTML = t;

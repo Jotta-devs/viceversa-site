@@ -6,6 +6,15 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  /* Modo de consentimento do Google: no Espaço Econômico Europeu, no Reino Unido e na
+     Suíça, anúncios e Analytics só usam cookies depois do consentimento dado na mensagem
+     de privacidade do Google (CMP certificada, ativada no painel do AdSense). */
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+    wait_for_update: 500,
+    region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+             'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+  });
   gtag('js', new Date());
 
   gtag('config', 'G-0HQG842LBW');
@@ -13,8 +22,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google AdSense: verificação do site + Auto ads -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4263183130382993"
-     crossorigin="anonymous"></script>
 <title>Where is Vice City in GTA 6 — Leonida map | VICEVERSA</title>
 <meta name="description" content="The metropolis on the southeast shoreline and the heart of the state. Skyscrapers, art deco, beach and the highest crowd density in the game — the packed…">
 <link rel="alternate" hreflang="en" href="https://vvviceversa.com/map/vice-city/">
@@ -572,6 +579,7 @@
     transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1);
   }
   article.noticia:hover .noticia__risco{transform:scaleX(1)}
+  h2[id],h3[id]{scroll-margin-top:110px}
   .grade-noticias{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
   article.noticia{
     background:var(--card);
@@ -1466,16 +1474,13 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS: arte-base do mapa (mapa/leonida.svg traz a imagem + a grade) ---- */
-  .atlas--noite{--atlas-mar:#022136}
-  .atlas--dia{--atlas-mar:#014771}
-  /* Noite: a mesma arte, escurecida (o filtro vale em todos os navegadores porque fica no <svg>) */
-  .atlas--noite svg.atlas-vetor{filter:brightness(.55) saturate(.8) contrast(1.06)}
-  .atlas-vetor .c-arte{image-rendering:auto}
+  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
+  .atlas--noite{--atlas-mar:#07112A}
+  .atlas--dia{--atlas-mar:#3778C2}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.05em}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
 
   .atlas--noite .c-mar{fill:#07112A}
   .atlas--noite .c-raso3{fill:#0A1B38}
@@ -1493,8 +1498,8 @@
   .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
-  .atlas--noite .grade path{stroke:rgba(47,230,200,.75)}
-  .atlas--noite .grade text{fill:#2FE6C8;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
+  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
 
   /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
   .atlas--dia .c-mar{fill:#3778C2}
@@ -1513,8 +1518,8 @@
   .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(255,243,228,.6)}
-  .atlas--dia .grade text{fill:#FFF3E4;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
+  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
   .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
@@ -1527,9 +1532,8 @@
     font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
   .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  /* sobre a arte (mar, mata e cidade), o nome claro com contorno escuro lê melhor também no Dia */
-  .atlas--dia .atlas-regiao b{color:#FFFFFF;text-shadow:0 0 4px #0B0414,0 0 2px #0B0414,0 0 1px #0B0414,0 0 6px #FF3D8A}
-  .atlas--dia .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 3px #0B0414,0 0 2px #0B0414}
+  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
+  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1598,7 +1602,7 @@
     <span>◆ Release date holds: NOVEMBER 19, 2026</span>
     <span>◆ Pre-orders open — $79.99 (Standard) and $99.99 (Ultimate)</span>
     <span>◆ Follow @vvviceversaa on X and Instagram · @vvviceversa on TikTok · @vvViceVersa on YouTube</span>
-    <span>◆ Ebook "How GTA VI will change your life" — $5.90 launch price</span>
+    <span>◆ Ebook "How GTA VI will change your life" — $5.90, PDF</span>
   </div>
 </div>
 
@@ -1684,7 +1688,7 @@
     <a href="../../map/">Leonida map</a><span aria-hidden="true">›</span><span>Vice City</span>
   </div>
   <article>
-    <p class="artigo__meta"><span class="selo selo--local-regiao">Region</span><span>Square F6</span></p>
+    <p class="artigo__meta"><span class="selo selo--local-regiao">Region</span><span>Square G6</span></p>
     <h1>Where is Vice City in GTA&nbsp;6</h1>
     <figure class="local__mapa">
       <a href="../../map/#vice-city" data-evento="abrir_mapa" data-local="pagina_local"><img src="../../map-data/locais/vice-city.webp" alt="Where is Vice City in GTA 6 — Leonida map" width="1200" height="630" fetchpriority="high" decoding="async"></a>
@@ -1721,10 +1725,10 @@
   <div class="local__mais">
     <h2>Nearby</h2>
     <ul class="locais__grade">
-      <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../map/centro-vice-city/"><span class="local-card__cat">City or neighborhood</span><strong>Downtown Vice City</strong><small>Downtown Miami</small></a></li>
-      <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../map/little-cuba/"><span class="local-card__cat">City or neighborhood</span><strong>Little Cuba</strong><small>Little Havana</small></a></li>
-      <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../map/area-portuaria/"><span class="local-card__cat">Airport or port</span><strong>VC Port</strong><small>PortMiami (Dodge Island)</small></a></li>
       <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../map/vice-beach/"><span class="local-card__cat">City or neighborhood</span><strong>Ocean Beach</strong><small>South Beach (Miami Beach)</small></a></li>
+      <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../map/area-portuaria/"><span class="local-card__cat">Airport or port</span><strong>VC Port</strong><small>PortMiami (Dodge Island)</small></a></li>
+      <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../map/centro-vice-city/"><span class="local-card__cat">City or neighborhood</span><strong>Downtown Vice City</strong><small>Downtown Miami</small></a></li>
+      <li><a class="local-card local-card--natureza" style="--cor:#2FC87A" href="../../map/praias-vice-city/"><span class="local-card__cat">Nature</span><strong>Vice City beaches</strong><small>Barrier island</small></a></li>
     </ul>
     <p class="local__todos"><a href="../../map/#locais">All map locations →</a></p>
     <p class="local__todos"><a href="../../guides/gta-6-map-leonida-regions/">Read our region-by-region guide to Leonida →</a></p>
@@ -1753,13 +1757,25 @@
     <a href="../../contact/">Contact</a>
     <a href="../../editorial-policy/">Editorial policy</a>
     <a href="../../privacy/">Privacy</a>
+    <a href="../../privacy/#consentimento" data-privacidade>Privacy settings</a>
     <a href="https://vvviceversa.com/feed.xml">RSS</a>
   </nav>
-  <p class="disclaimer">VICEVERSA is a fan site, created purely for informational and entertainment purposes. It is not affiliated with Rockstar Games, Take-Two Interactive or the Grand Theft Auto franchise. All trademarks mentioned belong to their respective owners. No official art, logo or material has been reproduced.</p>
+  <p class="disclaimer">VICEVERSA is a fan site, created purely for informational and entertainment purposes. It is not affiliated with Rockstar Games, Take-Two Interactive or the Grand Theft Auto franchise. All trademarks mentioned belong to their respective owners. Official images shown in news stories belong to their owners and are used for informational purposes only.</p>
   <p class="mono">Broadcasting from Leonida · 87.6 FM · since 2026 · @vvviceversaa on X and Instagram · @vvviceversa on TikTok · @vvViceVersa on YouTube</p>
 </footer>
 
 <script>
+/* "Preferências de privacidade": reabre a mensagem de consentimento do Google (quando ela
+   está ativa para o visitante); sem ela, o link leva à seção da política de privacidade */
+document.querySelectorAll("[data-privacidade]").forEach(function(a){
+  a.addEventListener("click", function(e){
+    const fc = window.googlefc;
+    if(fc && typeof fc.showRevocationMessage === "function"){
+      e.preventDefault();
+      (fc.callbackQueue = fc.callbackQueue || []).push(fc.showRevocationMessage);
+    }
+  });
+});
 (function(){
   /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
      (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
@@ -2142,13 +2158,7 @@
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + (typeof info.zoom_extra === "number" ? info.zoom_extra : 3));
-    if(info.credito && info.credito.texto){
-      const cred = document.createElement("a");
-      cred.textContent = info.credito.texto;
-      if(info.credito.url){ cred.href = info.credito.url; cred.target = "_blank"; cred.rel = "noopener"; }
-      mapa.attributionControl.addAttribution(cred.outerHTML);
-    }
+    mapa.setMaxZoom(Z + 3);
 
     /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
     function porZoom(){
@@ -2158,7 +2168,7 @@
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: a arte do mapa (mapa/leonida.svg), no estilo Dia ou Noite ── */
+    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
       tmp.innerHTML = t;

@@ -6,6 +6,15 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  /* Modo de consentimento do Google: no Espaço Econômico Europeu, no Reino Unido e na
+     Suíça, anúncios e Analytics só usam cookies depois do consentimento dado na mensagem
+     de privacidade do Google (CMP certificada, ativada no painel do AdSense). */
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+    wait_for_update: 500,
+    region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+             'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+  });
   gtag('js', new Date());
 
   gtag('config', 'G-0HQG842LBW');
@@ -547,6 +556,7 @@
     transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1);
   }
   article.noticia:hover .noticia__risco{transform:scaleX(1)}
+  h2[id],h3[id]{scroll-margin-top:110px}
   .grade-noticias{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
   article.noticia{
     background:var(--card);
@@ -1441,16 +1451,13 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS: arte-base do mapa (mapa/leonida.svg traz a imagem + a grade) ---- */
-  .atlas--noite{--atlas-mar:#022136}
-  .atlas--dia{--atlas-mar:#014771}
-  /* Noite: a mesma arte, escurecida (o filtro vale em todos os navegadores porque fica no <svg>) */
-  .atlas--noite svg.atlas-vetor{filter:brightness(.55) saturate(.8) contrast(1.06)}
-  .atlas-vetor .c-arte{image-rendering:auto}
+  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
+  .atlas--noite{--atlas-mar:#07112A}
+  .atlas--dia{--atlas-mar:#3778C2}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.05em}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
 
   .atlas--noite .c-mar{fill:#07112A}
   .atlas--noite .c-raso3{fill:#0A1B38}
@@ -1468,8 +1475,8 @@
   .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
-  .atlas--noite .grade path{stroke:rgba(47,230,200,.75)}
-  .atlas--noite .grade text{fill:#2FE6C8;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
+  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
 
   /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
   .atlas--dia .c-mar{fill:#3778C2}
@@ -1488,8 +1495,8 @@
   .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(255,243,228,.6)}
-  .atlas--dia .grade text{fill:#FFF3E4;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
+  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
   .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
@@ -1502,9 +1509,8 @@
     font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
   .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  /* sobre a arte (mar, mata e cidade), o nome claro com contorno escuro lê melhor também no Dia */
-  .atlas--dia .atlas-regiao b{color:#FFFFFF;text-shadow:0 0 4px #0B0414,0 0 2px #0B0414,0 0 1px #0B0414,0 0 6px #FF3D8A}
-  .atlas--dia .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 3px #0B0414,0 0 2px #0B0414}
+  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
+  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1573,7 +1579,7 @@
     <span>◆ La fecha se mantiene: 19 DE NOVIEMBRE DE 2026</span>
     <span>◆ Reservas abiertas — 79,99 € (estándar) y 99,99 € (Ultimate)</span>
     <span>◆ Sigue a @vvviceversaa en X e Instagram · @vvviceversa en TikTok · @vvViceVersa en YouTube</span>
-    <span>◆ Ebook "Cómo GTA VI va a cambiar tu vida" — 5,90 € en oferta de lanzamiento</span>
+    <span>◆ Ebook "Cómo GTA VI va a cambiar tu vida" — 5,90 €, en PDF</span>
   </div>
 </div>
 
@@ -1658,7 +1664,7 @@
   <a class="artigo__voltar" href="../../es/">← VICEVERSA</a>
   <h1>Política de privacidad</h1>
   <div class="artigo__corpo">
-<p class="atualizado">Actualizada el 23 de septiembre de 2026</p>
+<p class="atualizado">Actualizada el 29 de octubre de 2026</p>
 
 <p>Esta política explica qué datos se recopilan cuando visitas <strong>vvviceversa.com</strong>, quién los recopila, para qué y cómo puedes controlarlo.</p>
 
@@ -1669,13 +1675,14 @@
 <p>Usamos Google Analytics para saber cuántas personas visitan el sitio y qué páginas leen. Utiliza cookies y registra datos como las páginas visitadas, el tipo de dispositivo y navegador, la ubicación aproximada y de dónde llegó la visita. Estos datos nos llegan de forma agregada, sin identificarte. Puedes bloquear Google Analytics con el <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">complemento de inhabilitación de Google</a>.</p>
 
 <h2>Anuncios de Google (AdSense)</h2>
-<p>El sitio muestra anuncios de Google AdSense. Google y sus socios usan cookies para mostrar anuncios basados en tus visitas a este y a otros sitios. Puedes:</p>
+<p>El sitio muestra anuncios de Google AdSense. Terceros, incluido Google, pueden colocar y leer cookies en tu navegador, o usar web beacons, direcciones IP y otros identificadores para recopilar información como resultado de la publicación de anuncios en este sitio. Google y sus socios usan cookies para mostrar anuncios basados en tus visitas a este y a otros sitios, para limitar cuántas veces ves un anuncio y para prevenir el fraude, incluso cuando los anuncios no son personalizados. Puedes:</p>
 <ul>
   <li>desactivar los anuncios personalizados en la <a href="https://adssettings.google.com" target="_blank" rel="noopener">configuración de anuncios de Google</a>;</li>
   <li>desactivar los anuncios personalizados de otros proveedores en <a href="https://www.aboutads.info/choices" target="_blank" rel="noopener">aboutads.info</a>;</li>
   <li>saber más sobre <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">cómo usa Google los datos de sitios asociados</a>.</li>
 </ul>
-<p>Cuando la ley lo exige —por ejemplo, para visitantes del Espacio Económico Europeo y del Reino Unido—, las cookies publicitarias solo se usan después de tu consentimiento.</p>
+<h2 id="consentimento">Consentimiento y preferencias</h2>
+<p>Los visitantes del Espacio Económico Europeo, el Reino Unido y Suiza ven el mensaje de consentimiento de Google, una plataforma de gestión del consentimiento certificada por Google. En esas regiones, las cookies de publicidad y de Google Analytics solo se usan después de tu consentimiento, y puedes cambiar tu elección en cualquier momento desde el enlace <strong>Preferencias de privacidad</strong>, en el pie de todas las páginas. En otras regiones, puedes desactivar los anuncios personalizados con las herramientas indicadas o borrar y bloquear las cookies en tu navegador.</p>
 
 <h2>Otros servicios</h2>
 <ul>
@@ -1687,7 +1694,12 @@
 </ul>
 
 <h2>Almacenamiento en tu navegador</h2>
-<p>Si aceptas o rechazas la sugerencia de idioma que aparece arriba en el sitio, guardamos esa elección en tu propio navegador (almacenamiento local) para no volver a preguntar. Esa información no sale de tu dispositivo.</p>
+<p>Guardamos algunas elecciones en tu propio navegador (almacenamiento local) para no volver a preguntar:</p>
+<ul>
+  <li>si aceptaste o rechazaste la sugerencia de idioma que aparece arriba en el sitio;</li>
+  <li>en el mapa de Leonida, los lugares que marcaste como visitados y el estilo elegido (Día o Noche).</li>
+</ul>
+<p>Esa información no sale de tu dispositivo, no te identifica y puedes borrarla limpiando los datos del sitio en tu navegador.</p>
 
 <h2>Tus derechos</h2>
 <p>Según el RGPD, la LGPD de Brasil y leyes similares, puedes solicitar el acceso, la corrección o la eliminación de datos personales. Como VICEVERSA no guarda datos personales propios, las solicitudes sobre datos de navegación y publicidad deben dirigirse directamente a Google mediante las herramientas indicadas. También puedes borrar o bloquear las cookies en la configuración de tu navegador en cualquier momento.</p>
@@ -1723,13 +1735,25 @@
     <a href="../../es/contacto/">Contacto</a>
     <a href="../../es/politica-editorial/">Política editorial</a>
     <a href="../../es/privacidad/">Privacidad</a>
+    <a href="../../es/privacidad/#consentimento" data-privacidade>Preferencias de privacidad</a>
     <a href="https://vvviceversa.com/es/feed.xml">RSS</a>
   </nav>
-  <p class="disclaimer">VICEVERSA es un sitio de fans, creado únicamente con fines informativos y de entretenimiento. No tiene afiliación con Rockstar Games, Take-Two Interactive ni la franquicia Grand Theft Auto. Todas las marcas citadas pertenecen a sus respectivos dueños. No se ha reproducido ningún arte, logotipo o material oficial.</p>
+  <p class="disclaimer">VICEVERSA es un sitio de fans, creado únicamente con fines informativos y de entretenimiento. No tiene afiliación con Rockstar Games, Take-Two Interactive ni la franquicia Grand Theft Auto. Todas las marcas citadas pertenecen a sus respectivos dueños. Las imágenes oficiales que aparecen en las noticias pertenecen a sus dueños y se usan solo con fines informativos.</p>
   <p class="mono">Transmitiendo desde Leonida · 87.6 FM · desde 2026 · @vvviceversaa en X e Instagram · @vvviceversa en TikTok · @vvViceVersa en YouTube</p>
 </footer>
 
 <script>
+/* "Preferências de privacidade": reabre a mensagem de consentimento do Google (quando ela
+   está ativa para o visitante); sem ela, o link leva à seção da política de privacidade */
+document.querySelectorAll("[data-privacidade]").forEach(function(a){
+  a.addEventListener("click", function(e){
+    const fc = window.googlefc;
+    if(fc && typeof fc.showRevocationMessage === "function"){
+      e.preventDefault();
+      (fc.callbackQueue = fc.callbackQueue || []).push(fc.showRevocationMessage);
+    }
+  });
+});
 (function(){
   /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
      (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
@@ -2112,13 +2136,7 @@
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + (typeof info.zoom_extra === "number" ? info.zoom_extra : 3));
-    if(info.credito && info.credito.texto){
-      const cred = document.createElement("a");
-      cred.textContent = info.credito.texto;
-      if(info.credito.url){ cred.href = info.credito.url; cred.target = "_blank"; cred.rel = "noopener"; }
-      mapa.attributionControl.addAttribution(cred.outerHTML);
-    }
+    mapa.setMaxZoom(Z + 3);
 
     /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
     function porZoom(){
@@ -2128,7 +2146,7 @@
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: a arte do mapa (mapa/leonida.svg), no estilo Dia ou Noite ── */
+    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
       tmp.innerHTML = t;

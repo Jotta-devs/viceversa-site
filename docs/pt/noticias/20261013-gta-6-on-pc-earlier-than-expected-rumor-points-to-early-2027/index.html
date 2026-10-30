@@ -6,6 +6,15 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  /* Modo de consentimento do Google: no Espaço Econômico Europeu, no Reino Unido e na
+     Suíça, anúncios e Analytics só usam cookies depois do consentimento dado na mensagem
+     de privacidade do Google (CMP certificada, ativada no painel do AdSense). */
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+    wait_for_update: 500,
+    region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+             'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+  });
   gtag('js', new Date());
 
   gtag('config', 'G-0HQG842LBW');
@@ -79,7 +88,7 @@
   "articleSection": "GTA VI",
   "author": {
     "@type": "Person",
-    "name": "Mike Pagani",
+    "name": "Mike Novinski Pagani",
     "url": "https://vvviceversa.com/pt/sobre/#editor"
   },
   "publisher": {
@@ -606,6 +615,7 @@
     transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1);
   }
   article.noticia:hover .noticia__risco{transform:scaleX(1)}
+  h2[id],h3[id]{scroll-margin-top:110px}
   .grade-noticias{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
   article.noticia{
     background:var(--card);
@@ -1500,16 +1510,13 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS: arte-base do mapa (mapa/leonida.svg traz a imagem + a grade) ---- */
-  .atlas--noite{--atlas-mar:#022136}
-  .atlas--dia{--atlas-mar:#014771}
-  /* Noite: a mesma arte, escurecida (o filtro vale em todos os navegadores porque fica no <svg>) */
-  .atlas--noite svg.atlas-vetor{filter:brightness(.55) saturate(.8) contrast(1.06)}
-  .atlas-vetor .c-arte{image-rendering:auto}
+  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
+  .atlas--noite{--atlas-mar:#07112A}
+  .atlas--dia{--atlas-mar:#3778C2}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.05em}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
 
   .atlas--noite .c-mar{fill:#07112A}
   .atlas--noite .c-raso3{fill:#0A1B38}
@@ -1527,8 +1534,8 @@
   .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
-  .atlas--noite .grade path{stroke:rgba(47,230,200,.75)}
-  .atlas--noite .grade text{fill:#2FE6C8;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
+  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
 
   /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
   .atlas--dia .c-mar{fill:#3778C2}
@@ -1547,8 +1554,8 @@
   .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(255,243,228,.6)}
-  .atlas--dia .grade text{fill:#FFF3E4;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
+  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
   .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
@@ -1561,9 +1568,8 @@
     font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
   .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  /* sobre a arte (mar, mata e cidade), o nome claro com contorno escuro lê melhor também no Dia */
-  .atlas--dia .atlas-regiao b{color:#FFFFFF;text-shadow:0 0 4px #0B0414,0 0 2px #0B0414,0 0 1px #0B0414,0 0 6px #FF3D8A}
-  .atlas--dia .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 3px #0B0414,0 0 2px #0B0414}
+  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
+  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1632,7 +1638,7 @@
     <span>◆ Lançamento mantido: 19 DE NOVEMBRO DE 2026</span>
     <span>◆ Pré-venda aberta — R$ 449,90 (padrão) e R$ 549,90 (Ultimate)</span>
     <span>◆ Siga @vvviceversaa no X e no Instagram · @vvviceversa no TikTok · @vvViceVersa no YouTube</span>
-    <span>◆ Ebook "Como GTA VI vai mudar a sua vida" — R$ 27 na promoção de lançamento</span>
+    <span>◆ Ebook "Como GTA VI vai mudar a sua vida" — R$ 27, em PDF</span>
   </div>
 </div>
 
@@ -1716,7 +1722,7 @@
 <main class="artigo" data-post="20261013-gta-6-on-pc-earlier-than-expected-rumor-points-to-early-2027">
   <a class="artigo__voltar" href="../../../pt/noticias/">← Todas as notícias</a>
   <article>
-    <p class="artigo__meta"><span class="selo selo--rumor" title="Ainda não confirmado oficialmente. Pode mudar até o lançamento.">Rumor</span><span>Publicado em <time datetime="2026-10-13T18:23:32+00:00">13 out 2026</time></span><span class="artigo__autor">Por <a href="../../../pt/sobre/#editor" rel="author">Mike Pagani</a></span><span class="artigo__leitura">4 min de leitura</span></p>
+    <p class="artigo__meta"><span class="selo selo--rumor" title="Ainda não confirmado oficialmente. Pode mudar até o lançamento.">Rumor</span><span>Publicado em <time datetime="2026-10-13T18:23:32+00:00">13 out 2026</time></span><span class="artigo__autor">Por <a href="../../../pt/sobre/#editor" rel="author">Mike Novinski Pagani</a></span><span class="artigo__leitura">4 min de leitura</span></p>
     <h1>GTA 6 no PC antes do esperado? Reportagem aponta lançamento para o início de 2027</h1>
     <figure class="artigo__capa"><img src="/midia/1fc6f3b465827d0e.webp" alt="GTA 6 no PC antes do esperado? Reportagem aponta lançamento para o início de 2027" width="2000" height="1125" fetchpriority="high" decoding="async"></figure>
     <p class="artigo__aviso artigo__aviso--rumor" role="note"><strong>Rumor.</strong> Ainda não confirmado oficialmente. Pode mudar até o lançamento.</p>
@@ -1738,7 +1744,7 @@
 <div class="aprofundar__sabe"><h3>O que se sabe</h3><ul><li>A reportagem da GamesBeat se apoia em quatro fontes anônimas que conhecem os planos da Rockstar; a empresa não respondeu antes da publicação.</li><li>A Rockstar anunciou GTA 6 apenas para PS5 e Xbox Series X|S, com lançamento em 19 de novembro de 2026.</li><li>O CEO da Take-Two, Strauss Zelnick, disse em novembro de 2025 que a indústria caminhava para o PC e para plataformas abertas, e não fechadas.</li><li>O diretor de estratégia do Xbox, Matthew Ball, afirmou em 7 de outubro que GTA 6 não será transmitido para PC pelo serviço de nuvem do Xbox.</li></ul></div>
 <div class="aprofundar__falta"><h3>O que ainda não se sabe</h3><ul><li>Se a Rockstar vai confirmar a janela antes do lançamento nos consoles; o TweakTown sugere que a Take-Two pode guardar os detalhes do PC para depois de 19 de novembro.</li><li>Se a versão de PC vai coincidir com o modo online; por enquanto, essa ligação é especulação.</li><li>A tese de que emulação com ajuda de IA ou ports feitos por fãs estariam apressando a Rockstar não aparece na reportagem da GamesBeat, e não encontramos fonte que a sustente.</li></ul></div>
 </div>
-<h2>A análise do VICEVERSA</h2><p>Achamos a informação plausível, mas longe de confirmada. As quatro fontes da GamesBeat são a única apuração por trás da janela do primeiro trimestre; Insider Gaming, PCWorld e TweakTown repercutiram a notícia sem trazer confirmação própria. A lógica comercial, porém, existe. O primeiro trimestre de 2027 cai no quarto trimestre fiscal da Take-Two, o orçamento do jogo é tido como gigantesco e as próprias falas de Zelnick sobre PC apontam na mesma direção.</p><p>É na explicação envolvendo IA e emulação que o leitor deve desconfiar mais. Nada na reportagem original liga o prazo a ports de fãs ou pirataria. Para quem joga no PC, o conselho prático é simples. Se você tem PS5 ou Xbox Series X|S, essa é a única forma confirmada de jogar em 19 de novembro, e o Xbox já descartou o streaming para PC. Se não tem, espere um anúncio oficial antes de comprar hardware ou fazer planos com base num trimestre de rumor.</p><p class="aprofundar__assina">Mike Pagani, editor</p>
+<h2>A análise do VICEVERSA</h2><p>Achamos a informação plausível, mas longe de confirmada. As quatro fontes da GamesBeat são a única apuração por trás da janela do primeiro trimestre; Insider Gaming, PCWorld e TweakTown repercutiram a notícia sem trazer confirmação própria. A lógica comercial, porém, existe. O primeiro trimestre de 2027 cai no quarto trimestre fiscal da Take-Two, o orçamento do jogo é tido como gigantesco e as próprias falas de Zelnick sobre PC apontam na mesma direção.</p><p>É na explicação envolvendo IA e emulação que o leitor deve desconfiar mais. Nada na reportagem original liga o prazo a ports de fãs ou pirataria. Para quem joga no PC, o conselho prático é simples. Se você tem PS5 ou Xbox Series X|S, essa é a única forma confirmada de jogar em 19 de novembro, e o Xbox já descartou o streaming para PC. Se não tem, espere um anúncio oficial antes de comprar hardware ou fazer planos com base num trimestre de rumor.</p><p class="aprofundar__assina">Mike Novinski Pagani, editor</p>
 </section>
     </div>
     <div class="artigo__fontes"><p>Fontes</p><ul><li><a href="https://gamesbeat.com/grand-theft-auto-vis-pc-release-is-slated-for-q1-2027/" target="_blank" rel="noopener nofollow">gamesbeat.com</a></li><li><a href="https://www.pcworld.com/article/3260660/we-guessed-late-2027-for-gta-6-on-pc-a-report-says-q1-2027.html" target="_blank" rel="noopener nofollow">pcworld.com</a></li><li><a href="https://insider-gaming.com/gta-6-pc-release-scheduled-for-q1-2027-its-claimed/" target="_blank" rel="noopener nofollow">insider-gaming.com</a></li><li><a href="https://www.tweaktown.com/news/114065/report-gta-vi-pc-port-coming-jan-mar-2027/index.html" target="_blank" rel="noopener nofollow">tweaktown.com</a></li><li><a href="https://bgr.com/2019/10/04/red-dead-redemption-2-pc-release-date/" target="_blank" rel="noopener nofollow">bgr.com</a></li><li><a href="https://www.ibtimes.co.uk/xbox-denies-gta-6-exclusive-cloud-streaming-rights-1824271" target="_blank" rel="noopener nofollow">ibtimes.co.uk</a></li></ul></div>
@@ -1797,13 +1803,25 @@
     <a href="../../../pt/contato/">Contato</a>
     <a href="../../../pt/politica-editorial/">Política editorial</a>
     <a href="../../../pt/privacidade/">Privacidade</a>
+    <a href="../../../pt/privacidade/#consentimento" data-privacidade>Preferências de privacidade</a>
     <a href="https://vvviceversa.com/pt/feed.xml">RSS</a>
   </nav>
-  <p class="disclaimer">VICEVERSA é um site de fãs, criado apenas para fins informativos e de entretenimento. Não possui afiliação com a Rockstar Games, a Take-Two Interactive ou a franquia Grand Theft Auto. Todas as marcas citadas pertencem aos seus respectivos donos. Nenhuma arte, logotipo ou material oficial foi reproduzido.</p>
+  <p class="disclaimer">VICEVERSA é um site de fãs, criado apenas para fins informativos e de entretenimento. Não possui afiliação com a Rockstar Games, a Take-Two Interactive ou a franquia Grand Theft Auto. Todas as marcas citadas pertencem aos seus respectivos donos. Imagens oficiais que aparecem nas notícias pertencem aos seus donos e são usadas apenas para fins informativos.</p>
   <p class="mono">Transmitindo de Leonida · 87.6 FM · desde 2026 · @vvviceversaa no X e Instagram · @vvviceversa no TikTok · @vvViceVersa no YouTube</p>
 </footer>
 
 <script>
+/* "Preferências de privacidade": reabre a mensagem de consentimento do Google (quando ela
+   está ativa para o visitante); sem ela, o link leva à seção da política de privacidade */
+document.querySelectorAll("[data-privacidade]").forEach(function(a){
+  a.addEventListener("click", function(e){
+    const fc = window.googlefc;
+    if(fc && typeof fc.showRevocationMessage === "function"){
+      e.preventDefault();
+      (fc.callbackQueue = fc.callbackQueue || []).push(fc.showRevocationMessage);
+    }
+  });
+});
 (function(){
   /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
      (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
@@ -2186,13 +2204,7 @@
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + (typeof info.zoom_extra === "number" ? info.zoom_extra : 3));
-    if(info.credito && info.credito.texto){
-      const cred = document.createElement("a");
-      cred.textContent = info.credito.texto;
-      if(info.credito.url){ cred.href = info.credito.url; cred.target = "_blank"; cred.rel = "noopener"; }
-      mapa.attributionControl.addAttribution(cred.outerHTML);
-    }
+    mapa.setMaxZoom(Z + 3);
 
     /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
     function porZoom(){
@@ -2202,7 +2214,7 @@
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: a arte do mapa (mapa/leonida.svg), no estilo Dia ou Noite ── */
+    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
       tmp.innerHTML = t;

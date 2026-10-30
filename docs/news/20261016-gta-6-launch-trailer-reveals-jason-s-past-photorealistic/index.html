@@ -6,6 +6,15 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  /* Modo de consentimento do Google: no Espaço Econômico Europeu, no Reino Unido e na
+     Suíça, anúncios e Analytics só usam cookies depois do consentimento dado na mensagem
+     de privacidade do Google (CMP certificada, ativada no painel do AdSense). */
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+    wait_for_update: 500,
+    region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+             'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+  });
   gtag('js', new Date());
 
   gtag('config', 'G-0HQG842LBW');
@@ -79,7 +88,7 @@
   "articleSection": "GTA VI",
   "author": {
     "@type": "Person",
-    "name": "Mike Pagani",
+    "name": "Mike Novinski Pagani",
     "url": "https://vvviceversa.com/about/#editor"
   },
   "publisher": {
@@ -606,6 +615,7 @@
     transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1);
   }
   article.noticia:hover .noticia__risco{transform:scaleX(1)}
+  h2[id],h3[id]{scroll-margin-top:110px}
   .grade-noticias{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
   article.noticia{
     background:var(--card);
@@ -1500,16 +1510,13 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS: arte-base do mapa (mapa/leonida.svg traz a imagem + a grade) ---- */
-  .atlas--noite{--atlas-mar:#022136}
-  .atlas--dia{--atlas-mar:#014771}
-  /* Noite: a mesma arte, escurecida (o filtro vale em todos os navegadores porque fica no <svg>) */
-  .atlas--noite svg.atlas-vetor{filter:brightness(.55) saturate(.8) contrast(1.06)}
-  .atlas-vetor .c-arte{image-rendering:auto}
+  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
+  .atlas--noite{--atlas-mar:#07112A}
+  .atlas--dia{--atlas-mar:#3778C2}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.05em}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
 
   .atlas--noite .c-mar{fill:#07112A}
   .atlas--noite .c-raso3{fill:#0A1B38}
@@ -1527,8 +1534,8 @@
   .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
-  .atlas--noite .grade path{stroke:rgba(47,230,200,.75)}
-  .atlas--noite .grade text{fill:#2FE6C8;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
+  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
 
   /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
   .atlas--dia .c-mar{fill:#3778C2}
@@ -1547,8 +1554,8 @@
   .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(255,243,228,.6)}
-  .atlas--dia .grade text{fill:#FFF3E4;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
+  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
   .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
@@ -1561,9 +1568,8 @@
     font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
   .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  /* sobre a arte (mar, mata e cidade), o nome claro com contorno escuro lê melhor também no Dia */
-  .atlas--dia .atlas-regiao b{color:#FFFFFF;text-shadow:0 0 4px #0B0414,0 0 2px #0B0414,0 0 1px #0B0414,0 0 6px #FF3D8A}
-  .atlas--dia .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 3px #0B0414,0 0 2px #0B0414}
+  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
+  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1632,7 +1638,7 @@
     <span>◆ Release date holds: NOVEMBER 19, 2026</span>
     <span>◆ Pre-orders open — $79.99 (Standard) and $99.99 (Ultimate)</span>
     <span>◆ Follow @vvviceversaa on X and Instagram · @vvviceversa on TikTok · @vvViceVersa on YouTube</span>
-    <span>◆ Ebook "How GTA VI will change your life" — $5.90 launch price</span>
+    <span>◆ Ebook "How GTA VI will change your life" — $5.90, PDF</span>
   </div>
 </div>
 
@@ -1716,7 +1722,7 @@
 <main class="artigo" data-post="20261016-gta-6-launch-trailer-reveals-jason-s-past-photorealistic">
   <a class="artigo__voltar" href="../../news/">← All news</a>
   <article>
-    <p class="artigo__meta"><span class="selo selo--confirmado" title="Officially confirmed by Rockstar, Take-Two or someone involved in the game.">Confirmed</span><span>Published <time datetime="2026-10-16T12:35:21+00:00">Oct 16, 2026</time></span><span class="artigo__autor">By <a href="../../about/#editor" rel="author">Mike Pagani</a></span><span class="artigo__leitura">5 min read</span></p>
+    <p class="artigo__meta"><span class="selo selo--confirmado" title="Officially confirmed by Rockstar, Take-Two or someone involved in the game.">Confirmed</span><span>Published <time datetime="2026-10-16T12:35:21+00:00">Oct 16, 2026</time></span><span class="artigo__autor">By <a href="../../about/#editor" rel="author">Mike Novinski Pagani</a></span><span class="artigo__leitura">5 min read</span></p>
     <h1>GTA 6: Launch Trailer Reveals Jason&#x27;s Past, Photorealistic Graphics, and Heavyweight Original Soundtrack</h1>
     <figure class="artigo__capa"><img src="/midia/ba0e2c4f33c5d18f.webp" alt="GTA 6: Launch Trailer Reveals Jason&#x27;s Past, Photorealistic Graphics, and Heavyweight Original Soundtrack" width="2000" height="1125" fetchpriority="high" decoding="async"></figure>
 
@@ -1743,7 +1749,7 @@
 <div class="aprofundar__sabe"><h3>What we know</h3><ul><li>Jason says he left the military on bad terms and struggles to get credit, and Lucia is shown calling him from jail.</li><li>The song is Flower in a Hurricane by Justice featuring Tame Impala, SZA and King Gizzard &amp; The Lizard Wizard, and Rockstar says Justice also composed the game&#x27;s original score.</li><li>Grand Theft Auto VI: The Album, made with Atlantic Records, has 34 original tracks and is available to pre-order on CD and vinyl.</li><li>GTA 6 launches November 19, 2026 on PS5 and Xbox Series X|S, digital preloads open November 12, and The Game Awards 2026 takes place December 10 in Los Angeles.</li></ul></div>
 <div class="aprofundar__falta"><h3>What we don&#x27;t know yet</h3><ul><li>When The Game Awards will announce this year&#x27;s nominees.</li><li>Even if GTA 6 qualifies, it is unclear whether jurors will have enough time to play it.</li><li>How the sweat effect works in play; Rockstar has not explained the system.</li></ul></div>
 </div>
-<h2>VICEVERSA&#x27;s take</h2><p>The most useful thing about this trailer is its tone. The first two videos set Leonida up as satire of Florida excess; this one is about a couple trying to stay afloat. Jason&#x27;s line about being shut out of loans because of his military record roots the crime in money trouble rather than ambition, which puts the story closer to Red Dead Redemption 2&#x27;s character drama than to the caper energy of GTA V.</p><p>We would be careful with the awards talk. The rules do make GTA 6 eligible, since games must be on sale by November 20 at 9 p.m. PT, but a game of this size released three weeks before the show is a hard ask for jurors. The firmer signal is the music. Justice scoring the whole game, plus a 34-track album with Atlantic, shows how much of the launch is built on sound as well as spectacle. The captured on PS5 label, meanwhile, is marketing: performance on Xbox Series X|S still hasn&#x27;t been shown.</p><p class="aprofundar__assina">Mike Pagani, editor</p>
+<h2>VICEVERSA&#x27;s take</h2><p>The most useful thing about this trailer is its tone. The first two videos set Leonida up as satire of Florida excess; this one is about a couple trying to stay afloat. Jason&#x27;s line about being shut out of loans because of his military record roots the crime in money trouble rather than ambition, which puts the story closer to Red Dead Redemption 2&#x27;s character drama than to the caper energy of GTA V.</p><p>We would be careful with the awards talk. The rules do make GTA 6 eligible, since games must be on sale by November 20 at 9 p.m. PT, but a game of this size released three weeks before the show is a hard ask for jurors. The firmer signal is the music. Justice scoring the whole game, plus a 34-track album with Atlantic, shows how much of the launch is built on sound as well as spectacle. The captured on PS5 label, meanwhile, is marketing: performance on Xbox Series X|S still hasn&#x27;t been shown.</p><p class="aprofundar__assina">Mike Novinski Pagani, editor</p>
 </section>
     </div>
     <div class="artigo__fontes"><p>Sources</p><ul><li><a href="https://www.youtube.com/watch?v=rz1B4B2yBZY" target="_blank" rel="noopener nofollow">youtube.com</a></li><li><a href="https://www.gamesradar.com/games/grand-theft-auto/gta-6-launch-trailer/" target="_blank" rel="noopener nofollow">gamesradar.com</a></li><li><a href="https://www.vice.com/en/article/gta-6-launch-trailer-jason-lucia-story-details/" target="_blank" rel="noopener nofollow">vice.com</a></li><li><a href="https://www.videogameschronicle.com/news/at-nearly-half-a-billion-views-rockstar-says-gta-6s-new-trailer-is-the-biggest-video-launch-of-all-time" target="_blank" rel="noopener nofollow">videogameschronicle.com</a></li><li><a href="https://www.gematsu.com/2026/09/grand-theft-auto-vi-the-album-announced" target="_blank" rel="noopener nofollow">gematsu.com</a></li><li><a href="https://windowsreport.com/the-game-awards-2026-date-is-now-set-can-gta-6-squeeze-in-for-game-of-the-year/" target="_blank" rel="noopener nofollow">windowsreport.com</a></li><li><a href="https://insider-gaming.com/gta-6-is-officially-eligible-for-the-game-awards-2026/" target="_blank" rel="noopener nofollow">insider-gaming.com</a></li></ul></div>
@@ -1802,13 +1808,25 @@
     <a href="../../contact/">Contact</a>
     <a href="../../editorial-policy/">Editorial policy</a>
     <a href="../../privacy/">Privacy</a>
+    <a href="../../privacy/#consentimento" data-privacidade>Privacy settings</a>
     <a href="https://vvviceversa.com/feed.xml">RSS</a>
   </nav>
-  <p class="disclaimer">VICEVERSA is a fan site, created purely for informational and entertainment purposes. It is not affiliated with Rockstar Games, Take-Two Interactive or the Grand Theft Auto franchise. All trademarks mentioned belong to their respective owners. No official art, logo or material has been reproduced.</p>
+  <p class="disclaimer">VICEVERSA is a fan site, created purely for informational and entertainment purposes. It is not affiliated with Rockstar Games, Take-Two Interactive or the Grand Theft Auto franchise. All trademarks mentioned belong to their respective owners. Official images shown in news stories belong to their owners and are used for informational purposes only.</p>
   <p class="mono">Broadcasting from Leonida · 87.6 FM · since 2026 · @vvviceversaa on X and Instagram · @vvviceversa on TikTok · @vvViceVersa on YouTube</p>
 </footer>
 
 <script>
+/* "Preferências de privacidade": reabre a mensagem de consentimento do Google (quando ela
+   está ativa para o visitante); sem ela, o link leva à seção da política de privacidade */
+document.querySelectorAll("[data-privacidade]").forEach(function(a){
+  a.addEventListener("click", function(e){
+    const fc = window.googlefc;
+    if(fc && typeof fc.showRevocationMessage === "function"){
+      e.preventDefault();
+      (fc.callbackQueue = fc.callbackQueue || []).push(fc.showRevocationMessage);
+    }
+  });
+});
 (function(){
   /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
      (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
@@ -2191,13 +2209,7 @@
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + (typeof info.zoom_extra === "number" ? info.zoom_extra : 3));
-    if(info.credito && info.credito.texto){
-      const cred = document.createElement("a");
-      cred.textContent = info.credito.texto;
-      if(info.credito.url){ cred.href = info.credito.url; cred.target = "_blank"; cred.rel = "noopener"; }
-      mapa.attributionControl.addAttribution(cred.outerHTML);
-    }
+    mapa.setMaxZoom(Z + 3);
 
     /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
     function porZoom(){
@@ -2207,7 +2219,7 @@
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: a arte do mapa (mapa/leonida.svg), no estilo Dia ou Noite ── */
+    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
       tmp.innerHTML = t;

@@ -6,6 +6,15 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  /* Modo de consentimento do Google: no Espaço Econômico Europeu, no Reino Unido e na
+     Suíça, anúncios e Analytics só usam cookies depois do consentimento dado na mensagem
+     de privacidade do Google (CMP certificada, ativada no painel do AdSense). */
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+    wait_for_update: 500,
+    region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+             'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+  });
   gtag('js', new Date());
 
   gtag('config', 'G-0HQG842LBW');
@@ -16,7 +25,7 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4263183130382993"
      crossorigin="anonymous"></script>
 <title>VICEVERSA — Noticias y curiosidades de GTA VI</title>
-<meta name="description" content="VICEVERSA: noticias, cronología y curiosidades sobre Grand Theft Auto VI — Extended Look, filtraciones, reservas y cuenta atrás. Sigue a @vvviceversaa en X e Instagram, @vvviceversa en TikTok y @vvViceVersa en YouTube.">
+<meta name="description" content="VICEVERSA: noticias, cronología y curiosidades sobre Grand Theft Auto VI — Extended Look, ediciones, reservas, el mapa de Leonida y cuenta atrás. Sigue a @vvviceversaa en X e Instagram, @vvviceversa en TikTok y @vvViceVersa en YouTube.">
 <link rel="alternate" hreflang="en" href="https://vvviceversa.com/">
 <link rel="alternate" hreflang="x-default" href="https://vvviceversa.com/">
 <link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/">
@@ -610,6 +619,7 @@
     transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1);
   }
   article.noticia:hover .noticia__risco{transform:scaleX(1)}
+  h2[id],h3[id]{scroll-margin-top:110px}
   .grade-noticias{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
   article.noticia{
     background:var(--card);
@@ -1504,16 +1514,13 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS: arte-base do mapa (mapa/leonida.svg traz a imagem + a grade) ---- */
-  .atlas--noite{--atlas-mar:#022136}
-  .atlas--dia{--atlas-mar:#014771}
-  /* Noite: a mesma arte, escurecida (o filtro vale em todos os navegadores porque fica no <svg>) */
-  .atlas--noite svg.atlas-vetor{filter:brightness(.55) saturate(.8) contrast(1.06)}
-  .atlas-vetor .c-arte{image-rendering:auto}
+  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
+  .atlas--noite{--atlas-mar:#07112A}
+  .atlas--dia{--atlas-mar:#3778C2}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.05em}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
 
   .atlas--noite .c-mar{fill:#07112A}
   .atlas--noite .c-raso3{fill:#0A1B38}
@@ -1531,8 +1538,8 @@
   .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
-  .atlas--noite .grade path{stroke:rgba(47,230,200,.75)}
-  .atlas--noite .grade text{fill:#2FE6C8;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
+  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
 
   /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
   .atlas--dia .c-mar{fill:#3778C2}
@@ -1551,8 +1558,8 @@
   .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(255,243,228,.6)}
-  .atlas--dia .grade text{fill:#FFF3E4;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
+  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
   .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
@@ -1565,9 +1572,8 @@
     font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
   .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  /* sobre a arte (mar, mata e cidade), o nome claro com contorno escuro lê melhor também no Dia */
-  .atlas--dia .atlas-regiao b{color:#FFFFFF;text-shadow:0 0 4px #0B0414,0 0 2px #0B0414,0 0 1px #0B0414,0 0 6px #FF3D8A}
-  .atlas--dia .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 3px #0B0414,0 0 2px #0B0414}
+  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
+  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1636,7 +1642,7 @@
     <span>◆ La fecha se mantiene: 19 DE NOVIEMBRE DE 2026</span>
     <span>◆ Reservas abiertas — 79,99 € (estándar) y 99,99 € (Ultimate)</span>
     <span>◆ Sigue a @vvviceversaa en X e Instagram · @vvviceversa en TikTok · @vvViceVersa en YouTube</span>
-    <span>◆ Ebook "Cómo GTA VI va a cambiar tu vida" — 5,90 € en oferta de lanzamiento</span>
+    <span>◆ Ebook "Cómo GTA VI va a cambiar tu vida" — 5,90 €, en PDF</span>
   </div>
 </div>
 
@@ -1732,8 +1738,8 @@
   <div class="contagem subir d4" role="timer" aria-label="Contagem regressiva para o lançamento de GTA VI">
     <span class="contagem__label">Faltan para el 19 · NOV · 2026</span>
     <div><b id="cd-dias">20</b><small>días</small></div>
-    <div><b id="cd-horas">03</b><small>horas</small></div>
-    <div><b id="cd-min">34</b><small>min</small></div>
+    <div><b id="cd-horas">01</b><small>horas</small></div>
+    <div><b id="cd-min">13</b><small>min</small></div>
     <div><b id="cd-seg">00</b><small>seg</small></div>
   </div>
 
@@ -1847,8 +1853,8 @@
       <p>Los vídeos de gameplay empiezan a circular casi a diario desde el 18 de agosto. Take-Two consigue autorización judicial para rastrear el origen y el día 26 Rockstar publica una carta abierta lamentando el episodio y confirmando que el calendario se mantiene.</p>
     </div>
     <div class="evento evento--quente revela">
-      <time>27 de agosto 2026 · hoy</time>
-      <h3>El Extended Look sale al aire</h3>
+      <time>27 de agosto 2026</time>
+      <h3>Se estrena el Extended Look</h3>
       <p>26 minutos de gameplay capturados en una PlayStation 5 estándar, con estreno en Netflix y salida gratuita en YouTube seis horas después. Combate rehecho, interacción con NPCs al estilo Red Dead 2, sexta estrella de búsqueda y cambio instantáneo entre los protagonistas.</p>
     </div>
   </div>
@@ -1888,7 +1894,7 @@
 <section id="ebook" class="observa">
   <div class="secao__cabeca">
     <h2>El ebook de VICEVERSA</h2>
-    <span class="tag">oferta de lanzamiento</span>
+    <span class="tag">para creadores de contenido</span>
   </div>
   <div class="oferta">
     <div class="livro revela">
@@ -1901,7 +1907,6 @@
     </div>
 
     <div class="oferta__txt revela">
-      <span class="oferta__selo">● Oferta de lanzamiento</span>
       <h3>Cómo GTA VI va a<br><span>cambiar tu vida</span></h3>
       <p class="oferta__linha">El manual para convertir el mayor lanzamiento de la década en una carrera de creador de contenido — de la elección del nicho al primer patrocinio, con el calendario editorial atado a las fechas reales del juego.</p>
       <ul class="oferta__itens">
@@ -1913,9 +1918,7 @@
         <li>Un capítulo sobre lo que NO hacer</li>
       </ul>
       <div class="oferta__preco">
-        <span class="de">9,90 €</span>
         <span class="por">5,90<small>&nbsp;€</small></span>
-        <span class="off">−40% hoy</span>
       </div>
       <a class="btn-ebook" href="https://pay.kiwify.com/0xSU59u" target="_blank" rel="noopener">Conseguir mi ejemplar</a>
       <p class="oferta__nota">Entrega inmediata en PDF tras la compra, vía Kiwify. No es una promesa de ingresos: el libro entrega método, fuentes citadas y rangos públicos de mercado — el resultado depende de tu ejecución.</p>
@@ -2022,13 +2025,25 @@
     <a href="../es/contacto/">Contacto</a>
     <a href="../es/politica-editorial/">Política editorial</a>
     <a href="../es/privacidad/">Privacidad</a>
+    <a href="../es/privacidad/#consentimento" data-privacidade>Preferencias de privacidad</a>
     <a href="https://vvviceversa.com/es/feed.xml">RSS</a>
   </nav>
-  <p class="disclaimer">VICEVERSA es un sitio de fans, creado únicamente con fines informativos y de entretenimiento. No tiene afiliación con Rockstar Games, Take-Two Interactive ni la franquicia Grand Theft Auto. Todas las marcas citadas pertenecen a sus respectivos dueños. No se ha reproducido ningún arte, logotipo o material oficial.</p>
+  <p class="disclaimer">VICEVERSA es un sitio de fans, creado únicamente con fines informativos y de entretenimiento. No tiene afiliación con Rockstar Games, Take-Two Interactive ni la franquicia Grand Theft Auto. Todas las marcas citadas pertenecen a sus respectivos dueños. Las imágenes oficiales que aparecen en las noticias pertenecen a sus dueños y se usan solo con fines informativos.</p>
   <p class="mono">Transmitiendo desde Leonida · 87.6 FM · desde 2026 · @vvviceversaa en X e Instagram · @vvviceversa en TikTok · @vvViceVersa en YouTube</p>
 </footer>
 
 <script>
+/* "Preferências de privacidade": reabre a mensagem de consentimento do Google (quando ela
+   está ativa para o visitante); sem ela, o link leva à seção da política de privacidade */
+document.querySelectorAll("[data-privacidade]").forEach(function(a){
+  a.addEventListener("click", function(e){
+    const fc = window.googlefc;
+    if(fc && typeof fc.showRevocationMessage === "function"){
+      e.preventDefault();
+      (fc.callbackQueue = fc.callbackQueue || []).push(fc.showRevocationMessage);
+    }
+  });
+});
 (function(){
   /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
      (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
@@ -2411,13 +2426,7 @@
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + (typeof info.zoom_extra === "number" ? info.zoom_extra : 3));
-    if(info.credito && info.credito.texto){
-      const cred = document.createElement("a");
-      cred.textContent = info.credito.texto;
-      if(info.credito.url){ cred.href = info.credito.url; cred.target = "_blank"; cred.rel = "noopener"; }
-      mapa.attributionControl.addAttribution(cred.outerHTML);
-    }
+    mapa.setMaxZoom(Z + 3);
 
     /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
     function porZoom(){
@@ -2427,7 +2436,7 @@
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: a arte do mapa (mapa/leonida.svg), no estilo Dia ou Noite ── */
+    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
       tmp.innerHTML = t;

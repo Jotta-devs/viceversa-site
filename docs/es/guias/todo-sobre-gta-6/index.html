@@ -6,6 +6,15 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  /* Modo de consentimento do Google: no Espaço Econômico Europeu, no Reino Unido e na
+     Suíça, anúncios e Analytics só usam cookies depois do consentimento dado na mensagem
+     de privacidade do Google (CMP certificada, ativada no painel do AdSense). */
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+    wait_for_update: 500,
+    region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+             'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+  });
   gtag('js', new Date());
 
   gtag('config', 'G-0HQG842LBW');
@@ -78,7 +87,7 @@
   "inLanguage": "es",
   "author": {
     "@type": "Person",
-    "name": "Mike Pagani",
+    "name": "Mike Novinski Pagani",
     "url": "https://vvviceversa.com/es/sobre/#editor"
   },
   "publisher": {
@@ -605,6 +614,7 @@
     transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1);
   }
   article.noticia:hover .noticia__risco{transform:scaleX(1)}
+  h2[id],h3[id]{scroll-margin-top:110px}
   .grade-noticias{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
   article.noticia{
     background:var(--card);
@@ -1499,16 +1509,13 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS: arte-base do mapa (mapa/leonida.svg traz a imagem + a grade) ---- */
-  .atlas--noite{--atlas-mar:#022136}
-  .atlas--dia{--atlas-mar:#014771}
-  /* Noite: a mesma arte, escurecida (o filtro vale em todos os navegadores porque fica no <svg>) */
-  .atlas--noite svg.atlas-vetor{filter:brightness(.55) saturate(.8) contrast(1.06)}
-  .atlas-vetor .c-arte{image-rendering:auto}
+  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
+  .atlas--noite{--atlas-mar:#07112A}
+  .atlas--dia{--atlas-mar:#3778C2}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.05em}
+  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
 
   .atlas--noite .c-mar{fill:#07112A}
   .atlas--noite .c-raso3{fill:#0A1B38}
@@ -1526,8 +1533,8 @@
   .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
   .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
   .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
-  .atlas--noite .grade path{stroke:rgba(47,230,200,.75)}
-  .atlas--noite .grade text{fill:#2FE6C8;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
+  .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
 
   /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
   .atlas--dia .c-mar{fill:#3778C2}
@@ -1546,8 +1553,8 @@
   .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
   .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
   .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(255,243,228,.6)}
-  .atlas--dia .grade text{fill:#FFF3E4;stroke:#0B0414;stroke-width:2px;paint-order:stroke}
+  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
+  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
   .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
   .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
@@ -1560,9 +1567,8 @@
     font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
   .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
     color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  /* sobre a arte (mar, mata e cidade), o nome claro com contorno escuro lê melhor também no Dia */
-  .atlas--dia .atlas-regiao b{color:#FFFFFF;text-shadow:0 0 4px #0B0414,0 0 2px #0B0414,0 0 1px #0B0414,0 0 6px #FF3D8A}
-  .atlas--dia .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 3px #0B0414,0 0 2px #0B0414}
+  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
+  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
   .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
   .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
   .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
@@ -1631,7 +1637,7 @@
     <span>◆ La fecha se mantiene: 19 DE NOVIEMBRE DE 2026</span>
     <span>◆ Reservas abiertas — 79,99 € (estándar) y 99,99 € (Ultimate)</span>
     <span>◆ Sigue a @vvviceversaa en X e Instagram · @vvviceversa en TikTok · @vvViceVersa en YouTube</span>
-    <span>◆ Ebook "Cómo GTA VI va a cambiar tu vida" — 5,90 € en oferta de lanzamiento</span>
+    <span>◆ Ebook "Cómo GTA VI va a cambiar tu vida" — 5,90 €, en PDF</span>
   </div>
 </div>
 
@@ -1717,7 +1723,7 @@
     <a href="../../../es/guias/">Guías</a><span aria-hidden="true">›</span><span>Todo sobre GTA 6</span>
   </div>
   <article>
-    <p class="artigo__meta"><span class="selo selo--guia">Guía</span><span class="artigo__autor">Por <a href="../../../es/sobre/#editor" rel="author">Mike Pagani</a></span><span>Actualizado el <time datetime="2026-09-28">28 sep 2026</time></span><span class="artigo__leitura">8 min de lectura</span></p>
+    <p class="artigo__meta"><span class="selo selo--guia">Guía</span><span class="artigo__autor">Por <a href="../../../es/sobre/#editor" rel="author">Mike Novinski Pagani</a></span><span>Actualizado el <time datetime="2026-09-28">28 sep 2026</time></span><span class="artigo__leitura">8 min de lectura</span></p>
     <h1>GTA 6: todo lo confirmado hasta ahora — lanzamiento, plataformas, historia y jugabilidad</h1>
     <p class="guia__lead">El resumen completo y con fuentes de Grand Theft Auto VI: cuándo sale, dónde se puede jugar, cuánto cuesta, quiénes son Jason y Lucia, cómo es Leonida y qué cambia en el juego.</p>
     <div class="guia__indice" role="navigation" aria-label="En esta guía"><p>En esta guía</p><ol><li><a href="#fecha-de-lanzamiento-19-de-noviembre-de-2026">Fecha de lanzamiento: 19 de noviembre de 2026</a></li><li><a href="#plataformas-rendimiento-y-la-cuestion-del-pc">Plataformas, rendimiento y la cuestión del PC</a></li><li><a href="#precio-ediciones-y-la-polemica-del-sin-disco">Precio, ediciones y la polémica del "sin disco"</a></li><li><a href="#historia-y-personajes">Historia y personajes</a></li><li><a href="#leonida-y-vice-city">Leonida y Vice City</a></li><li><a href="#lo-que-mostro-el-extended-look">Lo que mostró el Extended Look</a></li><li><a href="#como-ha-cambiado-la-jugabilidad">Cómo ha cambiado la jugabilidad</a></li><li><a href="#musica-gta-vi-the-album">Música: GTA VI — The Album</a></li><li><a href="#filtraciones-que-contamos-y-que-no">Filtraciones: qué contamos y qué no</a></li><li><a href="#cronologia-del-anuncio-al-lanzamiento">Cronología: del anuncio al lanzamiento</a></li><li><a href="#preguntas-frecuentes">Preguntas frecuentes</a></li><li><a href="#fuentes">Fuentes</a></li></ol></div>
@@ -1813,7 +1819,7 @@
 </ul>
 
     </div>
-    <aside class="guia__autor" id="autor"><strong>Mike Pagani</strong> — editor de VICEVERSA. Escribe y revisa todas las noticias y guías del sitio, contrastando cada dato con el material oficial de Rockstar Games y Take-Two y con los medios citados en las fuentes. ¿Encontraste un error? Escríbenos desde la página de contacto.</aside>
+    <aside class="guia__autor" id="autor"><strong>Mike Novinski Pagani</strong> — editor de VICEVERSA. Escribe y revisa todas las noticias y guías del sitio, contrastando cada dato con el material oficial de Rockstar Games y Take-Two y con los medios citados en las fuentes. ¿Encontraste un error? Escríbenos desde la página de contacto.</aside>
   </article>
 
   <div class="compartilhar">
@@ -1860,13 +1866,25 @@
     <a href="../../../es/contacto/">Contacto</a>
     <a href="../../../es/politica-editorial/">Política editorial</a>
     <a href="../../../es/privacidad/">Privacidad</a>
+    <a href="../../../es/privacidad/#consentimento" data-privacidade>Preferencias de privacidad</a>
     <a href="https://vvviceversa.com/es/feed.xml">RSS</a>
   </nav>
-  <p class="disclaimer">VICEVERSA es un sitio de fans, creado únicamente con fines informativos y de entretenimiento. No tiene afiliación con Rockstar Games, Take-Two Interactive ni la franquicia Grand Theft Auto. Todas las marcas citadas pertenecen a sus respectivos dueños. No se ha reproducido ningún arte, logotipo o material oficial.</p>
+  <p class="disclaimer">VICEVERSA es un sitio de fans, creado únicamente con fines informativos y de entretenimiento. No tiene afiliación con Rockstar Games, Take-Two Interactive ni la franquicia Grand Theft Auto. Todas las marcas citadas pertenecen a sus respectivos dueños. Las imágenes oficiales que aparecen en las noticias pertenecen a sus dueños y se usan solo con fines informativos.</p>
   <p class="mono">Transmitiendo desde Leonida · 87.6 FM · desde 2026 · @vvviceversaa en X e Instagram · @vvviceversa en TikTok · @vvViceVersa en YouTube</p>
 </footer>
 
 <script>
+/* "Preferências de privacidade": reabre a mensagem de consentimento do Google (quando ela
+   está ativa para o visitante); sem ela, o link leva à seção da política de privacidade */
+document.querySelectorAll("[data-privacidade]").forEach(function(a){
+  a.addEventListener("click", function(e){
+    const fc = window.googlefc;
+    if(fc && typeof fc.showRevocationMessage === "function"){
+      e.preventDefault();
+      (fc.callbackQueue = fc.callbackQueue || []).push(fc.showRevocationMessage);
+    }
+  });
+});
 (function(){
   /* ---- Google Analytics: eventos do site. Só registra se o gtag carregou
      (bloqueador de anúncios, por exemplo, impede) — nunca quebra a página. ---- */
@@ -2249,13 +2267,7 @@
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + (typeof info.zoom_extra === "number" ? info.zoom_extra : 3));
-    if(info.credito && info.credito.texto){
-      const cred = document.createElement("a");
-      cred.textContent = info.credito.texto;
-      if(info.credito.url){ cred.href = info.credito.url; cred.target = "_blank"; cred.rel = "noopener"; }
-      mapa.attributionControl.addAttribution(cred.outerHTML);
-    }
+    mapa.setMaxZoom(Z + 3);
 
     /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
     function porZoom(){
@@ -2265,7 +2277,7 @@
     }
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: a arte do mapa (mapa/leonida.svg), no estilo Dia ou Noite ── */
+    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
     fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
       const tmp = document.createElement("div");
       tmp.innerHTML = t;
