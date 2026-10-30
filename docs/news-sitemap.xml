@@ -1,27 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
-  <url>
-    <loc>https://vvviceversa.com/news/20261028-gta-6-leak-points-to-210-gb-ps5-install-size-as-marketing/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-28T13:11:06+00:00</news:publication_date>
-      <news:title>GTA 6: Leak Points to 210 GB PS5 Install Size as Marketing Campaign Reaches New York and São Paulo</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261028-gta-6-leak-points-to-210-gb-ps5-install-size-as-marketing/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-10-28T13:11:06+00:00</news:publication_date>
-      <news:title>GTA 6: suposto vazamento indica 210 GB no PS5, enquanto campanha publicitária chega a Nova York e São Paulo</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261028-gta-6-leak-points-to-210-gb-ps5-install-size-as-marketing/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-10-28T13:11:06+00:00</news:publication_date>
-      <news:title>GTA 6: una filtración apunta a 210 GB en PS5 mientras la campaña de marketing llega a Nueva York y São Paulo</news:title>
-    </news:news>
-  </url>
 </urlset>
