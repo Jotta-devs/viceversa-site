@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-VICEVERSA — mapa de Leonida a partir da arte-base (VICEVERSA + gta6mapsize.com)
-==============================================================================
+VICEVERSA — mapa de Leonida a partir da arte-base
+=================================================
 
-O mapa do site usa a ilustração de Leonida feita pelo VICEVERSA junto com o
-criador do gta6mapsize.com. A imagem entra no mapa SEM nenhuma alteração: o
-arquivo original (WebP) é embutido, byte a byte, dentro de mapa/leonida.svg.
+O mapa do site usa a ilustração de Leonida feita pelo VICEVERSA. A imagem
+entra no mapa SEM nenhuma alteração: o arquivo original (WebP) é embutido,
+byte a byte, dentro de mapa/leonida.svg.
 Assim cada detalhe da arte (costas, ruas, prédios, pistas, nuvens) aparece
 exatamente como foi desenhado.
 
@@ -44,7 +44,7 @@ INFO = PASTA / "leonida.json"
 
 COLUNAS = 8                 # grade de referência: colunas A…H
 ZOOM_EXTRA = 1.75           # quanto se pode aproximar além do tamanho real da arte (em níveis de zoom)
-CREDITO = {"texto": "VICEVERSA & gta6mapsize.com", "url": "https://gta6mapsize.com"}
+CREDITO = {"texto": "VICEVERSA"}
 TIPOS = {".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg"}
 
 
