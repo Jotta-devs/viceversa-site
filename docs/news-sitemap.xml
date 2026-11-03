@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://vvviceversa.com/news/20261103-gta-6-rockstar-moves-up-preload-date-to-november-10-nine/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-03T15:56:09+00:00</news:publication_date>
+      <news:title>GTA 6: Rockstar Moves Up Preload Date to November 10, Nine Days Before Launch</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261103-gta-6-rockstar-moves-up-preload-date-to-november-10-nine/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-11-03T15:56:09+00:00</news:publication_date>
+      <news:title>GTA 6: Rockstar antecipa pré-download para 10 de novembro, a nove dias do lançamento</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261103-gta-6-rockstar-moves-up-preload-date-to-november-10-nine/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-11-03T15:56:09+00:00</news:publication_date>
+      <news:title>GTA 6: Rockstar adelanta la fecha de precarga al 10 de noviembre, nueve días antes del lanzamiento</news:title>
+    </news:news>
+  </url>
 </urlset>
