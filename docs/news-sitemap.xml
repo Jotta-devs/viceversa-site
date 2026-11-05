@@ -13,7 +13,7 @@
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
       <news:publication_date>2026-11-05T14:56:05+00:00</news:publication_date>
-      <news:title>GTA 6: Rockstar disponibiliza mapa de Leonida para impressão gratuita, enquanto pré-vendas podem alcançar US$ 750 milhões</news:title>
+      <news:title>GTA 6: Rockstar vai liberar mapa de Leonida para impressão gratuita, e pré-vendas passam de US$ 750 milhões, segundo estimativa</news:title>
     </news:news>
   </url>
   <url>
@@ -21,7 +21,7 @@
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
       <news:publication_date>2026-11-05T14:56:05+00:00</news:publication_date>
-      <news:title>GTA 6: Rockstar ofrece el mapa de Leonida para imprimir gratis mientras las reservas alcanzarían los 750 millones de dólares</news:title>
+      <news:title>GTA 6: Rockstar ofrecerá el mapa de Leonida para imprimir gratis y las reservas superan los 750 millones de dólares, según estimaciones</news:title>
     </news:news>
   </url>
   <url>
@@ -46,30 +46,6 @@
       <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
       <news:publication_date>2026-11-04T14:26:03+00:00</news:publication_date>
       <news:title>Fiebre por GTA 6: Xbox presenta una consola con forma de caimán y una encuesta revela qué estarían dispuestos a hacer los fans para jugar antes</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261103-gta-6-rockstar-moves-up-preload-date-to-november-10-nine/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-03T15:56:09+00:00</news:publication_date>
-      <news:title>GTA 6: Rockstar Moves Up Preload Date to November 10, Nine Days Before Launch</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261103-gta-6-rockstar-moves-up-preload-date-to-november-10-nine/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-11-03T15:56:09+00:00</news:publication_date>
-      <news:title>GTA 6: Rockstar antecipa pré-download para 10 de novembro, a nove dias do lançamento</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261103-gta-6-rockstar-moves-up-preload-date-to-november-10-nine/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-11-03T15:56:09+00:00</news:publication_date>
-      <news:title>GTA 6: Rockstar adelanta la fecha de precarga al 10 de noviembre, nueve días antes del lanzamiento</news:title>
     </news:news>
   </url>
 </urlset>
