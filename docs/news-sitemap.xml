@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://vvviceversa.com/news/20261105-gta-6-rockstar-makes-leonida-map-available-for-free-printing/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-05T14:56:05+00:00</news:publication_date>
+      <news:title>GTA 6: Rockstar Makes Leonida Map Available for Free Printing as Pre-Orders Reportedly Reach $750 Million</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261105-gta-6-rockstar-makes-leonida-map-available-for-free-printing/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-11-05T14:56:05+00:00</news:publication_date>
+      <news:title>GTA 6: Rockstar disponibiliza mapa de Leonida para impressão gratuita, enquanto pré-vendas podem alcançar US$ 750 milhões</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261105-gta-6-rockstar-makes-leonida-map-available-for-free-printing/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-11-05T14:56:05+00:00</news:publication_date>
+      <news:title>GTA 6: Rockstar ofrece el mapa de Leonida para imprimir gratis mientras las reservas alcanzarían los 750 millones de dólares</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://vvviceversa.com/news/20261104-gta-6-fever-xbox-unveils-crocodile-inspired-console-as/</loc>
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
