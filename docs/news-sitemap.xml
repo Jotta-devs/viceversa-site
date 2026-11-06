@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://vvviceversa.com/news/20261106-gta-6-miami-heat-travis-scott-and-arkansas-sky-tribute/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-06T18:38:18+00:00</news:publication_date>
+      <news:title>GTA 6: Miami Heat, Travis Scott and Arkansas Sky Tribute Expand the Game&#x27;s Cultural Impact</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261106-gta-6-miami-heat-travis-scott-and-arkansas-sky-tribute/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-11-06T18:38:18+00:00</news:publication_date>
+      <news:title>GTA 6: Miami Heat, Travis Scott e homenagem nos céus do Arkansas ampliam repercussão do jogo</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261106-gta-6-miami-heat-travis-scott-and-arkansas-sky-tribute/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-11-06T18:38:18+00:00</news:publication_date>
+      <news:title>GTA 6: Miami Heat, Travis Scott y un homenaje en los cielos de Arkansas amplían el impacto cultural del juego</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://vvviceversa.com/news/20261105-gta-6-rockstar-makes-leonida-map-available-for-free-printing/</loc>
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
@@ -22,30 +46,6 @@
       <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
       <news:publication_date>2026-11-05T14:56:05+00:00</news:publication_date>
       <news:title>GTA 6: Rockstar ofrecerá el mapa de Leonida para imprimir gratis y las reservas superan los 750 millones de dólares, según estimaciones</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261104-gta-6-fever-xbox-unveils-crocodile-inspired-console-as/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-04T14:26:03+00:00</news:publication_date>
-      <news:title>GTA 6 Fever: Xbox Unveils Alligator-Inspired Console as Survey Reveals What Fans Would Give Up for Early Access</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261104-gta-6-fever-xbox-unveils-crocodile-inspired-console-as/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-11-04T14:26:03+00:00</news:publication_date>
-      <news:title>Febre por GTA 6: Xbox apresenta console inspirado em jacaré, enquanto pesquisa revela o que fãs aceitariam fazer para jogar antes</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261104-gta-6-fever-xbox-unveils-crocodile-inspired-console-as/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-11-04T14:26:03+00:00</news:publication_date>
-      <news:title>Fiebre por GTA 6: Xbox presenta una consola con forma de caimán y una encuesta revela qué estarían dispuestos a hacer los fans para jugar antes</news:title>
     </news:news>
   </url>
 </urlset>
