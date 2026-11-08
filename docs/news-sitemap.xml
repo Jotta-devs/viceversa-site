@@ -1,27 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
-  <url>
-    <loc>https://vvviceversa.com/news/20261106-gta-6-miami-heat-travis-scott-and-arkansas-sky-tribute/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-06T18:38:18+00:00</news:publication_date>
-      <news:title>GTA 6: Miami Heat, Travis Scott and Arkansas Sky Tribute Expand the Game&#x27;s Cultural Impact</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261106-gta-6-miami-heat-travis-scott-and-arkansas-sky-tribute/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-11-06T18:38:18+00:00</news:publication_date>
-      <news:title>GTA 6: Miami Heat, Travis Scott e homenagem nos céus do Arkansas ampliam repercussão do jogo</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261106-gta-6-miami-heat-travis-scott-and-arkansas-sky-tribute/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-11-06T18:38:18+00:00</news:publication_date>
-      <news:title>GTA 6: Miami Heat, Travis Scott y un homenaje en los cielos de Arkansas amplían el impacto cultural del juego</news:title>
-    </news:news>
-  </url>
 </urlset>
