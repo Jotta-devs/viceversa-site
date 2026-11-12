@@ -24,28 +24,4 @@
       <news:title>Falta solo una semana para su lanzamiento y un video hiperrealista de Vice City se vuelve viral</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://vvviceversa.com/news/20261110-gta-6-just-9-days-until-launch-rockstar-completes/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-10T14:20:40+00:00</news:publication_date>
-      <news:title>GTA 6: Just 9 Days Until Launch; Rockstar Completes Development as Pre-Orders Exceed Expectations</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/pt/noticias/20261110-gta-6-just-9-days-until-launch-rockstar-completes/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
-      <news:publication_date>2026-11-10T14:20:40+00:00</news:publication_date>
-      <news:title>GTA 6: Faltam 9 Dias para o Lançamento; Rockstar Encerra Desenvolvimento e Pré-vendas Superam Expectativas</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://vvviceversa.com/es/noticias/20261110-gta-6-just-9-days-until-launch-rockstar-completes/</loc>
-    <news:news>
-      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
-      <news:publication_date>2026-11-10T14:20:40+00:00</news:publication_date>
-      <news:title>GTA 6: Faltan Solo 9 Días para el Lanzamiento; Rockstar Finaliza el Desarrollo y las Reservas Superan las Expectativas</news:title>
-    </news:news>
-  </url>
 </urlset>
