@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://vvviceversa.com/news/20261112-just-seven-days-until-launch-as-hyperrealistic-vice-city/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-12T13:28:28+00:00</news:publication_date>
+      <news:title>Just Seven Days Until Launch as Hyperrealistic Vice City Video Goes Viral</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/pt/noticias/20261112-just-seven-days-until-launch-as-hyperrealistic-vice-city/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>pt</news:language></news:publication>
+      <news:publication_date>2026-11-12T13:28:28+00:00</news:publication_date>
+      <news:title>Faltam sete dias para o lançamento, e vídeo hiper-realista de Vice City viraliza nas redes</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://vvviceversa.com/es/noticias/20261112-just-seven-days-until-launch-as-hyperrealistic-vice-city/</loc>
+    <news:news>
+      <news:publication><news:name>VICEVERSA</news:name><news:language>es</news:language></news:publication>
+      <news:publication_date>2026-11-12T13:28:28+00:00</news:publication_date>
+      <news:title>Falta solo una semana para su lanzamiento y un video hiperrealista de Vice City se vuelve viral</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://vvviceversa.com/news/20261110-gta-6-just-9-days-until-launch-rockstar-completes/</loc>
     <news:news>
       <news:publication><news:name>VICEVERSA</news:name><news:language>en</news:language></news:publication>
