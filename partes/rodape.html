@@ -948,6 +948,30 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     });
   });
 
+  /* ---- Vídeos: a página mostra só a miniatura; o player do YouTube (domínio
+     youtube-nocookie, sem cookies até tocar) só carrega quando o leitor clica.
+     Ctrl/Cmd+clique, vídeo com incorporação bloqueada e navegador sem JS abrem
+     o vídeo no YouTube, pelo link normal. ---- */
+  document.addEventListener("click", function(ev){
+    const a = ev.target.closest("a.video__play");
+    if(!a || ev.defaultPrevented || ev.button || ev.ctrlKey || ev.metaKey || ev.shiftKey || ev.altKey) return;
+    const caixa = a.closest(".video");
+    if(!caixa || caixa.dataset.externo || !/^[A-Za-z0-9_-]{11}$/.test(caixa.dataset.video || "")) return;
+    ev.preventDefault();
+    const inicio = parseInt(caixa.dataset.inicio, 10) || 0;
+    const f = document.createElement("iframe");
+    f.className = "video__frame";
+    f.src = "https://www.youtube-nocookie.com/embed/" + caixa.dataset.video +
+      "?autoplay=1&rel=0&playsinline=1" + (inicio ? "&start=" + inicio : "");
+    f.title = a.getAttribute("aria-label") || "YouTube";
+    f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    f.allowFullscreen = true;
+    f.referrerPolicy = "strict-origin-when-cross-origin";   /* o YouTube recusa embed sem origem */
+    /* o evento "video_play" sai pelo data-evento do link, no ouvinte do Analytics abaixo */
+    a.replaceWith(f);
+    f.focus();
+  });
+
   /* ---- Analytics: cliques que mostram o que traz leitor de volta e o que vende ---- */
   function secaoDe(el){
     const s = el.closest("section[id], header, footer, nav, main, aside");
