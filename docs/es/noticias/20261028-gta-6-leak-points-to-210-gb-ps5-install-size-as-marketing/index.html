@@ -1498,6 +1498,45 @@
   .artigo__fontes p{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--laranja);margin:0 0 .4rem}
   .artigo__fontes ul{margin:0 0 0 1.1rem}
   .artigo__fontes a{color:var(--agua);word-break:break-word}
+  /* ---- vídeos do YouTube: miniatura leve; o player só carrega no clique ---- */
+  .video{margin:0 0 1.8rem}
+  .video__tela{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#0B0414}
+  .video--vertical .video__tela{aspect-ratio:9/16;max-width:min(360px,100%);margin:0 auto}
+  .video__play{position:absolute;inset:0;display:block;color:var(--creme)}
+  .video__play img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s,filter .35s}
+  .video__play:hover img{transform:scale(1.03);filter:brightness(.82)}
+  .video__play:focus-visible{outline:3px solid var(--agua);outline-offset:-3px}
+  .video__botao{position:absolute;left:50%;top:50%;width:76px;height:54px;transform:translate(-50%,-50%);
+    border-radius:16px;background:var(--magenta);box-shadow:0 10px 30px -8px rgba(255,61,138,.9);transition:transform .25s}
+  .video__botao::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-38%,-50%);
+    border-style:solid;border-width:11px 0 11px 19px;border-color:transparent transparent transparent var(--creme)}
+  .video__play:hover .video__botao{transform:translate(-50%,-50%) scale(1.08)}
+  .video__tempo{position:absolute;right:.6rem;bottom:.6rem;font-family:var(--font-mono);font-size:.7rem;
+    letter-spacing:.06em;background:rgba(11,4,20,.85);color:var(--creme);padding:.2rem .45rem;border-radius:6px}
+  .video__frame{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .video figcaption{font-size:.8rem;line-height:1.5;color:var(--creme-70);margin-top:.6rem}
+  .video figcaption a{color:var(--agua)}
+  .selo--video{color:#FF6FA6;background:rgba(255,61,138,.09)}
+  .selo--video::before{width:0;height:0;border-radius:0;background:none;border-style:solid;
+    border-width:.26rem 0 .26rem .42rem;border-color:transparent transparent transparent currentColor}
+  .artigo.videos{max-width:calc(1080px + 2.4rem)}
+  .videos .guia__lead{max-width:760px}
+  .videos__grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1.4rem;margin:2rem 0 1.6rem}
+  .video-card{display:flex;flex-direction:column;border:1px solid var(--linha);border-radius:16px;background:var(--card);overflow:hidden}
+  .video-card .video{margin:0}
+  .video-card .video__tela{border-radius:0}
+  .video-card .video--vertical .video__tela{aspect-ratio:16/9;max-width:none}  /* na grade, Shorts ficam no mesmo formato dos outros */
+  .video-card .video figcaption{padding:0 1.1rem;font-size:.72rem}
+  .video-card__txt{display:flex;flex-direction:column;gap:.5rem;padding:.7rem 1.1rem 1.2rem;flex:1}
+  .video-card__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .6rem;font-family:var(--font-mono);
+    font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--agua)}
+  .video-card h2{font-family:var(--font-body);font-size:1.08rem;font-weight:700;line-height:1.35;letter-spacing:0;margin:0}
+  .video-card h2::after{display:none}
+  .video-card h2 a{color:var(--creme);text-decoration:none}
+  .video-card h2 a:hover{color:var(--agua)}
+  .video-card p{font-size:.88rem;line-height:1.55;color:var(--creme-70);margin:0}
+  .video-card__ler{margin-top:auto;padding-top:.3rem;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--agua)}
+  .videos__nota{font-size:.78rem;line-height:1.6;color:var(--creme-40);max-width:760px;padding-bottom:4rem}
 </style>
 </head>
 <body>
@@ -1531,6 +1570,7 @@
     <a href="../../../es/noticias/" aria-current="page">Noticias</a>
     <a href="../../../es/mapa/">Mapa</a>
     <a href="../../../es/guias/">Guías</a>
+    
   </div>
     <nav class="seletor-idioma" aria-label="Idioma / Language">
     <a class="" href="../../../news/20261028-gta-6-leak-points-to-210-gb-ps5-install-size-as-marketing/" hreflang="en" lang="en">EN</a>
@@ -1562,6 +1602,7 @@
     <a href="../../../es/noticias/" aria-current="page">Noticias</a>
     <a href="../../../es/mapa/">Mapa</a>
     <a href="../../../es/guias/">Guías</a>
+    
     <a href="../../../es/#siga">Redes</a>
   </nav>
   <div class="menu-rodape">
@@ -2607,6 +2648,30 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
         navigator.clipboard.writeText(b.dataset.copiar).then(pronto).catch(function(){});
       }
     });
+  });
+
+  /* ---- Vídeos: a página mostra só a miniatura; o player do YouTube (domínio
+     youtube-nocookie, sem cookies até tocar) só carrega quando o leitor clica.
+     Ctrl/Cmd+clique, vídeo com incorporação bloqueada e navegador sem JS abrem
+     o vídeo no YouTube, pelo link normal. ---- */
+  document.addEventListener("click", function(ev){
+    const a = ev.target.closest("a.video__play");
+    if(!a || ev.defaultPrevented || ev.button || ev.ctrlKey || ev.metaKey || ev.shiftKey || ev.altKey) return;
+    const caixa = a.closest(".video");
+    if(!caixa || caixa.dataset.externo || !/^[A-Za-z0-9_-]{11}$/.test(caixa.dataset.video || "")) return;
+    ev.preventDefault();
+    const inicio = parseInt(caixa.dataset.inicio, 10) || 0;
+    const f = document.createElement("iframe");
+    f.className = "video__frame";
+    f.src = "https://www.youtube-nocookie.com/embed/" + caixa.dataset.video +
+      "?autoplay=1&rel=0&playsinline=1" + (inicio ? "&start=" + inicio : "");
+    f.title = a.getAttribute("aria-label") || "YouTube";
+    f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    f.allowFullscreen = true;
+    f.referrerPolicy = "strict-origin-when-cross-origin";   /* o YouTube recusa embed sem origem */
+    /* o evento "video_play" sai pelo data-evento do link, no ouvinte do Analytics abaixo */
+    a.replaceWith(f);
+    f.focus();
   });
 
   /* ---- Analytics: cliques que mostram o que traz leitor de volta e o que vende ---- */
