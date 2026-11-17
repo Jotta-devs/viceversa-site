@@ -825,130 +825,6 @@
   }
   .mapa-nota{max-width:1080px;margin:1.8rem auto 0;font-size:.75rem;color:var(--creme-40);line-height:1.7;text-align:center}
 
-  /* ---- EBOOK ---- */
-  #ebook{
-    background:
-      radial-gradient(ellipse 60% 70% at 12% 10%, rgba(47,230,200,.10), transparent 62%),
-      radial-gradient(ellipse 60% 70% at 92% 95%, rgba(255,61,138,.14), transparent 62%);
-  }
-  .oferta{
-    max-width:1040px;margin:0 auto;position:relative;
-    border:1px solid var(--linha);border-radius:20px;
-    background:linear-gradient(160deg, rgba(255,243,228,.05), rgba(255,61,138,.045));
-    padding:clamp(1.8rem,4vw,3.2rem);
-    display:grid;grid-template-columns:minmax(190px,270px) 1fr;gap:clamp(1.8rem,5vw,3.6rem);
-    align-items:center;overflow:hidden;
-  }
-  .oferta::before{ /* brilho de canto */
-    content:"";position:absolute;top:-45%;right:-15%;width:55%;height:180%;
-    background:radial-gradient(ellipse at center, rgba(255,61,138,.18), transparent 62%);
-    pointer-events:none;
-  }
-  @media(max-width:860px){
-    .oferta{grid-template-columns:1fr;text-align:center;justify-items:center;gap:2.2rem}
-  }
-
-  /* o livro */
-  .livro{position:relative;width:100%;max-width:270px;perspective:1400px}
-  .livro__corpo{
-    position:relative;display:block;
-    transform:rotateY(-13deg) rotateZ(-1deg);
-    transition:transform .55s cubic-bezier(.22,1,.36,1);
-  }
-  .livro:hover .livro__corpo{transform:rotateY(-4deg) rotateZ(0deg) translateY(-6px)}
-  .livro__capa{
-    display:block;width:100%;height:auto;
-    border-radius:3px 9px 9px 3px;
-    box-shadow:
-      2px 0 0 #efe6d6, 4px 0 0 #cdbfa9, 6px 0 0 #efe6d6,
-      8px 0 0 #c4b49c, 10px 0 0 #efe6d6, 12px 0 0 #b9a892,
-      0 0 0 1px rgba(255,243,228,.14),
-      26px 32px 46px -18px rgba(0,0,0,.75),
-      0 18px 60px -24px rgba(255,61,138,.6);
-  }
-  .livro__lombada{ /* sombra da dobra, junto da lombada */
-    position:absolute;inset:0 auto 0 0;width:13%;
-    background:linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.18) 45%, transparent);
-    border-radius:3px 0 0 3px;pointer-events:none;
-  }
-  .livro__brilho{ /* reflexo diagonal no verniz */
-    position:absolute;inset:0;pointer-events:none;border-radius:3px 9px 9px 3px;
-    background:linear-gradient(114deg, transparent 42%, rgba(255,243,228,.14) 50%, transparent 58%);
-  }
-  .livro__selo{
-    position:absolute;top:-14px;left:-14px;z-index:3;
-    background:var(--agua);color:var(--noite);
-    font-family:var(--font-mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
-    padding:.4rem .7rem;border-radius:6px;
-    box-shadow:0 6px 18px -4px rgba(47,230,200,.8);
-    transform:rotate(-7deg);
-  }
-
-  /* texto da oferta */
-  .oferta__txt{position:relative;z-index:2}
-  .oferta__selo{
-    display:inline-block;margin-bottom:1rem;
-    font-family:var(--font-mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
-    color:var(--magenta);border:1px solid var(--magenta);border-radius:999px;padding:.3rem .85rem;
-  }
-  .oferta__txt h3{
-    font-family:var(--font-display);font-weight:400;
-    font-size:clamp(2rem,4.6vw,3.1rem);line-height:.98;letter-spacing:.02em;
-  }
-  .oferta__txt h3 span{color:var(--agua)}
-  .oferta__linha{font-size:.94rem;color:var(--creme-70);margin:1rem 0 1.5rem;max-width:520px}
-  @media(max-width:860px){.oferta__linha{margin-inline:auto}}
-
-  .oferta__itens{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
-    gap:.55rem .9rem;margin-bottom:1.7rem;text-align:left;
-  }
-  .oferta__itens li{
-    list-style:none;display:flex;align-items:flex-start;gap:.5rem;
-    font-size:.85rem;color:var(--creme-70);
-  }
-  .oferta__itens li::before{
-    content:"";flex-shrink:0;margin-top:.42em;width:6px;height:6px;border-radius:50%;
-    background:var(--agua);box-shadow:0 0 8px rgba(47,230,200,.9);
-  }
-
-  .oferta__preco{
-    display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;
-    padding:1rem 1.3rem;border-radius:12px;
-    background:rgba(11,4,20,.5);border:1px solid var(--linha);
-  }
-  @media(max-width:860px){.oferta__preco{justify-content:center}}
-  .oferta__preco .de{font-family:var(--font-mono);font-size:.85rem;color:var(--creme-40);text-decoration:line-through}
-  .oferta__preco .por{font-family:var(--font-display);font-size:3.2rem;line-height:.85;color:var(--creme)}
-  .oferta__preco .por small{font-size:1.1rem;color:var(--creme-70);margin-right:.15rem;vertical-align:.7rem}
-  .oferta__preco .off{
-    font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;font-weight:500;
-    background:var(--agua);color:var(--noite);border-radius:5px;padding:.3rem .6rem;
-    margin-left:auto;
-  }
-  @media(max-width:860px){.oferta__preco .off{margin-left:0}}
-
-  .btn-ebook{
-    display:inline-flex;align-items:center;gap:.65rem;position:relative;overflow:hidden;
-    background:linear-gradient(100deg,var(--magenta),#FF5FA0);
-    color:var(--noite);
-    font-family:var(--font-mono);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
-    border-radius:999px;padding:1.05rem 2.3rem;
-    box-shadow:0 12px 34px -10px rgba(255,61,138,.9);
-    transition:transform .25s, box-shadow .25s;
-  }
-  .btn-ebook::after{content:"→";transition:transform .25s}
-  .btn-ebook::before{
-    content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;
-    background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);
-    transform:skewX(-20deg);transition:left .6s ease;
-  }
-  .btn-ebook:hover{transform:translateY(-3px);box-shadow:0 18px 44px -10px rgba(255,61,138,1);color:var(--noite)}
-  .btn-ebook:hover::after{transform:translateX(5px)}
-  .btn-ebook:hover::before{left:130%}
-  .oferta__nota{font-size:.75rem;color:var(--creme-40);margin-top:1.1rem;max-width:500px;line-height:1.6}
-  @media(max-width:860px){.oferta__nota{margin-inline:auto}}
-
   /* ---- PLANTÃO (feed vindo do X) ---- */
   .painel-largo{max-width:900px;margin:0 auto}
   .painel__link{
@@ -1638,7 +1514,6 @@
     <span>◆ Storage needed: up to 212 GB, according to Rockstar</span>
     <span>◆ Prices: $79.99 (Standard) and $99.99 (Ultimate)</span>
     <span>◆ Follow @vvviceversaa on X and Instagram · @vvviceversa on TikTok · @vvViceVersa on YouTube</span>
-    <span>◆ Ebook "How GTA VI will change your life" — $5.90, PDF</span>
   </div>
 </div>
 
@@ -1656,7 +1531,6 @@
     <a href="../../news/" aria-current="page">News</a>
     <a href="../../map/">Map</a>
     <a href="../../guides/">Guides</a>
-    <a href="../../#ebook">Ebook</a>
   </div>
     <nav class="seletor-idioma" aria-label="Idioma / Language">
     <a class="idioma-atual" href="../../news/20260910-hurry-before-it-s-gone-pre-orders-for-the-gta-6-limited/" hreflang="en" lang="en" aria-current="true">EN</a>
@@ -1688,7 +1562,6 @@
     <a href="../../news/" aria-current="page">News</a>
     <a href="../../map/">Map</a>
     <a href="../../guides/">Guides</a>
-    <a href="../../#ebook">Ebook</a>
     <a href="../../#siga">Socials</a>
   </nav>
   <div class="menu-rodape">
@@ -2758,8 +2631,6 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       evento("share", {method: el.dataset.rede, content_type: tipoConteudo, item_id: idPost});
     } else if(el.dataset.evento){
       evento(el.dataset.evento, {canal: el.dataset.canal, local: el.dataset.local, item_id: idPost});
-    } else if(/kiwify\.com/i.test(href)){
-      evento("clique_ebook", {local: secaoDe(el)});
     } else if(el.closest(".artigo__relacionadas")){
       evento("clique_relacionada", {item_id: idPost});
     } else if(el.hasAttribute("hreflang")){
