@@ -51,8 +51,7 @@ PASTA_INSTITUCIONAL = RAIZ / "institucional"
 PASTA_MAPA = RAIZ / "mapa"          # imagem-base, vetor e pontos do mapa de Leonida
 PASTA_VENDOR = RAIZ / "vendor"      # bibliotecas de terceiros servidas pelo próprio site (Leaflet)
 SAIDA = RAIZ / "docs"   # o GitHub Pages serve a raiz ou /docs
-ESTATICOS = ["ebook-capa-en.png", "ebook-capa-pt.png", "ebook-capa-es.png",
-             "og-image-en.png", "og-image-pt.png", "og-image-es.png",
+ESTATICOS = ["og-image-en.png", "og-image-pt.png", "og-image-es.png",
              "feed.json", "ads.txt", "favicon.ico", "site.webmanifest"]
 
 # ── troque pelo endereço real antes de publicar ─────────────────────
@@ -60,10 +59,10 @@ DOMINIO = "https://vvviceversa.com"
 NOME_SITE = "VICEVERSA"
 
 IDIOMAS = {
-    # código: (pasta, hreflang, og:locale, rótulo, é o padrão?, checkout do ebook)
-    "en":    ("",   "en",    "en_US", "EN", True,  "https://pay.kiwify.com/eLDJK0v"),
-    "pt-BR": ("pt", "pt-BR", "pt_BR", "PT", False, "https://pay.kiwify.com.br/f6pNg7O"),
-    "es":    ("es", "es",    "es_ES", "ES", False, "https://pay.kiwify.com/0xSU59u"),
+    # código: (pasta, hreflang, og:locale, rótulo, é o padrão?)
+    "en":    ("",   "en",    "en_US", "EN", True),
+    "pt-BR": ("pt", "pt-BR", "pt_BR", "PT", False),
+    "es":    ("es", "es",    "es_ES", "ES", False),
 }
 # sufixo usado no feed.json para as traduções (titulo_pt, html_es...)
 SUFIXO_POST = {"pt-BR": "pt", "es": "es"}
@@ -827,7 +826,7 @@ def bloco_hreflang(alternativas):
 
 def links_idioma(atual, alternativas, prefixo, classe_ativa="idioma-atual"):
     itens = []
-    for cod, (_, hl, _, rotulo, _, _) in IDIOMAS.items():
+    for cod, (_, hl, _, rotulo, _) in IDIOMAS.items():
         rel = alternativas.get(cod)
         if rel is None:               # sem tradução: leva à página de notícias do idioma
             rel = caminho(cod, "noticias")
@@ -896,12 +895,10 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
             .replace("{{__base_url__}}", DOMINIO + "/")
             .replace("{{__base__}}", prefixo)
             .replace("{{__ogimage__}}", "og-image-%s.png" % cod.split("-")[0])
-            .replace("{{__ebookcapa__}}", "ebook-capa-%s.png" % cod.split("-")[0])
             .replace("{{__seletor__}}",
                      '  <nav class="seletor-idioma" aria-label="Idioma / Language">\n    '
                      + "\n    ".join(links_idioma(cod, alternativas, prefixo)) + "\n  </nav>")
             .replace("{{__idiomas_menu__}}", "".join(links_idioma(cod, alternativas, prefixo)))
-            .replace("{{__ebook_link__}}", IDIOMAS[cod][5])
             .replace("{{__home__}}", (prefixo + (casa + "/" if casa else "")) or "./")
             .replace("{{__news__}}", prefixo + caminho(cod, "noticias") + "/")
             .replace("{{__map__}}", prefixo + caminho(cod, "mapa") + "/")
@@ -1009,7 +1006,7 @@ def escrever_novidades(posts, cod, textos):
     pref = "/"
     ex = extras_comuns(posts, cod, textos)
     faixa = "\n    ".join([ex["__ticker_posts__"]] + [
-        f"<span>{textos.get(k, '')}</span>" for k in ("t002", "t003", "t004", "t005", "t006", "t007")])
+        f"<span>{textos.get(k, '')}</span>" for k in ("t002", "t003", "t004", "t005", "t006")])
     barra = (f'\n  <span class="badge-vivo"></span>\n  <strong>{textos.get("t008", "")}</strong>\n'
              f'  <span class="relogio">{ex["__ultima_titulo__"]}</span>\n'
              f'  <a href="{ex["__ultima_link__"](pref)}">{textos.get("t010", "")}</a>\n')
@@ -1632,7 +1629,7 @@ def montar():
     if not (imagens_og and imagens_og.DISPONIVEL):
         print("  ! Pillow não instalado: as notícias usam a foto como imagem de compartilhamento.\n"
               "    Para gerar as artes com título e selo: pip install pillow")
-    for cod, (pasta, hl, locale, rotulo, padrao, link_ebook) in IDIOMAS.items():
+    for cod, (pasta, hl, locale, rotulo, padrao) in IDIOMAS.items():
         arq = PASTA_IDIOMAS / f"{cod}.json"
         if not arq.exists():
             print(f"  ! idiomas/{cod}.json ausente — pulando {cod}")

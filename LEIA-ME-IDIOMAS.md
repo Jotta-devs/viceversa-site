@@ -64,7 +64,6 @@ melhor editar os JSON.
 - Imagem de compartilhamento própria por idioma (`og-image-en/pt/es.png`)
 - `canonical`, `og:locale`, título e descrição próprios por idioma
 - Seletor PT/EN/ES no menu, com `aria-current` na versão ativa
-- Caminhos relativos ajustados (`../ebook-capa.png` nas subpastas)
 - `sitemap.xml` com as alternâncias declaradas e `robots.txt`
 
 ## Antes de publicar
@@ -80,12 +79,6 @@ melhor editar os JSON.
 (US$ 79,99 / 99,99 e 79,99 € / 99,99 €), porque um leitor de fora não se orienta por reais.
 Confira os valores da sua região antes de publicar.
 
-**O ebook é em português.** Ele aparece nas três versões, mas nas traduções o aviso diz
-claramente que o livro está escrito em português do Brasil e que a cobrança é em reais.
-Vender sem avisar isso geraria reembolso e reclamação. Se preferir, você pode escondê-lo
-nas versões en/es — ou, melhor, traduzir o ebook: pelo próprio Capítulo 13 do seu livro, o
-RPM em inglês é cerca de 18 vezes o brasileiro, e o mesmo raciocínio vale para o produto.
-
 **Sem redirecionamento automático.** O site não força o idioma pelo navegador de
 propósito: redirecionamento automático atrapalha o rastreamento do Google e irrita quem
 quer ler no idioma original. O seletor no menu resolve, e o `hreflang` faz o buscador
@@ -97,8 +90,7 @@ entregar a versão certa para cada pessoa.
 Não é só preferência: o endereço raiz é o que recebe a maior parte dos links e da
 autoridade de busca, e o `x-default` diz ao Google qual versão mostrar para quem não se
 encaixa em nenhum idioma listado. Com o inglês na raiz, o público internacional — que
-pelo Capítulo 13 do seu ebook vale cerca de 18 vezes mais por visita — cai direto na
-versão certa, sem redirecionamento.
+costuma render bem mais por visita em anúncios — cai direto na versão certa, sem redirecionamento.
 
 O português não perdeu nada: continua completo em `/pt/`, com `hreflang` próprio. Quem
 busca em português no Google continua recebendo a página em português.

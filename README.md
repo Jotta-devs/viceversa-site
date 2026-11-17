@@ -1,7 +1,7 @@
 # VICEVERSA
 
 Portal de fãs de GTA VI em três idiomas — notícias, mapa interativo de Leonida e
-venda do ebook. Site estático, sem framework.
+guias. Site estático, sem framework.
 
 **No ar em:** https://vvviceversa.com
 
@@ -20,8 +20,7 @@ partes/rodape.html   rodapé e todo o JavaScript
 paginas/*.html       o miolo de cada página (home, noticias, mapa, guias, guia)
 guias/               guias longos e permanentes (conteúdo próprio, 3 idiomas)
 idiomas/*.json       TODOS os textos, um arquivo por idioma
-*.png                imagens de origem (capas do ebook e capas de compartilhamento)
-gerador-capas-ebook.py  refaz as capas traduzidas a partir de ebook-capa-original.png
+*.png                imagens de origem (capas de compartilhamento)
 automacao/           o robô que transforma Issues em notícias e prepara o post do X
 institucional/       textos de Sobre, Contato, Privacidade e Política editorial
 docs/                ← O SITE GERADO. É esta pasta que vai ao ar. Não edite à mão.
@@ -219,7 +218,6 @@ função `evento`):
 | `leia_seguir` | abriu a notícia sugerida em "Leia a seguir" |
 | `clique_relacionada` | abriu uma notícia da lista "Leia também" |
 | `leitura_completa` | chegou ao fim do texto da notícia, depois de pelo menos 10 s na página |
-| `clique_ebook` | clicou para comprar o ebook (`local`: seção da página) |
 | `clique_rede` | clicou num perfil do VICEVERSA (`rede`: x, instagram, tiktok, youtube...) |
 | `troca_idioma` | trocou de idioma |
 | `mapa_local`, `mapa_estilo`, `mapa_grade`, `mapa_tela_cheia`, `search` | uso do mapa (abrir local, estilo Noite/Dia, grade, tela cheia, busca) |
@@ -227,9 +225,8 @@ função `evento`):
 Os eventos aparecem em GA4 → Relatórios → Engajamento → Eventos (em até 24 h; na
 hora, em Tempo real). Para ver os parâmetros (`method`, `canal`, `local`...) nos
 relatórios, cadastre-os em Administrador → Definições personalizadas → Criar
-dimensão personalizada (escopo: evento). Vale marcar `clique_ebook` e
-`seguir_canal` como **eventos principais** (Administrador → Eventos) para
-acompanhá-los como conversões.
+dimensão personalizada (escopo: evento). Vale marcar `seguir_canal` como
+**evento principal** (Administrador → Eventos) para acompanhá-lo como conversão.
 
 ## Mapa de Leonida
 
