@@ -1574,10 +1574,10 @@
     <span>◆ GTA 6: Completing the Game Could Take 200 Hours, While Main Story May Last Around 50 Hours</span>
     <span>◆ Just Seven Days Until Launch as Hyperrealistic Vice City Video Goes Viral</span>
     <span>◆ GTA 6: Just 9 Days Until Launch; Rockstar Completes Development as Pre-Orders Exceed Expectations</span>
-    <span>◆ Extended Look: 26 minutes of gameplay, free on Rockstar's YouTube</span>
+    <span>◆ Launch: November 19 at midnight local time on PS5 and Xbox Series X|S</span>
     <span>◆ The sixth wanted star is back · instant switching between Jason and Lucia</span>
-    <span>◆ Release date holds: NOVEMBER 19, 2026</span>
-    <span>◆ Pre-orders open — $79.99 (Standard) and $99.99 (Ultimate)</span>
+    <span>◆ Storage needed: up to 212 GB, according to Rockstar</span>
+    <span>◆ Prices: $79.99 (Standard) and $99.99 (Ultimate)</span>
     <span>◆ Follow @vvviceversaa on X and Instagram · @vvviceversa on TikTok · @vvViceVersa on YouTube</span>
     <span>◆ Ebook "How GTA VI will change your life" — $5.90, PDF</span>
   </div>
@@ -1666,8 +1666,8 @@
   <h1>GTA 6 guides</h1>
   <p class="guia__lead">Long-form guides written and kept up to date by the VICEVERSA newsroom. Each one gathers what Rockstar and Take-Two have officially confirmed about Grand Theft Auto VI, explains it in plain language and links to the original sources — so you don't have to piece it together from dozens of posts.</p>
   <ul class="guias__lista">
-    <li><a class="guia-card" href="../guides/gta-6-everything-we-know/"><span class="guia-card__meta">Guide · 8 min read · Updated Sep 28, 2026</span><strong>GTA 6: everything confirmed so far — release date, platforms, story and gameplay</strong><p>The complete, sourced summary of Grand Theft Auto VI: when it launches, where you can play it, what it costs, who Jason and Lucia are, what Leonida looks like and how the game has changed.</p><span class="guia-card__ler">Read the guide →</span></a></li>
-    <li><a class="guia-card" href="../guides/gta-6-editions-prices-pre-order/"><span class="guia-card__meta">Guide · 6 min read · Updated Sep 28, 2026</span><strong>GTA 6 editions and prices: Standard vs Ultimate, the $399 collector&#x27;s box and which one to buy</strong><p>What each GTA VI edition costs, what the pre-order bonus includes, why the boxed copy has no disc, what comes in the Goodtime State collection and how to decide what to buy.</p><span class="guia-card__ler">Read the guide →</span></a></li>
+    <li><a class="guia-card" href="../guides/gta-6-everything-we-know/"><span class="guia-card__meta">Guide · 8 min read · Updated Nov 17, 2026</span><strong>GTA 6: everything confirmed so far — release date, platforms, story and gameplay</strong><p>The complete, sourced summary of Grand Theft Auto VI: when it launches, where you can play it, what it costs, who Jason and Lucia are, what Leonida looks like and how the game has changed.</p><span class="guia-card__ler">Read the guide →</span></a></li>
+    <li><a class="guia-card" href="../guides/gta-6-editions-prices-pre-order/"><span class="guia-card__meta">Guide · 6 min read · Updated Nov 17, 2026</span><strong>GTA 6 editions and prices: Standard vs Ultimate, the $399 collector&#x27;s box and which one to buy</strong><p>What each GTA VI edition costs, what the pre-order bonus includes, why the boxed copy has no disc, what comes in the Goodtime State collection and how to decide what to buy.</p><span class="guia-card__ler">Read the guide →</span></a></li>
     <li><a class="guia-card" href="../guides/gta-6-characters-jason-lucia/"><span class="guia-card__meta">Guide · 5 min read · Updated Sep 28, 2026</span><strong>GTA 6 characters: who Jason and Lucia are, how their relationship works and the full supporting cast</strong><p>Everything Rockstar has revealed about GTA VI&#x27;s two protagonists, the choice between lovers and partners in crime, character switching and the six supporting characters revealed so far.</p><span class="guia-card__ler">Read the guide →</span></a></li>
     <li><a class="guia-card" href="../guides/gta-6-map-leonida-regions/"><span class="guia-card__meta">Guide · 6 min read · Updated Sep 28, 2026</span><strong>GTA 6 map guide: the six regions of Leonida and the real Florida places behind them</strong><p>A region-by-region tour of Leonida — Vice City, the Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia and Mount Kalaga — with their real-world inspirations and what each one means for gameplay.</p><span class="guia-card__ler">Read the guide →</span></a></li>
     <li><a class="guia-card" href="../guides/gta-6-wanted-system-police/"><span class="guia-card__meta">Guide · 5 min read · Updated Sep 28, 2026</span><strong>GTA 6 wanted system explained: witnesses, Heat, the criminal profile and how to lose the police</strong><p>How police work in GTA VI according to Rockstar: crimes need witnesses, the minimap no longer shows cops, your clothes and car can be identified, and a criminal profile shapes how Leonida reacts to you.</p><span class="guia-card__ler">Read the guide →</span></a></li>
@@ -1864,7 +1864,8 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
   if(faixa) faixa.innerHTML += faixa.innerHTML;
 
   /* ---- Contagem regressiva ---- */
-  const alvo = new Date("2026-11-19T00:00:00-03:00").getTime();
+  /* meia-noite de 19/11 no horário local de quem visita: é quando o jogo é liberado (Rockstar Support) */
+  const alvo = new Date(2026, 10, 19, 0, 0, 0).getTime();
   const el = {
     d: document.getElementById("cd-dias"),
     h: document.getElementById("cd-horas"),
@@ -1885,8 +1886,14 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     if(!el.d) return;
     const diff = alvo - Date.now();
     if(diff <= 0){
-      poe(el.d,"00"); poe(el.h,"00"); poe(el.m,"00"); poe(el.s,"00");
-      document.querySelector(".contagem__label").textContent = "GTA VI IS HERE";
+      const caixa = document.querySelector(".contagem");
+      const rotulo = document.querySelector(".contagem__label");
+      if(caixa && !caixa.dataset.lancado){
+        caixa.dataset.lancado = "1";
+        caixa.querySelectorAll("div").forEach(function(d){ d.style.display = "none"; });
+        rotulo.textContent = "GTA VI IS HERE";
+        rotulo.style.cssText = "position:static;transform:none;background:none;padding:0;font-size:clamp(1rem,3.4vw,1.5rem);white-space:normal;text-align:center";
+      }
       return;
     }
     poe(el.d, String(Math.floor(diff/86400000)));

@@ -1633,10 +1633,10 @@
     <span>◆ GTA 6: Platinar o jogo pode exigir 200 horas, enquanto campanha principal deve levar cerca de 50 horas</span>
     <span>◆ Faltam sete dias para o lançamento, e vídeo hiper-realista de Vice City viraliza nas redes</span>
     <span>◆ GTA 6: Faltam 9 Dias para o Lançamento; Rockstar Encerra Desenvolvimento e Pré-vendas Superam Expectativas</span>
-    <span>◆ Extended Look: 26 minutos de gameplay grátis no YouTube da Rockstar</span>
+    <span>◆ Lançamento: 19 de novembro, à meia-noite no horário local, no PS5 e no Xbox Series X|S</span>
     <span>◆ A sexta estrela de procurado voltou · troca instantânea entre Jason e Lucia</span>
-    <span>◆ Lançamento mantido: 19 DE NOVEMBRO DE 2026</span>
-    <span>◆ Pré-venda aberta — R$ 449,90 (padrão) e R$ 549,90 (Ultimate)</span>
+    <span>◆ Espaço necessário: até 212 GB, segundo a Rockstar</span>
+    <span>◆ Preços no Brasil: R$ 449,90 (Padrão) e R$ 549,90 (Ultimate)</span>
     <span>◆ Siga @vvviceversaa no X e no Instagram · @vvviceversa no TikTok · @vvViceVersa no YouTube</span>
     <span>◆ Ebook "Como GTA VI vai mudar a sua vida" — R$ 27, em PDF</span>
   </div>
@@ -1985,7 +1985,8 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
   if(faixa) faixa.innerHTML += faixa.innerHTML;
 
   /* ---- Contagem regressiva ---- */
-  const alvo = new Date("2026-11-19T00:00:00-03:00").getTime();
+  /* meia-noite de 19/11 no horário local de quem visita: é quando o jogo é liberado (Rockstar Support) */
+  const alvo = new Date(2026, 10, 19, 0, 0, 0).getTime();
   const el = {
     d: document.getElementById("cd-dias"),
     h: document.getElementById("cd-horas"),
@@ -2006,8 +2007,14 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     if(!el.d) return;
     const diff = alvo - Date.now();
     if(diff <= 0){
-      poe(el.d,"00"); poe(el.h,"00"); poe(el.m,"00"); poe(el.s,"00");
-      document.querySelector(".contagem__label").textContent = "GTA VI JÁ ESTÁ ENTRE NÓS";
+      const caixa = document.querySelector(".contagem");
+      const rotulo = document.querySelector(".contagem__label");
+      if(caixa && !caixa.dataset.lancado){
+        caixa.dataset.lancado = "1";
+        caixa.querySelectorAll("div").forEach(function(d){ d.style.display = "none"; });
+        rotulo.textContent = "GTA VI JÁ ESTÁ ENTRE NÓS";
+        rotulo.style.cssText = "position:static;transform:none;background:none;padding:0;font-size:clamp(1rem,3.4vw,1.5rem);white-space:normal;text-align:center";
+      }
       return;
     }
     poe(el.d, String(Math.floor(diff/86400000)));
