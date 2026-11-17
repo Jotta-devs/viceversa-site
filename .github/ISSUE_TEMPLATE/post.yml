@@ -79,6 +79,22 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: video
+    attributes:
+      label: Link do vídeo (YouTube, opcional)
+      description: >
+        Cole o link de UM vídeo do YouTube (gameplay, trailer, análise). Ele toca
+        no topo da matéria, no lugar da imagem de capa, e entra na página Vídeos
+        do site. Aceita youtube.com/watch?v=..., youtu.be/..., Shorts e link com
+        tempo (?t=90 começa no segundo 90). Use vídeos com a incorporação
+        liberada (o canal oficial da Rockstar, o @vvViceVersa ou um canal citado
+        nas Fontes) e escreva na matéria o que o vídeo mostra: vídeo sem texto é
+        "conteúdo de baixo valor" para o AdSense. Nunca use vídeo vazado.
+      placeholder: https://www.youtube.com/watch?v=...
+    validations:
+      required: false
+
   - type: textarea
     id: aprofundamento_en
     attributes:
