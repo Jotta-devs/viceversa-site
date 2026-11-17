@@ -187,7 +187,8 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
   if(faixa) faixa.innerHTML += faixa.innerHTML;
 
   /* ---- Contagem regressiva ---- */
-  const alvo = new Date("2026-11-19T00:00:00-03:00").getTime();
+  /* meia-noite de 19/11 no horário local de quem visita: é quando o jogo é liberado (Rockstar Support) */
+  const alvo = new Date(2026, 10, 19, 0, 0, 0).getTime();
   const el = {
     d: document.getElementById("cd-dias"),
     h: document.getElementById("cd-horas"),
@@ -208,8 +209,14 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     if(!el.d) return;
     const diff = alvo - Date.now();
     if(diff <= 0){
-      poe(el.d,"00"); poe(el.h,"00"); poe(el.m,"00"); poe(el.s,"00");
-      document.querySelector(".contagem__label").textContent = "{{cd01}}";
+      const caixa = document.querySelector(".contagem");
+      const rotulo = document.querySelector(".contagem__label");
+      if(caixa && !caixa.dataset.lancado){
+        caixa.dataset.lancado = "1";
+        caixa.querySelectorAll("div").forEach(function(d){ d.style.display = "none"; });
+        rotulo.textContent = "{{cd01}}";
+        rotulo.style.cssText = "position:static;transform:none;background:none;padding:0;font-size:clamp(1rem,3.4vw,1.5rem);white-space:normal;text-align:center";
+      }
       return;
     }
     poe(el.d, String(Math.floor(diff/86400000)));
