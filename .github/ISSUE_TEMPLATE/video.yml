@@ -1,0 +1,75 @@
+name: Novo vídeo
+description: Publica só um vídeo do YouTube na página Vídeos do site, sem notícia
+title: "Título do vídeo aqui"
+labels: ["video"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este formulário para um vídeo que **não precisa de notícia**: um
+        gameplay, um trailer, um vídeo do nosso canal. Ele aparece só na página
+        **Vídeos** do site, com o título desta Issue e a legenda abaixo. Não vira
+        página própria, não entra em Notícias nem na página inicial e não vai
+        para o X.
+
+        Se o vídeo é notícia (traz informação nova sobre o jogo), use o
+        formulário **Novo post** e cole o link no campo "Link do vídeo": assim
+        ele ganha matéria, fontes e página própria, que é o que conta para o
+        Google e para o AdSense.
+
+        Escreva o **título** em inglês no campo lá em cima. Feche a Issue para
+        tirar o vídeo do site.
+
+  - type: input
+    id: video
+    attributes:
+      label: Link do vídeo (YouTube)
+      description: >
+        youtube.com/watch?v=..., youtu.be/..., Shorts ou link com tempo
+        (?t=90 começa no segundo 90). Use vídeos com a incorporação liberada:
+        o canal oficial da Rockstar, o @vvViceVersa ou um canal que você
+        credita. Nunca use vídeo vazado ou reenviado por outro canal.
+      placeholder: https://www.youtube.com/watch?v=...
+    validations:
+      required: true
+
+  - type: textarea
+    id: legenda
+    attributes:
+      label: Legenda (inglês)
+      description: >
+        2 a 4 frases em inglês: o que o vídeo mostra e por que vale assistir
+        (ideal: 20 palavras ou mais). Aparece embaixo do vídeo na galeria.
+      placeholder: Rockstar's launch trailer shows Jason and Lucia in Vice City...
+    validations:
+      required: true
+
+  - type: input
+    id: titulo_pt
+    attributes:
+      label: Título em português (opcional)
+    validations:
+      required: false
+
+  - type: textarea
+    id: legenda_pt
+    attributes:
+      label: Legenda em português (opcional)
+      description: Precisa de título E legenda; em branco, a galeria em português mostra a versão em inglês.
+    validations:
+      required: false
+
+  - type: input
+    id: titulo_es
+    attributes:
+      label: Título en español (opcional)
+    validations:
+      required: false
+
+  - type: textarea
+    id: legenda_es
+    attributes:
+      label: Legenda en español (opcional)
+      description: Precisa de título E legenda; em branco, a galeria em espanhol mostra a versão em inglês.
+    validations:
+      required: false
