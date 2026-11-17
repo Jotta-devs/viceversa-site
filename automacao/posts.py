@@ -37,6 +37,7 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime
@@ -301,6 +302,92 @@ def baixar_imagens(html, token):
     return re.sub(r'(src)="([^"]*)"', trocar, html, flags=re.I)
 
 
+# ── vídeos do YouTube (campo "Link do vídeo") ──────────────────────
+# A miniatura é baixada para midia/ (como as fotos): a página não pede nada ao
+# YouTube até o leitor clicar em "assistir". Título, canal e data vêm do oEmbed
+# (endpoint público do YouTube, sem chave) e da página do vídeo.
+MINIATURAS = ("maxresdefault", "sddefault", "hqdefault")
+
+
+def _baixar(url, aceitar="*/*", tempo=30):
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (viceversa-bot)",
+                                               "Accept": aceitar, "Accept-Language": "en-US,en;q=0.8"})
+    with urllib.request.urlopen(req, timeout=tempo) as r:
+        return r.read(), (r.headers.get("Content-Type") or "").split(";")[0].strip()
+
+
+def miniatura_youtube(id_video):
+    """Baixa a maior miniatura disponível e devolve '/midia/yt-<id>.webp' (ou None)."""
+    PASTA_MIDIA.mkdir(exist_ok=True)
+    nome_base = f"yt-{id_video}"
+    for ext in (".webp", ".jpg"):
+        if (PASTA_MIDIA / (nome_base + ext)).exists():
+            return f"/midia/{nome_base}{ext}"
+    for tamanho in MINIATURAS:
+        try:
+            dados, _ = _baixar(f"https://i.ytimg.com/vi/{id_video}/{tamanho}.jpg", "image/*")
+        except Exception:
+            continue        # maxresdefault não existe em todo vídeo: tenta a próxima
+        if len(dados) < 2000:
+            continue        # imagem cinza de "sem miniatura"
+        nome = otimizar(dados, nome_base)
+        if not nome:
+            nome = nome_base + ".jpg"
+            (PASTA_MIDIA / nome).write_bytes(dados)
+        log(f"miniatura do vídeo {id_video}: midia/{nome} ({tamanho})")
+        return f"/midia/{nome}"
+    log(f"não consegui baixar a miniatura do vídeo {id_video}.")
+    return None
+
+
+def dados_youtube(id_video, anterior=None):
+    """Título, canal, data de envio, duração e miniatura de um vídeo do YouTube.
+
+    Reaproveita o que o feed anterior já tinha (o workflow roda a cada edição de
+    Issue). "incorporavel" fica False quando o dono do vídeo bloqueou a
+    reprodução em outros sites: aí o site mostra só o link para o YouTube.
+    """
+    info = {k: v for k, v in (anterior or {}).items()
+            if k in ("titulo", "canal", "canal_url", "data", "duracao", "incorporavel", "capa")}
+    if info.get("capa") and not (REPO / info["capa"].lstrip("/")).exists():
+        info.pop("capa")
+    if "incorporavel" not in info:
+        watch = urllib.parse.quote(f"https://www.youtube.com/watch?v={id_video}", safe="")
+        try:
+            dados, _ = _baixar(f"https://www.youtube.com/oembed?url={watch}&format=json", "application/json")
+            o = json.loads(dados.decode("utf-8"))
+            info.update({"titulo": (o.get("title") or "").strip(),
+                         "canal": (o.get("author_name") or "").strip(),
+                         "canal_url": (o.get("author_url") or "").strip(),
+                         "incorporavel": True})
+        except urllib.error.HTTPError as exc:
+            if exc.code in (401, 403):
+                info["incorporavel"] = False
+                log(f"o vídeo {id_video} não permite reprodução em outros sites; o site mostra só o link.")
+            else:
+                log(f"vídeo {id_video}: o YouTube respondeu {exc.code} (privado ou removido?).")
+        except Exception as exc:
+            log(f"vídeo {id_video}: não consegui ler o título ({exc}).")
+    if "data" not in info:
+        try:
+            pagina, _ = _baixar(f"https://www.youtube.com/watch?v={id_video}&hl=en", "text/html")
+            pagina = pagina.decode("utf-8", "replace")
+            m = (re.search(r'"uploadDate"\s*:\s*"([^"]+)"', pagina)
+                 or re.search(r'itemprop="uploadDate"\s+content="([^"]+)"', pagina))
+            if m:
+                info["data"] = m.group(1)
+            d = re.search(r'"lengthSeconds"\s*:\s*"(\d+)"', pagina)
+            if d:
+                info["duracao"] = int(d.group(1))
+        except Exception as exc:
+            log(f"vídeo {id_video}: não consegui ler a data de envio ({exc}).")
+    if not info.get("capa"):
+        capa = miniatura_youtube(id_video)
+        if capa:
+            info["capa"] = capa
+    return info
+
+
 # tags que abrem ou fecham um bloco: uma quebra de linha encostada nelas é só
 # formatação do HTML, não uma quebra escrita pelo autor
 TAGS_BLOCO = {
@@ -452,6 +539,16 @@ def main():
     log(f"{len(issues)} Issue(s) com o rótulo '{ROTULO}'.")
     garantir_rotulos()
 
+    # dados de vídeo já conhecidos (título, miniatura...): evita buscar de novo
+    videos_antes = {}
+    try:
+        for antigo in json.loads(ARQ_FEED.read_text(encoding="utf-8")):
+            v = antigo.get("video") if isinstance(antigo, dict) else None
+            if isinstance(v, dict) and v.get("id"):
+                videos_antes[v["id"]] = v
+    except (OSError, ValueError):
+        pass
+
     itens = []
     for issue in issues:
         campos = ler_post(issue.get("body"))
@@ -516,6 +613,12 @@ def main():
         # Sem ele, nenhum botão — nunca apontamos o leitor para o GitHub.
         if campos["link"]:
             item["link"] = campos["link"]
+        # vídeo do YouTube: toca no topo da matéria e entra na página Vídeos
+        video = campos.get("video")
+        if video:
+            item["video"] = {**video, **dados_youtube(video["id"], videos_antes.get(video["id"]))}
+        elif campos.get("video_bruto"):
+            log(f"Issue #{issue['number']}: o link do vídeo não é do YouTube; ignorado.")
         # se a renderização falhar, ainda mostramos a imagem pelo campo antigo
         if "html" not in item:
             imagem = extrair_imagem(texto)

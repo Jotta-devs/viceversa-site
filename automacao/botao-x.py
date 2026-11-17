@@ -74,6 +74,10 @@ def checklist(corpo):
         ("pt-BR" in ap, "Aprofundamento em português"),
         ("es" in ap, "Aprofundamento em espanhol"),
     ]
+    if campos.get("video_bruto"):
+        itens.append((bool(campos.get("video")),
+                      "Link do vídeo reconhecido (YouTube)" if campos.get("video") else
+                      "Link do vídeo não reconhecido: use um link do YouTube (youtube.com/watch?v=..., youtu.be/... ou Shorts)"))
     linhas = [f"- {'✅' if ok else '⚠️'} {texto}" for ok, texto in itens]
     return "\n".join(linhas)
 

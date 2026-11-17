@@ -26,7 +26,7 @@ import unicodedata
 VAZIO = re.compile(r"^\s*_No response_\s*$", re.M)
 ROTULOS = re.compile(
     r"^###[ \t]+("
-    r"texto do post|link do post no x|status da not[ií]cia|assunto"
+    r"texto do post|link do post no x|link do v[ií]deo|status da not[ií]cia|assunto"
     r"|mat[eé]ria completa|fontes?\b"
     r"|t[ií]tulo em portugu[eê]s|texto em portugu[eê]s"
     r"|t[ií]tulo e[nm] espa[nñ](?:ol|hol)|texto e[nm] espa[nñ](?:ol|hol)"
@@ -81,6 +81,39 @@ def ler_status(valor):
     return STATUS.get(m.group(0), "") if m else ""
 
 
+# link do YouTube: watch?v=, youtu.be/, Shorts, /embed/, /live/ e o domínio
+# youtube-nocookie. O ID do vídeo tem sempre 11 caracteres.
+YOUTUBE = re.compile(
+    r"^https?://(?:www\.|m\.|music\.)?(?:youtube(?:-nocookie)?\.com/"
+    r"(?:watch\?(?:[^#\s]*&)?v=|embed/|shorts/|live/|v/)|youtu\.be/)"
+    r"([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])", re.I)
+
+
+def _segundos(valor):
+    """'90', '90s', '1m30s', '1h2m3s' -> segundos (0 se não der para ler)."""
+    valor = (valor or "").strip().lower()
+    if valor.isdigit():
+        return int(valor)
+    m = re.fullmatch(r"(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?", valor)
+    if not (m and any(m.groups())):
+        return 0
+    h, mi, s = (int(x or 0) for x in m.groups())
+    return h * 3600 + mi * 60 + s
+
+
+def ler_video(valor):
+    """Link do YouTube -> {"id", "inicio", "vertical"}; {} se não for um link válido."""
+    for url in re.findall(r"https?://\S+", valor or ""):
+        url = url.rstrip(").,;>")
+        m = YOUTUBE.match(url)
+        if not m:
+            continue
+        t = re.search(r"[?&#](?:t|start)=([0-9hms]+)", url, re.I)
+        return {"id": m.group(1), "inicio": _segundos(t.group(1)) if t else 0,
+                "vertical": "/shorts/" in url.lower()}
+    return {}
+
+
 def ler_assunto(valor):
     """'Off — outro jogo ou assunto' -> True; 'GTA 6' ou vazio -> False."""
     return _normalizar(valor or "").startswith("off")
@@ -127,8 +160,8 @@ def ler_aprofundamento(texto):
 def ler_post(corpo):
     """Extrai os campos do post já limpos.
 
-    Devolve dict com: texto, materia, fontes, link, status, off, titulo_pt,
-    texto_pt, titulo_es, texto_es, aprofundamento.
+    Devolve dict com: texto, materia, fontes, link, video, video_bruto, status,
+    off, titulo_pt, texto_pt, titulo_es, texto_es, aprofundamento.
     """
     s = ler_secoes(corpo)
     texto = campo(s, "texto do post")
@@ -151,8 +184,13 @@ def ler_post(corpo):
     # notícia; o "Texto do post" continua sendo o texto curto do X
     materia = campo(s, "materia completa").strip()
     fontes = [u.rstrip(").,;") for u in re.findall(r"https?://[^\s<>\"']+", campo(s, "fonte"))]
+    video_bruto = campo(s, "link do video").strip()
 
     return {
+        # vídeo do YouTube (campo "Link do vídeo"): toca no topo da matéria e
+        # entra na página Vídeos. video_bruto serve para avisar link inválido.
+        "video": ler_video(video_bruto),
+        "video_bruto": video_bruto,
         "texto": texto,
         "materia": materia,
         "fontes": fontes,
