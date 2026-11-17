@@ -961,8 +961,6 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       evento("share", {method: el.dataset.rede, content_type: tipoConteudo, item_id: idPost});
     } else if(el.dataset.evento){
       evento(el.dataset.evento, {canal: el.dataset.canal, local: el.dataset.local, item_id: idPost});
-    } else if(/kiwify\.com/i.test(href)){
-      evento("clique_ebook", {local: secaoDe(el)});
     } else if(el.closest(".artigo__relacionadas")){
       evento("clique_relacionada", {item_id: idPost});
     } else if(el.hasAttribute("hreflang")){
