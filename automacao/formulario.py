@@ -31,6 +31,7 @@ ROTULOS = re.compile(
     r"|t[ií]tulo em portugu[eê]s|texto em portugu[eê]s"
     r"|t[ií]tulo e[nm] espa[nñ](?:ol|hol)|texto e[nm] espa[nñ](?:ol|hol)"
     r"|aprofundamento \(ingl[eê]s\)|aprofundamento em portugu[eê]s|aprofundamento e[nm] espa[nñ](?:ol|hol)"
+    r"|legenda \(ingl[eê]s\)|legenda em portugu[eê]s|legenda e[nm] espa[nñ](?:ol|hol)"
     r")[^\n]*$", re.I | re.M)
 
 
@@ -155,6 +156,21 @@ def ler_aprofundamento(texto):
         if valores:
             resultado[chave] = resultado.get(chave, []) + valores
     return resultado
+
+
+def ler_video_avulso(corpo):
+    """Formulário "Novo vídeo" (só vídeo, sem notícia): link, legenda e traduções."""
+    s = ler_secoes(corpo)
+    video_bruto = campo(s, "link do video").strip()
+    return {
+        "video": ler_video(video_bruto),
+        "video_bruto": video_bruto,
+        "legenda": campo(s, "legenda (ingles", "legenda em ingles").strip(),
+        "titulo_pt": campo(s, "titulo em portugues").strip(),
+        "legenda_pt": campo(s, "legenda em portugues").strip(),
+        "titulo_es": campo(s, "titulo en espanol", "titulo em espanhol").strip(),
+        "legenda_es": campo(s, "legenda en espanol", "legenda em espanhol").strip(),
+    }
 
 
 def ler_post(corpo):

@@ -19,7 +19,7 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-from formulario import ler_post
+from formulario import ler_post, ler_video_avulso
 
 LIMITE_X = 280
 MARCA = "<!-- viceversa-botao-x -->"   # identifica o comentário do robô
@@ -131,6 +131,8 @@ def main():
         return 0
 
     rotulos = {r.get("name") for r in issue.get("labels", [])}
+    if "video" in rotulos and "post" not in rotulos:
+        return conferir_video(issue)
     if "post" not in rotulos:
         log("Issue sem o rótulo 'post'; ignorando.")
         return 0
@@ -205,6 +207,45 @@ para o card do site apontar para ele.*
     except Exception as exc:
         log(f"não consegui comentar: {exc}")
         return 0
+    return 0
+
+
+def conferir_video(issue):
+    """Formulário "Novo vídeo": não vai para o X; o robô só confere o link e a legenda."""
+    repositorio = os.environ.get("GITHUB_REPOSITORY")
+    token = os.environ.get("GITHUB_TOKEN")
+    numero = issue.get("number")
+    if not (repositorio and token and numero) or issue.get("state") == "closed":
+        return 0
+    campos = ler_video_avulso(issue.get("body"))
+    palavras = len(campos["legenda"].split())
+    itens = [
+        (bool(campos["video"]), "Link do YouTube reconhecido" if campos["video"] else
+         "Link do YouTube não reconhecido: use youtube.com/watch?v=..., youtu.be/... ou Shorts. "
+         "Sem link válido, o vídeo não aparece no site"),
+        (palavras >= 20, f"Legenda em inglês com 20 palavras ou mais (agora: {palavras})"),
+        (bool(campos["titulo_pt"] and campos["legenda_pt"]), "Título e legenda em português"),
+        (bool(campos["titulo_es"] and campos["legenda_es"]), "Título e legenda em espanhol"),
+    ]
+    lista = "\n".join(f"- {'✅' if ok else '⚠️'} {texto}" for ok, texto in itens)
+    corpo = f"""{MARCA}
+### Vídeo para a página Vídeos
+
+{lista}
+
+*O vídeo aparece só na página Vídeos do site (não vira notícia nem post no X),
+alguns minutos depois de salvar. Vídeos com legenda curta não contam para a página
+entrar no Google. Feche a Issue para tirar o vídeo do site.*
+"""
+    try:
+        existente = comentario_existente(repositorio, numero, token)
+        if existente:
+            atualizar(repositorio, existente, corpo, token)
+        else:
+            comentar(repositorio, numero, corpo, token)
+        log(f"conferência do vídeo comentada na Issue #{numero}.")
+    except Exception as exc:
+        log(f"não consegui comentar: {exc}")
     return 0
 
 

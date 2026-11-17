@@ -43,20 +43,22 @@ import urllib.request
 from datetime import datetime
 from pathlib import Path
 
-from formulario import ler_post, ler_status
+from formulario import ler_post, ler_status, ler_video_avulso
 
 RAIZ = Path(__file__).parent
 REPO = RAIZ.parent
 ARQ_FEED = REPO / "feed.json"
+ARQ_VIDEOS = REPO / "videos.json"   # vídeos postados sem notícia (formulário "Novo vídeo")
 
 ROTULO = "post"      # só Issues com este rótulo viram publicação
+ROTULO_VIDEO = "video"   # formulário "Novo vídeo": entra só na página Vídeos
 
 
 def log(msg):
     print(f"[viceversa-posts] {msg}", flush=True)
 
 
-def buscar_issues():
+def buscar_issues(rotulo=ROTULO):
     """Lê as Issues abertas com o rótulo, pela API do GitHub (grátis)."""
     repositorio = os.environ.get("GITHUB_REPOSITORY")
     token = os.environ.get("GITHUB_TOKEN")
@@ -68,7 +70,7 @@ def buscar_issues():
     todas, pagina = [], 1
     while True:
         url = (f"https://api.github.com/repos/{repositorio}/issues"
-               f"?state=open&labels={ROTULO}&per_page=100&page={pagina}"
+               f"?state=open&labels={rotulo}&per_page=100&page={pagina}"
                f"&sort=created&direction=desc")
         req = urllib.request.Request(url, headers={
             "Accept": "application/vnd.github+json",
@@ -100,6 +102,7 @@ ROTULOS_STATUS = {
 ROTULO_OFF = "off"
 ROTULOS_EXTRA = {
     ROTULO_OFF: ("7B3DFF", "Categoria do site: notícia fora do GTA 6"),
+    ROTULO_VIDEO: ("FF3D8A", "Só vídeo, sem notícia: entra na página Vídeos do site"),
 }
 
 
@@ -541,13 +544,14 @@ def main():
 
     # dados de vídeo já conhecidos (título, miniatura...): evita buscar de novo
     videos_antes = {}
-    try:
-        for antigo in json.loads(ARQ_FEED.read_text(encoding="utf-8")):
-            v = antigo.get("video") if isinstance(antigo, dict) else None
-            if isinstance(v, dict) and v.get("id"):
-                videos_antes[v["id"]] = v
-    except (OSError, ValueError):
-        pass
+    for arq in (ARQ_FEED, ARQ_VIDEOS):
+        try:
+            for antigo in json.loads(arq.read_text(encoding="utf-8")):
+                v = antigo.get("video") if isinstance(antigo, dict) else None
+                if isinstance(v, dict) and v.get("id"):
+                    videos_antes[v["id"]] = v
+        except (OSError, ValueError, AttributeError):
+            pass
 
     itens = []
     for issue in issues:
@@ -643,6 +647,39 @@ def main():
         json.dumps(itens, ensure_ascii=False, indent=2),
         encoding="utf-8")
     log(f"feed.json escrito com {len(itens)} item(ns).")
+    return escrever_videos_avulsos(videos_antes)
+
+
+def escrever_videos_avulsos(videos_antes):
+    """Issues do formulário "Novo vídeo" -> videos.json (só a página Vídeos usa)."""
+    try:
+        issues = buscar_issues(ROTULO_VIDEO)
+    except Exception as exc:
+        log(f"não consegui ler as Issues de vídeo: {exc}; mantendo o videos.json atual.")
+        if not ARQ_VIDEOS.exists():
+            ARQ_VIDEOS.write_text("[]\n", encoding="utf-8")
+        return 0
+    videos = []
+    for issue in issues:
+        campos = ler_video_avulso(issue.get("body"))
+        if not campos["video"]:
+            log(f"Issue #{issue['number']} (vídeo): link do YouTube ausente ou inválido; pulando.")
+            continue
+        item = {
+            "criado": issue.get("created_at", ""),
+            "atualizado": issue.get("updated_at", ""),
+            "titulo": (issue.get("title") or "").strip(),
+            "legenda": campos["legenda"],
+            "video": {**campos["video"],
+                      **dados_youtube(campos["video"]["id"], videos_antes.get(campos["video"]["id"]))},
+        }
+        for suf in ("pt", "es"):
+            if campos[f"titulo_{suf}"] and campos[f"legenda_{suf}"]:
+                item[f"titulo_{suf}"] = campos[f"titulo_{suf}"]
+                item[f"legenda_{suf}"] = campos[f"legenda_{suf}"]
+        videos.append(item)
+    ARQ_VIDEOS.write_text(json.dumps(videos, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    log(f"videos.json escrito com {len(videos)} vídeo(s) sem notícia.")
     return 0
 
 
