@@ -181,6 +181,15 @@ acrescentar no fim do corpo:
 https://www.youtube.com/watch?v=...
 ```
 
+**Vídeo sem notícia.** O formulário **Novo vídeo** (rótulo `video`) publica só um
+vídeo: título (o da Issue), link do YouTube e uma legenda curta em inglês, com
+título e legenda opcionais em português e espanhol. Esses vídeos ficam em
+`videos.json` e aparecem **só na página Vídeos**, misturados por data com os vídeos
+das notícias: sem página própria, fora de Notícias, da home, do RSS e do X. Um vídeo
+que já está numa notícia não aparece duas vezes. Para o mínimo de 3 vídeos da
+página, só contam os que têm legenda de 20 palavras ou mais (`MIN_PALAVRAS_LEGENDA`).
+Feche a Issue para tirar o vídeo do site.
+
 ### Notícias em português e espanhol
 
 O formulário "Novo post" tem campos opcionais de título e texto em português e

@@ -137,6 +137,9 @@ MIN_PALAVRAS_LOCAL = 120
 # então fica fora do Google e sem anúncios até ter este número de vídeos.
 # Sem nenhum vídeo, o item "Vídeos" também some do menu.
 MIN_VIDEOS_PAGINA = 3
+# vídeo postado sem notícia (formulário "Novo vídeo") só conta para esse mínimo
+# com uma legenda de pelo menos este tamanho
+MIN_PALAVRAS_LEGENDA = 20
 ROBOTS_PADRAO = "index, follow, max-image-preview:large"
 ROBOTS_FINA = "noindex, follow"
 PASTA_GUIAS = RAIZ / "guias"         # guias longos e permanentes (conteúdo próprio)
@@ -549,6 +552,56 @@ def posts_com_video(posts):
     return [p for p in posts if p.get("video")]
 
 
+# ── vídeos sem notícia (formulário "Novo vídeo" -> videos.json) ──────
+AVULSOS = []     # preenchido em montar()
+
+
+def carregar_videos_avulsos(posts):
+    """Lê videos.json. Um vídeo que já está numa notícia não entra de novo."""
+    try:
+        brutos = json.loads((RAIZ / "videos.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    if not isinstance(brutos, list):
+        return []
+    ja = {p["video"]["id"] for p in posts_com_video(posts)}
+    avulsos = []
+    for b in brutos:
+        if not isinstance(b, dict):
+            continue
+        vid = ler_video_feed(b.get("video"))
+        titulo = str(b.get("titulo") or "").strip()
+        if not (vid and titulo) or vid["id"] in ja:
+            continue
+        ja.add(vid["id"])
+        versoes = {"en": {"titulo": titulo, "legenda": str(b.get("legenda") or "").strip()}}
+        for cod, suf in SUFIXO_POST.items():
+            t_tr, l_tr = str(b.get(f"titulo_{suf}") or "").strip(), str(b.get(f"legenda_{suf}") or "").strip()
+            if t_tr and l_tr:
+                versoes[cod] = {"titulo": t_tr, "legenda": l_tr}
+        avulsos.append({"video": vid, "versoes": versoes,
+                        "quando": ler_data(b.get("criado"), "%Y-%m-%dT%H:%M:%SZ")})
+    return avulsos
+
+
+def avulso_conta(a):
+    return len(a["versoes"]["en"]["legenda"].split()) >= MIN_PALAVRAS_LEGENDA
+
+
+def cartao_video_avulso(a, cod, textos):
+    """Card da página Vídeos para um vídeo postado sem notícia: player, título e legenda."""
+    _, v = versao(a, cod)
+    iso = a["quando"].isoformat() if a["quando"] else ""
+    legenda = "".join(f"<p>{esc(' '.join(par.split()))}</p>"
+                      for par in re.split(r"\n\s*\n", v["legenda"]) if par.strip())
+    return (f'    <article class="video-card video-card--avulso"{atributo_lang(a, cod)}>\n'
+            f'{video_html(a, cod, textos, "galeria")}\n'
+            f'      <div class="video-card__txt"><p class="video-card__meta">'
+            f'<time datetime="{iso}">{data_legivel(a["quando"], cod)}</time></p>'
+            f'<h2>{esc(v["titulo"])}</h2>{legenda}</div>\n'
+            f'    </article>')
+
+
 def cartao_video(post, prefixo, cod, textos):
     """Card da página Vídeos: o player e o link para a matéria."""
     _, v = versao(post, cod)
@@ -564,15 +617,19 @@ def cartao_video(post, prefixo, cod, textos):
 
 
 def videos_indexaveis(posts):
-    return len(posts_com_video(posts)) >= MIN_VIDEOS_PAGINA
+    return len(posts_com_video(posts)) + sum(1 for a in AVULSOS if avulso_conta(a)) >= MIN_VIDEOS_PAGINA
 
 
 def lista_videos_html(posts, prefixo, cod, textos):
-    com_video = posts_com_video(posts)
-    if not com_video:
+    """Galeria: vídeos das notícias e vídeos sem notícia, do mais novo ao mais antigo."""
+    itens = [(p["quando"], cartao_video(p, prefixo, cod, textos)) for p in posts_com_video(posts)]
+    itens += [(a["quando"], cartao_video_avulso(a, cod, textos)) for a in AVULSOS]
+    if not itens:
         return (f'    <p class="feed-vazio">{esc(textos.get("vd10", ""))} '
                 f'<a href="{prefixo}{caminho(cod, "noticias")}/">{esc(textos.get("nav02", ""))} →</a></p>')
-    return "\n".join(cartao_video(p, prefixo, cod, textos) for p in com_video)
+    minimo = datetime.min.replace(tzinfo=timezone.utc)
+    itens.sort(key=lambda x: x[0] or minimo, reverse=True)
+    return "\n".join(html for _, html in itens)
 
 
 def duracao_iso(segundos):
@@ -1766,7 +1823,8 @@ def montar():
     paginas_local = 0
     global VERSAO_CONTEUDO, VERSAO_MOMENTO, TEM_VIDEOS
     posts = carregar_posts()
-    TEM_VIDEOS = bool(posts_com_video(posts))
+    AVULSOS[:] = carregar_videos_avulsos(posts)
+    TEM_VIDEOS = bool(posts_com_video(posts) or AVULSOS)
     VERSAO_CONTEUDO = versao_conteudo(posts)
     VERSAO_MOMENTO = momento_da_versao(VERSAO_CONTEUDO)    # lê o docs/versao.json anterior
     guias = carregar_guias()
