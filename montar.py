@@ -75,6 +75,7 @@ PAGINAS_SITE = {
     "noticias":    ("noticias.html",      {"en": "news",             "pt-BR": "noticias",           "es": "noticias"}),
     "mapa":        ("mapa.html",          {"en": "map",              "pt-BR": "mapa",               "es": "mapa"}),
     "guias":       ("guias.html",         {"en": "guides",           "pt-BR": "guias",              "es": "guias"}),
+    "videos":      ("videos.html",        {"en": "videos",           "pt-BR": "videos",             "es": "videos"}),
     "sobre":       ("institucional.html", {"en": "about",            "pt-BR": "sobre",              "es": "sobre"}),
     "contato":     ("institucional.html", {"en": "contact",          "pt-BR": "contato",            "es": "contacto"}),
     "privacidade": ("institucional.html", {"en": "privacy",          "pt-BR": "privacidade",        "es": "privacidad"}),
@@ -132,6 +133,10 @@ EMAIL_CONTATO = "vi.versavv@gmail.com"
 # for ampliado (editando a Issue ou o pontos.json), ela volta sozinha ao Google.
 MIN_PALAVRAS_NOTICIA = 120
 MIN_PALAVRAS_LOCAL = 120
+# página Vídeos: com poucos vídeos ela é uma tela quase vazia ("baixo valor"),
+# então fica fora do Google e sem anúncios até ter este número de vídeos.
+# Sem nenhum vídeo, o item "Vídeos" também some do menu.
+MIN_VIDEOS_PAGINA = 3
 ROBOTS_PADRAO = "index, follow, max-image-preview:large"
 ROBOTS_FINA = "noindex, follow"
 PASTA_GUIAS = RAIZ / "guias"         # guias longos e permanentes (conteúdo próprio)
@@ -422,6 +427,7 @@ def carregar_posts():
 
         link = p.get("link") or ""
         posts.append({
+            "video": ler_video_feed(p.get("video")),
             "slug": slug,
             "quando": quando,
             "atualizado": atualizado,
@@ -457,6 +463,154 @@ def carregar_posts():
                              encoding="utf-8")
     posts.sort(key=lambda q: q["quando"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
     return posts
+
+
+# ── vídeos (campo "Link do vídeo" da Issue) ─────────────────────────
+ID_YOUTUBE = re.compile(r"^[A-Za-z0-9_-]{11}$")
+
+
+def ler_video_feed(bruto):
+    """O vídeo como o automacao/posts.py gravou no feed.json, já conferido."""
+    if isinstance(bruto, str):
+        bruto = {"id": bruto}
+    if not (isinstance(bruto, dict) and ID_YOUTUBE.match(str(bruto.get("id") or ""))):
+        return None
+    capa = str(bruto.get("capa") or "")
+    if capa and not (capa.startswith("/midia/") and (RAIZ / capa.lstrip("/")).exists()):
+        capa = ""
+    canal_url = str(bruto.get("canal_url") or "")
+    return {
+        "id": bruto["id"],
+        "inicio": int(bruto.get("inicio") or 0),
+        "vertical": bool(bruto.get("vertical")),
+        "titulo": str(bruto.get("titulo") or "").strip(),
+        "canal": str(bruto.get("canal") or "").strip(),
+        "canal_url": canal_url if re.match(r"^https://(www\.)?youtube\.com/", canal_url) else "",
+        "data": str(bruto.get("data") or ""),
+        "duracao": int(bruto.get("duracao") or 0),
+        "incorporavel": bruto.get("incorporavel") is not False,
+        "capa": capa,
+    }
+
+
+def link_youtube(vid):
+    return f"https://www.youtube.com/watch?v={vid['id']}" + (f"&t={vid['inicio']}s" if vid["inicio"] else "")
+
+
+def capa_video(vid, absoluta=False):
+    """Miniatura do vídeo: a cópia em midia/ ou, na falta dela, a do YouTube."""
+    if vid["capa"]:
+        return (DOMINIO if absoluta else "") + vid["capa"]
+    return f"https://i.ytimg.com/vi/{vid['id']}/hqdefault.jpg"
+
+
+def duracao_legivel(segundos):
+    h, resto = divmod(int(segundos), 3600)
+    m, s = divmod(resto, 60)
+    return f"{h}:{m:02d}:{s:02d}" if h else f"{m}:{s:02d}"
+
+
+def video_html(post, cod, textos, onde="noticia"):
+    """Player leve: miniatura + botão. O player do YouTube (youtube-nocookie)
+    só carrega no clique (partes/rodape.html). Sem JavaScript, ou quando o dono
+    do vídeo bloqueou a reprodução em outros sites, o clique abre o YouTube."""
+    vid = post.get("video")
+    if not vid:
+        return ""
+    _, v = versao(post, cod)
+    titulo = vid["titulo"] or v["titulo"]
+    watch = link_youtube(vid)
+    rotulo = textos.get("vd07", "{titulo}").replace("{titulo}", titulo)
+    carregar = 'fetchpriority="high"' if onde == "noticia" else 'loading="lazy"'
+    largura, altura = ("720", "1280") if vid["vertical"] else ("1280", "720")
+    tempo = (f'<span class="video__tempo">{duracao_legivel(vid["duracao"])}</span>'
+             if vid["duracao"] else "")
+    classe = "video" + (" video--vertical" if vid["vertical"] else "")
+    externo = "" if vid["incorporavel"] else ' data-externo="1"'
+    canal = ""
+    if vid["canal"]:
+        canal = (f'<a href="{esc(vid["canal_url"])}" target="_blank" rel="noopener nofollow">{esc(vid["canal"])}</a>'
+                 if vid["canal_url"] else esc(vid["canal"]))
+    if onde == "noticia":
+        legenda = f'{esc(textos.get("vd08", "Video"))}: {esc(titulo)}' + (f" · {canal}" if canal else "")
+    else:
+        legenda = canal or esc(textos.get("vd08", "Video"))
+    legenda += (f' · <a href="{esc(watch)}" target="_blank" rel="noopener">'
+                f'{esc(textos.get("vd09", "YouTube"))}</a>')
+    return (f'    <figure class="{classe}" data-video="{vid["id"]}" data-inicio="{vid["inicio"]}"{externo}>'
+            f'<div class="video__tela"><a class="video__play" href="{esc(watch)}" target="_blank" rel="noopener" '
+            f'aria-label="{esc(rotulo)}" data-evento="video_play" data-canal="youtube" data-local="{onde}">'
+            f'<img src="{esc(capa_video(vid))}" alt="" width="{largura}" height="{altura}" {carregar} decoding="async">'
+            f'<span class="video__botao" aria-hidden="true"></span>{tempo}</a></div>'
+            f'<figcaption>{legenda}</figcaption></figure>')
+
+
+def posts_com_video(posts):
+    return [p for p in posts if p.get("video")]
+
+
+def cartao_video(post, prefixo, cod, textos):
+    """Card da página Vídeos: o player e o link para a matéria."""
+    _, v = versao(post, cod)
+    link = link_post(post, cod, prefixo)
+    iso = post["quando"].isoformat() if post["quando"] else ""
+    return (f'    <article class="video-card" data-categoria="{categoria(post)}"{atributo_lang(post, cod)}>\n'
+            f'{video_html(post, cod, textos, "galeria")}\n'
+            f'      <div class="video-card__txt"><p class="video-card__meta">{selo(post, textos, sem_video=True)}'
+            f'<time datetime="{iso}">{data_legivel(post["quando"], cod)}</time></p>'
+            f'<h2><a href="{link}">{esc(v["titulo"])}</a></h2><p>{esc(v["resumo"])}</p>'
+            f'<a class="video-card__ler" href="{link}">{esc(textos.get("vd06", ""))}</a></div>\n'
+            f'    </article>')
+
+
+def videos_indexaveis(posts):
+    return len(posts_com_video(posts)) >= MIN_VIDEOS_PAGINA
+
+
+def lista_videos_html(posts, prefixo, cod, textos):
+    com_video = posts_com_video(posts)
+    if not com_video:
+        return (f'    <p class="feed-vazio">{esc(textos.get("vd10", ""))} '
+                f'<a href="{prefixo}{caminho(cod, "noticias")}/">{esc(textos.get("nav02", ""))} →</a></p>')
+    return "\n".join(cartao_video(p, prefixo, cod, textos) for p in com_video)
+
+
+def duracao_iso(segundos):
+    h, resto = divmod(int(segundos), 3600)
+    m, s = divmod(resto, 60)
+    return "PT" + (f"{h}H" if h else "") + (f"{m}M" if m else "") + f"{s}S"
+
+
+def jsonld_video(post, cod):
+    """VideoObject (Google Vídeos). Só sai com a data de envio vinda do YouTube:
+    o Google exige uploadDate, e a data da notícia não é a do vídeo."""
+    vid = post.get("video")
+    if not (vid and vid["data"]):
+        return None
+    _, v = versao(post, cod)
+    obj = {
+        "@type": "VideoObject",
+        "name": (vid["titulo"] or v["titulo"])[:200],
+        "description": v["descricao"] or v["titulo"],
+        "thumbnailUrl": [capa_video(vid, absoluta=True)],
+        "uploadDate": vid["data"],
+        "embedUrl": f"https://www.youtube.com/embed/{vid['id']}",
+        "url": link_youtube(vid),
+    }
+    if vid["duracao"]:
+        obj["duration"] = duracao_iso(vid["duracao"])
+    return obj
+
+
+def jsonld_videos_pagina(posts, cod, textos):
+    """ItemList da página Vídeos, apontando para a matéria de cada vídeo."""
+    itens = []
+    for i, p in enumerate(posts_com_video(posts), 1):
+        itens.append({"@type": "ListItem", "position": i, "url": url_post(p, cod)})
+    if not itens:
+        return ""
+    return jsonld({"@context": "https://schema.org", "@type": "ItemList",
+                   "name": texto_puro(textos.get("vd03", "")), "itemListElement": itens})
 
 
 def post_fino(post, cod):
@@ -544,9 +698,11 @@ def atributo_lang(post, cod):
     return f' lang="{IDIOMAS[efetivo][1]}"' if efetivo != cod else ""
 
 
-def selo(post, textos):
-    """Selos coloridos: OFF (fora do GTA 6) e Confirmado / Rumor / Vazamento."""
+def selo(post, textos, sem_video=False):
+    """Selos coloridos: Vídeo, OFF (fora do GTA 6) e Confirmado / Rumor / Vazamento."""
     partes = []
+    if post.get("video") and not sem_video:
+        partes.append(f'<span class="selo selo--video">{esc(textos.get("vd02", "Video"))}</span>')
     if post.get("off"):
         nome, explicacao = SELO_OFF
         partes.append(f'<span class="selo selo--off" title="{esc(textos.get(explicacao, ""))}">'
@@ -801,6 +957,9 @@ def jsonld_artigo(post, cod, textos, imagem_og=None):
     if post["quando"]:
         obj["datePublished"] = post["quando"].isoformat()
         obj["dateModified"] = (post["atualizado"] or post["quando"]).isoformat()
+    video = jsonld_video(post, cod)
+    if video:
+        obj["video"] = video
     migalhas = {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
@@ -904,6 +1063,11 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
             .replace("{{__map__}}", prefixo + caminho(cod, "mapa") + "/")
             .replace("{{__guides__}}", prefixo + caminho(cod, "guias") + "/")
             .replace("{{__at_guides__}}", atual["guias"])
+            # item "Vídeos" do menu: só aparece quando existe algum vídeo publicado
+            .replace("{{__nav_videos__}}",
+                     f'<a href="{prefixo}{caminho(cod, "videos")}/"{atual["videos"]}>{esc(textos.get("vd01", ""))}</a>'
+                     if TEM_VIDEOS else "")
+            .replace("{{__videos__}}", prefixo + caminho(cod, "videos") + "/")
             .replace("{{__autor__}}", esc(AUTOR))
             .replace("{{__email__}}", esc(EMAIL_CONTATO))
             .replace("{{__at_home__}}", atual["home"])
@@ -945,6 +1109,7 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
 
 
 _GUIAS = []     # preenchido em montar(): usado no link para o guia do mapa
+TEM_VIDEOS = False   # definido em montar(): mostra o item "Vídeos" no menu
 
 
 def link_guia_mapa(pref, cod):
@@ -1115,6 +1280,8 @@ def gerar_sitemap(posts, hoje, locais_por_cod=None, guias=()):
     urls = ""
     for cod in IDIOMAS:
         for pagina in PAGINAS_SITE:
+            if pagina == "videos" and not videos_indexaveis(posts):
+                continue        # página Vídeos ainda com poucos vídeos: fora do Google
             alt = "".join(
                 f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url(o, pagina)}"/>'
                 for o in IDIOMAS)
@@ -1597,8 +1764,9 @@ def montar():
     locais_por_cod = {}
     imagens_locais = {}         # id -> (capa, base da arte): o recorte é o mesmo nos 3 idiomas
     paginas_local = 0
-    global VERSAO_CONTEUDO, VERSAO_MOMENTO
+    global VERSAO_CONTEUDO, VERSAO_MOMENTO, TEM_VIDEOS
     posts = carregar_posts()
+    TEM_VIDEOS = bool(posts_com_video(posts))
     VERSAO_CONTEUDO = versao_conteudo(posts)
     VERSAO_MOMENTO = momento_da_versao(VERSAO_CONTEUDO)    # lê o docs/versao.json anterior
     guias = carregar_guias()
@@ -1672,7 +1840,15 @@ def montar():
             elif pagina == "guias":
                 extras["__guias_lista__"] = lambda pref, cod=cod, textos=textos: "\n".join(
                     cartao_guia(g, pref, cod, textos) for g in guias)
-            if pagina in ("noticias", "mapa", "guias") and textos.get(f"pg_{pagina}_t"):
+            elif pagina == "videos":
+                extras["__videos_lista__"] = lambda pref, cod=cod, textos=textos: lista_videos_html(
+                    posts, pref, cod, textos)
+                extras["__jsonld_extra__"] = jsonld_videos_pagina(posts, cod, textos)
+                if not videos_indexaveis(posts):
+                    # poucos vídeos: tela quase vazia, fora do Google e sem anúncios
+                    extras["__robots__"] = ROBOTS_FINA
+                    extras["__sem_anuncios__"] = "sim"
+            if pagina in ("noticias", "mapa", "guias", "videos") and textos.get(f"pg_{pagina}_t"):
                 # título e descrição próprios (antes eram iguais aos da home)
                 titulo_pg, desc_pg = textos[f"pg_{pagina}_t"], textos.get(f"pg_{pagina}_d", "")
                 textos_pagina = dict(textos)
@@ -1743,7 +1919,9 @@ def montar():
                 "__art_slug__": post["slug"],
                 "__art_selo__": selo(post, textos),
                 "__art_leitura__": f'{v["leitura"]} {esc(textos.get("ar10", ""))}',
-                "__art_capa__": capa_html(v.get("capa"), v["titulo"]),
+                # com vídeo, o player ocupa o lugar da capa (a foto continua nos cards e no compartilhamento)
+                "__art_capa__": (video_html(post, cod, textos) if post.get("video")
+                                 else capa_html(v.get("capa"), v["titulo"])),
                 "__art_aviso__": aviso_html(post, textos),
                 "__art_seguinte__": lambda pref, seguinte=seguinte, cod=cod, textos=textos: seguinte_html(
                     seguinte, pref, cod, textos),

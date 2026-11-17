@@ -152,6 +152,35 @@ dos trailers chegam em 4K: cada uma caía de ~900 KB para ~80 KB. Se o WebP não
 ajudar (imagem pequena que já é leve), fica o arquivo original. GIF animado não é
 convertido.
 
+### Vídeos de gameplay (YouTube)
+
+O formulário "Novo post" tem o campo **Link do vídeo (YouTube, opcional)**. Com um
+link do YouTube (`watch?v=`, `youtu.be/`, Shorts, `/live/`; `?t=90` começa no
+segundo 90), a notícia:
+
+- mostra o vídeo no topo, no lugar da imagem de capa (a foto continua nos cards e
+  na imagem de compartilhamento) e ganha o selo **Vídeo**;
+- entra na página **Vídeos** (`/videos/`, `/pt/videos/`, `/es/videos/`), com o
+  link para a matéria.
+
+A página só mostra a miniatura, baixada pelo robô para `midia/yt-<id>.webp`. O
+player do YouTube (`youtube-nocookie.com`) só carrega quando o leitor clica, então o
+vídeo não pesa no carregamento nem manda dados ao Google antes do clique. O robô
+também busca o título e o canal (oEmbed) e a data de envio, que vai para os dados
+estruturados `VideoObject`. Se o dono do vídeo bloqueou a reprodução em outros
+sites, o clique abre o YouTube.
+
+O item **Vídeos** só aparece no menu quando existe pelo menos um vídeo. Com menos
+de 3 (`MIN_VIDEOS_PAGINA` no `montar.py`), a página fica fora do Google e sem
+anúncios, porque seria uma tela quase vazia. Numa Issue antiga, sem o campo, basta
+acrescentar no fim do corpo:
+
+```
+### Link do vídeo (YouTube, opcional)
+
+https://www.youtube.com/watch?v=...
+```
+
 ### Notícias em português e espanhol
 
 O formulário "Novo post" tem campos opcionais de título e texto em português e
@@ -217,6 +246,7 @@ função `evento`):
 | `seguir_canal` | clicou para seguir um canal (`canal`: x, whatsapp, telegram; `local`: meio ou fim da notícia) |
 | `leia_seguir` | abriu a notícia sugerida em "Leia a seguir" |
 | `clique_relacionada` | abriu uma notícia da lista "Leia também" |
+| `video_play` | clicou para assistir a um vídeo (`local`: noticia ou galeria) |
 | `leitura_completa` | chegou ao fim do texto da notícia, depois de pelo menos 10 s na página |
 | `clique_rede` | clicou num perfil do VICEVERSA (`rede`: x, instagram, tiktok, youtube...) |
 | `troca_idioma` | trocou de idioma |
