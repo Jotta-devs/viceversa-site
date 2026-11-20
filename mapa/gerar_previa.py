@@ -54,7 +54,7 @@ def main():
     m = re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', svg)
     largura, altura = float(m.group(1)), float(m.group(2))
     pagina = f"""<!doctype html><html><head><style>
-      html,body{{margin:0;background:#3778C2}}
+      html,body{{margin:0;background:#9EC3F7}}
       .atlas{{--traco:1}}
       .atlas-vetor svg{{display:block;width:{largura}px;height:{altura}px}}
       .atlas-vetor .grade{{display:none}}

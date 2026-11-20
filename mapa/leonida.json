@@ -1,20 +1,26 @@
 {
-  "largura": 1462,
-  "altura": 1951,
-  "origem": "leonida-mapa-v16.jpg",
+  "largura": 1755,
+  "altura": 2449.8,
+  "origem": "Leonida_Map_Poster.jpg",
+  "fonte": "oficial",
   "recorte": [
-    586,
-    0,
-    2048,
-    1951
+    94,
+    94,
+    2711,
+    3747
   ],
   "imagem": [
-    2048,
-    1951
+    2805,
+    3840
   ],
+  "milha": 195.91,
   "grade": {
-    "colunas": 8,
-    "linhas": 11,
-    "celula": 182.75
+    "colunas": 9,
+    "linhas": 13,
+    "celula_x": 195.914,
+    "celula_y": 195.914,
+    "origem_x": -4.45,
+    "origem_y": -49.68,
+    "formato": "linha-coluna"
   }
-}
+}
