@@ -161,7 +161,7 @@
   "m05": "A Flórida da Rockstar",
   "m06": "Leonida redesenhada pelo VICEVERSA. Troque entre Noite e Dia, ligue a grade de referência e clique numa região para saber mais.",
   "m07": "Roda do mouse ou pinça: zoom · Arrastar: percorrer · ⛶ tela cheia",
-  "m08": "O mapa é uma reconstrução feita por fãs a partir de material oficial divulgado pela Rockstar; estradas, distâncias e locais podem mudar no jogo final. Os pontos e descrições em destaque são do VICEVERSA.",
+  "m08": "O mapa foi redesenhado pelo VICEVERSA a partir do <a href=\"https://www.rockstargames.com/VI/media\" target=\"_blank\" rel=\"noopener\">mapa oficial de Leonida</a> que a Rockstar liberou no lançamento: litoral, estradas, cidades e os nomes oficiais de condados, bairros, ilhas e lugares. A grade (linhas A–M, colunas 1–9) é a mesma do pôster, e cada quadrado tem 1 milha. Os pontos e descrições em destaque são do VICEVERSA.",
   "m09": "Mapa",
   "m10": "Miami",
   "m11": "Metrópole|Praia|Boates|Aeroporto",
@@ -195,7 +195,7 @@
   "m40": "Aeroporto Internacional",
   "m41": "Vice City",
   "m42": "Voos|Viagem rápida|Hangares",
-  "m43": "O aeroporto internacional de Vice City, ao norte da cidade. É apontado como um dos pontos de viagem rápida entre as regiões do estado.",
+  "m43": "O aeroporto internacional de Vice City (VCIA, no mapa oficial), a oeste do centro, entre a cidade e a West Vice-Dale County, com duas pistas paralelas e uma diagonal. É apontado como um dos pontos de viagem rápida entre as regiões do estado.",
   "m44": "Porto de carga",
   "m45": "Port Gellhorn",
   "m46": "Contêineres|Guindastes|Ferrovia",
@@ -273,7 +273,7 @@
   "mp18": "Estilo do mapa",
   "mp19": "Quadrante",
   "mp20": "Mapa interativo de Leonida",
-  "mp21": "Todos os lugares conhecidos de Leonida num só mapa. Filtre por categoria, marque os lugares que já visitou e compartilhe o link de qualquer ponto.",
+  "mp21": "Todos os lugares de Leonida num só mapa, com os nomes oficiais. Filtre por categoria, marque os lugares que já visitou e compartilhe o link de qualquer ponto.",
   "mp22": "Mostrar tudo",
   "mp23": "Ocultar tudo",
   "mp24": "Visitado",
@@ -359,7 +359,7 @@
   "pg_noticias_t": "Notícias de GTA 6: confirmações, rumores e vazamentos | VICEVERSA",
   "pg_noticias_d": "Todas as notícias de GTA VI que publicamos, da mais nova para a mais antiga, cada uma marcada como Confirmado, Rumor ou Vazamento.",
   "pg_mapa_t": "Mapa de GTA 6: mapa interativo de Leonida e Vice City | VICEVERSA",
-  "pg_mapa_d": "Explore Leonida, o estado de GTA VI: um mapa interativo próprio com cada região, marco e a inspiração real na Flórida.",
+  "pg_mapa_d": "O mapa de Leonida mais detalhado em português: redesenhado a partir do mapa oficial da Rockstar, com os 5 condados, cidades, bairros de Vice City, ilhas, rodovias e lugares, zoom e busca.",
   "pg_guias_t": "Guias de GTA 6: lançamento, edições, mapa, história e gameplay | VICEVERSA",
   "pg_guias_d": "Guias completos de GTA VI: data de lançamento e plataformas, edições e preços, Jason e Lucia, o mapa de Leonida, o novo sistema de procurado e mais.",
   "gd17": "Leia o nosso guia de Leonida, região por região →",
@@ -380,5 +380,6 @@
   "vd09": "Abrir no YouTube",
   "vd10": "Os primeiros vídeos de gameplay chegam com o lançamento, em 19 de novembro. Enquanto isso, acompanhe as notícias.",
   "pg_videos_t": "Vídeos de GTA 6: gameplay, trailers e análises | VICEVERSA",
-  "pg_videos_d": "Vídeos de gameplay e trailers de GTA VI com contexto: cada um vem com a matéria do VICEVERSA sobre o que ele mostra."
+  "pg_videos_d": "Vídeos de gameplay e trailers de GTA VI com contexto: cada um vem com a matéria do VICEVERSA sobre o que ele mostra.",
+  "mp41": "Base: <a href=\"https://www.rockstargames.com/VI/media\" target=\"_blank\" rel=\"noopener\">mapa oficial da Rockstar Games</a>, redesenhado pelo VICEVERSA"
 }
