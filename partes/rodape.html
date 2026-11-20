@@ -428,14 +428,40 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + 3);
+    mapa.setMaxZoom(Z + 2);          // 4 px por unidade: mais que isso só aumenta o borrão da base
+    if(txt.fonteMapa) mapa.attributionControl.addAttribution(txt.fonteMapa);
 
-    /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
+    /* espessura das linhas e quantidade de nomes acompanham o zoom, como num
+       mapa de navegação: de longe, condados e cidades; de perto, bairros e lugares */
     function porZoom(){
       const rel = mapa.getZoom() - mapa.getMinZoom();
-      caixa.style.setProperty("--traco", (0.7 + rel * 0.35).toFixed(2));
+      caixa.style.setProperty("--traco", (0.7 + rel * 0.38).toFixed(2));
+      caixa.style.setProperty("--rel", rel.toFixed(2));
       caixa.dataset.zoom = rel < 1.2 ? "longe" : rel < 2.6 ? "medio" : "perto";
+      caixa.dataset.nivel = rel < 0.9 ? "0" : rel < 1.9 ? "1" : rel < 2.9 ? "2" : "3";
+      atualizarEscala();
     }
+
+    /* ── escala (1 coluna da grade = 1 milha, segundo o pôster oficial) ── */
+    const escala = L.control({position: "bottomleft"});
+    let escalaEl = null;
+    escala.onAdd = function(){
+      escalaEl = L.DomUtil.create("div", "atlas-escala");
+      escalaEl.setAttribute("aria-hidden", "true");
+      return escalaEl;
+    };
+    function atualizarEscala(){
+      if(!escalaEl || !info.milha) return;
+      const pxMilha = info.milha * Math.pow(2, mapa.getZoom() - Z);
+      const opcoes = [0.05, 0.1, 0.25, 0.5, 1, 2, 3, 5];
+      let mi = opcoes[0];
+      opcoes.forEach(function(o){ if(o * pxMilha <= 110) mi = o; });
+      const km = mi * 1.609;
+      escalaEl.innerHTML = '<span style="width:' + Math.round(mi * pxMilha) + 'px"></span>' +
+        '<b>' + (mi < 1 ? Math.round(mi * 5280) + ' ft' : mi + ' mi') + ' · ' +
+        (km < 1 ? Math.round(km * 1000) + ' m' : km.toFixed(km < 10 ? 1 : 0).replace(".", ",") + ' km') + '</b>';
+    }
+    if(info.milha) escala.addTo(mapa);
     mapa.on("zoomend", porZoom); porZoom();
 
     /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
@@ -472,14 +498,18 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       evento("mapa_estilo", {estilo: estiloAtual});
     });
 
-    /* ── grade de referência (A1…H11) ── */
+    /* ── grade de referência: a mesma do pôster oficial (linhas A–M, colunas 1–9) ── */
     const botaoGrade = document.getElementById("atlas-grade");
-    const cel = info.grade ? info.grade.celula : 0;
+    const gr = info.grade || {};
+    const celX = gr.celula_x || gr.celula || 0, celY = gr.celula_y || gr.celula || 0;
+    const orX = gr.origem_x || 0, orY = gr.origem_y || 0;
+    const cel = celX;
     function quadrante(p){
-      if(!cel) return "";
-      const col = Math.min(info.grade.colunas - 1, Math.floor(p.x * W / cel));
-      const lin = Math.min(info.grade.linhas - 1, Math.floor(p.y * H / cel));
-      return String.fromCharCode(65 + col) + (lin + 1);
+      if(!celX) return "";
+      const col = Math.max(0, Math.min(gr.colunas - 1, Math.floor((p.x * W - orX) / celX)));
+      const lin = Math.max(0, Math.min(gr.linhas - 1, Math.floor((p.y * H - orY) / celY)));
+      return gr.formato === "linha-coluna" ? String.fromCharCode(65 + lin) + (col + 1)
+                                            : String.fromCharCode(65 + col) + (lin + 1);
     }
     if(botaoGrade){
       if(!cel) botaoGrade.hidden = true;
@@ -536,15 +566,16 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     function iconePara(p){
       const c = catDe(p);
       if(p.cat === "regiao"){
-        return L.divIcon({className: "atlas-regiao", iconSize: null,
-          html: '<b>' + escapar(p.nome) + '</b><small>' + escapar(p.real) + '</small>'});
+        return L.divIcon({className: "atlas-regiao" + (p.rotulo ? " atlas-regiao--" + p.rotulo : ""), iconSize: [0, 0],
+          html: '<span><b>' + escapar(p.nome) + '</b><small>' + escapar(p.real) + '</small></span>'});
       }
       const classes = "atlas-pin" + (p.aprox ? " atlas-pin--aprox" : "") + (visitados.has(p.id) ? " atlas-pin--visitado" : "");
       return L.divIcon({className: classes, iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -14],
         html: '<span style="--cor:' + c.cor + '">' + svgIcone(p.icone || c.icone) + '</span>'});
     }
     pontos.forEach(function(p){
-      const m = L.marker(paraLatLng(p.x, p.y), {icon: iconePara(p), title: p.nome, alt: p.nome, keyboard: true, riseOnHover: true});
+      const m = L.marker(paraLatLng(p.x, p.y), {icon: iconePara(p), title: p.nome, alt: p.nome, keyboard: true, riseOnHover: true,
+        zIndexOffset: p.cat === "regiao" ? 1000 : 0});   // nome da região por cima dos ícones
       if(p.cat !== "regiao") m.bindTooltip(p.nome, {direction: "top", offset: [0, -16], className: "atlas-dica"});
       m.bindPopup(function(){ return htmlPopup(p); }, {className: "atlas-popup", maxWidth: 320, minWidth: 250, autoPanPaddingTopLeft: [20, 70], autoPanPaddingBottomRight: [60, 20]});
       m.on("popupopen", function(e){ aoAbrir(p, m, e.popup); });
@@ -554,11 +585,26 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       });
       marcadores[p.id] = m;
     });
-    /* rótulos soltos (água etc.): só texto, sem clique */
+    /* nomes do mapa oficial (condados, cidades, bairros, ilhas, águas, lugares) e
+       placas das rodovias: só texto, sem clique; cada um aparece a partir do seu nível de zoom */
     const rotulos = L.layerGroup();
+    /* nome que cai em cima do ícone de um local (ex.: Little Cuba, Downtown) desce para baixo dele */
+    const sobIcone = function(r){
+      return pontos.some(function(p){
+        return p.cat !== "regiao" && Math.abs((p.x - r.x) * W) < 24 && Math.abs((p.y - r.y) * H) < 14;
+      });
+    };
     (cfg.rotulos || []).forEach(function(r){
       L.marker(paraLatLng(r.x, r.y), {interactive: false, keyboard: false,
-        icon: L.divIcon({className: "atlas-rotulo atlas-rotulo--" + r.tipo, html: escapar(r.nome), iconSize: null})
+        icon: L.divIcon({className: "atlas-rotulo atlas-rotulo--" + r.tipo + " n" + (r.n || 0) + (sobIcone(r) ? " atlas-rotulo--sob" : ""),
+          html: "<span>" + escapar(r.nome) + "</span>", iconSize: [0, 0]})
+      }).addTo(rotulos);
+    });
+    const PLACA = {interstate: "esc--i", us: "esc--us", estadual: "esc--sr", condado: "esc--cr", pedagio: "esc--toll"};
+    (cfg.escudos || []).forEach(function(e){
+      L.marker(paraLatLng(e.x, e.y), {interactive: false, keyboard: false,
+        icon: L.divIcon({className: "atlas-escudo n1", iconSize: [0, 0],
+          html: '<span class="esc ' + (PLACA[e.t] || "esc--us") + '"><b>' + escapar(e.n) + '</b></span>'})
       }).addTo(rotulos);
     });
 
@@ -603,7 +649,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
         if(deve && !mapa.hasLayer(m)) m.addTo(mapa);
         if(!deve && mapa.hasLayer(m)){ m.closePopup(); mapa.removeLayer(m); }
       });
-      if(ligadas.regiao !== false) rotulos.addTo(mapa); else mapa.removeLayer(rotulos);
+      rotulos.addTo(mapa);
     }
 
     /* ── lista lateral: categorias com caixa de seleção, contagem e locais ── */
