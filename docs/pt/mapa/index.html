@@ -25,7 +25,7 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4263183130382993"
      crossorigin="anonymous"></script>
 <title>Mapa de GTA 6: mapa interativo de Leonida e Vice City | VICEVERSA</title>
-<meta name="description" content="Explore Leonida, o estado de GTA VI: um mapa interativo próprio com cada região, marco e a inspiração real na Flórida.">
+<meta name="description" content="O mapa de Leonida mais detalhado em português: redesenhado a partir do mapa oficial da Rockstar, com os 5 condados, cidades, bairros de Vice City, ilhas, rodovias e lugares, zoom e busca.">
 <link rel="alternate" hreflang="en" href="https://vvviceversa.com/map/">
 <link rel="alternate" hreflang="x-default" href="https://vvviceversa.com/map/">
 <link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/mapa/">
@@ -47,7 +47,7 @@
 <meta property="og:site_name" content="VICEVERSA">
 <meta property="og:url" content="https://vvviceversa.com/pt/mapa/">
 <meta property="og:title" content="Mapa de GTA 6: mapa interativo de Leonida e Vice City | VICEVERSA">
-<meta property="og:description" content="Explore Leonida, o estado de GTA VI: um mapa interativo próprio com cada região, marco e a inspiração real na Flórida.">
+<meta property="og:description" content="O mapa de Leonida mais detalhado em português: redesenhado a partir do mapa oficial da Rockstar, com os 5 condados, cidades, bairros de Vice City, ilhas, rodovias e lugares, zoom e busca.">
 <meta property="og:image" content="https://vvviceversa.com/og-image-pt.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -56,7 +56,7 @@
 <meta name="twitter:site" content="@vvviceversaa">
 <meta name="twitter:creator" content="@vvviceversaa">
 <meta name="twitter:title" content="Mapa de GTA 6: mapa interativo de Leonida e Vice City | VICEVERSA">
-<meta name="twitter:description" content="Explore Leonida, o estado de GTA VI: um mapa interativo próprio com cada região, marco e a inspiração real na Flórida.">
+<meta name="twitter:description" content="O mapa de Leonida mais detalhado em português: redesenhado a partir do mapa oficial da Rockstar, com os 5 condados, cidades, bairros de Vice City, ilhas, rodovias e lugares, zoom e busca.">
 <meta name="twitter:image" content="https://vvviceversa.com/og-image-pt.png">
 
 <!-- Dados estruturados: ajuda o Google a entender o site e ligar os perfis -->
@@ -66,7 +66,7 @@
   "@type": "WebSite",
   "name": "VICEVERSA",
   "url": "https://vvviceversa.com/pt/",
-  "description": "Explore Leonida, o estado de GTA VI: um mapa interativo próprio com cada região, marco e a inspiração real na Flórida.",
+  "description": "O mapa de Leonida mais detalhado em português: redesenhado a partir do mapa oficial da Rockstar, com os 5 condados, cidades, bairros de Vice City, ilhas, rodovias e lugares, zoom e busca.",
   "inLanguage": "pt-BR",
   "sameAs": [
     "https://x.com/vvviceversaa",
@@ -1262,6 +1262,10 @@
   .atlas-pin:hover span,.atlas-pin:focus span{transform:scale(1.15)}
   .atlas-pin.ativo span{transform:scale(1.2);box-shadow:0 0 0 3px #FFF3E4,0 0 0 7px var(--cor),0 6px 18px rgba(0,0,0,.5)}
   .atlas-pin:focus{outline:none}
+  /* de longe, ícones menores para não cobrir os nomes do mapa */
+  .atlas[data-nivel="0"] .atlas-pin span{transform:scale(.6)}
+  .atlas[data-nivel="0"] .atlas-pin:hover span,.atlas[data-nivel="0"] .atlas-pin:focus span{transform:scale(.9)}
+  .atlas[data-nivel="0"] .atlas-pin.ativo span{transform:scale(1)}
   .atlas-pin:focus-visible span{box-shadow:0 0 0 3px #FFF3E4,0 0 0 6px var(--agua)}
   .atlas-pin--aprox span{box-shadow:0 0 0 2px rgba(255,243,228,.9),0 0 0 5px rgba(11,4,20,.6),0 4px 12px rgba(0,0,0,.45)}
   .atlas-pin--aprox::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px dashed var(--creme);opacity:.75;pointer-events:none}
@@ -1327,76 +1331,132 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
-  .atlas--noite{--atlas-mar:#07112A}
-  .atlas--dia{--atlas-mar:#3778C2}
+  /* ---- ATLAS: paletas do vetor (o SVG só traz classes; base: mapa oficial da Rockstar redesenhado) ---- */
+  .atlas--noite{--atlas-mar:#17263C}
+  .atlas--dia{--atlas-mar:#9EC3F7}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
   .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
+  .atlas-vetor path[class^="l-"]{fill:none}
 
-  .atlas--noite .c-mar{fill:#07112A}
-  .atlas--noite .c-raso3{fill:#0A1B38}
-  .atlas--noite .c-raso2{fill:#0C2646}
-  .atlas--noite .c-raso1{fill:#10385A}
-  .atlas--noite .c-terra{fill:#271843}
-  .atlas--noite .c-colina{fill:#2E1C50}
-  .atlas--noite .c-floresta{fill:#35225C}
-  .atlas--noite .c-pantano{fill:#123C44}
-  .atlas--noite .c-industrial{fill:#3A2A48}
-  .atlas--noite .c-areia{fill:#4A2A3C}
-  .atlas--noite .c-urbana{fill:#3C2560}
-  .atlas--noite .c-predio{fill:#5A3C86}
-  .atlas--noite .l-vielas{stroke:#7451A8;stroke-width:calc(var(--traco) * .45px);stroke-dasharray:none}
-  .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
-  .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
-  .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
+  /* Dia: claro, no estilo dos mapas de navegação */
+  .atlas--dia .c-mar{fill:#9EC3F7}
+  .atlas--dia .c-raso3{fill:#A7C9F8}
+  .atlas--dia .c-raso2{fill:#AFCFF9}
+  .atlas--dia .c-raso1{fill:#B9D6FA}
+  .atlas--dia .c-lago{fill:#9EC3F7}
+  .atlas--dia .c-terra{fill:#EEF1E7}
+  .atlas--dia .c-colina{fill:#E1ECD4}
+  .atlas--dia .c-floresta{fill:#D2E5C2}
+  .atlas--dia .c-serra{fill:#C2DCAF}
+  .atlas--dia .c-campo{fill:#E7E8CC}
+  .atlas--dia .c-pantano{fill:#CDE6D6}
+  .atlas--dia .c-industrial{fill:#E9E5DC}
+  .atlas--dia .c-areia{fill:#FAEFC8}
+  .atlas--dia .c-urbana{fill:#F2F3F6}
+  .atlas--dia .c-quadra{fill:#E2E4EA}
+  .atlas--dia .c-predio{fill:#D4D7E0}
+  .atlas--dia .c-pista{fill:#DADBE3}
+  .atlas--dia .l-vielas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .6px)}
+  .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1px)}
+  .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.6px);filter:drop-shadow(0 0 .35px #A9AEB8)}
+  .atlas--dia .l-rotas{stroke:#FDE79A;stroke-width:calc(var(--traco) * 2px);filter:drop-shadow(0 0 .4px #E8B64C)}
+  .atlas--dia .l-vias-largas{stroke:#FCD565;stroke-width:calc(var(--traco) * 2.4px);filter:drop-shadow(0 0 .5px #E1A23B)}
+  .atlas--dia .l-ferrovia{stroke:#A79FB3;stroke-width:calc(var(--traco) * .7px);stroke-dasharray:3 2}
+  .atlas--dia .grade path{stroke:rgba(32,33,36,.35)}
+  .atlas--dia .grade text{fill:rgba(32,33,36,.6)}
+
+  /* Noite: escuro, para quem prefere */
+  .atlas--noite .c-mar,.atlas--noite .c-lago{fill:#17263C}
+  .atlas--noite .c-raso3{fill:#1A2C44}
+  .atlas--noite .c-raso2{fill:#1D324C}
+  .atlas--noite .c-raso1{fill:#213955}
+  .atlas--noite .c-terra{fill:#242F3E}
+  .atlas--noite .c-colina{fill:#263445}
+  .atlas--noite .c-floresta{fill:#26393A}
+  .atlas--noite .c-serra{fill:#243B36}
+  .atlas--noite .c-campo{fill:#2C3540}
+  .atlas--noite .c-pantano{fill:#22383F}
+  .atlas--noite .c-industrial{fill:#2C3442}
+  .atlas--noite .c-areia{fill:#3A3A3A}
+  .atlas--noite .c-urbana{fill:#283241}
+  .atlas--noite .c-quadra{fill:#2F3A4A}
+  .atlas--noite .c-predio{fill:#384354}
+  .atlas--noite .c-pista{fill:#3A4352}
+  .atlas--noite .l-vielas{stroke:#3B4555;stroke-width:calc(var(--traco) * .55px)}
+  .atlas--noite .l-ruas{stroke:#46505F;stroke-width:calc(var(--traco) * .9px)}
+  .atlas--noite .l-vias{stroke:#5B6474;stroke-width:calc(var(--traco) * 1.4px)}
+  .atlas--noite .l-rotas{stroke:#9A5B78;stroke-width:calc(var(--traco) * 1.8px)}
+  .atlas--noite .l-vias-largas{stroke:#C7397A;stroke-width:calc(var(--traco) * 2.2px)}
+  .atlas--noite .l-ferrovia{stroke:#5E5470;stroke-width:calc(var(--traco) * .7px);stroke-dasharray:3 2}
   .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
   .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
-
-  /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
-  .atlas--dia .c-mar{fill:#3778C2}
-  .atlas--dia .c-raso3{fill:#4688CF}
-  .atlas--dia .c-raso2{fill:#5C9CDB}
-  .atlas--dia .c-raso1{fill:#86BBE8}
-  .atlas--dia .c-terra{fill:#E8EDD8}
-  .atlas--dia .c-colina{fill:#DCE5C6}
-  .atlas--dia .c-floresta{fill:#C3DAA5}
-  .atlas--dia .c-pantano{fill:#A3D2BC}
-  .atlas--dia .c-industrial{fill:#E4DACB}
-  .atlas--dia .c-areia{fill:#F3E1A6}
-  .atlas--dia .c-urbana{fill:#E1E1E8}
-  .atlas--dia .c-predio{fill:#C9C7D4}
-  .atlas--dia .l-vielas{stroke:#FFFFFF;stroke-opacity:.8;stroke-width:calc(var(--traco) * .55px)}
-  .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
-  .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
-  .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
-  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
-  .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
-  .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
+  .atlas[data-zoom="longe"] .atlas-vetor .l-vielas,
   .atlas[data-zoom="longe"] .atlas-vetor .c-predio{display:none}
+  .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.55}
 
-  /* nomes das regiões (clicáveis) e rótulos de água */
-  .atlas-regiao{display:flex!important;flex-direction:column;align-items:center;transform:translate(-50%,-50%);
-    width:auto!important;height:auto!important;margin:0!important;cursor:pointer;white-space:nowrap;text-align:center}
-  .atlas-regiao b{font-family:var(--font-display);font-weight:400;letter-spacing:.08em;line-height:1;
-    font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
-  .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
-    color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
-  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
-  .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
-  .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
-  .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
+  /* nomes: o ponto do Leaflet é a âncora; o texto fica centrado nela */
+  .atlas-regiao,.atlas-rotulo,.atlas-escudo{width:0!important;height:0!important;margin:0!important;background:none;border:0}
+  .atlas-regiao>span,.atlas-rotulo>span,.atlas-escudo>span{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;text-align:center}
+  .atlas-regiao>span{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+  .atlas-rotulo{pointer-events:none}
+  .atlas-rotulo--sob>span{transform:translate(-50%,13px)}
+  .atlas-rotulo>span{font-family:Roboto,"Helvetica Neue",Arial,sans-serif;font-size:calc(.62rem + var(--rel,0) * .03rem);line-height:1.15;
+    color:#3C4043;--halo:#FFFFFF;text-shadow:0 0 2px var(--halo),0 0 2px var(--halo),0 0 3px var(--halo),0 0 4px var(--halo)}
+  .atlas--noite .atlas-rotulo>span{color:#C9CED6;--halo:#17263C}
+  .atlas-rotulo--condado>span{font-size:calc(.74rem + var(--rel,0) * .1rem);letter-spacing:.22em;text-transform:uppercase;color:#7A7F89;font-weight:500}
+  .atlas-rotulo--cidade>span{font-size:calc(.8rem + var(--rel,0) * .08rem);font-weight:700;color:#202124}
+  .atlas-rotulo--vila>span{font-size:calc(.68rem + var(--rel,0) * .04rem);font-weight:500;color:#3C4043}
+  .atlas-rotulo--bairro>span,.atlas-rotulo--regiao>span{font-size:calc(.56rem + var(--rel,0) * .04rem);letter-spacing:.12em;text-transform:uppercase;color:#6A6F78;font-weight:500}
+  .atlas-rotulo--ilha>span{font-size:calc(.6rem + var(--rel,0) * .04rem);color:#5F6368;font-weight:500}
+  .atlas-rotulo--agua>span,.atlas-rotulo--oceano>span{font-style:italic;color:#3F6FB5;--halo:rgba(220,234,253,.95);letter-spacing:.04em}
+  .atlas-rotulo--oceano>span{font-size:calc(.9rem + var(--rel,0) * .1rem);letter-spacing:.14em}
+  .atlas-rotulo--parque>span{color:#2E7D32;font-weight:500}
+  .atlas-rotulo--poi>span{font-size:calc(.56rem + var(--rel,0) * .03rem);color:#5B5F7A;padding-left:.75em}
+  .atlas-rotulo--poi>span::before{content:"";position:absolute;left:0;top:50%;width:.45em;height:.45em;margin-top:-.22em;border-radius:50%;background:#8E86B5;box-shadow:0 0 0 1.5px var(--halo)}
+  .atlas--noite .atlas-rotulo--cidade>span{color:#F1F3F4}
+  .atlas--noite .atlas-rotulo--agua>span,.atlas--noite .atlas-rotulo--oceano>span{color:#7FA6DA;--halo:#17263C}
+  .atlas--noite .atlas-rotulo--parque>span{color:#81C995}
+  .atlas--noite .atlas-rotulo--poi>span{color:#B6AFDA}
+  /* cada nome aparece a partir do seu nível de zoom (data-nivel vem do JS) */
+  .atlas[data-nivel="0"] .n1,.atlas[data-nivel="0"] .n2,.atlas[data-nivel="0"] .n3,
+  .atlas[data-nivel="1"] .n2,.atlas[data-nivel="1"] .n3,.atlas[data-nivel="2"] .n3{display:none}
+  /* placas das rodovias, como na legenda do pôster */
+  .esc{display:grid;place-items:center;min-width:1.55rem;height:1.45rem;padding:0 .2rem;font:700 .62rem/1 Roboto,Arial,sans-serif;letter-spacing:0}
+  .esc--i{color:#fff;background:linear-gradient(#C8102E 0 27%,#fff 27% 33%,#003F87 33%);border:1.5px solid #fff;border-radius:3px 3px 50% 50%/3px 3px 38% 38%;box-shadow:0 0 0 1px #003F87}
+  .esc--us{color:#111;background:#fff;border:1.5px solid #111;border-radius:2px 2px 45% 45%/2px 2px 35% 35%}
+  .esc--sr{color:#111;background:#fff;border:1.5px solid #111;border-radius:2px;height:1.3rem}
+  .esc--toll{color:#111;background:linear-gradient(#F6C700 0 30%,#fff 30%);border:1.5px solid #111;border-radius:2px;height:1.45rem;padding-top:.35rem}
+  .esc--cr{color:#FFD200;background:#0B4EA2;clip-path:polygon(50% 0,100% 22%,90% 100%,10% 100%,0 22%);height:1.5rem;padding-top:.15rem}
+  /* escala */
+  .atlas-escala{display:flex;align-items:center;gap:.45rem;font:600 .66rem Roboto,Arial,sans-serif;color:#3C4043;
+    background:rgba(255,255,255,.85);border-radius:6px;padding:.25rem .5rem;pointer-events:none}
+  .atlas-escala span{display:block;height:6px;border:2px solid #3C4043;border-top:0}
+  .atlas--noite .atlas-escala{background:rgba(23,38,60,.85);color:#C9CED6}
+  .atlas--noite .atlas-escala span{border-color:#C9CED6}
+
+  /* nomes das regiões (clicáveis): no estilo do nome oficial correspondente */
+  .atlas-regiao b{font-family:Roboto,"Helvetica Neue",Arial,sans-serif;font-weight:700;line-height:1.1;
+    font-size:calc(.95rem + var(--rel,0) * .12rem);color:#202124;text-shadow:0 0 2px #fff,0 0 3px #fff,0 0 4px #fff}
+  .atlas-regiao small{font-family:var(--font-mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
+    color:#B01E5A;text-shadow:0 0 2px #fff,0 0 2px #fff;margin-top:.1rem}
+  .atlas-regiao--parque b{color:#2E7D32;font-size:calc(.72rem + var(--rel,0) * .06rem)}
+  .atlas-regiao--ilha b{color:#5F6368;font-size:calc(.72rem + var(--rel,0) * .06rem)}
+  .atlas--noite .atlas-regiao b{color:#F1F3F4;text-shadow:0 0 2px #17263C,0 0 3px #17263C,0 0 4px #17263C}
+  .atlas--noite .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 2px #17263C,0 0 2px #17263C}
+  .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#B01E5A}
+  .atlas--noite .atlas-regiao:hover b,.atlas--noite .atlas-regiao.ativo b{color:#2FE6C8}
   .atlas[data-zoom="longe"] .atlas-regiao small{display:none}
-  .atlas[data-zoom="perto"] .atlas-regiao b{font-size:1.7rem}
-  .atlas-rotulo{width:auto!important;height:auto!important;margin:0!important;transform:translate(-50%,-50%);
-    white-space:nowrap;pointer-events:none;font-family:var(--font-mono);font-style:italic;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase}
-  .atlas-rotulo--agua{color:#6FD6F0;text-shadow:0 0 2px #08142A}
-  .atlas--dia .atlas-rotulo--agua{color:#0E4C73;text-shadow:0 0 2px #BFEFF7}
-  .atlas[data-zoom="longe"] .atlas-rotulo{display:none}
+  /* celular: de longe o mapa é estreito; condados só ao aproximar, nomes um pouco menores */
+  @media (max-width:760px){
+    .atlas[data-nivel="0"] .atlas-rotulo--condado{display:none}
+    .atlas[data-nivel="0"] .atlas-regiao b{font-size:.78rem}
+    .atlas[data-nivel="0"] .atlas-rotulo--oceano>span{font-size:.72rem}
+    .atlas .leaflet-control-attribution{font-size:9px;line-height:1.3}
+    .atlas .leaflet-bottom.leaflet-left{bottom:26px}
+  }
 
   /* cartões da lista "Todos os locais" com a cor da categoria */
   .local-card{border-left-color:var(--cor,var(--agua))}
@@ -1586,7 +1646,7 @@
     <aside class="atlas__lado" id="atlas-lado" aria-label="Filtros">
       <div class="atlas__topo">
         <h3>Mapa interativo de Leonida</h3>
-        <p>Todos os lugares conhecidos de Leonida num só mapa. Filtre por categoria, marque os lugares que já visitou e compartilhe o link de qualquer ponto.</p>
+        <p>Todos os lugares de Leonida num só mapa, com os nomes oficiais. Filtre por categoria, marque os lugares que já visitou e compartilhe o link de qualquer ponto.</p>
         <button type="button" class="atlas__fechar" id="atlas-fechar" aria-label="Fechar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
         </button>
@@ -1608,11 +1668,9 @@
       </label>
       <p class="atlas__progresso" id="atlas-progresso">Seu progresso fica salvo neste navegador.</p>
     <section class="atlas__confirmados" aria-labelledby="atlas-confirmados-titulo">
-      <h3 id="atlas-confirmados-titulo">Confirmados, ainda sem lugar no mapa <span>11</span></h3>
+      <h3 id="atlas-confirmados-titulo">Confirmados, ainda sem lugar no mapa <span>9</span></h3>
       <p>Lugares que a Rockstar já nomeou ou mostrou, mas cuja localização ainda não foi revelada. Assim que for, eles entram no mapa.</p>
       <ul>
-      <li class="confirmado" style="--cor:#FF8A3D" data-icone="fabrica"><details><summary><i class="confirmado__cor"></i><span><strong>Refinaria Allied Crystal</strong><small>Refinaria de açúcar</small></span></summary><p>A refinaria que move a economia de Ambrosia. A Rockstar descreve uma cidade em que os moradores trabalham nas usinas de açúcar e uma gangue de motociclistas cuida do resto.</p><button type="button" class="confirmado__ir" data-ir="ambrosia">Ver a região no mapa →</button><span class="confirmado__fontes">Fontes: <a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener nofollow">rockstargames.com</a></span></details></li>
-      <li class="confirmado" style="--cor:#B07CFF" data-icone="loja"><details><summary><i class="confirmado__cor"></i><span><strong>Tisha-Wocka</strong><small>Feira de pulgas</small></span></summary><p>Uma feira ao ar livre em Vice City que vende marcas piratas, mostrada na revelação de locais da Rockstar em maio de 2025.</p><button type="button" class="confirmado__ir" data-ir="vice-city">Ver a região no mapa →</button><span class="confirmado__fontes">Fontes: <a href="https://gtaintel.com/news/gta-6-vice-city-districts-explained" target="_blank" rel="noopener nofollow">gtaintel.com</a></span></details></li>
       <li class="confirmado" style="--cor:#B07CFF" data-icone="musica"><details><summary><i class="confirmado__cor"></i><span><strong>Only Raw Records</strong><small>Gravadora e estúdio</small></span></summary><p>A gravadora de Boobie Ike e Dre&#x27;Quan Priest, casa da dupla Real Dimez. A Rockstar a apresentou nos perfis de personagens divulgados com o segundo trailer.</p><button type="button" class="confirmado__ir" data-ir="vice-city">Ver a região no mapa →</button><span class="confirmado__fontes">Fontes: <a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener nofollow">rockstargames.com</a></span></details></li>
       <li class="confirmado" style="--cor:#FFD23F" data-icone="estrela"><details><summary><i class="confirmado__cor"></i><span><strong>Penitenciária de Leonida</strong><small>Presídio estadual</small></span></summary><p>Onde Lucia cumpre pena quando o primeiro trailer começa. A Rockstar ainda não mostrou onde ela fica no mapa.</p><span class="confirmado__fontes">Fontes: <a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener nofollow">rockstargames.com</a></span></details></li>
       <li class="confirmado" style="--cor:#B07CFF" data-icone="musica"><details><summary><i class="confirmado__cor"></i><span><strong>Jack of Hearts</strong><small>Boate de striptease</small></span></summary><p>Uma boate de striptease vista nos trailers e imagens oficiais. A localização no estado ainda não foi revelada.</p><span class="confirmado__fontes">Fontes: <a href="https://www.gfinityesports.com/article/gta-6-store-guide-every-confirmed-shop-and-business" target="_blank" rel="noopener nofollow">gfinityesports.com</a></span></details></li>
@@ -1658,7 +1716,7 @@
     <div data-r="gellhorn" data-nome="Port Gellhorn" data-real="Costa oeste esquecida" data-tags="Porto|Industrial|Motéis|Decadência">A antiga cidade turística da costa oeste, hoje sustentada por motéis baratos, atrações fechadas, docas e paradas de caminhoneiro. A Rockstar a retrata sem romantismo. Tem força policial própria, o que indica múltiplas jurisdições no estado.</div>
     <div data-r="ambrosia" data-nome="Ambrosia"      data-real="Interior industrial" data-tags="Refinaria|Motociclistas|Fazendas|Lago">A cidade industrial às margens do Lago Leonida, o grande corpo d'água no centro do mapa. A economia gira em torno da refinaria de açúcar Allied Crystal, e a região é território de gangues de motociclistas.</div>
     <div data-r="kalaga"   data-nome="Mount Kalaga"  data-real="Serras e parque nacional" data-tags="Floresta|Off-road|Pesca|Relevo">O parque nacional ao norte, com relevo, mata fechada e fauna selvagem. É o que Leonida tem de mais parecido com Ambarino, de Red Dead 2: remoto, cênico e feito para exploração fora de estrada.</div>
-    <div data-r="aeroporto" data-nome="Aeroporto Internacional" data-real="Vice City" data-tags="Voos|Viagem rápida|Hangares">O aeroporto internacional de Vice City, ao norte da cidade. É apontado como um dos pontos de viagem rápida entre as regiões do estado.</div>
+    <div data-r="aeroporto" data-nome="Aeroporto Internacional" data-real="Vice City" data-tags="Voos|Viagem rápida|Hangares">O aeroporto internacional de Vice City (VCIA, no mapa oficial), a oeste do centro, entre a cidade e a West Vice-Dale County, com duas pistas paralelas e uma diagonal. É apontado como um dos pontos de viagem rápida entre as regiões do estado.</div>
     <div data-r="porto"     data-nome="Porto de carga" data-real="Port Gellhorn" data-tags="Contêineres|Guindastes|Ferrovia">O porto de trabalho que sustenta Port Gellhorn: contêineres empilhados, guindastes em operação e linhas férreas ativas. A Rockstar mostra o contraste entre comércio legítimo e o que se aproveita dos pontos cegos.</div>
     <div data-r="refinaria" data-nome="Refinaria Allied Crystal" data-real="Ambrosia" data-tags="Açúcar|Fábrica|Motociclistas">A refinaria de açúcar que domina o horizonte de Ambrosia. Nas palavras da própria Rockstar, ela fornece os empregos — e a gangue de motociclistas local fornece quase todo o resto.</div>
     <div data-r="parque"    data-nome="Parque Nacional" data-real="Mount Kalaga" data-tags="Floresta|Cânions|Rios">O parque nacional que corre pela fronteira norte do estado, com florestas fechadas, cânions e rios. Trilhas, terreno acidentado e fuga por estradas de terra.</div>
@@ -1667,8 +1725,8 @@
     <div data-r="pantano"   data-nome="Pântanos e airboats" data-real="Grassrivers" data-tags="Airboat|Jacarés|Mangue">O coração alagado dos Grassrivers, onde os airboats entram como classe de veículo feita para água rasa. Jacarés e fauna perigosa fora da estrada principal.</div>
   </div>
 
-  <script type="application/json" id="atlas-config">{"info": {"largura": 1462, "altura": 1951, "origem": "leonida-mapa-v16.jpg", "recorte": [586, 0, 2048, 1951], "imagem": [2048, 1951], "grade": {"colunas": 8, "linhas": 11, "celula": 182.75}}, "svg": "../../map-data/leonida.svg?v=1795118960", "pontos": [{"id": "vice-city", "cat": "regiao", "x": 0.7547, "y": 0.5117, "ficha": "vice", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/vice-city/"}, {"id": "grassrivers", "cat": "regiao", "x": 0.4784, "y": 0.7617, "ficha": "grass", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/grassrivers/"}, {"id": "leonida-keys", "cat": "regiao", "x": 0.4472, "y": 0.8766, "ficha": "keys", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/leonida-keys/"}, {"id": "port-gellhorn", "cat": "regiao", "x": 0.2487, "y": 0.3377, "ficha": "gellhorn", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/port-gellhorn/"}, {"id": "ambrosia", "cat": "regiao", "x": 0.503, "y": 0.3256, "ficha": "ambrosia", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/ambrosia/"}, {"id": "mount-kalaga", "cat": "regiao", "x": 0.4745, "y": 0.2488, "ficha": "kalaga", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/mount-kalaga/"}, {"id": "centro-vice-city", "cat": "cidade", "x": 0.6717, "y": 0.5684, "nome": "Centro de Vice City", "real": "Downtown Miami", "desc": "A malha de ruas mais fechada do mapa, na margem oeste da baía, cortada pela rodovia que atravessa a cidade de norte a sul.", "tags": ["Vice City"], "icone": "predios", "nome_tipo": "descritivo", "url": "../../pt/mapa/centro-vice-city/"}, {"id": "vice-beach", "cat": "cidade", "x": 0.8317, "y": 0.5064, "nome": "Ocean Beach", "real": "South Beach (Miami Beach)", "desc": "Nome oficial da Rockstar para o bairro à beira-mar de Vice City: hotéis art déco em tons pastel, areia branca e a orla que aparece logo no primeiro trailer. Os fãs costumam chamar a ilha inteira de \"Vice Beach\".", "tags": ["Vice City"], "icone": "predios", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI", "https://gtaintel.com/news/gta-6-vice-city-districts-explained"], "url": "../../pt/mapa/vice-beach/"}, {"id": "little-cuba", "cat": "cidade", "x": 0.628, "y": 0.565, "nome": "Little Cuba", "real": "Little Havana", "desc": "Um bairro de Vice City batizado pela Rockstar, conhecido pelas panaderías (padarias cubanas) movimentadas. Os limites exatos ainda não foram mostrados: posicionamos a oeste do centro, onde fica a Little Havana na Miami real.", "tags": ["Vice City"], "icone": "predios", "nome_tipo": "oficial", "aprox": true, "fontes": ["https://www.rockstargames.com/VI", "https://gtaintel.com/news/gta-6-vice-city-districts-explained"], "url": "../../pt/mapa/little-cuba/"}, {"id": "watson-bay", "cat": "cidade", "x": 0.3858, "y": 0.715, "nome": "Watson Bay", "desc": "Cidade costeira na borda oeste dos Grassrivers, com uma pequena malha de ruas de frente para a água.", "tags": ["Grassrivers"], "icone": "predios", "nome_tipo": "oficial", "fontes": ["https://rockstarreport.com/features/gta-6-map-locations-confirmed-leaked-rumoured-leonida"], "url": "../../pt/mapa/watson-bay/"}, {"id": "key-lento", "cat": "cidade", "x": 0.5568, "y": 0.8488, "nome": "Key Lento", "real": "Key Largo", "desc": "A maior cidade das Leonida Keys: uma ilha comprida e estreita cheia de ruas, ligada ao continente pela rodovia que desce do norte.", "tags": ["Leonida Keys"], "icone": "predios", "nome_tipo": "comunidade", "url": "../../pt/mapa/key-lento/"}, {"id": "st-joseph", "cat": "cidade", "x": 0.6922, "y": 0.2153, "nome": "St. Joseph", "desc": "Cidade pequena no litoral nordeste, junto à praia. O nome é um palpite da comunidade, não confirmado pela Rockstar.", "icone": "predios", "nome_tipo": "comunidade", "url": "../../pt/mapa/st-joseph/"}, {"id": "redhill", "cat": "cidade", "x": 0.4747, "y": 0.1779, "nome": "Redhill", "desc": "Um ponto junto à rodovia do norte, ao pé do Monte Kalaga. O nome é um palpite da comunidade, não confirmado pela Rockstar.", "tags": ["Monte Kalaga"], "icone": "predios", "nome_tipo": "comunidade", "url": "../../pt/mapa/redhill/"}, {"id": "aeroporto", "cat": "transporte", "x": 0.5438, "y": 0.5782, "ficha": "aeroporto", "icone": "aviao", "nome_tipo": "descritivo", "url": "../../pt/mapa/aeroporto/"}, {"id": "aeroporto-keys", "cat": "transporte", "x": 0.2565, "y": 0.8765, "nome": "Aeroporto das Keys", "desc": "Uma ilha quase toda ocupada por duas pistas cruzadas, na ponta oeste das Keys.", "tags": ["Leonida Keys"], "icone": "aviao", "nome_tipo": "descritivo", "url": "../../pt/mapa/aeroporto-keys/"}, {"id": "aerodromo-gellhorn", "cat": "transporte", "x": 0.2435, "y": 0.386, "nome": "Pista de pouso de Port Gellhorn", "desc": "Uma pista única na península ao sul de Port Gellhorn.", "tags": ["Port Gellhorn"], "icone": "aviao", "nome_tipo": "descritivo", "url": "../../pt/mapa/aerodromo-gellhorn/"}, {"id": "area-portuaria", "cat": "transporte", "x": 0.7873, "y": 0.5766, "nome": "VC Port", "real": "PortMiami (Dodge Island)", "desc": "O porto de Vice City, com nome dado pela Rockstar: um centro movimentado de cruzeiros e cargas na ilha artificial da baía, ligado ao centro por uma ponte, com cais, guindastes e grandes galpões de terminal.", "tags": ["Vice City"], "icone": "ancora", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI", "https://gtaintel.com/news/gta-6-vice-city-districts-explained"], "url": "../../pt/mapa/area-portuaria/"}, {"id": "porto-gellhorn", "cat": "transporte", "x": 0.2353, "y": 0.2973, "ficha": "porto", "icone": "ancora", "nome_tipo": "descritivo", "url": "../../pt/mapa/porto-gellhorn/"}, {"id": "praias-vice-city", "cat": "natureza", "x": 0.8687, "y": 0.5192, "ficha": "praia", "icone": "praia", "nome_tipo": "descritivo", "url": "../../pt/mapa/praias-vice-city/"}, {"id": "pantanos", "cat": "natureza", "x": 0.4774, "y": 0.6776, "ficha": "pantano", "icone": "pantano", "nome_tipo": "descritivo", "url": "../../pt/mapa/pantanos/"}, {"id": "lago-leonida", "cat": "natureza", "x": 0.6042, "y": 0.3099, "nome": "Lago Leonida", "real": "Lake Okeechobee", "desc": "O grande lago no meio do estado, na porta de Ambrosia. O formato e o entorno lembram o Lago Okeechobee, o lago real da Flórida cercado por plantações de cana.", "tags": ["Ambrosia"], "icone": "agua", "nome_tipo": "oficial", "fontes": ["https://rockstarreport.com/features/gta-6-map-locations-confirmed-leaked-rumoured-leonida"], "url": "../../pt/mapa/lago-leonida/"}, {"id": "industria-ambrosia", "cat": "industria", "x": 0.5417, "y": 0.3742, "nome": "Zona industrial de Ambrosia", "desc": "Fileiras de galpões grandes ao longo da ferrovia, logo ao sul do centro de Ambrosia, entre o rio e o lago.", "tags": ["Ambrosia"], "icone": "fabrica", "nome_tipo": "descritivo", "url": "../../pt/mapa/industria-ambrosia/"}, {"id": "ponte-keys", "cat": "marco", "x": 0.3509, "y": 0.9, "nome": "Ponte sobre o mar das Keys", "real": "Seven Mile Bridge", "desc": "A longa ponte que vai de ilha em ilha entre Key Lento e a ilha do aeroporto.", "tags": ["Leonida Keys"], "icone": "ponte", "nome_tipo": "descritivo", "url": "../../pt/mapa/ponte-keys/"}], "rotulos": [], "categorias": [{"id": "regiao", "cor": "#FF3D8A", "nome": "Regiões", "singular": "Região", "icone": ""}, {"id": "cidade", "cor": "#FF5FA2", "nome": "Cidades e bairros", "singular": "Cidade ou bairro", "icone": "predios"}, {"id": "transporte", "cor": "#3FA9FF", "nome": "Aeroportos e portos", "singular": "Aeroporto ou porto", "icone": "aviao"}, {"id": "natureza", "cor": "#2FC87A", "nome": "Natureza", "singular": "Natureza", "icone": "arvore"}, {"id": "industria", "cor": "#FF8A3D", "nome": "Indústria", "singular": "Indústria", "icone": "fabrica"}, {"id": "marco", "cor": "#FFD23F", "nome": "Marcos", "singular": "Marco", "icone": "estrela"}], "textos": {"video": "Ver a cena no trailer ↗", "copiar": "Copiar link deste local", "pagina": "Ver página do local →", "copiado": "Link copiado!", "nada": "Nenhum local encontrado.", "editar": "Modo de edição: clique no mapa para copiar a posição (x, y)", "quadrante": "Quadrante", "inspirado": "Inspirado em", "visitado": "Visitado", "marcar": "Marcar como visitado", "visitados": "visitados", "aprox": "Posição aproximada", "aproximar": "Aproximar", "oficial": "Nome oficial", "descritivo": "Nome dado pelo VICEVERSA", "comunidade": "Apelido da comunidade (não confirmado)", "fontes": "Fontes", "verRegiao": "Ver a região no mapa →"}}</script>
-  <p class="mapa-nota">O mapa é uma reconstrução feita por fãs a partir de material oficial divulgado pela Rockstar; estradas, distâncias e locais podem mudar no jogo final. Os pontos e descrições em destaque são do VICEVERSA.</p>
+  <script type="application/json" id="atlas-config">{"info": {"largura": 1755, "altura": 2449.8, "origem": "Leonida_Map_Poster.jpg", "fonte": "oficial", "recorte": [94, 94, 2711, 3747], "imagem": [2805, 3840], "milha": 195.91, "grade": {"colunas": 9, "linhas": 13, "celula_x": 195.914, "celula_y": 195.914, "origem_x": -4.45, "origem_y": -49.68, "formato": "linha-coluna"}}, "svg": "../../map-data/leonida.svg?v=1795145636", "pontos": [{"id": "vice-city", "cat": "regiao", "x": 0.6838, "y": 0.5208, "ficha": "vice", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/vice-city/"}, {"id": "grassrivers", "cat": "regiao", "x": 0.4473, "y": 0.6714, "ficha": "grass", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/grassrivers/"}, {"id": "leonida-keys", "cat": "regiao", "x": 0.5014, "y": 0.8784, "ficha": "keys", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/leonida-keys/"}, {"id": "port-gellhorn", "cat": "regiao", "x": 0.2912, "y": 0.351, "ficha": "gellhorn", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/port-gellhorn/"}, {"id": "ambrosia", "cat": "regiao", "x": 0.559, "y": 0.3498, "ficha": "ambrosia", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/ambrosia/"}, {"id": "mount-kalaga", "cat": "regiao", "x": 0.4974, "y": 0.2122, "ficha": "kalaga", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI"], "url": "../../pt/mapa/mount-kalaga/"}, {"id": "centro-vice-city", "cat": "cidade", "x": 0.7168, "y": 0.5363, "nome": "Downtown", "real": "Downtown Miami", "desc": "O centro de Vice City, com o nome no mapa oficial da Rockstar: a malha de ruas mais fechada do estado, na margem oeste da baía, entre Little Cuba e as ilhas, cortada pela Interstate 97 e pelo ramal 397 que vai ao porto.", "tags": ["Vice City"], "icone": "predios", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI/media"], "url": "../../pt/mapa/centro-vice-city/"}, {"id": "vice-beach", "cat": "cidade", "x": 0.8883, "y": 0.5237, "nome": "Ocean Beach", "real": "South Beach (Miami Beach)", "desc": "Nome oficial da Rockstar para o bairro à beira-mar de Vice City: hotéis art déco em tons pastel, areia branca e a orla que aparece logo no primeiro trailer. Os fãs costumam chamar a ilha inteira de \"Vice Beach\".", "tags": ["Vice City"], "icone": "predios", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI", "https://gtaintel.com/news/gta-6-vice-city-districts-explained"], "url": "../../pt/mapa/vice-beach/"}, {"id": "little-cuba", "cat": "cidade", "x": 0.6667, "y": 0.5343, "nome": "Little Cuba", "real": "Little Havana", "desc": "Um bairro de Vice City batizado pela Rockstar, conhecido pelas panaderías (padarias cubanas) movimentadas. O mapa oficial o coloca logo a oeste do Downtown, ao sul do trevo da Interstate 404, onde fica a Little Havana na Miami real.", "tags": ["Vice City"], "icone": "predios", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI/media", "https://www.rockstargames.com/VI", "https://gtaintel.com/news/gta-6-vice-city-districts-explained"], "url": "../../pt/mapa/little-cuba/"}, {"id": "watson-bay", "cat": "cidade", "x": 0.4268, "y": 0.7151, "nome": "Watson Bay", "desc": "Cidade costeira na borda oeste dos Grassrivers, com uma pequena malha de ruas de frente para a água.", "tags": ["Grassrivers"], "icone": "predios", "nome_tipo": "oficial", "fontes": ["https://rockstarreport.com/features/gta-6-map-locations-confirmed-leaked-rumoured-leonida"], "url": "../../pt/mapa/watson-bay/"}, {"id": "key-lento", "cat": "cidade", "x": 0.5732, "y": 0.8498, "nome": "Key Lento", "real": "Key Largo", "desc": "A maior cidade das Leonida Keys, confirmada no mapa oficial da Rockstar: uma ilha comprida e estreita cheia de ruas. A State Route 1A desce do continente como estrada com pedágio e segue para oeste, de ilha em ilha, até a Mile Zero Air Station.", "tags": ["Leonida Keys"], "icone": "predios", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI/media"], "url": "../../pt/mapa/key-lento/"}, {"id": "aeroporto", "cat": "transporte", "x": 0.5715, "y": 0.5735, "ficha": "aeroporto", "nome": "Aeroporto Internacional de Vice City (VCIA)", "icone": "aviao", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI/media"], "url": "../../pt/mapa/aeroporto/"}, {"id": "aeroporto-keys", "cat": "transporte", "x": 0.2598, "y": 0.8849, "nome": "Mile Zero Air Station", "real": "Naval Air Station Key West", "desc": "A base aérea militar de Goose Key, na ponta oeste das Leonida Keys: duas pistas cruzadas ocupam quase a ilha inteira, ao lado da cidade de Southwind. O nome lembra o Mile Marker 0, onde termina a U.S. 1 em Key West.", "tags": ["Leonida Keys"], "icone": "aviao", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI/media"], "url": "../../pt/mapa/aeroporto-keys/"}, {"id": "aerodromo-gellhorn", "cat": "transporte", "x": 0.249, "y": 0.3702, "nome": "Wild Hog Airfield", "desc": "Um pequeno aeródromo em Wild Hog Point, a península do outro lado da água em frente a Port Gellhorn, com o nome no mapa oficial da Rockstar.", "tags": ["Port Gellhorn"], "icone": "aviao", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI/media"], "url": "../../pt/mapa/aerodromo-gellhorn/"}, {"id": "area-portuaria", "cat": "transporte", "x": 0.8279, "y": 0.5592, "nome": "Port Vice City", "real": "PortMiami (Dodge Island)", "desc": "O porto de Vice City, com nome dado pela Rockstar: um centro movimentado de cruzeiros e cargas na ilha artificial da baía, ligado ao centro por uma ponte, com cais, guindastes e grandes galpões de terminal.", "tags": ["Vice City"], "icone": "ancora", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI/media", "https://www.rockstargames.com/VI", "https://gtaintel.com/news/gta-6-vice-city-districts-explained"], "url": "../../pt/mapa/area-portuaria/"}, {"id": "porto-gellhorn", "cat": "transporte", "x": 0.2769, "y": 0.3273, "ficha": "porto", "icone": "ancora", "nome_tipo": "descritivo", "url": "../../pt/mapa/porto-gellhorn/"}, {"id": "praias-vice-city", "cat": "natureza", "x": 0.9185, "y": 0.4694, "ficha": "praia", "icone": "praia", "nome_tipo": "descritivo", "url": "../../pt/mapa/praias-vice-city/"}, {"id": "pantanos", "cat": "natureza", "x": 0.4946, "y": 0.7192, "ficha": "pantano", "icone": "pantano", "nome_tipo": "descritivo", "url": "../../pt/mapa/pantanos/"}, {"id": "lago-leonida", "cat": "natureza", "x": 0.6125, "y": 0.3041, "nome": "Lago Leonida", "real": "Lake Okeechobee", "desc": "O grande lago no meio do estado, na porta de Ambrosia. O formato e o entorno lembram o Lago Okeechobee, o lago real da Flórida cercado por plantações de cana.", "tags": ["Ambrosia"], "icone": "agua", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI/media", "https://rockstarreport.com/features/gta-6-map-locations-confirmed-leaked-rumoured-leonida"], "url": "../../pt/mapa/lago-leonida/"}, {"id": "industria-ambrosia", "cat": "industria", "x": 0.5425, "y": 0.3869, "nome": "Zona industrial de Ambrosia", "desc": "Fileiras de galpões grandes ao longo da ferrovia, logo ao sul do centro de Ambrosia, entre o rio e o lago.", "tags": ["Ambrosia"], "icone": "fabrica", "nome_tipo": "descritivo", "url": "../../pt/mapa/industria-ambrosia/"}, {"id": "ponte-keys", "cat": "marco", "x": 0.5157, "y": 0.8824, "nome": "Ponte sobre o mar das Keys", "real": "Seven Mile Bridge", "desc": "A longa ponte que vai de ilha em ilha entre Key Lento e a ilha do aeroporto.", "tags": ["Leonida Keys"], "icone": "ponte", "nome_tipo": "descritivo", "url": "../../pt/mapa/ponte-keys/"}, {"id": "allied-crystal", "cat": "industria", "x": 0.5527, "y": 0.3661, "nome": "Refinaria Allied Crystal", "desc": "A refinaria que move a economia de Ambrosia. A Rockstar descreve uma cidade em que os moradores trabalham nas usinas de açúcar e uma gangue de motociclistas cuida do resto.", "tags": ["Ambrosia"], "icone": "fabrica", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI/media", "https://www.rockstargames.com/VI"], "url": "../../pt/mapa/allied-crystal/"}, {"id": "tisha-wocka", "cat": "comercio", "x": 0.5584, "y": 0.5012, "nome": "Tisha-Wocka Flea Market", "desc": "Uma feira ao ar livre em Vice City que vende marcas piratas, mostrada na revelação de locais da Rockstar em maio de 2025.", "tags": ["Vice City"], "icone": "loja", "nome_tipo": "oficial", "fontes": ["https://www.rockstargames.com/VI/media", "https://gtaintel.com/news/gta-6-vice-city-districts-explained"], "url": "../../pt/mapa/tisha-wocka/"}], "rotulos": [{"id": "lummox-county", "tipo": "condado", "x": 0.49687, "y": 0.18571, "n": 0, "nome": "Lummox County"}, {"id": "kelly-county", "tipo": "condado", "x": 0.41823, "y": 0.3898, "n": 0, "nome": "Kelly County"}, {"id": "leonard-county", "tipo": "condado", "x": 0.71453, "y": 0.35184, "n": 0, "nome": "Leonard County"}, {"id": "vice-dale-county", "tipo": "condado", "x": 0.73789, "y": 0.57755, "n": 0, "nome": "Vice-Dale County"}, {"id": "mariana-county", "tipo": "condado", "x": 0.40627, "y": 0.74204, "n": 0, "nome": "Mariana County"}, {"id": "atlantic-ocean", "tipo": "oceano", "x": 0.90199, "y": 0.30898, "n": 0, "nome": "Oceano Atlântico"}, {"id": "gulf-of-leonida", "tipo": "oceano", "x": 0.10256, "y": 0.64571, "n": 0, "nome": "Golfo de Leonida"}, {"id": "leonida-straits", "tipo": "oceano", "x": 0.28319, "y": 0.96082, "n": 1, "nome": "Estreito de Leonida"}, {"id": "vice-beach", "tipo": "cidade", "x": 0.87749, "y": 0.4898, "n": 0, "nome": "Vice Beach"}, {"id": "hamlet", "tipo": "cidade", "x": 0.56467, "y": 0.69551, "n": 1, "nome": "Hamlet"}, {"id": "capri", "tipo": "cidade", "x": 0.27236, "y": 0.52857, "n": 1, "nome": "Capri"}, {"id": "draper-island", "tipo": "cidade", "x": 0.22792, "y": 0.28898, "n": 1, "nome": "Draper Island"}, {"id": "key-lento", "tipo": "cidade", "x": 0.57322, "y": 0.8498, "n": 1, "nome": "Key Lento"}, {"id": "watson-bay", "tipo": "cidade", "x": 0.42678, "y": 0.7151, "n": 1, "nome": "Watson Bay"}, {"id": "waning-sands", "tipo": "cidade", "x": 0.75783, "y": 0.31429, "n": 1, "nome": "Waning Sands"}, {"id": "millport", "tipo": "cidade", "x": 0.6735, "y": 0.21633, "n": 1, "nome": "Millport"}, {"id": "bonanza", "tipo": "cidade", "x": 0.48034, "y": 0.12286, "n": 1, "nome": "Bonanza"}, {"id": "grayson", "tipo": "cidade", "x": 0.37094, "y": 0.20327, "n": 1, "nome": "Grayson"}, {"id": "belville", "tipo": "cidade", "x": 0.67009, "y": 0.39102, "n": 1, "nome": "Belville"}, {"id": "southwind", "tipo": "cidade", "x": 0.32023, "y": 0.87306, "n": 1, "nome": "Southwind"}, {"id": "moreau", "tipo": "vila", "x": 0.51681, "y": 0.14816, "n": 2, "nome": "Moreau"}, {"id": "frogswater", "tipo": "vila", "x": 0.43932, "y": 0.33551, "n": 2, "nome": "Frogswater"}, {"id": "emerald-springs", "tipo": "vila", "x": 0.45698, "y": 0.41633, "n": 2, "nome": "Emerald Springs"}, {"id": "gellhorn", "tipo": "vila", "x": 0.34074, "y": 0.44449, "n": 2, "nome": "Gellhorn"}, {"id": "big-pine", "tipo": "vila", "x": 0.38575, "y": 0.62898, "n": 2, "nome": "Big Pine"}, {"id": "pelican-valley", "tipo": "vila", "x": 0.52422, "y": 0.74408, "n": 2, "nome": "Pelican Valley"}, {"id": "tequesta", "tipo": "bairro", "x": 0.68661, "y": 0.6, "n": 2, "nome": "Tequesta"}, {"id": "tequesta-retreat", "tipo": "bairro", "x": 0.74587, "y": 0.59796, "n": 2, "nome": "Tequesta Retreat"}, {"id": "downtown", "tipo": "bairro", "x": 0.71681, "y": 0.53633, "n": 2, "nome": "Downtown"}, {"id": "little-cuba", "tipo": "bairro", "x": 0.66667, "y": 0.53429, "n": 2, "nome": "Little Cuba"}, {"id": "salton", "tipo": "bairro", "x": 0.62963, "y": 0.54286, "n": 2, "nome": "Salton"}, {"id": "balsero", "tipo": "bairro", "x": 0.59259, "y": 0.5, "n": 2, "nome": "Balsero"}, {"id": "rockridge", "tipo": "bairro", "x": 0.66553, "y": 0.50041, "n": 2, "nome": "Rockridge"}, {"id": "crosstown", "tipo": "bairro", "x": 0.71225, "y": 0.49592, "n": 2, "nome": "Crosstown"}, {"id": "flam", "tipo": "bairro", "x": 0.73618, "y": 0.50286, "n": 2, "nome": "Flam"}, {"id": "la-perle", "tipo": "bairro", "x": 0.69288, "y": 0.46245, "n": 2, "nome": "La Perle"}, {"id": "bayside", "tipo": "bairro", "x": 0.73504, "y": 0.47061, "n": 2, "nome": "Bayside"}, {"id": "stockyard", "tipo": "bairro", "x": 0.7396, "y": 0.44694, "n": 2, "nome": "Stockyard"}, {"id": "decor-district", "tipo": "bairro", "x": 0.74188, "y": 0.4298, "n": 2, "nome": "Decor District"}, {"id": "ocean-beach", "tipo": "bairro", "x": 0.88832, "y": 0.52367, "n": 2, "nome": "Ocean Beach"}, {"id": "washington-beach", "tipo": "bairro", "x": 0.89174, "y": 0.44163, "n": 2, "nome": "Washington Beach"}, {"id": "vinewood-beach", "tipo": "bairro", "x": 0.8114, "y": 0.32653, "n": 2, "nome": "Vinewood Beach"}, {"id": "sabal-palms", "tipo": "bairro", "x": 0.71966, "y": 0.31347, "n": 2, "nome": "Sabal Palms"}, {"id": "bluegrass", "tipo": "bairro", "x": 0.56581, "y": 0.63959, "n": 2, "nome": "Bluegrass"}, {"id": "southside", "tipo": "bairro", "x": 0.63362, "y": 0.65714, "n": 2, "nome": "Southside"}, {"id": "peacock-bay", "tipo": "bairro", "x": 0.67692, "y": 0.64694, "n": 2, "nome": "Peacock Bay"}, {"id": "peacock-estates", "tipo": "bairro", "x": 0.67236, "y": 0.66939, "n": 3, "nome": "Peacock Estates"}, {"id": "east-lummox-county", "tipo": "regiao", "x": 0.64729, "y": 0.16041, "n": 1, "nome": "East Lummox County"}, {"id": "south-west-lummox-county", "tipo": "regiao", "x": 0.37493, "y": 0.22653, "n": 1, "nome": "South West Lummox County"}, {"id": "north-leonard-county", "tipo": "regiao", "x": 0.60513, "y": 0.23918, "n": 1, "nome": "North Leonard County"}, {"id": "north-kelly-county", "tipo": "regiao", "x": 0.49117, "y": 0.27143, "n": 1, "nome": "North Kelly County"}, {"id": "south-leonard-county", "tipo": "regiao", "x": 0.61538, "y": 0.4298, "n": 1, "nome": "South Leonard County"}, {"id": "south-kelly-county", "tipo": "regiao", "x": 0.38917, "y": 0.50571, "n": 1, "nome": "South Kelly County"}, {"id": "west-vice-dale-county", "tipo": "regiao", "x": 0.45299, "y": 0.54082, "n": 1, "nome": "West Vice-Dale County"}, {"id": "south-vice-dale", "tipo": "regiao", "x": 0.62678, "y": 0.68898, "n": 1, "nome": "South Vice-Dale"}, {"id": "manifest-canyon", "tipo": "regiao", "x": 0.38063, "y": 0.28449, "n": 2, "nome": "Manifest Canyon"}, {"id": "wild-hog-point", "tipo": "regiao", "x": 0.22792, "y": 0.38367, "n": 2, "nome": "Wild Hog Point"}, {"id": "hyde-island", "tipo": "ilha", "x": 0.58006, "y": 0.0951, "n": 1, "nome": "Hyde Island"}, {"id": "saint-attaway-islands", "tipo": "ilha", "x": 0.53048, "y": 0.11224, "n": 1, "nome": "Saint Attaway Islands"}, {"id": "frampton-islands", "tipo": "ilha", "x": 0.65413, "y": 0.12776, "n": 1, "nome": "Frampton Islands"}, {"id": "featherstone-islands", "tipo": "ilha", "x": 0.37151, "y": 0.13918, "n": 1, "nome": "Featherstone Islands"}, {"id": "zephyr-islands", "tipo": "ilha", "x": 0.23191, "y": 0.24245, "n": 1, "nome": "Zephyr Islands"}, {"id": "little-hardin-island", "tipo": "ilha", "x": 0.79487, "y": 0.2351, "n": 1, "nome": "Little Hardin Island"}, {"id": "sandbars", "tipo": "ilha", "x": 0.11681, "y": 0.4, "n": 1, "nome": "Sandbars"}, {"id": "crude-islands", "tipo": "ilha", "x": 0.16581, "y": 0.43347, "n": 1, "nome": "Crude Islands"}, {"id": "belpoint", "tipo": "ilha", "x": 0.15157, "y": 0.55143, "n": 1, "nome": "Belpoint"}, {"id": "bobcat-key", "tipo": "ilha", "x": 0.31567, "y": 0.64939, "n": 1, "nome": "Bobcat Key"}, {"id": "shoeless-keys", "tipo": "ilha", "x": 0.61311, "y": 0.77184, "n": 1, "nome": "Shoeless Keys"}, {"id": "corsair-key", "tipo": "ilha", "x": 0.68946, "y": 0.74776, "n": 1, "nome": "Corsair Key"}, {"id": "riquezas-keys", "tipo": "ilha", "x": 0.19772, "y": 0.84735, "n": 1, "nome": "Riquezas Keys"}, {"id": "goose-key", "tipo": "ilha", "x": 0.26211, "y": 0.8649, "n": 1, "nome": "Goose Key"}, {"id": "permit-keys", "tipo": "ilha", "x": 0.35442, "y": 0.86163, "n": 1, "nome": "Permit Keys"}, {"id": "maroon-key", "tipo": "ilha", "x": 0.44672, "y": 0.87837, "n": 1, "nome": "Maroon Key"}, {"id": "abismo-key", "tipo": "ilha", "x": 0.44672, "y": 0.91306, "n": 1, "nome": "Abismo Key"}, {"id": "leaf-links", "tipo": "ilha", "x": 0.79487, "y": 0.41306, "n": 2, "nome": "Leaf Links"}, {"id": "washington-island", "tipo": "ilha", "x": 0.85413, "y": 0.4298, "n": 2, "nome": "Washington Island"}, {"id": "penmarch-isle", "tipo": "ilha", "x": 0.82051, "y": 0.43959, "n": 2, "nome": "Penmarch Isle"}, {"id": "oldby-island", "tipo": "ilha", "x": 0.86097, "y": 0.45551, "n": 2, "nome": "Oldby Island"}, {"id": "rialto-islands", "tipo": "ilha", "x": 0.78575, "y": 0.46531, "n": 2, "nome": "Rialto Islands"}, {"id": "casanova-island", "tipo": "ilha", "x": 0.81766, "y": 0.47469, "n": 2, "nome": "Casanova Island"}, {"id": "catalan-island", "tipo": "ilha", "x": 0.76581, "y": 0.47755, "n": 2, "nome": "Catalan Island"}, {"id": "vespucci-island", "tipo": "ilha", "x": 0.79544, "y": 0.48898, "n": 2, "nome": "Vespucci Island"}, {"id": "salton-memorial-island", "tipo": "ilha", "x": 0.80342, "y": 0.49755, "n": 3, "nome": "Salton Memorial Island"}, {"id": "starfish-island", "tipo": "ilha", "x": 0.80627, "y": 0.51469, "n": 2, "nome": "Starfish Island"}, {"id": "waxman-island", "tipo": "ilha", "x": 0.79088, "y": 0.53429, "n": 2, "nome": "Waxman Island"}, {"id": "dalton-island", "tipo": "ilha", "x": 0.89174, "y": 0.59918, "n": 2, "nome": "Dalton Island"}, {"id": "gloriana-key", "tipo": "ilha", "x": 0.81937, "y": 0.63184, "n": 2, "nome": "Gloriana Key"}, {"id": "catalan-key", "tipo": "ilha", "x": 0.7453, "y": 0.64898, "n": 2, "nome": "Catalan Key"}, {"id": "okchiloha-bay", "tipo": "agua", "x": 0.43134, "y": 0.1098, "n": 1, "nome": "Okchiloha Bay"}, {"id": "partridge-bay", "tipo": "agua", "x": 0.64103, "y": 0.09633, "n": 1, "nome": "Partridge Bay"}, {"id": "moreau-river", "tipo": "agua", "x": 0.56524, "y": 0.12694, "n": 2, "nome": "Moreau River"}, {"id": "san-malo-bay", "tipo": "agua", "x": 0.31624, "y": 0.19918, "n": 1, "nome": "San Malo Bay"}, {"id": "millport-basin", "tipo": "agua", "x": 0.7584, "y": 0.21265, "n": 1, "nome": "Millport Basin"}, {"id": "lake-tallaloko", "tipo": "agua", "x": 0.64103, "y": 0.18857, "n": 2, "nome": "Lake Tallaloko"}, {"id": "lake-leonida", "tipo": "agua", "x": 0.61254, "y": 0.30408, "n": 1, "nome": "Lake Leonida"}, {"id": "draper-bay", "tipo": "agua", "x": 0.23533, "y": 0.33551, "n": 1, "nome": "Draper Bay"}, {"id": "borrachero-sound", "tipo": "agua", "x": 0.20627, "y": 0.40531, "n": 1, "nome": "Borrachero Sound"}, {"id": "emerald-river", "tipo": "agua", "x": 0.44615, "y": 0.43347, "n": 2, "nome": "Emerald River"}, {"id": "capri-sound", "tipo": "agua", "x": 0.19658, "y": 0.50653, "n": 1, "nome": "Capri Sound"}, {"id": "tortoise-lake", "tipo": "agua", "x": 0.29858, "y": 0.52163, "n": 3, "nome": "Tortoise Lake"}, {"id": "nehrling-river", "tipo": "agua", "x": 0.37208, "y": 0.55673, "n": 2, "nome": "Nehrling River"}, {"id": "three-toe-lake", "tipo": "agua", "x": 0.47749, "y": 0.55878, "n": 3, "nome": "Three Toe Lake"}, {"id": "catalan-bay", "tipo": "agua", "x": 0.85584, "y": 0.57878, "n": 1, "nome": "Catalan Bay"}, {"id": "bobcat-bight", "tipo": "agua", "x": 0.26097, "y": 0.59673, "n": 1, "nome": "Bobcat Bight"}, {"id": "tola-bay", "tipo": "agua", "x": 0.33333, "y": 0.63469, "n": 2, "nome": "Tola Bay"}, {"id": "pelican-river", "tipo": "agua", "x": 0.4661, "y": 0.70612, "n": 3, "nome": "Pelican River"}, {"id": "peregrine-bay", "tipo": "agua", "x": 0.64672, "y": 0.74898, "n": 2, "nome": "Peregrine Bay"}, {"id": "wetman-bay", "tipo": "agua", "x": 0.45014, "y": 0.76367, "n": 3, "nome": "Wetman Bay"}, {"id": "leonida-bay", "tipo": "agua", "x": 0.36752, "y": 0.77429, "n": 1, "nome": "Leonida Bay"}, {"id": "cottonmouth-lake", "tipo": "agua", "x": 0.51054, "y": 0.78041, "n": 2, "nome": "Cottonmouth Lake"}, {"id": "gambit-bay", "tipo": "agua", "x": 0.56638, "y": 0.80163, "n": 2, "nome": "Gambit Bay"}, {"id": "richard-barebone-state-park", "tipo": "parque", "x": 0.73504, "y": 0.25102, "n": 2, "nome": "Richard Barebone State Park"}, {"id": "buckskin-swamp", "tipo": "parque", "x": 0.47863, "y": 0.47143, "n": 2, "nome": "Buckskin Swamp"}, {"id": "courtland-park", "tipo": "parque", "x": 0.73105, "y": 0.63469, "n": 3, "nome": "Courtland Park"}, {"id": "vice-city-international-airport", "tipo": "poi", "x": 0.57151, "y": 0.57755, "n": 2, "nome": "Vice City International Airport"}, {"id": "port-vice-city", "tipo": "poi", "x": 0.82792, "y": 0.55918, "n": 2, "nome": "Port Vice City"}, {"id": "mile-zero-air-station", "tipo": "poi", "x": 0.25983, "y": 0.8849, "n": 2, "nome": "Mile Zero Air Station"}, {"id": "macalister-gold-mine", "tipo": "poi", "x": 0.46838, "y": 0.15184, "n": 3, "nome": "MacAlister Gold Mine"}, {"id": "tallaloko-lakeside-resort", "tipo": "poi", "x": 0.61083, "y": 0.16735, "n": 3, "nome": "Tallaloko Lakeside Resort"}, {"id": "father-scrumpy-s-red-apple-orchard", "tipo": "poi", "x": 0.34587, "y": 0.28082, "n": 3, "nome": "Father Scrumpy's Red Apple Orchard"}, {"id": "mount-hailes-country-club", "tipo": "poi", "x": 0.67521, "y": 0.26122, "n": 3, "nome": "Mount Hailes Country Club"}, {"id": "ambrosia-raceway-park", "tipo": "poi", "x": 0.54302, "y": 0.29469, "n": 3, "nome": "Ambrosia Raceway Park"}, {"id": "thrillbilly-mud-club", "tipo": "poi", "x": 0.47863, "y": 0.30408, "n": 3, "nome": "Thrillbilly Mud Club"}, {"id": "ambrosia-rodeo-association", "tipo": "poi", "x": 0.53048, "y": 0.32204, "n": 3, "nome": "Ambrosia Rodeo Association"}, {"id": "allied-crystal", "tipo": "poi", "x": 0.55271, "y": 0.36612, "n": 3, "nome": "Allied Crystal"}, {"id": "howe-dairy", "tipo": "poi", "x": 0.43191, "y": 0.3702, "n": 3, "nome": "Howe Dairy"}, {"id": "tucker-s-citrus-farms", "tipo": "poi", "x": 0.47123, "y": 0.37633, "n": 3, "nome": "Tucker's Citrus Farms"}, {"id": "chateau-cellerica", "tipo": "poi", "x": 0.64274, "y": 0.37429, "n": 3, "nome": "Chateau Cellerica"}, {"id": "cellerica", "tipo": "poi", "x": 0.66781, "y": 0.40204, "n": 3, "nome": "Cellerica"}, {"id": "evergreen-mall-of-waning-sands", "tipo": "poi", "x": 0.73675, "y": 0.33755, "n": 3, "nome": "Evergreen Mall of Waning Sands"}, {"id": "wild-hog-airfield", "tipo": "poi", "x": 0.249, "y": 0.3702, "n": 3, "nome": "Wild Hog Airfield"}, {"id": "gellhorn-raceway", "tipo": "poi", "x": 0.2849, "y": 0.43143, "n": 3, "nome": "Gellhorn Raceway"}, {"id": "leonida-state-prison", "tipo": "poi", "x": 0.39601, "y": 0.45796, "n": 3, "nome": "Leonida State Prison"}, {"id": "fleeca-field", "tipo": "poi", "x": 0.64558, "y": 0.48653, "n": 3, "nome": "Fleeca Field"}, {"id": "tisha-wocka-flea-market", "tipo": "poi", "x": 0.5584, "y": 0.50122, "n": 3, "nome": "Tisha-Wocka Flea Market"}, {"id": "sahara-arena", "tipo": "poi", "x": 0.73789, "y": 0.51633, "n": 3, "nome": "Sahara Arena"}, {"id": "breakwater-quarry", "tipo": "poi", "x": 0.42849, "y": 0.58776, "n": 3, "nome": "Breakwater Quarry"}, {"id": "sahara-network-data-center", "tipo": "poi", "x": 0.45755, "y": 0.62694, "n": 3, "nome": "Sahara Network Data Center"}, {"id": "vice-city-oceanarium", "tipo": "poi", "x": 0.75556, "y": 0.61837, "n": 3, "nome": "Vice City Oceanarium"}, {"id": "henry-j-edwards-airport", "tipo": "poi", "x": 0.35613, "y": 0.66449, "n": 3, "nome": "Henry J Edwards Airport"}, {"id": "hamlet-correctional-institution", "tipo": "poi", "x": 0.55442, "y": 0.68163, "n": 3, "nome": "Hamlet Correctional Institution"}, {"id": "paradise-rv-park", "tipo": "poi", "x": 0.46895, "y": 0.6898, "n": 3, "nome": "Paradise RV Park"}, {"id": "boone-speedway", "tipo": "poi", "x": 0.551, "y": 0.70816, "n": 3, "nome": "Boone Speedway"}, {"id": "t-h-power-station", "tipo": "poi", "x": 0.63932, "y": 0.72163, "n": 3, "nome": "T.H. Power Station"}], "escudos": [{"t": "interstate", "n": "297", "x": 0.41254, "y": 0.26}, {"t": "interstate", "n": "297", "x": 0.57322, "y": 0.25347}, {"t": "interstate", "n": "97", "x": 0.73675, "y": 0.28082}, {"t": "interstate", "n": "97", "x": 0.76638, "y": 0.37388}, {"t": "interstate", "n": "97", "x": 0.69117, "y": 0.48286}, {"t": "interstate", "n": "97", "x": 0.65812, "y": 0.60653}, {"t": "interstate", "n": "404", "x": 0.3151, "y": 0.37224}, {"t": "interstate", "n": "404", "x": 0.3151, "y": 0.49388}, {"t": "interstate", "n": "404", "x": 0.50142, "y": 0.52286}, {"t": "interstate", "n": "397", "x": 0.7151, "y": 0.55878}, {"t": "us", "n": "35", "x": 0.56125, "y": 0.28327}, {"t": "us", "n": "35", "x": 0.55385, "y": 0.38939}, {"t": "us", "n": "35", "x": 0.55385, "y": 0.51347}, {"t": "us", "n": "35", "x": 0.62393, "y": 0.6698}, {"t": "us", "n": "183", "x": 0.41538, "y": 0.44653}, {"t": "us", "n": "183", "x": 0.30199, "y": 0.53714}, {"t": "us", "n": "82", "x": 0.3943, "y": 0.61429}, {"t": "us", "n": "628", "x": 0.59259, "y": 0.15102}, {"t": "us", "n": "628", "x": 0.40855, "y": 0.20898}, {"t": "condado", "n": "62", "x": 0.34359, "y": 0.40694}, {"t": "condado", "n": "62", "x": 0.5943, "y": 0.40122}, {"t": "estadual", "n": "1A", "x": 0.70712, "y": 0.70286}, {"t": "estadual", "n": "1A", "x": 0.3698, "y": 0.89102}, {"t": "estadual", "n": "1A", "x": 0.49402, "y": 0.88776}, {"t": "pedagio", "n": "1A", "x": 0.63134, "y": 0.79102}], "categorias": [{"id": "regiao", "cor": "#FF3D8A", "nome": "Regiões", "singular": "Região", "icone": ""}, {"id": "cidade", "cor": "#FF5FA2", "nome": "Cidades e bairros", "singular": "Cidade ou bairro", "icone": "predios"}, {"id": "transporte", "cor": "#3FA9FF", "nome": "Aeroportos e portos", "singular": "Aeroporto ou porto", "icone": "aviao"}, {"id": "natureza", "cor": "#2FC87A", "nome": "Natureza", "singular": "Natureza", "icone": "arvore"}, {"id": "industria", "cor": "#FF8A3D", "nome": "Indústria", "singular": "Indústria", "icone": "fabrica"}, {"id": "marco", "cor": "#FFD23F", "nome": "Marcos", "singular": "Marco", "icone": "estrela"}, {"id": "comercio", "cor": "#B07CFF", "nome": "Comércio e serviços", "singular": "Comércio ou serviço", "icone": "loja"}], "textos": {"video": "Ver a cena no trailer ↗", "copiar": "Copiar link deste local", "pagina": "Ver página do local →", "copiado": "Link copiado!", "nada": "Nenhum local encontrado.", "editar": "Modo de edição: clique no mapa para copiar a posição (x, y)", "quadrante": "Quadrante", "inspirado": "Inspirado em", "visitado": "Visitado", "marcar": "Marcar como visitado", "visitados": "visitados", "aprox": "Posição aproximada", "aproximar": "Aproximar", "oficial": "Nome oficial", "descritivo": "Nome dado pelo VICEVERSA", "comunidade": "Apelido da comunidade (não confirmado)", "fontes": "Fontes", "verRegiao": "Ver a região no mapa →", "fonteMapa": "Base: <a href=\"https://www.rockstargames.com/VI/media\" target=\"_blank\" rel=\"noopener\">mapa oficial da Rockstar Games<\/a>, redesenhado pelo VICEVERSA"}}</script>
+  <p class="mapa-nota">O mapa foi redesenhado pelo VICEVERSA a partir do <a href="https://www.rockstargames.com/VI/media" target="_blank" rel="noopener">mapa oficial de Leonida</a> que a Rockstar liberou no lançamento: litoral, estradas, cidades e os nomes oficiais de condados, bairros, ilhas e lugares. A grade (linhas A–M, colunas 1–9) é a mesma do pôster, e cada quadrado tem 1 milha. Os pontos e descrições em destaque são do VICEVERSA.</p>
 
   <div class="locais" id="locais">
     <h3>Todos os locais do mapa</h3>
@@ -1681,22 +1739,22 @@
       <li><a class="local-card local-card--regiao" style="--cor:#FF3D8A" href="../../pt/mapa/mount-kalaga/"><span class="local-card__cat">Região</span><strong>Mount Kalaga</strong><small>Serras e parque nacional</small></a></li>
       <li><a class="local-card local-card--regiao" style="--cor:#FF3D8A" href="../../pt/mapa/port-gellhorn/"><span class="local-card__cat">Região</span><strong>Port Gellhorn</strong><small>Costa oeste esquecida</small></a></li>
       <li><a class="local-card local-card--regiao" style="--cor:#FF3D8A" href="../../pt/mapa/vice-city/"><span class="local-card__cat">Região</span><strong>Vice City</strong><small>Miami</small></a></li>
-      <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../pt/mapa/aeroporto-keys/"><span class="local-card__cat">Aeroporto ou porto</span><strong>Aeroporto das Keys</strong></a></li>
-      <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../pt/mapa/aeroporto/"><span class="local-card__cat">Aeroporto ou porto</span><strong>Aeroporto Internacional</strong><small>Vice City</small></a></li>
-      <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../pt/mapa/centro-vice-city/"><span class="local-card__cat">Cidade ou bairro</span><strong>Centro de Vice City</strong><small>Downtown Miami</small></a></li>
+      <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../pt/mapa/aeroporto/"><span class="local-card__cat">Aeroporto ou porto</span><strong>Aeroporto Internacional de Vice City (VCIA)</strong><small>Vice City</small></a></li>
+      <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../pt/mapa/centro-vice-city/"><span class="local-card__cat">Cidade ou bairro</span><strong>Downtown</strong><small>Downtown Miami</small></a></li>
       <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../pt/mapa/key-lento/"><span class="local-card__cat">Cidade ou bairro</span><strong>Key Lento</strong><small>Key Largo</small></a></li>
       <li><a class="local-card local-card--natureza" style="--cor:#2FC87A" href="../../pt/mapa/lago-leonida/"><span class="local-card__cat">Natureza</span><strong>Lago Leonida</strong><small>Lake Okeechobee</small></a></li>
       <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../pt/mapa/little-cuba/"><span class="local-card__cat">Cidade ou bairro</span><strong>Little Cuba</strong><small>Little Havana</small></a></li>
+      <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../pt/mapa/aeroporto-keys/"><span class="local-card__cat">Aeroporto ou porto</span><strong>Mile Zero Air Station</strong><small>Naval Air Station Key West</small></a></li>
       <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../pt/mapa/vice-beach/"><span class="local-card__cat">Cidade ou bairro</span><strong>Ocean Beach</strong><small>South Beach (Miami Beach)</small></a></li>
-      <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../pt/mapa/aerodromo-gellhorn/"><span class="local-card__cat">Aeroporto ou porto</span><strong>Pista de pouso de Port Gellhorn</strong></a></li>
       <li><a class="local-card local-card--marco" style="--cor:#FFD23F" href="../../pt/mapa/ponte-keys/"><span class="local-card__cat">Marco</span><strong>Ponte sobre o mar das Keys</strong><small>Seven Mile Bridge</small></a></li>
+      <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../pt/mapa/area-portuaria/"><span class="local-card__cat">Aeroporto ou porto</span><strong>Port Vice City</strong><small>PortMiami (Dodge Island)</small></a></li>
       <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../pt/mapa/porto-gellhorn/"><span class="local-card__cat">Aeroporto ou porto</span><strong>Porto de carga</strong><small>Port Gellhorn</small></a></li>
       <li><a class="local-card local-card--natureza" style="--cor:#2FC87A" href="../../pt/mapa/praias-vice-city/"><span class="local-card__cat">Natureza</span><strong>Praias de Vice City</strong><small>Ilha-barreira</small></a></li>
       <li><a class="local-card local-card--natureza" style="--cor:#2FC87A" href="../../pt/mapa/pantanos/"><span class="local-card__cat">Natureza</span><strong>Pântanos e airboats</strong><small>Grassrivers</small></a></li>
-      <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../pt/mapa/redhill/"><span class="local-card__cat">Cidade ou bairro</span><strong>Redhill</strong></a></li>
-      <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../pt/mapa/st-joseph/"><span class="local-card__cat">Cidade ou bairro</span><strong>St. Joseph</strong></a></li>
-      <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../pt/mapa/area-portuaria/"><span class="local-card__cat">Aeroporto ou porto</span><strong>VC Port</strong><small>PortMiami (Dodge Island)</small></a></li>
+      <li><a class="local-card local-card--industria" style="--cor:#FF8A3D" href="../../pt/mapa/allied-crystal/"><span class="local-card__cat">Indústria</span><strong>Refinaria Allied Crystal</strong></a></li>
+      <li><a class="local-card local-card--comercio" style="--cor:#B07CFF" href="../../pt/mapa/tisha-wocka/"><span class="local-card__cat">Comércio ou serviço</span><strong>Tisha-Wocka Flea Market</strong></a></li>
       <li><a class="local-card local-card--cidade" style="--cor:#FF5FA2" href="../../pt/mapa/watson-bay/"><span class="local-card__cat">Cidade ou bairro</span><strong>Watson Bay</strong></a></li>
+      <li><a class="local-card local-card--transporte" style="--cor:#3FA9FF" href="../../pt/mapa/aerodromo-gellhorn/"><span class="local-card__cat">Aeroporto ou porto</span><strong>Wild Hog Airfield</strong></a></li>
       <li><a class="local-card local-card--industria" style="--cor:#FF8A3D" href="../../pt/mapa/industria-ambrosia/"><span class="local-card__cat">Indústria</span><strong>Zona industrial de Ambrosia</strong></a></li>
     </ul>
   </div>
@@ -2164,14 +2222,40 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + 3);
+    mapa.setMaxZoom(Z + 2);          // 4 px por unidade: mais que isso só aumenta o borrão da base
+    if(txt.fonteMapa) mapa.attributionControl.addAttribution(txt.fonteMapa);
 
-    /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
+    /* espessura das linhas e quantidade de nomes acompanham o zoom, como num
+       mapa de navegação: de longe, condados e cidades; de perto, bairros e lugares */
     function porZoom(){
       const rel = mapa.getZoom() - mapa.getMinZoom();
-      caixa.style.setProperty("--traco", (0.7 + rel * 0.35).toFixed(2));
+      caixa.style.setProperty("--traco", (0.7 + rel * 0.38).toFixed(2));
+      caixa.style.setProperty("--rel", rel.toFixed(2));
       caixa.dataset.zoom = rel < 1.2 ? "longe" : rel < 2.6 ? "medio" : "perto";
+      caixa.dataset.nivel = rel < 0.9 ? "0" : rel < 1.9 ? "1" : rel < 2.9 ? "2" : "3";
+      atualizarEscala();
     }
+
+    /* ── escala (1 coluna da grade = 1 milha, segundo o pôster oficial) ── */
+    const escala = L.control({position: "bottomleft"});
+    let escalaEl = null;
+    escala.onAdd = function(){
+      escalaEl = L.DomUtil.create("div", "atlas-escala");
+      escalaEl.setAttribute("aria-hidden", "true");
+      return escalaEl;
+    };
+    function atualizarEscala(){
+      if(!escalaEl || !info.milha) return;
+      const pxMilha = info.milha * Math.pow(2, mapa.getZoom() - Z);
+      const opcoes = [0.05, 0.1, 0.25, 0.5, 1, 2, 3, 5];
+      let mi = opcoes[0];
+      opcoes.forEach(function(o){ if(o * pxMilha <= 110) mi = o; });
+      const km = mi * 1.609;
+      escalaEl.innerHTML = '<span style="width:' + Math.round(mi * pxMilha) + 'px"></span>' +
+        '<b>' + (mi < 1 ? Math.round(mi * 5280) + ' ft' : mi + ' mi') + ' · ' +
+        (km < 1 ? Math.round(km * 1000) + ' m' : km.toFixed(km < 10 ? 1 : 0).replace(".", ",") + ' km') + '</b>';
+    }
+    if(info.milha) escala.addTo(mapa);
     mapa.on("zoomend", porZoom); porZoom();
 
     /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
@@ -2208,14 +2292,18 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       evento("mapa_estilo", {estilo: estiloAtual});
     });
 
-    /* ── grade de referência (A1…H11) ── */
+    /* ── grade de referência: a mesma do pôster oficial (linhas A–M, colunas 1–9) ── */
     const botaoGrade = document.getElementById("atlas-grade");
-    const cel = info.grade ? info.grade.celula : 0;
+    const gr = info.grade || {};
+    const celX = gr.celula_x || gr.celula || 0, celY = gr.celula_y || gr.celula || 0;
+    const orX = gr.origem_x || 0, orY = gr.origem_y || 0;
+    const cel = celX;
     function quadrante(p){
-      if(!cel) return "";
-      const col = Math.min(info.grade.colunas - 1, Math.floor(p.x * W / cel));
-      const lin = Math.min(info.grade.linhas - 1, Math.floor(p.y * H / cel));
-      return String.fromCharCode(65 + col) + (lin + 1);
+      if(!celX) return "";
+      const col = Math.max(0, Math.min(gr.colunas - 1, Math.floor((p.x * W - orX) / celX)));
+      const lin = Math.max(0, Math.min(gr.linhas - 1, Math.floor((p.y * H - orY) / celY)));
+      return gr.formato === "linha-coluna" ? String.fromCharCode(65 + lin) + (col + 1)
+                                            : String.fromCharCode(65 + col) + (lin + 1);
     }
     if(botaoGrade){
       if(!cel) botaoGrade.hidden = true;
@@ -2272,15 +2360,16 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     function iconePara(p){
       const c = catDe(p);
       if(p.cat === "regiao"){
-        return L.divIcon({className: "atlas-regiao", iconSize: null,
-          html: '<b>' + escapar(p.nome) + '</b><small>' + escapar(p.real) + '</small>'});
+        return L.divIcon({className: "atlas-regiao" + (p.rotulo ? " atlas-regiao--" + p.rotulo : ""), iconSize: [0, 0],
+          html: '<span><b>' + escapar(p.nome) + '</b><small>' + escapar(p.real) + '</small></span>'});
       }
       const classes = "atlas-pin" + (p.aprox ? " atlas-pin--aprox" : "") + (visitados.has(p.id) ? " atlas-pin--visitado" : "");
       return L.divIcon({className: classes, iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -14],
         html: '<span style="--cor:' + c.cor + '">' + svgIcone(p.icone || c.icone) + '</span>'});
     }
     pontos.forEach(function(p){
-      const m = L.marker(paraLatLng(p.x, p.y), {icon: iconePara(p), title: p.nome, alt: p.nome, keyboard: true, riseOnHover: true});
+      const m = L.marker(paraLatLng(p.x, p.y), {icon: iconePara(p), title: p.nome, alt: p.nome, keyboard: true, riseOnHover: true,
+        zIndexOffset: p.cat === "regiao" ? 1000 : 0});   // nome da região por cima dos ícones
       if(p.cat !== "regiao") m.bindTooltip(p.nome, {direction: "top", offset: [0, -16], className: "atlas-dica"});
       m.bindPopup(function(){ return htmlPopup(p); }, {className: "atlas-popup", maxWidth: 320, minWidth: 250, autoPanPaddingTopLeft: [20, 70], autoPanPaddingBottomRight: [60, 20]});
       m.on("popupopen", function(e){ aoAbrir(p, m, e.popup); });
@@ -2290,11 +2379,26 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       });
       marcadores[p.id] = m;
     });
-    /* rótulos soltos (água etc.): só texto, sem clique */
+    /* nomes do mapa oficial (condados, cidades, bairros, ilhas, águas, lugares) e
+       placas das rodovias: só texto, sem clique; cada um aparece a partir do seu nível de zoom */
     const rotulos = L.layerGroup();
+    /* nome que cai em cima do ícone de um local (ex.: Little Cuba, Downtown) desce para baixo dele */
+    const sobIcone = function(r){
+      return pontos.some(function(p){
+        return p.cat !== "regiao" && Math.abs((p.x - r.x) * W) < 24 && Math.abs((p.y - r.y) * H) < 14;
+      });
+    };
     (cfg.rotulos || []).forEach(function(r){
       L.marker(paraLatLng(r.x, r.y), {interactive: false, keyboard: false,
-        icon: L.divIcon({className: "atlas-rotulo atlas-rotulo--" + r.tipo, html: escapar(r.nome), iconSize: null})
+        icon: L.divIcon({className: "atlas-rotulo atlas-rotulo--" + r.tipo + " n" + (r.n || 0) + (sobIcone(r) ? " atlas-rotulo--sob" : ""),
+          html: "<span>" + escapar(r.nome) + "</span>", iconSize: [0, 0]})
+      }).addTo(rotulos);
+    });
+    const PLACA = {interstate: "esc--i", us: "esc--us", estadual: "esc--sr", condado: "esc--cr", pedagio: "esc--toll"};
+    (cfg.escudos || []).forEach(function(e){
+      L.marker(paraLatLng(e.x, e.y), {interactive: false, keyboard: false,
+        icon: L.divIcon({className: "atlas-escudo n1", iconSize: [0, 0],
+          html: '<span class="esc ' + (PLACA[e.t] || "esc--us") + '"><b>' + escapar(e.n) + '</b></span>'})
       }).addTo(rotulos);
     });
 
@@ -2339,7 +2443,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
         if(deve && !mapa.hasLayer(m)) m.addTo(mapa);
         if(!deve && mapa.hasLayer(m)){ m.closePopup(); mapa.removeLayer(m); }
       });
-      if(ligadas.regiao !== false) rotulos.addTo(mapa); else mapa.removeLayer(rotulos);
+      rotulos.addTo(mapa);
     }
 
     /* ── lista lateral: categorias com caixa de seleção, contagem e locais ── */

@@ -1260,6 +1260,10 @@
   .atlas-pin:hover span,.atlas-pin:focus span{transform:scale(1.15)}
   .atlas-pin.ativo span{transform:scale(1.2);box-shadow:0 0 0 3px #FFF3E4,0 0 0 7px var(--cor),0 6px 18px rgba(0,0,0,.5)}
   .atlas-pin:focus{outline:none}
+  /* de longe, ícones menores para não cobrir os nomes do mapa */
+  .atlas[data-nivel="0"] .atlas-pin span{transform:scale(.6)}
+  .atlas[data-nivel="0"] .atlas-pin:hover span,.atlas[data-nivel="0"] .atlas-pin:focus span{transform:scale(.9)}
+  .atlas[data-nivel="0"] .atlas-pin.ativo span{transform:scale(1)}
   .atlas-pin:focus-visible span{box-shadow:0 0 0 3px #FFF3E4,0 0 0 6px var(--agua)}
   .atlas-pin--aprox span{box-shadow:0 0 0 2px rgba(255,243,228,.9),0 0 0 5px rgba(11,4,20,.6),0 4px 12px rgba(0,0,0,.45)}
   .atlas-pin--aprox::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px dashed var(--creme);opacity:.75;pointer-events:none}
@@ -1325,76 +1329,132 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS recriado: paletas do vetor (o SVG só traz classes) ---- */
-  .atlas--noite{--atlas-mar:#07112A}
-  .atlas--dia{--atlas-mar:#3778C2}
+  /* ---- ATLAS: paletas do vetor (o SVG só traz classes; base: mapa oficial da Rockstar redesenhado) ---- */
+  .atlas--noite{--atlas-mar:#17263C}
+  .atlas--dia{--atlas-mar:#9EC3F7}
   .atlas-vetor .grade{display:none}
   .atlas--grade .atlas-vetor .grade{display:inline}
   .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
   .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
+  .atlas-vetor path[class^="l-"]{fill:none}
 
-  .atlas--noite .c-mar{fill:#07112A}
-  .atlas--noite .c-raso3{fill:#0A1B38}
-  .atlas--noite .c-raso2{fill:#0C2646}
-  .atlas--noite .c-raso1{fill:#10385A}
-  .atlas--noite .c-terra{fill:#271843}
-  .atlas--noite .c-colina{fill:#2E1C50}
-  .atlas--noite .c-floresta{fill:#35225C}
-  .atlas--noite .c-pantano{fill:#123C44}
-  .atlas--noite .c-industrial{fill:#3A2A48}
-  .atlas--noite .c-areia{fill:#4A2A3C}
-  .atlas--noite .c-urbana{fill:#3C2560}
-  .atlas--noite .c-predio{fill:#5A3C86}
-  .atlas--noite .l-vielas{stroke:#7451A8;stroke-width:calc(var(--traco) * .45px);stroke-dasharray:none}
-  .atlas--noite .l-ruas{stroke:#9A72D0;stroke-width:calc(var(--traco) * .7px)}
-  .atlas--noite .l-vias{stroke:#C08AF0;stroke-opacity:.85;stroke-width:calc(var(--traco) * 1px)}
-  .atlas--noite .l-vias-largas{stroke:#FF3D8A;stroke-width:calc(var(--traco) * 1.9px);filter:drop-shadow(0 0 2px #FF3D8A)}
+  /* Dia: claro, no estilo dos mapas de navegação */
+  .atlas--dia .c-mar{fill:#9EC3F7}
+  .atlas--dia .c-raso3{fill:#A7C9F8}
+  .atlas--dia .c-raso2{fill:#AFCFF9}
+  .atlas--dia .c-raso1{fill:#B9D6FA}
+  .atlas--dia .c-lago{fill:#9EC3F7}
+  .atlas--dia .c-terra{fill:#EEF1E7}
+  .atlas--dia .c-colina{fill:#E1ECD4}
+  .atlas--dia .c-floresta{fill:#D2E5C2}
+  .atlas--dia .c-serra{fill:#C2DCAF}
+  .atlas--dia .c-campo{fill:#E7E8CC}
+  .atlas--dia .c-pantano{fill:#CDE6D6}
+  .atlas--dia .c-industrial{fill:#E9E5DC}
+  .atlas--dia .c-areia{fill:#FAEFC8}
+  .atlas--dia .c-urbana{fill:#F2F3F6}
+  .atlas--dia .c-quadra{fill:#E2E4EA}
+  .atlas--dia .c-predio{fill:#D4D7E0}
+  .atlas--dia .c-pista{fill:#DADBE3}
+  .atlas--dia .l-vielas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .6px)}
+  .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1px)}
+  .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.6px);filter:drop-shadow(0 0 .35px #A9AEB8)}
+  .atlas--dia .l-rotas{stroke:#FDE79A;stroke-width:calc(var(--traco) * 2px);filter:drop-shadow(0 0 .4px #E8B64C)}
+  .atlas--dia .l-vias-largas{stroke:#FCD565;stroke-width:calc(var(--traco) * 2.4px);filter:drop-shadow(0 0 .5px #E1A23B)}
+  .atlas--dia .l-ferrovia{stroke:#A79FB3;stroke-width:calc(var(--traco) * .7px);stroke-dasharray:3 2}
+  .atlas--dia .grade path{stroke:rgba(32,33,36,.35)}
+  .atlas--dia .grade text{fill:rgba(32,33,36,.6)}
+
+  /* Noite: escuro, para quem prefere */
+  .atlas--noite .c-mar,.atlas--noite .c-lago{fill:#17263C}
+  .atlas--noite .c-raso3{fill:#1A2C44}
+  .atlas--noite .c-raso2{fill:#1D324C}
+  .atlas--noite .c-raso1{fill:#213955}
+  .atlas--noite .c-terra{fill:#242F3E}
+  .atlas--noite .c-colina{fill:#263445}
+  .atlas--noite .c-floresta{fill:#26393A}
+  .atlas--noite .c-serra{fill:#243B36}
+  .atlas--noite .c-campo{fill:#2C3540}
+  .atlas--noite .c-pantano{fill:#22383F}
+  .atlas--noite .c-industrial{fill:#2C3442}
+  .atlas--noite .c-areia{fill:#3A3A3A}
+  .atlas--noite .c-urbana{fill:#283241}
+  .atlas--noite .c-quadra{fill:#2F3A4A}
+  .atlas--noite .c-predio{fill:#384354}
+  .atlas--noite .c-pista{fill:#3A4352}
+  .atlas--noite .l-vielas{stroke:#3B4555;stroke-width:calc(var(--traco) * .55px)}
+  .atlas--noite .l-ruas{stroke:#46505F;stroke-width:calc(var(--traco) * .9px)}
+  .atlas--noite .l-vias{stroke:#5B6474;stroke-width:calc(var(--traco) * 1.4px)}
+  .atlas--noite .l-rotas{stroke:#9A5B78;stroke-width:calc(var(--traco) * 1.8px)}
+  .atlas--noite .l-vias-largas{stroke:#C7397A;stroke-width:calc(var(--traco) * 2.2px)}
+  .atlas--noite .l-ferrovia{stroke:#5E5470;stroke-width:calc(var(--traco) * .7px);stroke-dasharray:3 2}
   .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
   .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
-
-  /* Dia: mapa claro e limpo, no estilo de mapa de navegação */
-  .atlas--dia .c-mar{fill:#3778C2}
-  .atlas--dia .c-raso3{fill:#4688CF}
-  .atlas--dia .c-raso2{fill:#5C9CDB}
-  .atlas--dia .c-raso1{fill:#86BBE8}
-  .atlas--dia .c-terra{fill:#E8EDD8}
-  .atlas--dia .c-colina{fill:#DCE5C6}
-  .atlas--dia .c-floresta{fill:#C3DAA5}
-  .atlas--dia .c-pantano{fill:#A3D2BC}
-  .atlas--dia .c-industrial{fill:#E4DACB}
-  .atlas--dia .c-areia{fill:#F3E1A6}
-  .atlas--dia .c-urbana{fill:#E1E1E8}
-  .atlas--dia .c-predio{fill:#C9C7D4}
-  .atlas--dia .l-vielas{stroke:#FFFFFF;stroke-opacity:.8;stroke-width:calc(var(--traco) * .55px)}
-  .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .85px)}
-  .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.3px)}
-  .atlas--dia .l-vias-largas{stroke:#F5A640;stroke-width:calc(var(--traco) * 2.1px)}
-  .atlas--dia .grade path{stroke:rgba(11,4,20,.35)}
-  .atlas--dia .grade text{fill:rgba(11,4,20,.6)}
   /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
-  .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.45}
-  .atlas[data-zoom="longe"] .atlas-vetor .l-vielas{display:none}
+  .atlas[data-zoom="longe"] .atlas-vetor .l-vielas,
   .atlas[data-zoom="longe"] .atlas-vetor .c-predio{display:none}
+  .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.55}
 
-  /* nomes das regiões (clicáveis) e rótulos de água */
-  .atlas-regiao{display:flex!important;flex-direction:column;align-items:center;transform:translate(-50%,-50%);
-    width:auto!important;height:auto!important;margin:0!important;cursor:pointer;white-space:nowrap;text-align:center}
-  .atlas-regiao b{font-family:var(--font-display);font-weight:400;letter-spacing:.08em;line-height:1;
-    font-size:1.25rem;color:#FFF3E4;text-shadow:0 0 6px #FF3D8A,0 0 2px #0B0414,0 0 2px #0B0414}
-  .atlas-regiao small{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
-    color:#2FE6C8;text-shadow:0 0 2px #0B0414,0 0 2px #0B0414;margin-top:.15rem}
-  .atlas--dia .atlas-regiao b{color:#1A0A2C;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 1px #FFFFFF}
-  .atlas--dia .atlas-regiao small{color:#B01E5A;text-shadow:0 0 2px #FFFFFF,0 0 2px #FFFFFF}
-  .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#2FE6C8}
-  .atlas--dia .atlas-regiao:hover b,.atlas--dia .atlas-regiao.ativo b{color:#B01E5A}
-  .atlas[data-zoom="longe"] .atlas-regiao b{font-size:.95rem}
+  /* nomes: o ponto do Leaflet é a âncora; o texto fica centrado nela */
+  .atlas-regiao,.atlas-rotulo,.atlas-escudo{width:0!important;height:0!important;margin:0!important;background:none;border:0}
+  .atlas-regiao>span,.atlas-rotulo>span,.atlas-escudo>span{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;text-align:center}
+  .atlas-regiao>span{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+  .atlas-rotulo{pointer-events:none}
+  .atlas-rotulo--sob>span{transform:translate(-50%,13px)}
+  .atlas-rotulo>span{font-family:Roboto,"Helvetica Neue",Arial,sans-serif;font-size:calc(.62rem + var(--rel,0) * .03rem);line-height:1.15;
+    color:#3C4043;--halo:#FFFFFF;text-shadow:0 0 2px var(--halo),0 0 2px var(--halo),0 0 3px var(--halo),0 0 4px var(--halo)}
+  .atlas--noite .atlas-rotulo>span{color:#C9CED6;--halo:#17263C}
+  .atlas-rotulo--condado>span{font-size:calc(.74rem + var(--rel,0) * .1rem);letter-spacing:.22em;text-transform:uppercase;color:#7A7F89;font-weight:500}
+  .atlas-rotulo--cidade>span{font-size:calc(.8rem + var(--rel,0) * .08rem);font-weight:700;color:#202124}
+  .atlas-rotulo--vila>span{font-size:calc(.68rem + var(--rel,0) * .04rem);font-weight:500;color:#3C4043}
+  .atlas-rotulo--bairro>span,.atlas-rotulo--regiao>span{font-size:calc(.56rem + var(--rel,0) * .04rem);letter-spacing:.12em;text-transform:uppercase;color:#6A6F78;font-weight:500}
+  .atlas-rotulo--ilha>span{font-size:calc(.6rem + var(--rel,0) * .04rem);color:#5F6368;font-weight:500}
+  .atlas-rotulo--agua>span,.atlas-rotulo--oceano>span{font-style:italic;color:#3F6FB5;--halo:rgba(220,234,253,.95);letter-spacing:.04em}
+  .atlas-rotulo--oceano>span{font-size:calc(.9rem + var(--rel,0) * .1rem);letter-spacing:.14em}
+  .atlas-rotulo--parque>span{color:#2E7D32;font-weight:500}
+  .atlas-rotulo--poi>span{font-size:calc(.56rem + var(--rel,0) * .03rem);color:#5B5F7A;padding-left:.75em}
+  .atlas-rotulo--poi>span::before{content:"";position:absolute;left:0;top:50%;width:.45em;height:.45em;margin-top:-.22em;border-radius:50%;background:#8E86B5;box-shadow:0 0 0 1.5px var(--halo)}
+  .atlas--noite .atlas-rotulo--cidade>span{color:#F1F3F4}
+  .atlas--noite .atlas-rotulo--agua>span,.atlas--noite .atlas-rotulo--oceano>span{color:#7FA6DA;--halo:#17263C}
+  .atlas--noite .atlas-rotulo--parque>span{color:#81C995}
+  .atlas--noite .atlas-rotulo--poi>span{color:#B6AFDA}
+  /* cada nome aparece a partir do seu nível de zoom (data-nivel vem do JS) */
+  .atlas[data-nivel="0"] .n1,.atlas[data-nivel="0"] .n2,.atlas[data-nivel="0"] .n3,
+  .atlas[data-nivel="1"] .n2,.atlas[data-nivel="1"] .n3,.atlas[data-nivel="2"] .n3{display:none}
+  /* placas das rodovias, como na legenda do pôster */
+  .esc{display:grid;place-items:center;min-width:1.55rem;height:1.45rem;padding:0 .2rem;font:700 .62rem/1 Roboto,Arial,sans-serif;letter-spacing:0}
+  .esc--i{color:#fff;background:linear-gradient(#C8102E 0 27%,#fff 27% 33%,#003F87 33%);border:1.5px solid #fff;border-radius:3px 3px 50% 50%/3px 3px 38% 38%;box-shadow:0 0 0 1px #003F87}
+  .esc--us{color:#111;background:#fff;border:1.5px solid #111;border-radius:2px 2px 45% 45%/2px 2px 35% 35%}
+  .esc--sr{color:#111;background:#fff;border:1.5px solid #111;border-radius:2px;height:1.3rem}
+  .esc--toll{color:#111;background:linear-gradient(#F6C700 0 30%,#fff 30%);border:1.5px solid #111;border-radius:2px;height:1.45rem;padding-top:.35rem}
+  .esc--cr{color:#FFD200;background:#0B4EA2;clip-path:polygon(50% 0,100% 22%,90% 100%,10% 100%,0 22%);height:1.5rem;padding-top:.15rem}
+  /* escala */
+  .atlas-escala{display:flex;align-items:center;gap:.45rem;font:600 .66rem Roboto,Arial,sans-serif;color:#3C4043;
+    background:rgba(255,255,255,.85);border-radius:6px;padding:.25rem .5rem;pointer-events:none}
+  .atlas-escala span{display:block;height:6px;border:2px solid #3C4043;border-top:0}
+  .atlas--noite .atlas-escala{background:rgba(23,38,60,.85);color:#C9CED6}
+  .atlas--noite .atlas-escala span{border-color:#C9CED6}
+
+  /* nomes das regiões (clicáveis): no estilo do nome oficial correspondente */
+  .atlas-regiao b{font-family:Roboto,"Helvetica Neue",Arial,sans-serif;font-weight:700;line-height:1.1;
+    font-size:calc(.95rem + var(--rel,0) * .12rem);color:#202124;text-shadow:0 0 2px #fff,0 0 3px #fff,0 0 4px #fff}
+  .atlas-regiao small{font-family:var(--font-mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
+    color:#B01E5A;text-shadow:0 0 2px #fff,0 0 2px #fff;margin-top:.1rem}
+  .atlas-regiao--parque b{color:#2E7D32;font-size:calc(.72rem + var(--rel,0) * .06rem)}
+  .atlas-regiao--ilha b{color:#5F6368;font-size:calc(.72rem + var(--rel,0) * .06rem)}
+  .atlas--noite .atlas-regiao b{color:#F1F3F4;text-shadow:0 0 2px #17263C,0 0 3px #17263C,0 0 4px #17263C}
+  .atlas--noite .atlas-regiao small{color:#2FE6C8;text-shadow:0 0 2px #17263C,0 0 2px #17263C}
+  .atlas-regiao:hover b,.atlas-regiao.ativo b{color:#B01E5A}
+  .atlas--noite .atlas-regiao:hover b,.atlas--noite .atlas-regiao.ativo b{color:#2FE6C8}
   .atlas[data-zoom="longe"] .atlas-regiao small{display:none}
-  .atlas[data-zoom="perto"] .atlas-regiao b{font-size:1.7rem}
-  .atlas-rotulo{width:auto!important;height:auto!important;margin:0!important;transform:translate(-50%,-50%);
-    white-space:nowrap;pointer-events:none;font-family:var(--font-mono);font-style:italic;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase}
-  .atlas-rotulo--agua{color:#6FD6F0;text-shadow:0 0 2px #08142A}
-  .atlas--dia .atlas-rotulo--agua{color:#0E4C73;text-shadow:0 0 2px #BFEFF7}
-  .atlas[data-zoom="longe"] .atlas-rotulo{display:none}
+  /* celular: de longe o mapa é estreito; condados só ao aproximar, nomes um pouco menores */
+  @media (max-width:760px){
+    .atlas[data-nivel="0"] .atlas-rotulo--condado{display:none}
+    .atlas[data-nivel="0"] .atlas-regiao b{font-size:.78rem}
+    .atlas[data-nivel="0"] .atlas-rotulo--oceano>span{font-size:.72rem}
+    .atlas .leaflet-control-attribution{font-size:9px;line-height:1.3}
+    .atlas .leaflet-bottom.leaflet-left{bottom:26px}
+  }
 
   /* cartões da lista "Todos os locais" com a cor da categoria */
   .local-card{border-left-color:var(--cor,var(--agua))}
@@ -2013,14 +2073,40 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     function enquadrar(){ mapa.fitBounds(limites, {padding: [12, 12]}); }
     enquadrar();
     mapa.setMinZoom(mapa.getZoom() - 0.5);
-    mapa.setMaxZoom(Z + 3);
+    mapa.setMaxZoom(Z + 2);          // 4 px por unidade: mais que isso só aumenta o borrão da base
+    if(txt.fonteMapa) mapa.attributionControl.addAttribution(txt.fonteMapa);
 
-    /* espessura das linhas e tamanho dos rótulos acompanham o zoom */
+    /* espessura das linhas e quantidade de nomes acompanham o zoom, como num
+       mapa de navegação: de longe, condados e cidades; de perto, bairros e lugares */
     function porZoom(){
       const rel = mapa.getZoom() - mapa.getMinZoom();
-      caixa.style.setProperty("--traco", (0.7 + rel * 0.35).toFixed(2));
+      caixa.style.setProperty("--traco", (0.7 + rel * 0.38).toFixed(2));
+      caixa.style.setProperty("--rel", rel.toFixed(2));
       caixa.dataset.zoom = rel < 1.2 ? "longe" : rel < 2.6 ? "medio" : "perto";
+      caixa.dataset.nivel = rel < 0.9 ? "0" : rel < 1.9 ? "1" : rel < 2.9 ? "2" : "3";
+      atualizarEscala();
     }
+
+    /* ── escala (1 coluna da grade = 1 milha, segundo o pôster oficial) ── */
+    const escala = L.control({position: "bottomleft"});
+    let escalaEl = null;
+    escala.onAdd = function(){
+      escalaEl = L.DomUtil.create("div", "atlas-escala");
+      escalaEl.setAttribute("aria-hidden", "true");
+      return escalaEl;
+    };
+    function atualizarEscala(){
+      if(!escalaEl || !info.milha) return;
+      const pxMilha = info.milha * Math.pow(2, mapa.getZoom() - Z);
+      const opcoes = [0.05, 0.1, 0.25, 0.5, 1, 2, 3, 5];
+      let mi = opcoes[0];
+      opcoes.forEach(function(o){ if(o * pxMilha <= 110) mi = o; });
+      const km = mi * 1.609;
+      escalaEl.innerHTML = '<span style="width:' + Math.round(mi * pxMilha) + 'px"></span>' +
+        '<b>' + (mi < 1 ? Math.round(mi * 5280) + ' ft' : mi + ' mi') + ' · ' +
+        (km < 1 ? Math.round(km * 1000) + ' m' : km.toFixed(km < 10 ? 1 : 0).replace(".", ",") + ' km') + '</b>';
+    }
+    if(info.milha) escala.addTo(mapa);
     mapa.on("zoomend", porZoom); porZoom();
 
     /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
@@ -2057,14 +2143,18 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       evento("mapa_estilo", {estilo: estiloAtual});
     });
 
-    /* ── grade de referência (A1…H11) ── */
+    /* ── grade de referência: a mesma do pôster oficial (linhas A–M, colunas 1–9) ── */
     const botaoGrade = document.getElementById("atlas-grade");
-    const cel = info.grade ? info.grade.celula : 0;
+    const gr = info.grade || {};
+    const celX = gr.celula_x || gr.celula || 0, celY = gr.celula_y || gr.celula || 0;
+    const orX = gr.origem_x || 0, orY = gr.origem_y || 0;
+    const cel = celX;
     function quadrante(p){
-      if(!cel) return "";
-      const col = Math.min(info.grade.colunas - 1, Math.floor(p.x * W / cel));
-      const lin = Math.min(info.grade.linhas - 1, Math.floor(p.y * H / cel));
-      return String.fromCharCode(65 + col) + (lin + 1);
+      if(!celX) return "";
+      const col = Math.max(0, Math.min(gr.colunas - 1, Math.floor((p.x * W - orX) / celX)));
+      const lin = Math.max(0, Math.min(gr.linhas - 1, Math.floor((p.y * H - orY) / celY)));
+      return gr.formato === "linha-coluna" ? String.fromCharCode(65 + lin) + (col + 1)
+                                            : String.fromCharCode(65 + col) + (lin + 1);
     }
     if(botaoGrade){
       if(!cel) botaoGrade.hidden = true;
@@ -2121,15 +2211,16 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     function iconePara(p){
       const c = catDe(p);
       if(p.cat === "regiao"){
-        return L.divIcon({className: "atlas-regiao", iconSize: null,
-          html: '<b>' + escapar(p.nome) + '</b><small>' + escapar(p.real) + '</small>'});
+        return L.divIcon({className: "atlas-regiao" + (p.rotulo ? " atlas-regiao--" + p.rotulo : ""), iconSize: [0, 0],
+          html: '<span><b>' + escapar(p.nome) + '</b><small>' + escapar(p.real) + '</small></span>'});
       }
       const classes = "atlas-pin" + (p.aprox ? " atlas-pin--aprox" : "") + (visitados.has(p.id) ? " atlas-pin--visitado" : "");
       return L.divIcon({className: classes, iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -14],
         html: '<span style="--cor:' + c.cor + '">' + svgIcone(p.icone || c.icone) + '</span>'});
     }
     pontos.forEach(function(p){
-      const m = L.marker(paraLatLng(p.x, p.y), {icon: iconePara(p), title: p.nome, alt: p.nome, keyboard: true, riseOnHover: true});
+      const m = L.marker(paraLatLng(p.x, p.y), {icon: iconePara(p), title: p.nome, alt: p.nome, keyboard: true, riseOnHover: true,
+        zIndexOffset: p.cat === "regiao" ? 1000 : 0});   // nome da região por cima dos ícones
       if(p.cat !== "regiao") m.bindTooltip(p.nome, {direction: "top", offset: [0, -16], className: "atlas-dica"});
       m.bindPopup(function(){ return htmlPopup(p); }, {className: "atlas-popup", maxWidth: 320, minWidth: 250, autoPanPaddingTopLeft: [20, 70], autoPanPaddingBottomRight: [60, 20]});
       m.on("popupopen", function(e){ aoAbrir(p, m, e.popup); });
@@ -2139,11 +2230,26 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       });
       marcadores[p.id] = m;
     });
-    /* rótulos soltos (água etc.): só texto, sem clique */
+    /* nomes do mapa oficial (condados, cidades, bairros, ilhas, águas, lugares) e
+       placas das rodovias: só texto, sem clique; cada um aparece a partir do seu nível de zoom */
     const rotulos = L.layerGroup();
+    /* nome que cai em cima do ícone de um local (ex.: Little Cuba, Downtown) desce para baixo dele */
+    const sobIcone = function(r){
+      return pontos.some(function(p){
+        return p.cat !== "regiao" && Math.abs((p.x - r.x) * W) < 24 && Math.abs((p.y - r.y) * H) < 14;
+      });
+    };
     (cfg.rotulos || []).forEach(function(r){
       L.marker(paraLatLng(r.x, r.y), {interactive: false, keyboard: false,
-        icon: L.divIcon({className: "atlas-rotulo atlas-rotulo--" + r.tipo, html: escapar(r.nome), iconSize: null})
+        icon: L.divIcon({className: "atlas-rotulo atlas-rotulo--" + r.tipo + " n" + (r.n || 0) + (sobIcone(r) ? " atlas-rotulo--sob" : ""),
+          html: "<span>" + escapar(r.nome) + "</span>", iconSize: [0, 0]})
+      }).addTo(rotulos);
+    });
+    const PLACA = {interstate: "esc--i", us: "esc--us", estadual: "esc--sr", condado: "esc--cr", pedagio: "esc--toll"};
+    (cfg.escudos || []).forEach(function(e){
+      L.marker(paraLatLng(e.x, e.y), {interactive: false, keyboard: false,
+        icon: L.divIcon({className: "atlas-escudo n1", iconSize: [0, 0],
+          html: '<span class="esc ' + (PLACA[e.t] || "esc--us") + '"><b>' + escapar(e.n) + '</b></span>'})
       }).addTo(rotulos);
     });
 
@@ -2188,7 +2294,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
         if(deve && !mapa.hasLayer(m)) m.addTo(mapa);
         if(!deve && mapa.hasLayer(m)){ m.closePopup(); mapa.removeLayer(m); }
       });
-      if(ligadas.regiao !== false) rotulos.addTo(mapa); else mapa.removeLayer(rotulos);
+      rotulos.addTo(mapa);
     }
 
     /* ── lista lateral: categorias com caixa de seleção, contagem e locais ── */
