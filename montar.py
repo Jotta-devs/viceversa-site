@@ -119,7 +119,7 @@ CATEGORIAS_MAPA = [
     ("comercio",   "#B07CFF", "mc_comercio",   "mcs_comercio", "loja"),
 ]
 COR_CATEGORIA = {c[0]: c[1] for c in CATEGORIAS_MAPA}
-ZOOM_LOCAL = {"regiao": 820, "marco": 430}     # largura do recorte, em unidades do mapa
+ZOOM_LOCAL = {"regiao": 980, "marco": 460}     # largura do recorte, em unidades do mapa
 CORES_LOCAL = {c: tuple(int(cor[i:i + 2], 16) for i in (1, 3, 5)) for c, cor in COR_CATEGORIA.items()}
 
 # ── autoria e qualidade (Google AdSense / E-E-A-T) ──────────────────
@@ -1396,7 +1396,7 @@ def carregar_mapa():
         print(f"  ! mapa/pontos.json inválido ({exc}) — mapa sem pontos")
         dados = {}
     return {"info": info, "pontos": dados.get("pontos", []), "rotulos": dados.get("rotulos", []),
-            "confirmados": dados.get("confirmados", [])}
+            "escudos": dados.get("escudos", []), "confirmados": dados.get("confirmados", [])}
 
 
 def texto_idioma(valor, cod):
@@ -1439,10 +1439,17 @@ def config_mapa(mapa, cod, textos, prefixo, com_pagina=()):
     for r in mapa["rotulos"]:
         try:
             rotulos.append({"id": str(r["id"]), "tipo": r.get("tipo", "agua"),
-                            "x": float(r["x"]), "y": float(r["y"]),
+                            "x": round(float(r["x"]), 5), "y": round(float(r["y"]), 5), "n": int(r.get("nivel", 1)),
                             "nome": texto_idioma(r.get("nome"), cod)})
         except (KeyError, TypeError, ValueError):
             print(f"  ! rótulo do mapa ignorado (faltam id/x/y): {r}")
+    escudos = []
+    for e in mapa.get("escudos", []):
+        try:
+            escudos.append({"t": str(e["tipo"]), "n": str(e["num"]), "x": round(float(e["x"]), 5),
+                            "y": round(float(e["y"]), 5)})
+        except (KeyError, TypeError, ValueError):
+            print(f"  ! escudo de rodovia ignorado: {e}")
     versao = int((PASTA_MAPA / "leonida.svg").stat().st_mtime)     # evita cache velho após atualizar
     usadas = {p["cat"] for p in pontos}
     categorias = [{"id": c, "cor": cor, "nome": textos.get(plural, c), "singular": textos.get(singular, c),
@@ -1453,13 +1460,14 @@ def config_mapa(mapa, cod, textos, prefixo, com_pagina=()):
         "svg": f"{prefixo}map-data/leonida.svg?v={versao}",
         "pontos": pontos,
         "rotulos": rotulos,
+        "escudos": escudos,
         "categorias": categorias,
         "textos": {chave: textos.get(k, "") for chave, k in (
             ("video", "mp06"), ("copiar", "mp07"), ("pagina", "lc06"), ("copiado", "mp08"), ("nada", "mp09"),
             ("editar", "mp12"), ("quadrante", "mp19"), ("inspirado", "lc10"), ("visitado", "mp24"),
             ("marcar", "mp25"), ("visitados", "mp27"), ("aprox", "mp28"), ("aproximar", "mp29"),
             ("oficial", "mp33"), ("descritivo", "mp34"), ("comunidade", "mp35"), ("fontes", "mp38"),
-            ("verRegiao", "mp32"))},
+            ("verRegiao", "mp32"), ("fonteMapa", "mp41"))},
     }
     return json.dumps(config, ensure_ascii=False).replace("</", "<\\/")
 
@@ -1499,11 +1507,7 @@ def locais_mapa(mapa, cod, textos):
         nome = texto_idioma(p.get("nome"), cod) or f.get("nome", "")
         if not nome or not re.match(r"^[a-z0-9-]+$", pid):
             continue
-        quadrante = ""
-        if grade.get("celula"):
-            col = min(grade["colunas"] - 1, int(x * W // grade["celula"]))
-            lin = min(grade["linhas"] - 1, int(y * H // grade["celula"]))
-            quadrante = f"{chr(65 + col)}{lin + 1}"
+        quadrante = quadrante_mapa(grade, x * W, y * H)
         locais.append({
             "id": pid, "cat": p.get("cat", "marco"), "x": x, "y": y, "nome": nome,
             "real": texto_idioma(p.get("real"), cod) or f.get("real", ""),
@@ -1514,6 +1518,19 @@ def locais_mapa(mapa, cod, textos):
             "quadrante": quadrante,
         })
     return locais
+
+
+def quadrante_mapa(grade, px, py):
+    """Quadrante da grade: no mapa oficial, linha em letra e coluna em número (G7), igual ao pôster."""
+    cx = grade.get("celula_x") or grade.get("celula")
+    cy = grade.get("celula_y") or grade.get("celula")
+    if not (cx and cy):
+        return ""
+    col = min(grade["colunas"] - 1, max(0, int((px - grade.get("origem_x", 0)) // cx)))
+    lin = min(grade["linhas"] - 1, max(0, int((py - grade.get("origem_y", 0)) // cy)))
+    if grade.get("formato") == "linha-coluna":
+        return f"{chr(65 + lin)}{col + 1}"
+    return f"{chr(65 + col)}{lin + 1}"
 
 
 def rel_local(cod, local):
