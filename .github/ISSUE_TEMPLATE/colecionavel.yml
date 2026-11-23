@@ -1,0 +1,75 @@
+name: Novo colecionável
+description: Marca no mapa a posição exata de um colecionável (carta, WAiNK, meteorito, naufrágio, revista)
+title: "Nome do colecionável (igual ao do jogo)"
+labels: ["colecionavel"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este formulário para **pôr no mapa a posição exata** de um colecionável,
+        conferida no jogo. Ele aparece no mapa interativo, na camada do tipo
+        escolhido, com a sua descrição.
+
+        **Título:** o nome do item como está no jogo e no mapa, por exemplo
+        `Vice City Flamingos · Harold Toye (Pink)` ou `Hoffman Observatory`.
+        Se o nome for igual ao de um item que já está no mapa com posição
+        aproximada, a posição dele é trocada pela sua (e o selo "aproximada" sai).
+
+        **Jeito mais rápido:** abra o mapa com `?editar=1` no fim do endereço
+        (vvviceversa.com/pt/mapa/?editar=1), clique no colecionável e depois no
+        ponto exato do mapa: aparece o link **"Enviar posição exata"**, que abre
+        este formulário já preenchido.
+
+        Só Issues abertas por quem tem acesso ao repositório entram no mapa.
+        Feche a Issue para tirar o item do mapa.
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo
+      options:
+        - Carta colecionável
+        - Ponto WAiNK
+        - Meteorito
+        - Naufrágio de Kenton
+        - Revista ou livro
+    validations:
+      required: true
+
+  - type: input
+    id: posicao
+    attributes:
+      label: Posição no mapa
+      description: >
+        Abra o mapa com ?editar=1, clique no lugar exato e cole aqui o que foi
+        copiado (o formato é "x": 0.1234, "y": 0.5678).
+      placeholder: '"x": 0.1234, "y": 0.5678'
+    validations:
+      required: true
+
+  - type: textarea
+    id: local_en
+    attributes:
+      label: Onde fica (inglês)
+      description: Uma ou duas frases para quem está no jogo achar o item (prédio, andar, o que tem perto).
+      placeholder: Garage at the southern tip of the main Vice Beach island; the card is in a safe inside.
+    validations:
+      required: true
+
+  - type: textarea
+    id: local_pt
+    attributes:
+      label: Onde fica (português)
+      description: Opcional. Sem tradução, o site mostra o texto em inglês.
+
+  - type: textarea
+    id: local_es
+    attributes:
+      label: Onde fica (espanhol)
+      description: Opcional. Sem tradução, o site mostra o texto em inglês.
+
+  - type: textarea
+    id: tesouros
+    attributes:
+      label: Tesouros do naufrágio
+      description: Só para naufrágios de Kenton. Um item por linha.
