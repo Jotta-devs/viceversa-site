@@ -129,6 +129,8 @@ CORES_LOCAL = {c: tuple(int(cor[i:i + 2], 16) for i in (1, 3, 5)) for c, cor in 
 # editor responsável: aparece como autor nas notícias, nos guias e nos dados
 # estruturados, e na página Sobre
 AUTOR = "Mike Novinski Pagani"
+# autor das páginas de troféus (/trophies/ e cada troféu) e de códigos (/cheats/)
+AUTOR_TROFEUS_CODIGOS = "Victor Toledo"
 EMAIL_CONTATO = "vi.versavv@gmail.com"
 # páginas curtas demais são "conteúdo de baixo valor" para o Google. Abaixo
 # destes mínimos a página continua no ar (o link não quebra), mas sai do
@@ -1138,6 +1140,7 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
                      if TEM_VIDEOS else "")
             .replace("{{__videos__}}", prefixo + caminho(cod, "videos") + "/")
             .replace("{{__autor__}}", esc(AUTOR))
+            .replace("{{__autor_jogo__}}", esc(AUTOR_TROFEUS_CODIGOS))
             .replace("{{__email__}}", esc(EMAIL_CONTATO))
             .replace("{{__at_home__}}", atual["home"])
             .replace("{{__at_news__}}", atual["noticias"])
@@ -2102,7 +2105,7 @@ def jsonld_trofeu(t, dados, cod, textos):
         "@context": "https://schema.org", "@type": "Article",
         "headline": titulo[:110], "description": texto_idioma(t["desc"], cod),
         "mainEntityOfPage": endereco, "url": endereco, "inLanguage": IDIOMAS[cod][1],
-        "author": autor_jsonld(cod), "publisher": organizacao(cod),
+        "author": {"@type": "Person", "name": AUTOR_TROFEUS_CODIGOS}, "publisher": organizacao(cod),
         "image": [DOMINIO + "/og-image-%s.png" % cod.split("-")[0]],
         "about": {"@type": "VideoGame", "name": "Grand Theft Auto VI",
                   "gamePlatform": ["PlayStation 5", "Xbox Series X|S"]},
