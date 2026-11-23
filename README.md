@@ -289,8 +289,9 @@ vendor/leaflet/         a biblioteca do mapa (Leaflet, licença BSD), servida pe
 Em cima do mapa o site oferece: nomes por nível de zoom, placas das rodovias,
 escala em mi/km, **grade de referência** igual à do pôster (linhas A–M, colunas
 1–9, quadrados de 1 milha), busca, link direto para cada local, tela cheia e o
-botão **"Ver o pôster oficial no mapa"**, que troca a base pela arte original
-da Rockstar, alinhada com os ícones. Abaixo do mapa fica o pôster inteiro, com
+o botão que troca entre o **pôster oficial** da Rockstar (o primeiro mapa a
+aparecer, alinhado com os ícones) e o **redesenho** do VICEVERSA (Dia/Noite).
+Todos os marcadores, colecionáveis incluídos, já vêm ligados ao abrir a página. Abaixo do mapa fica o pôster inteiro, com
 crédito à Rockstar e link para o download oficial em alta resolução.
 
 Nos locais, a tag "Nome descritivo" marca nomes dados por nós (ex.: "Ilha
@@ -322,7 +323,7 @@ python montar.py
 ```
 
 **Colecionáveis** (cartas, pontos WAiNK, meteoritos, naufrágios de Kenton, revistas e
-livros) ficam em camadas próprias do mapa, desligadas no começo, com "marcar como
+livros) ficam em camadas próprias do mapa, já ligadas ao abrir a página, com "marcar como
 coletado" e contador por tipo (salvos no navegador do leitor).
 
 ```
