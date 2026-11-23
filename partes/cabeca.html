@@ -1194,6 +1194,9 @@
   .cat__linha input:not(:checked) ~ .cat__nome,.cat__linha input:not(:checked) ~ .cat__icone{opacity:.45}
   .cat__conta{font-family:var(--font-mono);font-size:.68rem;color:var(--creme-40);min-width:2.2rem;text-align:right}
   .cat__conta--vis{color:var(--agua)}
+  .cat__grupo{margin:1rem .3rem .4rem;padding-top:.8rem;border-top:1px solid rgba(255,243,228,.12)}
+  .cat__grupo b{display:block;font:600 .7rem/1.2 var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--creme)}
+  .cat__grupo small{display:block;margin-top:.35rem;font-size:.72rem;line-height:1.45;color:var(--creme-40)}
   .cat__abrir{width:28px;height:28px;border-radius:8px;cursor:pointer;background:transparent;border:0;color:var(--creme-40);
     display:grid;place-items:center;font-size:1rem;transition:transform .2s,color .2s}
   .cat__abrir:hover{color:var(--creme)}
@@ -1281,6 +1284,11 @@
   .atlas-pin--visitado span{filter:saturate(.25) brightness(.85)}
   .atlas-pin--visitado::before{content:"✓";position:absolute;right:-5px;top:-5px;z-index:2;width:16px;height:16px;border-radius:50%;
     background:var(--agua);color:#0B0414;font:700 11px/16px var(--font-body);text-align:center;border:1.5px solid #0B0414}
+  /* colecionáveis: marcador menor, quadrado arredondado, para não confundir com os lugares */
+  .atlas-pin--col span{width:24px;height:24px;border-radius:7px;font-size:13px;border-width:2px;
+    box-shadow:0 0 0 1.5px rgba(255,243,228,.9),0 3px 8px rgba(0,0,0,.4)}
+  .atlas[data-nivel="0"] .atlas-pin--col span{transform:scale(.75)}
+  .atlas-pin--col.atlas-pin--visitado::before{right:-6px;top:-6px;width:14px;height:14px;font-size:10px;line-height:14px}
   @media (prefers-reduced-motion: reduce){.atlas-pin span{transition:none}}
 
   /* janela do local (popup) */
@@ -1301,6 +1309,8 @@
   .pop__real{font-size:.8rem;color:var(--laranja);margin:0 0 .55rem}
   .pop__real strong{color:var(--creme)}
   .pop__desc{font-size:.86rem;line-height:1.55;color:var(--creme-70);margin:0 0 .7rem}
+  .pop__itens{font-size:.8rem;line-height:1.5;color:var(--creme-70);margin:-.3rem 0 .7rem}
+  .pop__itens b{color:var(--creme)}
   .pop__selos{display:flex;flex-wrap:wrap;gap:.3rem;margin:0 0 .8rem}
   .pop__selo{font-family:var(--font-mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--creme-70);
     border:1px solid rgba(255,243,228,.18);border-radius:999px;padding:.22rem .5rem}
