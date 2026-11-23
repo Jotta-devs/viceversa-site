@@ -464,14 +464,86 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     if(info.milha) escala.addTo(mapa);
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
-    fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
-      const tmp = document.createElement("div");
-      tmp.innerHTML = t;
-      const el = tmp.querySelector("svg");
-      if(!el) return;
+    /* ── base: o mapa oficial com as cores do site (Dia ou Noite); traçado idêntico ao pôster ──
+       de longe basta a versão de 2048 px; ao aproximar, troca pela da resolução do pôster */
+    const camadas = cfg.camadas || {};
+    let camadaBase = null, baseGrande = false, estiloBase = "dia";
+    function fonteBase(estilo){
+      const lista = camadas[estilo] || camadas.dia || [];
+      if(!lista.length) return "";
+      return (baseGrande && lista.length > 1 ? lista[lista.length - 1] : lista[0]).src;
+    }
+    function mostrarBase(estilo){
+      estiloBase = estilo;
+      const src = fonteBase(estilo);
+      if(!src) return;
+      if(camadaBase){ if(camadaBase._url !== src) camadaBase.setUrl(src); }
+      else camadaBase = L.imageOverlay(src, limites, {interactive: false, className: "atlas-vetor"}).addTo(mapa).bringToBack();
+    }
+    mapa.on("zoomend", function(){
+      if(!baseGrande && mapa.getZoom() - mapa.getMinZoom() >= 1.2){ baseGrande = true; mostrarBase(estiloBase); }
+    });
+
+    /* grade de referência do pôster (linhas A–M, colunas 1–9), desenhada por cima */
+    (function(){
+      const g = info.grade || {};
+      if(!g.celula_x) return;
+      const cx = g.celula_x, cy = g.celula_y || g.celula_x, ox = g.origem_x || 0, oy = g.origem_y || 0;
+      let d = "", textos = "";
+      for(let i = 1; i < g.colunas; i++) d += "M" + (ox + i * cx).toFixed(1) + ",0V" + H;
+      for(let j = 0; j <= g.linhas; j++){ const y = oy + j * cy; if(y > 0 && y < H) d += "M0," + y.toFixed(1) + "H" + W; }
+      for(let i = 0; i < g.colunas; i++) for(let j = 0; j < g.linhas; j++){
+        const ty = Math.max(oy + j * cy, 0) + 16;
+        if(ty < H) textos += '<text x="' + (ox + i * cx + 5).toFixed(1) + '" y="' + ty.toFixed(1) + '">' + String.fromCharCode(65 + j) + (i + 1) + "</text>";
+      }
+      const el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      el.setAttribute("viewBox", "0 0 " + W + " " + H);
       el.setAttribute("preserveAspectRatio", "none");
-      L.svgOverlay(el, limites, {interactive: false, className: "atlas-vetor"}).addTo(mapa).bringToBack();
+      el.innerHTML = '<g class="grade"><path fill="none" vector-effect="non-scaling-stroke" d="' + d + '"/>' + textos + "</g>";
+      L.svgOverlay(el, limites, {interactive: false, className: "atlas-grade-camada"}).addTo(mapa);
+    })();
+
+    /* ── pôster oficial da Rockstar como camada, alinhado com o redesenho (mesma moldura) ── */
+    const botaoPoster = document.getElementById("atlas-poster");
+    const fontesPoster = cfg.poster || [];
+    let camadaPoster = null;
+    function ligarPoster(ligar){
+      if(!fontesPoster.length) return;
+      if(ligar && !camadaPoster){
+        const fonte = baseGrande && fontesPoster.length > 1 ? fontesPoster[fontesPoster.length - 1] : fontesPoster[0];
+        camadaPoster = L.imageOverlay(fonte.src, limites, {className: "atlas-poster", interactive: false, alt: txt.poster || ""});
+        mapa.on("zoomend", function(){
+          const grande = fontesPoster[fontesPoster.length - 1].src;
+          if(baseGrande && camadaPoster._url !== grande) camadaPoster.setUrl(grande);
+        });
+      }
+      if(ligar){ camadaPoster.addTo(mapa); camadaPoster.bringToBack(); }
+      else if(camadaPoster) mapa.removeLayer(camadaPoster);
+      caixa.classList.toggle("atlas--poster", ligar);
+      if(botaoPoster){
+        botaoPoster.setAttribute("aria-pressed", ligar ? "true" : "false");
+        const rotulo = ligar ? (txt.redesenho || "") : (txt.poster || "");
+        botaoPoster.title = rotulo; botaoPoster.setAttribute("aria-label", rotulo);
+      }
+      if(txt.fontePoster){
+        if(ligar) mapa.attributionControl.removeAttribution(txt.fonteMapa).addAttribution(txt.fontePoster);
+        else mapa.attributionControl.removeAttribution(txt.fontePoster).addAttribution(txt.fonteMapa);
+      }
+    }
+    if(botaoPoster && fontesPoster.length){
+      botaoPoster.hidden = false;
+      botaoPoster.addEventListener("click", function(){
+        const ligar = botaoPoster.getAttribute("aria-pressed") !== "true";
+        ligarPoster(ligar);
+        if(ligar) evento("mapa_poster");
+      });
+    }
+    document.querySelectorAll("[data-poster-no-mapa]").forEach(function(b){
+      b.addEventListener("click", function(){
+        ligarPoster(true);
+        caixa.scrollIntoView({behavior: "smooth", block: "start"});
+        evento("mapa_poster", {origem: "secao"});
+      });
     });
 
     const botaoEstilo = document.getElementById("atlas-estilo");
@@ -482,6 +554,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       estiloAtual = estilo;
       caixa.classList.remove("atlas--noite", "atlas--dia");
       caixa.classList.add("atlas--" + estilo);
+      mostrarBase(estilo);
       if(botaoEstilo){
         const proximo = estilo === "noite" ? botaoEstilo.dataset.dia : botaoEstilo.dataset.noite;
         botaoEstilo.title = proximo || ""; botaoEstilo.setAttribute("aria-label", proximo || "");
