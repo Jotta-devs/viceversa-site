@@ -1,52 +1,53 @@
 #!/usr/bin/env python3
 """
-VICEVERSA — mapa de Leonida redesenhado a partir do mapa oficial da Rockstar
-=============================================================================
+VICEVERSA — mapa de Leonida a partir do mapa oficial da Rockstar
+================================================================
 
 Base: o pôster oficial "Visit Leonida" que a Rockstar liberou de graça no
-lançamento (19/11/2026), em rockstargames.com/VI/media → Artwork →
-"Leonida Map - Printable". Coloque o JPG em mapa/base/ (a versão de 5775 px
-dá o máximo de detalhe; a de 1882 px também funciona).
+lançamento (19/11/2026), em rockstargames.com/VI/media → Ilustrações
+("Baixar tudo"). Coloque o JPG em mapa/base/ (a versão de 5775 px dá o
+máximo de detalhe; a de 2805 px, do site da Rockstar, também funciona).
 
-A arte da Rockstar NÃO vai para o site. O script lê as cores do pôster e
-redesenha tudo em vetor, no estilo do VICEVERSA:
+O traçado é 100% o do pôster: nada é redesenhado à mão nem aproximado.
+O script
 
   1. acha a moldura do mapa e tira a legenda, a rosa dos ventos, o selo,
-     o título, a grade e os textos (os nomes são desenhados pelo site, nos
-     três idiomas, a partir de mapa/pontos.json);
-  2. classifica cada pixel: mar, lago/pântano, terra, relevo, campo, areia,
-     cidade, prédio, pista de aeroporto, via e ferrovia;
-  3. vetoriza cada camada e redesenha as vias como linhas centrais,
-     separadas em rodovias, avenidas, ruas e vielas pela largura;
-  4. grava mapa/leonida.svg (sem cores: o site pinta pela classe) e
+     a grade e os textos impressos (os nomes são escritos pelo site, nos três
+     idiomas, a partir de mapa/pontos.json);
+  2. troca as cores do pôster, pixel a pixel, pelas do estilo do site (Dia,
+     claro como um mapa de navegação, e Noite), com uma tabela de cores 3D:
+     cada tom do pôster (mar, raso, verde com relevo, cidade, rua, ferrovia,
+     areia) vira o tom equivalente da paleta, mantendo o antialiasing;
+  3. grava mapa/leonida-dia.webp e mapa/leonida-noite.webp (na resolução
+     do pôster, até 4096 px) e versões de 2048 px para o celular, além de
      mapa/leonida.json (tamanho e grade, igual à do pôster: A–M × 1–9).
 
 Uso:
-    pip install opencv-python-headless numpy scikit-image sknw networkx
+    pip install opencv-python-headless numpy pillow
     python mapa/recriar_oficial.py
-    python mapa/gerar_previa.py
+    python mapa/poster_site.py      # camada e seção com o pôster original
     python montar.py
 """
 
 import json
+import os
 import sys
 from pathlib import Path
 
 try:
     import cv2
     import numpy as np
+    from PIL import Image
 except ImportError:
-    sys.exit("Faltam bibliotecas. Rode:  pip install opencv-python-headless numpy scikit-image sknw networkx")
+    sys.exit("Faltam bibliotecas. Rode:  pip install opencv-python-headless numpy pillow")
 
 PASTA = Path(__file__).parent
 BASE = PASTA / "base"
-SAIDA = PASTA / "leonida.svg"
 INFO = PASTA / "leonida.json"
 PONTOS = PASTA / "pontos.json"
 
-COLUNAS, LINHAS = 9, 13          # grade do pôster: colunas 1–9, linhas A–M
-MILHA = 1 / 9                    # cada coluna da grade tem 1 milha (escala do pôster: 2 pol = 1 milha)
-REF = 1755                       # largura da moldura no pôster de 1882 px: as medidas abaixo usam essa escala
+COLUNAS, LINHAS = 9, 13          # grade do pôster: colunas 1–9, linhas A–M (células de 1 milha)
+REF = 1755                       # largura de referência da moldura: as coordenadas do site usam essa escala
 
 # áreas decorativas do pôster, em frações da moldura (x0, y0, x1, y1): viram mar
 DECORACOES = [
@@ -55,47 +56,38 @@ DECORACOES = [
     (0.680, 0.775, 0.960, 0.958),   # selo e "The Great State of Leonida"
 ]
 
-
-# rodovias numeradas: pontos por onde cada uma passa (px da moldura de referência, em
-# geral a própria placa do pôster). O traçado entre eles segue as vias do mapa, pelo
-# caminho mais curto que prefere as faixas mais largas.
-ROTAS = {
-    "interstate": [
-        # I-404: Draper Island → Port Gellhorn → sul de Kelly County → Vice City
-        [(470, 668), (520, 700), (505, 760), (530, 840), (553, 912), (551, 1000), (548, 1100), (553, 1205),
-         (600, 1245), (645, 1268), (700, 1280), (768, 1282), (836, 1284), (900, 1287), (1000, 1295), (1105, 1292)],
-        # I-297: Draper Island → Lummox / Kelly → Millport
-        [(470, 668), (555, 662), (610, 648), (690, 642), (723, 639), (768, 625), (814, 607), (859, 600),
-         (925, 603), (971, 608), (1005, 621), (1039, 621), (1071, 591), (1107, 571), (1134, 564), (1162, 562),
-         (1198, 564), (1230, 573), (1257, 591)],
-        # I-97: Millport → Waning Sands → Vice City → Southside
-        [(1198, 560), (1255, 618), (1291, 684), (1309, 759), (1323, 805), (1336, 850), (1343, 914), (1332, 957),
-         (1314, 994), (1286, 1030), (1268, 1062), (1259, 1089), (1250, 1121), (1232, 1153), (1218, 1180),
-         (1209, 1216), (1205, 1253), (1202, 1289), (1198, 1330), (1198, 1368), (1175, 1427), (1157, 1464),
-         (1155, 1482), (1148, 1518), (1135, 1564), (1112, 1609), (1094, 1636)],
-        # I-397: I-97 → Port Vice City
-        [(1198, 1368), (1255, 1370), (1330, 1377), (1420, 1378)],
+# tons do pôster (RGB) → tons do site. Cada pixel vira a mistura dos tons do site
+# dos tons do pôster mais próximos (em Lab), então bordas e relevo continuam suaves.
+PALETAS = {
+    "dia": [
+        ((1, 174, 202), (158, 195, 247)), ((0, 158, 184), (150, 189, 243)),        # mar
+        ((40, 184, 208), (170, 203, 248)), ((100, 196, 213), (184, 212, 250)),     # raso e lagos
+        ((150, 210, 222), (198, 222, 251)),
+        ((127, 174, 168), (232, 240, 224)), ((88, 154, 136), (221, 233, 209)),     # verde, do baixo ao alto
+        ((70, 143, 114), (208, 226, 192)), ((55, 123, 96), (192, 215, 172)),
+        ((33, 100, 74), (174, 202, 152)), ((20, 130, 110), (190, 221, 172)),
+        ((114, 140, 113), (226, 231, 207)),                                        # campo
+        ((200, 186, 150), (246, 236, 200)), ((229, 235, 210), (250, 245, 224)),    # areia
+        ((159, 172, 182), (214, 218, 226)), ((130, 150, 160), (199, 205, 216)),    # quarteirões
+        ((190, 205, 210), (246, 247, 250)), ((215, 225, 228), (252, 252, 253)),    # ruas
+        ((250, 251, 251), (255, 255, 255)),                                        # rodovias e avenidas
+        ((116, 103, 101), (169, 155, 181)), ((150, 60, 60), (169, 155, 181)),      # ferrovias
+        ((85, 89, 94), (205, 208, 215)),                                           # sombras
     ],
-    "us": [
-        # US-35: Ambrosia → Vice City; e depois Southside → Hamlet → Key Lento
-        [(988, 625), (985, 694), (975, 760), (973, 860), (973, 953), (975, 1100), (973, 1200), (973, 1259), (990, 1290)],
-        [(1094, 1636), (1030, 1708), (1016, 1776), (1016, 1845), (1030, 1895), (1053, 1935), (1071, 1967), (1080, 2004)],
-        # US-183: Kelly County → Capri
-        [(686, 905), (705, 942), (723, 996), (732, 1051), (729, 1094), (718, 1160), (686, 1196), (640, 1225),
-         (600, 1250), (560, 1285), (530, 1314)],
-        # US-82: Capri → Big Pine → Grassrivers
-        [(530, 1314), (536, 1350), (555, 1400), (586, 1445), (632, 1477), (677, 1500), (691, 1505), (745, 1509),
-         (791, 1527), (836, 1564), (900, 1600)],
-        # US-628: I-297 → Grayson → Moreau → Millport
-        [(700, 625), (700, 560), (718, 512), (768, 466), (814, 439), (859, 421), (900, 412), (971, 375),
-         (1039, 371), (1100, 375), (1145, 416), (1164, 466), (1170, 520)],
-        # County Road 62: Gellhorn → Kelly County → Belville
-        [(602, 996), (645, 937), (686, 905), (723, 896), (768, 896), (814, 910), (859, 933), (900, 955),
-         (973, 983), (1044, 983), (1107, 978), (1198, 970), (1330, 969)],
-        # State Route 1A: Corsair Key (pedágio) → Key Lento → Keys → Southwind
-        [(1250, 1700), (1234, 1722), (1207, 1776), (1175, 1845), (1134, 1913), (1107, 1940), (1080, 2004),
-         (1050, 2012), (1000, 2062), (937, 2112), (887, 2156), (865, 2181), (812, 2206), (762, 2206),
-         (706, 2200), (650, 2181), (581, 2169), (537, 2162)],
+    "noite": [
+        ((1, 174, 202), (23, 38, 60)), ((0, 158, 184), (21, 35, 56)),
+        ((40, 184, 208), (27, 45, 69)), ((100, 196, 213), (31, 52, 78)),
+        ((150, 210, 222), (35, 58, 86)),
+        ((127, 174, 168), (40, 51, 64)), ((88, 154, 136), (37, 49, 61)),
+        ((70, 143, 114), (35, 52, 58)), ((55, 123, 96), (33, 55, 54)),
+        ((33, 100, 74), (30, 56, 50)), ((20, 130, 110), (32, 58, 52)),
+        ((114, 140, 113), (44, 52, 60)),
+        ((200, 186, 150), (62, 61, 58)), ((229, 235, 210), (70, 69, 65)),
+        ((159, 172, 182), (45, 55, 70)), ((130, 150, 160), (40, 49, 63)),
+        ((190, 205, 210), (70, 80, 96)), ((215, 225, 228), (84, 94, 110)),
+        ((250, 251, 251), (104, 114, 130)),
+        ((116, 103, 101), (106, 92, 128)), ((150, 60, 60), (106, 92, 128)),
+        ((85, 89, 94), (48, 57, 72)),
     ],
 }
 
@@ -108,10 +100,21 @@ def carregar():
     if not imagens:
         sys.exit(f"Coloque o mapa oficial (Leonida_Map_Poster*.jpg) em {BASE}/")
     caminho = imagens[-1]                         # a maior: mais detalhe
-    img = cv2.imread(str(caminho), cv2.IMREAD_COLOR)
-    if img is None:
+    # o pôster para impressão vem em CMYK com perfil de cor (GRACoL): converte para sRGB pelo perfil,
+    # senão as cores saem trocadas
+    import io
+    from PIL import ImageCms
+    Image.MAX_IMAGE_PIXELS = None
+    try:
+        img = Image.open(caminho)
+        perfil = img.info.get("icc_profile")
+        if perfil and img.mode != "RGB":
+            img = ImageCms.profileToProfile(img, ImageCms.ImageCmsProfile(io.BytesIO(perfil)),
+                                            ImageCms.createProfile("sRGB"), outputMode="RGB", renderingIntent=0)
+        img = img.convert("RGB")
+    except OSError:
         sys.exit(f"Não consegui ler {caminho.name}")
-    return cv2.cvtColor(img, cv2.COLOR_BGR2RGB), caminho.name
+    return np.asarray(img).copy(), caminho.name
 
 
 def moldura(rgb):
@@ -135,22 +138,6 @@ def limpar(m, minimo):
     ok = np.zeros(n, bool)
     ok[1:] = st[1:, cv2.CC_STAT_AREA] >= minimo
     return ok[lab]
-
-
-def tapar(m, maximo):
-    return ~limpar(~m, maximo)
-
-
-def morf(m, op, k, forma=cv2.MORPH_ELLIPSE):
-    k = max(1, int(round(k)))
-    return cv2.morphologyEx(m.astype(np.uint8), op, cv2.getStructuringElement(forma, (k, k))) > 0
-
-
-def media_mascarada(v, m, sigma):
-    m = m.astype(np.float32)
-    num = cv2.GaussianBlur(v.astype(np.float32) * m, (0, 0), sigma)
-    den = cv2.GaussianBlur(m, (0, 0), sigma)
-    return num / np.maximum(den, 1e-3)
 
 
 # ── limpeza do pôster ───────────────────────────────────────────────
@@ -200,8 +187,7 @@ def mascara_textos(rgb, k, grade=None):
     linha clara fina nas divisas das células."""
     h, w = rgb.shape[:2]
     hsv = cv2.cvtColor(rgb, cv2.COLOR_RGB2HSV).astype(np.int16)
-    V, S = hsv[..., 2], hsv[..., 1]
-    claro = (V > 185) & (S < 125)
+    Hh, V, S = hsv[..., 0], hsv[..., 2], hsv[..., 1]
     alvo = np.zeros((h, w), bool)
     try:
         dados = json.loads(PONTOS.read_text(encoding="utf-8"))
@@ -235,30 +221,48 @@ def mascara_textos(rgb, k, grade=None):
         if r.get("tipo") in ("agua", "oceano"):
             fundo = cv2.medianBlur(V[y0:y1, x0:x1].astype(np.uint8), max(3, int(9 * k) | 1)).astype(np.float32)
             texto = caixa < fundo - 12                 # nome da água: texto mais escuro que o mar
-        else:
-            janela = max(3, int((21 if r.get("tipo") in ("condado", "cidade") else 11) * k) | 1)
-            fundo = cv2.medianBlur(V[y0:y1, x0:x1].astype(np.uint8), janela).astype(np.float32)
-            letra = (V[y0:y1, x0:x1] > 226) & (S[y0:y1, x0:x1] < 95)   # creme, branco ou lilás (não areia nem água rasa)
-            texto = letra | (caixa < fundo - 22)              # letra clara + contorno/sombra escuros
-        juntas = cv2.dilate(texto.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(1, int(2 * k)))
-        n, lab, _, _ = cv2.connectedComponentsWithStats(juntas, 8)
-        nucleo = np.zeros_like(juntas, bool)
-        nucleo[max(0, cy0 - y0):max(0, cy1 - y0), max(0, cx0 - x0):max(0, cx1 - x0)] = True
-        ok = np.zeros(n, bool)
-        ok[np.unique(lab[nucleo & (juntas > 0)])] = True
-        ok[0] = False
-        sel = ok[lab]
+            alvo[y0:y1, x0:x1] |= cv2.dilate(texto.astype(np.uint8), np.ones((3, 3), np.uint8)) > 0
+            continue
+        # só os pixels das letras: creme (bairros, cidades, condados), lilás claro (lugares)
+        # ou branco grosso com contorno escuro (nomes grandes); as ruas por baixo ficam
+        hh, ss, vv = Hh[y0:y1, x0:x1], S[y0:y1, x0:x1], V[y0:y1, x0:x1]
+        creme = ((hh >= 12) & (hh <= 45) & (ss >= 25) & (ss <= 58) & (vv >= 200)) | ((hh >= 12) & (hh <= 40) & (ss >= 35) & (vv >= 218))
+        lilas = (hh >= 105) & (hh <= 165) & (ss >= 10) & (ss <= 70) & (vv >= 212)
+        trilho = ((hh <= 15) | (hh >= 166)) & (ss >= 35)                     # ferrovia: vermelho-escuro
+        escuro = (vv < 135) & ((ss < 80) | ((hh >= 112) & (hh <= 165))) & ~trilho   # contorno cinza ou roxo
+        branco = (vv >= 236) & (ss <= 26)
+        perto_escuro = cv2.dilate(escuro.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(1, int(2.5 * k))) > 0
+        grosso = cv2.distanceTransform(branco.astype(np.uint8), cv2.DIST_L2, 3) >= 1.6 * k
+        grosso = cv2.dilate(grosso.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(1, int(1.7 * k))) > 0
+        # letras brancas grandes: traço grosso com contorno escuro (o miolo fica longe do contorno)
+        perto_escuro_largo = cv2.dilate(escuro.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(1, int(5 * k))) > 0
+        branco_fino = (vv >= 200) & (ss <= 58) & perto_escuro          # letras claras (branco, lilás) com contorno
+        corpo = creme | (lilas & perto_escuro) | (branco & grosso & perto_escuro_largo) | branco_fino
         if r.get("tipo") in ("condado", "cidade"):
-            alvo[y0:y1, x0:x1] |= sel                   # nome grande: a mancha toda (contorno incluído)
-        else:
-            alvo[y0:y1, x0:x1] |= sel & cv2.dilate(texto.astype(np.uint8), np.ones((3, 3), np.uint8)).astype(bool)
+            corpo |= branco & grosso                                     # nomes grandes sem contorno
+        corpo = limpar(corpo, max(2, int(1.5 * k * k)))
+        # só o que está na caixa central (com folga), para não pegar letreiros vizinhos
+        nucleo = np.zeros_like(corpo)
+        nucleo[max(0, cy0 - y0 - int(4 * k)):max(0, cy1 - y0 + int(4 * k)), max(0, cx0 - x0 - int(10 * k)):max(0, cx1 - x0 + int(10 * k))] = True
+        # o nome inteiro: letras ligadas (pelo contorno) a alguma letra da caixa central
+        juntas = cv2.dilate(corpo.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(1, int(1.2 * k)))
+        n, lab, _, _ = cv2.connectedComponentsWithStats(juntas, 8)
+        ok = np.zeros(n, bool); ok[np.unique(lab[nucleo & (juntas > 0)])] = True; ok[0] = False
+        corpo &= ok[lab]
+        # contorno/sombra: escuro, ou bem mais escuro que o entorno (sobre a água ele é azul-escuro)
+        fundo = cv2.medianBlur(vv.astype(np.uint8), max(3, int(11 * k) | 1)).astype(np.int16)
+        sombra = escuro | (vv < fundo - 28)
+        contorno = sombra & (cv2.dilate(corpo.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(1, int(3 * k))) > 0)
+        sel = cv2.dilate((corpo | contorno).astype(np.uint8), np.ones((3, 3), np.uint8)) > 0
+        alvo[y0:y1, x0:x1] |= sel
     for e in dados.get("escudos", []):
         x, y = e["x"] * w, e["y"] * h
         r = (20 if e.get("tipo") in ("interstate", "estadual", "pedagio") else 17) * k
         alvo[max(0, int(y - r)):int(y + r), max(0, int(x - r)):int(x + r)] = True
-    # grade do pôster: a faixa inteira em volta de cada linha (no mar ela é azul-clara, não branca)
+    alvo = cv2.dilate(alvo.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(1, int(round(k)))) > 0
+    # grade do pôster: só a faixa estreita da linha (no mar ela é azul-clara, não branca)
     ox, oy, passo = grade or (0.0, 0.0, w / COLUNAS)
-    m = int(round(1.6 * k)) + 1
+    m = int(round(1.4 * k)) + 1
     for i in range(1, COLUNAS):
         x = int(round(ox + i * passo))
         alvo[:, max(0, x - m):x + m + 1] = True
@@ -266,7 +270,7 @@ def mascara_textos(rgb, k, grade=None):
         y = int(round(oy + j * passo))
         if 0 <= y < h:
             alvo[max(0, y - m):y + m + 1] = True
-    return cv2.dilate(alvo.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(1, int(round(k)))) > 0
+    return alvo
 
 
 def apagar_decoracoes(rgb):
@@ -280,144 +284,40 @@ def apagar_decoracoes(rgb):
     return out
 
 
-# ── vetorização ─────────────────────────────────────────────────────
-ESCALA = 2
+# ── cores ───────────────────────────────────────────────────────────
+def _lab(cores):
+    c = np.asarray(cores, np.uint8).reshape(-1, 1, 3)
+    return cv2.cvtColor(c, cv2.COLOR_RGB2LAB).reshape(-1, 3).astype(np.float32) * [100 / 255, 1, 1] - [0, 128, 128]
 
 
-def vetorizar(m, k, suave=1.0, epsilon=0.5, minimo=4.0, casas=1):
-    """Máscara → atributo d (com furos), em px da moldura do pôster de referência (1755)."""
-    f = ESCALA
-    grande = cv2.resize(m.astype(np.float32), None, fx=f, fy=f, interpolation=cv2.INTER_LINEAR)
-    if suave > 0:
-        grande = cv2.GaussianBlur(grande, (0, 0), suave * f * k / 2)
-    binaria = (grande > 0.5).astype(np.uint8)
-    contornos, _ = cv2.findContours(binaria, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
-    esc = 1 / (f * k)
-    partes = []
-    for c in contornos:
-        if abs(cv2.contourArea(c)) * esc * esc < minimo:
-            continue
-        c = cv2.approxPolyDP(c, epsilon * f * k, True)
-        if len(c) < 3:
-            continue
-        pts = c[:, 0, :] * esc
-        partes.append("M" + "L".join(f"{x:.{casas}f},{y:.{casas}f}" for x, y in pts) + "Z")
-    return "".join(partes)
+def tabela(pares, sigma=7.0, dura=False):
+    """Tabela de cores 3D (64³): para cada cor, a mistura dos tons do site dos tons do pôster
+    mais próximos (dura=True: só o mais próximo, para as áreas reconstruídas sob os textos)."""
+    origem = _lab([p[0] for p in pares])
+    destino = np.float32([p[1] for p in pares])
+    g = np.arange(2, 256, 4)
+    grade = np.stack(np.meshgrid(g, g, g, indexing="ij"), -1).reshape(-1, 3)
+    d2 = ((_lab(grade)[:, None, :] - origem[None]) ** 2).sum(-1)
+    if dura:
+        peso = np.eye(len(pares), dtype=np.float32)[d2.argmin(1)]
+    else:
+        peso = np.exp(-(d2 - d2.min(1, keepdims=True)) / (2 * sigma * sigma))
+        peso /= peso.sum(1, keepdims=True)
+    return np.clip(peso @ destino, 0, 255).astype(np.uint8)
 
 
-def suavizar(pts, voltas=2):
-    for _ in range(voltas):
-        if len(pts) < 3:
-            return pts
-        novo = [pts[0]]
-        for a, b in zip(pts[:-1], pts[1:]):
-            novo.append(0.75 * a + 0.25 * b)
-            novo.append(0.25 * a + 0.75 * b)
-        novo.append(pts[-1])
-        pts = np.array(novo)
-    return pts
+def aplicar(img, tab):
+    i = (img[..., 0] >> 2).astype(np.int32) * 4096 + (img[..., 1] >> 2).astype(np.int32) * 64 + (img[..., 2] >> 2)
+    return tab[i]
 
 
-def linhas_centrais(m, k, meia, classes, minimo, casas=2, epsilon=0.35):
-    """Máscara de vias → {classe: d}, separando pela meia-largura média de cada trecho.
-
-    classes: lista (nome, meia_largura_minima) da maior para a menor."""
-    from skimage.morphology import skeletonize
-    import sknw
-    esq = skeletonize(m)
-    grafo = sknw.build_sknw(esq.astype(np.uint16), multi=True)
-    saida = {nome: [] for nome, _ in classes}
-    esc = 1 / k
-    for s, e, chave in grafo.edges(keys=True):
-        pts = grafo[s][e][chave]["pts"]
-        if len(pts) < 2:
-            continue
-        a = np.vstack([grafo.nodes[s]["o"], pts, grafo.nodes[e]["o"]]).astype(np.float32)
-        comprimento = float(np.sum(np.hypot(*np.diff(a, axis=0).T)))
-        if comprimento < minimo * k and (grafo.degree(s) == 1 or grafo.degree(e) == 1):
-            continue                                # espora curta (resto de texto ou ruído)
-        yy = np.clip(a[:, 0].astype(int), 0, meia.shape[0] - 1)
-        xx = np.clip(a[:, 1].astype(int), 0, meia.shape[1] - 1)
-        largura = float(np.median(meia[yy, xx])) / k
-        c = cv2.approxPolyDP(a[:, ::-1].reshape(-1, 1, 2), epsilon * k, False)[:, 0, :]
-        c = suavizar(c.astype(np.float32)) * esc
-        d = "M" + "L".join(f"{x:.{casas}f},{y:.{casas}f}" for x, y in c)
-        for nome, minima in classes:
-            if largura >= minima:
-                saida[nome].append(d)
-                break
-    return {n: "".join(v) for n, v in saida.items()}
-
-
-def tracar_rotas(vias, meia, k, casas=2):
-    """Rodovias numeradas (ROTAS): cada trecho entre dois pontos vizinhos segue as vias
-    do mapa por um corredor estreito em volta da reta entre eles (caminho mais curto
-    que prefere faixas largas). Sem via no corredor, liga em linha reta.
-    Devolve {tipo: d} e a máscara dos pixels usados."""
-    from skimage.morphology import skeletonize
-    import sknw
-    import networkx as nx
-    esq = skeletonize(vias)
-    g = sknw.build_sknw(esq.astype(np.uint16), multi=False)
-    ids = list(g.nodes())
-    nos = np.array([g.nodes[n]["o"] for n in ids], np.float32) if ids else np.zeros((0, 2), np.float32)
-    for s, e in g.edges():
-        pts = g[s][e]["pts"]
-        yy = np.clip(pts[:, 0], 0, meia.shape[0] - 1); xx = np.clip(pts[:, 1], 0, meia.shape[1] - 1)
-        largura = max(0.5, float(np.median(meia[yy, xx])) / k)
-        g[s][e]["peso"] = g[s][e]["weight"] / (largura ** 2)
-    usados = np.zeros(vias.shape, bool)
-    saida = {}
-    corredor = 9 * k
-
-    def trecho(p0, p1):
-        a_ = np.array([p0[1] * k, p0[0] * k], np.float32)    # (y, x) em px da imagem
-        b_ = np.array([p1[1] * k, p1[0] * k], np.float32)
-        reta = np.linspace(a_, b_, max(2, int(np.hypot(*(b_ - a_)) / 2)))
-        if not len(ids):
-            return reta
-        ab = b_ - a_
-        t_ = np.clip(((nos - a_) @ ab) / max(1e-6, ab @ ab), 0, 1)
-        dist = np.hypot(*(nos - (a_ + t_[:, None] * ab)).T)
-        perto = [ids[i] for i in np.where(dist <= corredor)[0]]
-        if len(perto) < 2:
-            return reta
-        sub = g.subgraph(perto)
-        pp = np.array([g.nodes[n]["o"] for n in perto], np.float32)
-        ini = perto[int(np.hypot(*(pp - a_).T).argmin())]
-        fim = perto[int(np.hypot(*(pp - b_).T).argmin())]
-        if np.hypot(*(g.nodes[ini]["o"] - a_)) > corredor or np.hypot(*(g.nodes[fim]["o"] - b_)) > corredor:
-            return reta
-        try:
-            cam = nx.shortest_path(sub, ini, fim, weight="peso")
-        except nx.NetworkXNoPath:
-            return reta
-        partes = [a_[None]]
-        for s, e in zip(cam[:-1], cam[1:]):
-            pts = g[s][e]["pts"].astype(np.float32)
-            if np.hypot(*(pts[0] - g.nodes[s]["o"])) > np.hypot(*(pts[-1] - g.nodes[s]["o"])):
-                pts = pts[::-1]
-            partes.append(np.vstack([g.nodes[s]["o"], pts]))
-        partes.append(b_[None])
-        caminho = np.vstack(partes)
-        # o caminho não pode ser muito mais longo que a reta (desvio por ruas laterais)
-        comp = float(np.sum(np.hypot(*np.diff(caminho, axis=0).T)))
-        if comp > 1.6 * np.hypot(*(b_ - a_)) + 6 * k:
-            return reta
-        return caminho
-
-    for tipo, rotas in ROTAS.items():
-        partes = []
-        for rota in rotas:
-            arr = np.vstack([trecho(p0, p1) for p0, p1 in zip(rota[:-1], rota[1:])]).astype(np.float32)
-            usados[np.clip(arr[:, 0].astype(int), 0, vias.shape[0] - 1),
-                   np.clip(arr[:, 1].astype(int), 0, vias.shape[1] - 1)] = True
-            c = cv2.approxPolyDP(arr[:, ::-1].reshape(-1, 1, 2), 0.5 * k, False)[:, 0, :]
-            c = suavizar(c.astype(np.float32)) / k
-            partes.append("M" + "L".join(f"{x:.{casas}f},{y:.{casas}f}" for x, y in c))
-        saida[tipo] = "".join(partes)
-    usados = cv2.dilate(usados.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(2, int(2.5 * k))) > 0
-    return saida, usados
+def salvar(img, nome, largura, qualidade=82):
+    im = Image.fromarray(img)
+    if im.width > largura:
+        im = im.resize((largura, round(im.height * largura / im.width)), Image.LANCZOS)
+    im.save(PASTA / nome, "WEBP", quality=qualidade, method=6)
+    print(f"  ✓ mapa/{nome} ({im.width}×{im.height}, {(PASTA / nome).stat().st_size // 1024} KB)")
+    return {"src": nome, "w": im.width, "h": im.height}
 
 
 # ── principal ───────────────────────────────────────────────────────
@@ -427,7 +327,7 @@ def main():
     rgb = rgb0[y0:y1, x0:x1].copy()
     h, w = rgb.shape[:2]
     k = w / REF
-    W, H = REF, round(h / k, 1)                    # o SVG usa sempre a escala de referência
+    W, H = REF, round(h / k, 1)                    # o site usa sempre a escala de referência
     print(f"Base: {origem} · moldura {w}×{h} px (escala {k:.2f})")
 
     rgb = apagar_decoracoes(rgb)
@@ -435,148 +335,32 @@ def main():
     print("Grade: coluna 1 em x=%.1f, linha A em y=%.1f, célula %.1f px" % grade)
     alvo = mascara_textos(rgb, k, grade)
     limpa = cv2.inpaint(rgb, alvo.astype(np.uint8) * 255, max(3, int(3 * k)), cv2.INPAINT_TELEA)
-    a = lambda px: max(2, int(px * k * k))         # área mínima, escalada
+    if os.environ.get("VV_DEBUG"):
+        np.savez_compressed(os.environ["VV_DEBUG"], limpa=limpa, alvo=alvo)
 
-    hsv = cv2.cvtColor(limpa, cv2.COLOR_RGB2HSV).astype(np.int16)
-    Hh, S, V = hsv[..., 0], hsv[..., 1], hsv[..., 2]
-    lab = cv2.cvtColor(limpa, cv2.COLOR_RGB2LAB).astype(np.float32)
-    L = lab[..., 0]
+    camadas = {}
+    for estilo, pares in PALETAS.items():
+        img = aplicar(limpa, tabela(pares))
+        # sob os textos apagados, a cor reconstruída vira o tom mais próximo da paleta (sem borrão)
+        duro = cv2.medianBlur(aplicar(limpa, tabela(pares, dura=True)), 3)
+        img[alvo] = duro[alvo]
+        camadas[estilo] = [salvar(img, f"leonida-{estilo}-2048.webp", 2048)]
+        if w > 2300:
+            camadas[estilo].append(salvar(img, f"leonida-{estilo}.webp", min(4096, w)))
+        else:
+            camadas[estilo].append(salvar(img, f"leonida-{estilo}.webp", w))
 
-    # ── água: ciano saturado (mar, lagos, rios e canais do pântano) ──
-    agua = (Hh >= 90) & (Hh <= 101) & ((S >= 120) | ((S >= 70) & (V >= 200))) & (V >= 110)
-    agua = morf(agua, cv2.MORPH_OPEN, 2 * k)
-    terra = limpar(tapar(~agua, a(30)), a(12))
-    agua = ~terra
-    mar = limpar(agua, a(20000))                   # o mar é a grande massa de água ligada às bordas
-    lago = agua & ~mar
-
-    # profundidade: o mar é mais claro perto da costa
-    claridade = media_mascarada(V, mar, 6 * k)
-    dist_costa = cv2.distanceTransform(mar.astype(np.uint8), cv2.DIST_L2, 5) / k
-    raso1 = mar & ((claridade >= 222) | (dist_costa < 7))
-    raso2 = mar & ((claridade >= 212) | (dist_costa < 22))
-    raso3 = mar & ((claridade >= 205) | (dist_costa < 55))
-
-    # ── vias: linhas claras e sem cor, mais claras que o entorno ──
-    tam = max(5, int(round(9 * k)) | 1)
-    topo = cv2.morphologyEx(L, cv2.MORPH_TOPHAT, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (tam, tam)))
-    branco = (V >= 205) & (S <= 45)
-    via = (branco & (topo > 10)) | ((V >= 238) & (S <= 30))
-    via &= terra | morf(terra, cv2.MORPH_DILATE, 3 * k)       # pontes entram um pouco na água
-
-    # pistas de aeroporto e pátios: manchas claras largas (não são linhas)
-    largas = morf(via, cv2.MORPH_OPEN, 7 * k)
-    pista = limpar(largas, a(120)) & terra
-
-    # ferrovias: traço vermelho-escuro fino
-    ferro = (((Hh <= 15) | (Hh >= 150)) & (S >= 25) & (V >= 80) & (V <= 175)) & terra
-    ferro = limpar(morf(ferro, cv2.MORPH_CLOSE, 2 * k), a(40))
-
-    # ── cidade: cinza azulado, pouca saturação ──
-    cinza = (S <= 55) & ((Hh >= 88) | (S <= 25)) & (V >= 120) & (V < 238) & terra & ~agua
-    urbana = morf(morf(cinza | via & morf(cinza, cv2.MORPH_DILATE, 4 * k), cv2.MORPH_CLOSE, 5 * k), cv2.MORPH_OPEN, 4 * k)
-    urbana = tapar(limpar(urbana, a(260)), a(120)) & terra
-    # quarteirões: na cidade, as ruas são cinza-claro e os quarteirões, cinza-azulados;
-    # pintar os quarteirões deixa a malha de ruas visível mesmo onde a linha central falha
-    quadra = urbana & ~via & ((V < 214) | (S > 24))
-    quadra = limpar(morf(quadra, cv2.MORPH_OPEN, max(1, 1.1 * k)), a(3))
-    # prédios: telhados azulados, mais escuros que o quarteirão
-    predio = quadra & (S >= 45) & (V < 200)
-    predio = limpar(morf(predio, cv2.MORPH_OPEN, max(1, 1.2 * k)), a(3))
-
-    # ── areia (praias) e campo (pedreiras, campos de golfe, áreas agrícolas) ──
-    areia = (Hh >= 8) & (Hh <= 30) & (S >= 35) & (S <= 140) & (V >= 145) & terra
-    areia = limpar(morf(areia, cv2.MORPH_OPEN, 2 * k), a(10))
-    campo = (Hh >= 25) & (Hh <= 45) & (S >= 55) & (V >= 80) & (V < 200) & terra & ~areia
-    campo = limpar(morf(morf(campo, cv2.MORPH_CLOSE, 3 * k), cv2.MORPH_OPEN, 4 * k), a(400))
-
-    # ── relevo: o sombreado do verde (mais escuro = mais alto / mata) ──
-    verde = terra & ~urbana & ~areia & ~agua
-    base_verde = verde & (Hh >= 45) & (Hh <= 92)
-    relevo = media_mascarada(V, base_verde, 3 * k)
-    p35, p15, p5 = np.percentile(relevo[base_verde], [35, 15, 5]) if base_verde.any() else (0, 0, 0)
-    colina = verde & (relevo <= p35)
-    floresta = verde & (relevo <= p15)
-    serra = verde & (relevo <= p5)
-    colina = limpar(morf(colina, cv2.MORPH_OPEN, 3 * k), a(60))
-    floresta = limpar(morf(floresta, cv2.MORPH_OPEN, 3 * k), a(60))
-    serra = limpar(morf(serra, cv2.MORPH_OPEN, 3 * k), a(60))
-
-    # ── vias finais ──
-    vias = via & ~pista
-    vias = limpar(morf(vias, cv2.MORPH_CLOSE, max(2, 1.5 * k), cv2.MORPH_RECT), a(10))
-    meia = cv2.distanceTransform(vias.astype(np.uint8), cv2.DIST_L2, 5)
-
-    camadas = [
-        ("raso3", raso3, dict(suave=6, epsilon=1.2, minimo=60)),
-        ("raso2", raso2, dict(suave=4, epsilon=1.0, minimo=30)),
-        ("raso1", raso1, dict(suave=2.5, epsilon=0.7, minimo=10)),
-        ("terra", terra, dict(suave=1.0, epsilon=0.35, minimo=1.5)),
-        ("colina", colina, dict(suave=3, epsilon=0.9, minimo=40)),
-        ("floresta", floresta, dict(suave=3, epsilon=0.9, minimo=40)),
-        ("serra", serra, dict(suave=3, epsilon=0.9, minimo=40)),
-        ("campo", campo, dict(suave=1.5, epsilon=0.6, minimo=20)),
-        ("areia", areia, dict(suave=1.0, epsilon=0.4, minimo=2)),
-        ("urbana", urbana, dict(suave=1.2, epsilon=0.5, minimo=20)),
-        ("quadra", quadra, dict(suave=0.5, epsilon=0.35, minimo=0.8)),
-        ("predio", predio, dict(suave=0.4, epsilon=0.35, minimo=0.6)),
-        ("pista", pista, dict(suave=0.6, epsilon=0.4, minimo=6)),
-        ("lago", lago, dict(suave=1.0, epsilon=0.4, minimo=1.5)),
-    ]
-    paths = []
-    for nome, m, opc in camadas:
-        d = vetorizar(m, k, **opc)
-        paths.append(f'<path class="c-{nome}" fill-rule="evenodd" d="{d}"/>')
-        print(f"  {nome:10s} {len(d) / 1024:8.1f} KB")
-
-    # faixas brancas largas (rodovias e avenidas): branco forte com meia-largura ≥ 1,3 px de referência
-    forte = vias & (V >= 226) & (S <= 38)
-    nucleo = cv2.distanceTransform(forte.astype(np.uint8), cv2.DIST_L2, 5) >= 1.3 * k
-    largas_vias = forte & morf(nucleo, cv2.MORPH_DILATE, 2.2 * k)
-    largas_vias = limpar(morf(largas_vias, cv2.MORPH_CLOSE, 2 * k), a(30)) & ~pista
-    meia_l = cv2.distanceTransform(largas_vias.astype(np.uint8), cv2.DIST_L2, 5)
-    # rodovias numeradas: seguem as vias do mapa pelos pontos de ROTAS (placas do pôster)
-    rotas, usados = tracar_rotas(vias, meia + largas_vias * 1.5 * k, k)
-    resto = vias & ~usados
-    tracos = linhas_centrais(resto, k, meia + (largas_vias & ~usados) * 2 * k,
-                             [("vias", 1.6), ("ruas", 1.0), ("vielas", 0)], minimo=6)
-    tracos["vias-largas"] = rotas.get("interstate", "")
-    tracos["rotas"] = rotas.get("us", "")
-    for classe in ("vielas", "ruas", "vias", "rotas", "vias-largas"):
-        d = tracos[classe]
-        paths.append(f'<path class="l-{classe}" fill="none" vector-effect="non-scaling-stroke" '
-                     f'stroke-linecap="round" stroke-linejoin="round" d="{d}"/>')
-        print(f"  {classe:11s} {len(d) / 1024:8.1f} KB")
-    trilhos = linhas_centrais(ferro, k, cv2.distanceTransform(ferro.astype(np.uint8), cv2.DIST_L2, 5),
-                              [("ferrovia", 0)], minimo=10)["ferrovia"]
-    paths.append(f'<path class="l-ferrovia" fill="none" vector-effect="non-scaling-stroke" d="{trilhos}"/>')
-    print(f"  {'ferrovia':11s} {len(trilhos) / 1024:8.1f} KB")
-
-    # grade do pôster (A–M nas linhas, 1–9 nas colunas; células quadradas de 1 milha)
     gx, gy, cel = grade[0] / k, grade[1] / k, grade[2] / k
-    g = ['<g class="grade">']
-    d = "".join(f"M{gx + i * cel:.1f},0V{H}" for i in range(1, COLUNAS))
-    d += "".join(f"M0,{gy + j * cel:.1f}H{W}" for j in range(LINHAS + 1) if 0 < gy + j * cel < H)
-    g.append(f'<path fill="none" vector-effect="non-scaling-stroke" d="{d}"/>')
-    for i in range(COLUNAS):
-        for j in range(LINHAS):
-            ty = max(gy + j * cel, 0) + 16
-            if ty < H:
-                g.append(f'<text x="{gx + i * cel + 5:.1f}" y="{ty:.1f}">{chr(65 + j)}{i + 1}</text>')
-    g.append("</g>")
-    paths.append("".join(g))
-
-    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
-           f'data-origem="{origem}" shape-rendering="geometricPrecision">\n'
-           f'<rect class="c-mar" width="{W}" height="{H}"/>\n' + "\n".join(paths) + "\n</svg>\n")
-    SAIDA.write_text(svg, encoding="utf-8")
     INFO.write_text(json.dumps({
         "largura": W, "altura": H, "origem": origem, "fonte": "oficial",
         "recorte": [x0, y0, x1, y1], "imagem": [rgb0.shape[1], rgb0.shape[0]],
         "milha": round(cel, 2),
+        "mar": {e: "#%02X%02X%02X" % p[0][1] for e, p in PALETAS.items()},
+        "camadas": camadas,
         "grade": {"colunas": COLUNAS, "linhas": LINHAS, "celula_x": round(cel, 3), "celula_y": round(cel, 3),
-                  "origem_x": round(gx, 2), "origem_y": round(gy, 2), "formato": "linha-coluna"}}, indent=2), encoding="utf-8")
-    print(f"\nmapa/leonida.svg: {len(svg) / 1024:.0f} KB ({W}×{H}). Agora: python mapa/gerar_previa.py && python montar.py")
+                  "origem_x": round(gx, 2), "origem_y": round(gy, 2), "formato": "linha-coluna"}}, indent=2),
+        encoding="utf-8")
+    print(f"\nmapa/leonida.json ({W}×{H}). Agora: python mapa/poster_site.py && python montar.py")
 
 
 if __name__ == "__main__":

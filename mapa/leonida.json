@@ -1,26 +1,56 @@
 {
   "largura": 1755,
-  "altura": 2449.8,
-  "origem": "Leonida_Map_Poster.jpg",
+  "altura": 2448.0,
+  "origem": "Leonida_Map_Poster_Printable.jpg",
   "fonte": "oficial",
   "recorte": [
-    94,
-    94,
-    2711,
-    3747
+    198,
+    198,
+    5577,
+    7701
   ],
   "imagem": [
-    2805,
-    3840
+    5775,
+    7900
   ],
-  "milha": 195.91,
+  "milha": 195.74,
+  "mar": {
+    "dia": "#9EC3F7",
+    "noite": "#17263C"
+  },
+  "camadas": {
+    "dia": [
+      {
+        "src": "leonida-dia-2048.webp",
+        "w": 2048,
+        "h": 2857
+      },
+      {
+        "src": "leonida-dia.webp",
+        "w": 4096,
+        "h": 5713
+      }
+    ],
+    "noite": [
+      {
+        "src": "leonida-noite-2048.webp",
+        "w": 2048,
+        "h": 2857
+      },
+      {
+        "src": "leonida-noite.webp",
+        "w": 4096,
+        "h": 5713
+      }
+    ]
+  },
   "grade": {
     "colunas": 9,
     "linhas": 13,
-    "celula_x": 195.914,
-    "celula_y": 195.914,
-    "origem_x": -4.45,
-    "origem_y": -49.68,
+    "celula_x": 195.745,
+    "celula_y": 195.745,
+    "origem_x": -3.51,
+    "origem_y": -49.24,
     "formato": "linha-coluna"
   }
 }
