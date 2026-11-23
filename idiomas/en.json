@@ -161,7 +161,7 @@
   "m05": "Rockstar's Florida",
   "m06": "Leonida redrawn by VICEVERSA. Switch between Night and Day, turn on the reference grid and click a region to learn more.",
   "m07": "Scroll or pinch: zoom · Drag: pan · ⛶ full screen",
-  "m08": "VICEVERSA redrew this map from the <a href=\"https://www.rockstargames.com/VI/media\" target=\"_blank\" rel=\"noopener\">official map of Leonida</a> Rockstar released at launch: coastline, roads, towns and the official names of counties, neighborhoods, islands and places. The grid (rows A–M, columns 1–9) matches the poster, and each square is 1 mile. The highlighted points and descriptions are by VICEVERSA.",
+  "m08": "This map uses the exact layout of the <a href=\"https://www.rockstargames.com/VI/media/artwork-wallpapers\" target=\"_blank\" rel=\"noopener\">official map of Leonida</a> Rockstar released at launch — coastline, highways, streets, railways and terrain — with VICEVERSA's colors and names in three languages. County, neighborhood, island and place names are the official ones. The grid (rows A–M, columns 1–9) matches the poster, and each square is 1 mile. The highlighted points and descriptions are by VICEVERSA.",
   "m09": "Map",
   "m10": "Miami",
   "m11": "Metropolis|Beach|Nightclubs|Airport",
@@ -381,5 +381,14 @@
   "vd10": "The first gameplay videos arrive with the launch on November 19. In the meantime, follow the news.",
   "pg_videos_t": "GTA 6 videos: gameplay, trailers and analysis | VICEVERSA",
   "pg_videos_d": "GTA VI gameplay videos and trailers with context: each one comes with a VICEVERSA article about what it shows.",
-  "mp41": "Base: <a href=\"https://www.rockstargames.com/VI/media\" target=\"_blank\" rel=\"noopener\">official Rockstar Games map</a>, redrawn by VICEVERSA"
+  "mp41": "Base: <a href=\"https://www.rockstargames.com/VI/media/artwork-wallpapers\" target=\"_blank\" rel=\"noopener\">official Rockstar Games map</a>, with colors and names by VICEVERSA",
+  "mp42": "Show the official poster on the map",
+  "mp43": "The official map of Leonida",
+  "mp44": "The “Visit Leonida” map Rockstar Games released at launch on November 19 is the base of our interactive map. Turn on the poster layer to see the original artwork lined up with the icons, search and grid.",
+  "mp45": "Rockstar Games' official poster map of Leonida, showing Vice City, the five counties, the islands and the Leonida Keys",
+  "mp46": "Artwork: © Rockstar Games. Reduced image; the high-resolution printable version is free on <a href=\"https://www.rockstargames.com/VI/media/artwork-wallpapers\" target=\"_blank\" rel=\"noopener\">Rockstar's website</a>.",
+  "mp47": "View on the interactive map",
+  "mp48": "Download in high resolution",
+  "mp49": "Official poster: © <a href=\"https://www.rockstargames.com/VI/media/artwork-wallpapers\" target=\"_blank\" rel=\"noopener\">Rockstar Games</a>",
+  "mp50": "Back to the VICEVERSA map"
 }

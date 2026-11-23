@@ -161,7 +161,7 @@
   "m05": "A Flórida da Rockstar",
   "m06": "Leonida redesenhada pelo VICEVERSA. Troque entre Noite e Dia, ligue a grade de referência e clique numa região para saber mais.",
   "m07": "Roda do mouse ou pinça: zoom · Arrastar: percorrer · ⛶ tela cheia",
-  "m08": "O mapa foi redesenhado pelo VICEVERSA a partir do <a href=\"https://www.rockstargames.com/VI/media\" target=\"_blank\" rel=\"noopener\">mapa oficial de Leonida</a> que a Rockstar liberou no lançamento: litoral, estradas, cidades e os nomes oficiais de condados, bairros, ilhas e lugares. A grade (linhas A–M, colunas 1–9) é a mesma do pôster, e cada quadrado tem 1 milha. Os pontos e descrições em destaque são do VICEVERSA.",
+  "m08": "O mapa usa o traçado exato do <a href=\"https://www.rockstargames.com/VI/media/artwork-wallpapers\" target=\"_blank\" rel=\"noopener\">mapa oficial de Leonida</a> que a Rockstar liberou no lançamento — litoral, estradas, ruas, ferrovias e relevo —, com as cores e os nomes nos três idiomas do VICEVERSA. Os nomes de condados, bairros, ilhas e lugares são os oficiais. A grade (linhas A–M, colunas 1–9) é a mesma do pôster, e cada quadrado tem 1 milha. Os pontos e descrições em destaque são do VICEVERSA.",
   "m09": "Mapa",
   "m10": "Miami",
   "m11": "Metrópole|Praia|Boates|Aeroporto",
@@ -381,5 +381,14 @@
   "vd10": "Os primeiros vídeos de gameplay chegam com o lançamento, em 19 de novembro. Enquanto isso, acompanhe as notícias.",
   "pg_videos_t": "Vídeos de GTA 6: gameplay, trailers e análises | VICEVERSA",
   "pg_videos_d": "Vídeos de gameplay e trailers de GTA VI com contexto: cada um vem com a matéria do VICEVERSA sobre o que ele mostra.",
-  "mp41": "Base: <a href=\"https://www.rockstargames.com/VI/media\" target=\"_blank\" rel=\"noopener\">mapa oficial da Rockstar Games</a>, redesenhado pelo VICEVERSA"
+  "mp41": "Base: <a href=\"https://www.rockstargames.com/VI/media/artwork-wallpapers\" target=\"_blank\" rel=\"noopener\">mapa oficial da Rockstar Games</a>, com cores e nomes do VICEVERSA",
+  "mp42": "Ver o pôster oficial no mapa",
+  "mp43": "O pôster oficial de Leonida",
+  "mp44": "O mapa “Visit Leonida” que a Rockstar Games liberou no lançamento, em 19 de novembro, é a base do nosso mapa interativo. Ligue a camada do pôster no mapa para ver a arte original alinhada com os ícones, a busca e a grade.",
+  "mp45": "Pôster oficial do mapa de Leonida, da Rockstar Games, com Vice City, os cinco condados, as ilhas e as Leonida Keys",
+  "mp46": "Arte: © Rockstar Games. Imagem reduzida; a versão para impressão, em alta resolução, é gratuita no <a href=\"https://www.rockstargames.com/VI/media/artwork-wallpapers\" target=\"_blank\" rel=\"noopener\">site da Rockstar</a>.",
+  "mp47": "Ver no mapa interativo",
+  "mp48": "Baixar em alta resolução",
+  "mp49": "Pôster oficial: © <a href=\"https://www.rockstargames.com/VI/media/artwork-wallpapers\" target=\"_blank\" rel=\"noopener\">Rockstar Games</a>",
+  "mp50": "Voltar ao mapa do VICEVERSA"
 }
