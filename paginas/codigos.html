@@ -1,0 +1,103 @@
+<main class="artigo codigos" data-plat="ps">
+  <a class="artigo__voltar" href="{{__home__}}">← VICEVERSA</a>
+  <p class="artigo__meta"><span class="selo selo--guia">{{gd15}}</span><span class="artigo__autor">{{gd01}} <a href="{{__link_sobre__}}#editor" rel="author">{{__autor__}}</a></span><span>{{gd02}} <time datetime="{{__cg_iso__}}">{{__cg_data__}}</time></span></p>
+  <h1>{{cg01}}</h1>
+  <p class="guia__lead">{{cg02}}</p>
+
+  <ul class="tf-plataformas" aria-label="{{tf03}}">
+    <li><strong>PlayStation 5 · PS5 Pro</strong><span>{{cg03}}</span><small>{{cg04}}</small></li>
+    <li><strong>Xbox Series X|S</strong><span>{{cg05}}</span><small>{{cg04}}</small></li>
+    <li><strong>PC</strong><span>{{tf07}}</span><small>{{cg06}}</small></li>
+  </ul>
+
+  <section class="cg-como" aria-labelledby="cg-como-titulo">
+    <div class="cg-como__topo">
+      <h2 id="cg-como-titulo">{{cg10}}</h2>
+      <div class="cg-plat" role="group" aria-label="{{cg09}}">
+        <button type="button" data-plat="ps" aria-pressed="true">PlayStation</button>
+        <button type="button" data-plat="xbox" aria-pressed="false">Xbox</button>
+      </div>
+    </div>
+    <ol>
+      <li>{{cg11}}</li>
+      <li>{{cg12}} <kbd class="so-ps">L1</kbd><kbd class="so-ps">R1</kbd><kbd class="so-xbox">LB</kbd><kbd class="so-xbox">RB</kbd>.</li>
+      <li>{{cg13}}</li>
+      <li>{{cg14}}</li>
+    </ol>
+  </section>
+
+  <ul class="cg-avisos">
+    <li><strong>{{cg15}}</strong> {{cg16}}</li>
+    <li><strong>{{cg17}}</strong> {{cg18}} <a href="{{__trophies__}}">{{cg19}}</a></li>
+    <li><strong>{{cg20}}</strong> {{cg21}}</li>
+    <li><strong>{{cg22}}</strong> {{cg23}}</li>
+  </ul>
+
+  <div class="tf-controles">
+    <div class="tf-filtros" role="group" aria-label="{{tf11}}">{{__cg_filtros__}}</div>
+    <div class="tf-opcoes">
+      <label class="cg-busca"><span class="sr-only">{{cg24}}</span><input type="search" id="cg-busca" placeholder="{{cg24}}" autocomplete="off"></label>
+      <label class="tf-opcao"><input type="checkbox" id="cg-so-codigo"> {{cg25}}</label>
+    </div>
+  </div>
+  <p class="cg-vazio" id="cg-vazio" hidden>{{cg26}}</p>
+
+{{__cg_lista__}}
+
+  <section class="tf-roteiro cg-faq" aria-labelledby="cg-faq-titulo">
+    <h2 id="cg-faq-titulo">{{cg40}}</h2>
+    <dl>
+      <dt>{{cg41}}</dt><dd>{{cg42}}</dd>
+      <dt>{{cg43}}</dt><dd>{{cg44}}</dd>
+      <dt>{{cg45}}</dt><dd>{{cg46}}</dd>
+      <dt>{{cg47}}</dt><dd>{{cg48}}</dd>
+    </dl>
+  </section>
+
+{{__cg_fontes__}}
+</main>
+<script>
+(function(){
+  var raiz = document.querySelector(".codigos"), CHAVE = "viceversa_cheats_plat";
+  function plat(p){
+    raiz.dataset.plat = p;
+    document.querySelectorAll(".cg-plat button").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.plat === p ? "true" : "false"); });
+  }
+  try { var salvo = localStorage.getItem(CHAVE); if(salvo === "ps" || salvo === "xbox") plat(salvo); } catch(e){}
+  document.querySelectorAll(".cg-plat button").forEach(function(b){
+    b.addEventListener("click", function(){ plat(b.dataset.plat); try { localStorage.setItem(CHAVE, b.dataset.plat); } catch(e){} });
+  });
+  var itens = [].slice.call(document.querySelectorAll(".cg-item"));
+  var busca = document.getElementById("cg-busca"), soCodigo = document.getElementById("cg-so-codigo"), filtro = "";
+  function norm(t){ return (t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+  itens.forEach(function(li){ li._texto = norm(li.textContent); });
+  function atualizar(){
+    var q = norm(busca.value.trim()), visiveis = 0;
+    itens.forEach(function(li){
+      var ok = (!filtro || li.dataset.cat === filtro) && (!soCodigo.checked || li.hasAttribute("data-codigo")) && (!q || li._texto.indexOf(q) >= 0);
+      li.hidden = !ok; if(ok) visiveis++;
+    });
+    document.querySelectorAll(".cg-secao").forEach(function(s){
+      s.hidden = !s.querySelector(".cg-item:not([hidden])");
+    });
+    document.getElementById("cg-vazio").hidden = visiveis > 0;
+  }
+  busca.addEventListener("input", atualizar);
+  soCodigo.addEventListener("change", atualizar);
+  document.querySelectorAll(".tf-filtro").forEach(function(b){
+    b.addEventListener("click", function(){
+      filtro = b.dataset.filtro;
+      document.querySelectorAll(".tf-filtro").forEach(function(o){ o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+      atualizar();
+    });
+  });
+  /* copiar a sequência em texto */
+  document.querySelectorAll("[data-copiar-seq]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var txt = (raiz.dataset.plat === "xbox" ? "LB + RB: " : "L1 + R1: ") + b.dataset.copiarSeq;
+      var ok = function(){ var t = b.textContent; b.textContent = b.dataset.ok; setTimeout(function(){ b.textContent = t; }, 1500); };
+      if(navigator.clipboard) navigator.clipboard.writeText(txt).then(ok, function(){});
+    });
+  });
+})();
+</script>
