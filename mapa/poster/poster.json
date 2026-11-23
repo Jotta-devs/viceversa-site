@@ -1,0 +1,32 @@
+{
+  "origem": "Leonida_Map_Poster_Printable.jpg",
+  "imagem": [
+    5775,
+    7900
+  ],
+  "recorte": [
+    198,
+    198,
+    5577,
+    7701
+  ],
+  "mapa": [
+    {
+      "src": "mapa-2048.webp",
+      "w": 2048,
+      "h": 2857
+    },
+    {
+      "src": "mapa-grande.webp",
+      "w": 4096,
+      "h": 5713
+    }
+  ],
+  "inteiro": {
+    "src": "inteiro-1600.webp",
+    "w": 1600,
+    "h": 2189
+  },
+  "credito": "Rockstar Games",
+  "download": "https://www.rockstargames.com/VI/media/artwork-wallpapers"
+}
