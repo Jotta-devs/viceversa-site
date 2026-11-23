@@ -43,15 +43,19 @@ import urllib.request
 from datetime import datetime
 from pathlib import Path
 
-from formulario import ler_post, ler_status, ler_video_avulso
+from formulario import ler_colecionavel, ler_post, ler_status, ler_video_avulso
 
 RAIZ = Path(__file__).parent
 REPO = RAIZ.parent
 ARQ_FEED = REPO / "feed.json"
 ARQ_VIDEOS = REPO / "videos.json"   # vídeos postados sem notícia (formulário "Novo vídeo")
+ARQ_COLECIONAVEIS = REPO / "mapa" / "colecionaveis-enviados.json"   # formulário "Novo colecionável"
 
 ROTULO = "post"      # só Issues com este rótulo viram publicação
 ROTULO_VIDEO = "video"   # formulário "Novo vídeo": entra só na página Vídeos
+ROTULO_COLECIONAVEL = "colecionavel"   # formulário "Novo colecionável": posição exata no mapa
+# só quem tem acesso ao repositório põe colecionável no mapa (o formulário é público)
+AUTORES_CONFIAVEIS = {"OWNER", "MEMBER", "COLLABORATOR"}
 
 
 def log(msg):
@@ -103,6 +107,7 @@ ROTULO_OFF = "off"
 ROTULOS_EXTRA = {
     ROTULO_OFF: ("7B3DFF", "Categoria do site: notícia fora do GTA 6"),
     ROTULO_VIDEO: ("FF3D8A", "Só vídeo, sem notícia: entra na página Vídeos do site"),
+    ROTULO_COLECIONAVEL: ("D9A400", "Colecionável com a posição exata no mapa do site"),
 }
 
 
@@ -680,6 +685,32 @@ def escrever_videos_avulsos(videos_antes):
         videos.append(item)
     ARQ_VIDEOS.write_text(json.dumps(videos, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     log(f"videos.json escrito com {len(videos)} vídeo(s) sem notícia.")
+    return escrever_colecionaveis()
+
+
+def escrever_colecionaveis():
+    """Issues do formulário "Novo colecionável" -> mapa/colecionaveis-enviados.json (o mapa usa)."""
+    try:
+        issues = buscar_issues(ROTULO_COLECIONAVEL)
+    except Exception as exc:
+        log(f"não consegui ler as Issues de colecionáveis: {exc}; mantendo o arquivo atual.")
+        return 0
+    itens = []
+    for issue in sorted(issues, key=lambda i: i.get("created_at", "")):
+        if issue.get("author_association") not in AUTORES_CONFIAVEIS:
+            log(f"Issue #{issue['number']} (colecionável): autor sem acesso ao repositório; pulando.")
+            continue
+        campos = ler_colecionavel(issue.get("body"))
+        nome = (issue.get("title") or "").strip()
+        if not campos or not nome or not campos["local"].get("en"):
+            log(f"Issue #{issue['number']} (colecionável): faltam nome, tipo, posição ou descrição; pulando.")
+            continue
+        item = {"id": f"col-env-{issue['number']}", "nome": nome, **campos}
+        if not item["itens"]:
+            item.pop("itens")
+        itens.append(item)
+    ARQ_COLECIONAVEIS.write_text(json.dumps(itens, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    log(f"colecionaveis-enviados.json escrito com {len(itens)} item(ns).")
     return 0
 
 

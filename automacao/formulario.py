@@ -173,6 +173,38 @@ def ler_video_avulso(corpo):
     }
 
 
+TIPOS_COLECIONAVEL = {
+    "carta colecionavel": "carta", "ponto waink": "wink", "meteorito": "meteorito",
+    "naufragio de kenton": "tesouro", "revista ou livro": "revista",
+}
+POSICAO = re.compile(r'"?x"?\s*[:=]\s*(0?\.\d+|[01](?:\.0+)?)\s*[,;]?\s*"?y"?\s*[:=]\s*(0?\.\d+|[01](?:\.0+)?)', re.I)
+
+
+def ler_colecionavel(corpo):
+    """Formulário "Novo colecionável": tipo, posição (x, y em frações do mapa), onde fica e tesouros.
+
+    Devolve None se faltar o tipo ou a posição."""
+    corpo = (corpo or "").replace("\r\n", "\n")
+    partes = re.split(r"^###[ \t]+([^\n]+)$", corpo, flags=re.M)
+    s = {}
+    for i in range(1, len(partes) - 1, 2):
+        s[_normalizar(partes[i])] = VAZIO.sub("", partes[i + 1]).strip()
+    tipo = TIPOS_COLECIONAVEL.get(_normalizar(s.get("tipo", "")))
+    m = POSICAO.search(s.get("posicao no mapa", ""))
+    if not (tipo and m):
+        return None
+    x, y = float(m.group(1)), float(m.group(2))
+    if not (0 <= x <= 1 and 0 <= y <= 1):
+        return None
+    local = {"en": s.get("onde fica (ingles)", "")}
+    for cod, chave in (("pt-BR", "onde fica (portugues)"), ("es", "onde fica (espanhol)")):
+        if s.get(chave):
+            local[cod] = s[chave]
+    tesouros = [re.sub(r"^\s*[-*•]\s*", "", l).strip() for l in s.get("tesouros do naufragio", "").splitlines()]
+    return {"tipo": tipo, "x": round(x, 5), "y": round(y, 5), "local": local,
+            "itens": [t for t in tesouros if t]}
+
+
 def ler_post(corpo):
     """Extrai os campos do post já limpos.
 
