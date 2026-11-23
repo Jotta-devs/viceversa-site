@@ -77,6 +77,7 @@ PAGINAS_SITE = {
     "mapa":        ("mapa.html",          {"en": "map",              "pt-BR": "mapa",               "es": "mapa"}),
     "guias":       ("guias.html",         {"en": "guides",           "pt-BR": "guias",              "es": "guias"}),
     "videos":      ("videos.html",        {"en": "videos",           "pt-BR": "videos",             "es": "videos"}),
+    "trofeus":     ("trofeus.html",       {"en": "trophies",         "pt-BR": "trofeus",            "es": "trofeos"}),
     "sobre":       ("institucional.html", {"en": "about",            "pt-BR": "sobre",              "es": "sobre"}),
     "contato":     ("institucional.html", {"en": "contact",          "pt-BR": "contato",            "es": "contacto"}),
     "privacidade": ("institucional.html", {"en": "privacy",          "pt-BR": "privacidade",        "es": "privacidad"}),
@@ -144,6 +145,10 @@ MIN_PALAVRAS_LEGENDA = 20
 ROBOTS_PADRAO = "index, follow, max-image-preview:large"
 ROBOTS_FINA = "noindex, follow"
 PASTA_GUIAS = RAIZ / "guias"         # guias longos e permanentes (conteúdo próprio)
+PASTA_TROFEUS = RAIZ / "trofeus"     # troféus/conquistas com guia (trofeus/trofeus.json)
+# página de troféu com guia curto demais (ex.: "conclua o capítulo 3") fica fora do
+# Google e sem anúncios, como as notícias e os locais curtos
+MIN_PALAVRAS_TROFEU = 60
 # aprofundamento das notícias: um JSON por notícia (aprofundamento/<slug>.json)
 # com contexto, o que se sabe, o que não se sabe, a análise do editor e fontes
 # extras, nos três idiomas. Entra no fim da matéria sem mexer no texto da Issue.
@@ -1120,6 +1125,8 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
             .replace("{{__news__}}", prefixo + caminho(cod, "noticias") + "/")
             .replace("{{__map__}}", prefixo + caminho(cod, "mapa") + "/")
             .replace("{{__guides__}}", prefixo + caminho(cod, "guias") + "/")
+            .replace("{{__trophies__}}", prefixo + caminho(cod, "trofeus") + "/")
+            .replace("{{__at_trophies__}}", atual["trofeus"])
             .replace("{{__at_guides__}}", atual["guias"])
             # item "Vídeos" do menu: só aparece quando existe algum vídeo publicado
             .replace("{{__nav_videos__}}",
@@ -1333,7 +1340,7 @@ def gerar_news_sitemap(posts):
             + "\n".join(urls) + ("\n" if urls else "") + "</urlset>\n")
 
 
-def gerar_sitemap(posts, hoje, locais_por_cod=None, guias=()):
+def gerar_sitemap(posts, hoje, locais_por_cod=None, guias=(), trofeus=None):
     ultima = posts[0]["quando"].strftime("%Y-%m-%d") if posts and posts[0]["quando"] else hoje
     urls = ""
     for cod in IDIOMAS:
@@ -1374,6 +1381,16 @@ def gerar_sitemap(posts, hoje, locais_por_cod=None, guias=()):
                 f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url_rel(rel_local(o, local))}"/>'
                 for o in IDIOMAS if o in locais_por_cod)
             urls += f"\n  <url><loc>{url_rel(rel_local(cod, local))}</loc><lastmod>{hoje}</lastmod>{alt}\n  </url>"
+    if trofeus:
+        mod = trofeus["data"].strftime("%Y-%m-%d") if trofeus.get("data") else hoje
+        for t in trofeus["trofeus"]:
+            for cod in IDIOMAS:
+                if trofeu_fino(t, cod):
+                    continue
+                alt = "".join(
+                    f'\n    <xhtml:link rel="alternate" hreflang="{IDIOMAS[o][1]}" href="{url_rel(rel_trofeu(o, t))}"/>'
+                    for o in IDIOMAS)
+                urls += f"\n  <url><loc>{url_rel(rel_trofeu(cod, t))}</loc><lastmod>{mod}</lastmod>{alt}\n  </url>"
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
             'xmlns:xhtml="http://www.w3.org/1999/xhtml">' + urls + "\n</urlset>\n")
@@ -1919,6 +1936,235 @@ def jsonld_guia(guia, cod, textos):
     return jsonld(obj) + "\n" + jsonld(migalhas)
 
 
+# ── troféus e conquistas ────────────────────────────────────────────
+# trofeus/trofeus.json: os 55 troféus (PS5) / conquistas (Xbox) com guia nos
+# 3 idiomas. Gera a página /trophies/ (lista com filtros e progresso salvo no
+# navegador) e uma página por troféu (/trophies/<id>/).
+GRAUS_TROFEU = ["platina", "ouro", "prata", "bronze"]
+CATS_TROFEU = ["conclusao", "historia", "personagens", "atividades", "crime", "exploracao", "segredos"]
+
+
+def carregar_trofeus():
+    arq = PASTA_TROFEUS / "trofeus.json"
+    if not arq.exists():
+        return None
+    try:
+        dados = json.loads(arq.read_text(encoding="utf-8"))
+    except ValueError as e:
+        print(f"  ! trofeus/trofeus.json inválido: {e}")
+        return None
+    validos = []
+    for t in dados.get("trofeus", []):
+        if not re.match(r"^[a-z0-9-]+$", str(t.get("id", ""))) or t.get("grau") not in GRAUS_TROFEU:
+            print(f"  ! troféu ignorado (id ou grau inválido): {t.get('nome')}")
+            continue
+        if t.get("cat") not in CATS_TROFEU:
+            t["cat"] = "atividades"
+        validos.append(t)
+    dados["trofeus"] = validos
+    try:
+        dados["data"] = datetime.strptime(dados.get("atualizado", ""), "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    except ValueError:
+        dados["data"] = None
+    return dados
+
+
+def rel_trofeu(cod, t):
+    return f"{caminho(cod, 'trofeus')}/{t['id']}"
+
+
+def palavras_trofeu(t, cod):
+    partes = [texto_idioma(t.get("desc"), cod)] + list(texto_idioma(t.get("guia"), cod) or []) \
+        + list(texto_idioma(t.get("dicas"), cod) or [])
+    return len(" ".join(partes).split())
+
+
+def trofeu_fino(t, cod):
+    return palavras_trofeu(t, cod) < MIN_PALAVRAS_TROFEU
+
+
+def grau_html(t, textos, extra=""):
+    nome = textos.get(f"tfg_{t['grau']}", t["grau"])
+    classe = f'tf-grau tf-grau--{t["grau"]}' + (f" {extra}" if extra else "")
+    return f'<span class="{classe}" title="{esc(nome)}"><i aria-hidden="true"></i>{esc(nome)}</span>'
+
+
+def gs_html(t, textos):
+    return f'<span class="tf-gs" title="{esc(textos.get("tf12", ""))}">{t["gs"]} G</span>'
+
+
+def etiquetas_trofeu(t, textos):
+    tags = []
+    if t.get("perdivel"):
+        tags.append(("perdivel", textos.get("tf20", "")))
+    if t.get("personagem") in ("jason", "lucia"):
+        tags.append(("pers", textos.get("tf21", "").replace("{nome}", t["personagem"].capitalize())))
+    elif t.get("personagem") == "ambos":
+        tags.append(("pers", textos.get("tf22", "")))
+    if not t.get("confirmado", True):
+        tags.append(("aberto", textos.get("tf23", "")))
+    return "".join(f'<span class="tf-tag tf-tag--{c}">{esc(n)}</span>' for c, n in tags if n)
+
+
+def item_trofeu(t, prefixo, cod, textos):
+    nome, desc = esc(t["nome"]), esc(texto_idioma(t["desc"], cod))
+    link = f'{prefixo}{rel_trofeu(cod, t)}/'
+    corpo = (f'<a class="tf-item__nome" href="{link}">{nome}</a>'
+             f'<p class="tf-item__desc">{desc}</p>')
+    if t.get("oculto"):
+        corpo = (f'<div class="tf-spoiler" data-spoiler><button type="button" class="tf-spoiler__ver">'
+                 f'{esc(textos.get("tf16", ""))}</button><div class="tf-spoiler__conteudo">{corpo}</div></div>')
+    return (f'      <li class="tf-item" id="t-{t["id"]}" data-id="{t["id"]}" data-cat="{t["cat"]}" data-grau="{t["grau"]}" '
+            f'data-gs="{t["gs"]}"{" data-oculto" if t.get("oculto") else ""}>'
+            f'{grau_html(t, textos)}<div class="tf-item__texto">{corpo}'
+            f'<div class="tf-item__rodape">{gs_html(t, textos)}{etiquetas_trofeu(t, textos)}'
+            f'<a class="tf-item__guia" href="{link}">{esc(textos.get("tf17", ""))}</a></div></div>'
+            f'<label class="tf-check"><input type="checkbox" data-trofeu="{t["id"]}">'
+            f'<span>{esc(textos.get("tf18", ""))}</span></label></li>')
+
+
+def lista_trofeus(dados, prefixo, cod, textos):
+    blocos = []
+    for cat in CATS_TROFEU:
+        itens = [t for t in dados["trofeus"] if t["cat"] == cat]
+        if not itens:
+            continue
+        blocos.append(
+            f'    <section class="tf-secao" data-secao="{cat}" id="{cat}">\n'
+            f'      <div class="tf-secao__cabeca"><h2>{esc(textos.get("tfc_" + cat, cat))}</h2>'
+            f'<span class="tf-secao__conta" data-conta="{cat}">0/{len(itens)}</span></div>\n'
+            f'      <p class="tf-secao__nota">{esc(textos.get("tfn_" + cat, ""))}</p>\n'
+            f'      <ul class="tf-lista">\n'
+            + "\n".join(item_trofeu(t, prefixo, cod, textos) for t in itens)
+            + "\n      </ul>\n    </section>")
+    return "\n".join(blocos)
+
+
+def filtros_trofeus(dados, textos):
+    botoes = [f'<button type="button" class="tf-filtro" data-filtro="" aria-pressed="true">{esc(textos.get("tf30", ""))}'
+              f' <small>{len(dados["trofeus"])}</small></button>']
+    for cat in CATS_TROFEU:
+        n = sum(1 for t in dados["trofeus"] if t["cat"] == cat)
+        if n:
+            botoes.append(f'<button type="button" class="tf-filtro" data-filtro="{cat}" aria-pressed="false">'
+                          f'{esc(textos.get("tfc_" + cat, cat))} <small>{n}</small></button>')
+    return "".join(botoes)
+
+
+def contagem_graus(dados):
+    return {g: sum(1 for t in dados["trofeus"] if t["grau"] == g) for g in GRAUS_TROFEU}
+
+
+def resumo_graus_html(dados, textos):
+    cont = contagem_graus(dados)
+    return "".join(
+        f'<li class="tf-prog__grau tf-prog__grau--{g}"><i aria-hidden="true"></i>{esc(textos.get("tfg_" + g, g))}'
+        f' <b data-grau-feitos="{g}">0</b>/{cont[g]}</li>' for g in GRAUS_TROFEU if cont[g])
+
+
+def fontes_trofeus(dados, chaves, textos):
+    fontes = dados.get("fontes", {})
+    itens = [f'<li><a href="{esc(fontes[k]["url"])}" target="_blank" rel="noopener nofollow">{esc(fontes[k]["nome"])}</a></li>'
+             for k in chaves if k in fontes]
+    if not itens:
+        return ""
+    return (f'<aside class="tf-fontes"><h2>{esc(textos.get("tf40", ""))}</h2><ul>{"".join(itens)}</ul>'
+            f'<p>{esc(textos.get("tf41", ""))}</p></aside>')
+
+
+def jsonld_trofeus(dados, cod, textos):
+    lista = {
+        "@context": "https://schema.org", "@type": "ItemList",
+        "name": textos.get("tf01", "GTA 6 trophies"), "numberOfItems": len(dados["trofeus"]),
+        "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": t["nome"],
+                             "url": url_rel(rel_trofeu(cod, t))} for i, t in enumerate(dados["trofeus"])]}
+    migalhas = {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": NOME_SITE, "item": url(cod, "home")},
+            {"@type": "ListItem", "position": 2, "name": textos.get("tf00", "Trophies"), "item": url(cod, "trofeus")},
+        ]}
+    return jsonld(lista) + "\n" + jsonld(migalhas)
+
+
+def titulo_trofeu(t, textos):
+    return textos.get("tf50", "{nome}").replace("{nome}", t["nome"])
+
+
+def jsonld_trofeu(t, dados, cod, textos):
+    endereco = url_rel(rel_trofeu(cod, t))
+    titulo = titulo_trofeu(t, textos)
+    obj = {
+        "@context": "https://schema.org", "@type": "Article",
+        "headline": titulo[:110], "description": texto_idioma(t["desc"], cod),
+        "mainEntityOfPage": endereco, "url": endereco, "inLanguage": IDIOMAS[cod][1],
+        "author": autor_jsonld(cod), "publisher": organizacao(cod),
+        "image": [DOMINIO + "/og-image-%s.png" % cod.split("-")[0]],
+        "about": {"@type": "VideoGame", "name": "Grand Theft Auto VI",
+                  "gamePlatform": ["PlayStation 5", "Xbox Series X|S"]},
+        "wordCount": palavras_trofeu(t, cod),
+    }
+    if dados.get("data"):
+        obj["dateModified"] = dados["data"].date().isoformat()
+    migalhas = {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": NOME_SITE, "item": url(cod, "home")},
+            {"@type": "ListItem", "position": 2, "name": textos.get("tf00", "Trophies"), "item": url(cod, "trofeus")},
+            {"@type": "ListItem", "position": 3, "name": t["nome"], "item": endereco},
+        ]}
+    return jsonld(obj) + "\n" + jsonld(migalhas)
+
+
+def ficha_trofeu(t, textos, cod):
+    linhas = [
+        (textos.get("tf60", ""), grau_html(t, textos)),
+        (textos.get("tf61", ""), f'{t["gs"]} G' + (f' <small>({esc(textos.get("tf62", ""))})</small>' if t["grau"] == "platina" else "")),
+        (textos.get("tf63", ""), esc(textos.get("tfc_" + t["cat"], ""))),
+        (textos.get("tf64", ""), esc(texto_idioma(t.get("quando"), cod)) or "—"),
+        (textos.get("tf65", ""), esc(t["personagem"].capitalize()) if t.get("personagem") in ("jason", "lucia")
+         else esc(textos.get("tf22", "")) if t.get("personagem") == "ambos" else esc(textos.get("tf66", ""))),
+        (textos.get("tf67", ""), esc(textos.get("tf68", "")) if t.get("perdivel") else esc(textos.get("tf69", ""))),
+        (textos.get("tf70", ""), esc(textos.get("tf71", "")) if t.get("oculto") else esc(textos.get("tf72", ""))),
+    ]
+    if not t.get("confirmado", True):
+        linhas.append((textos.get("tf73", ""), f'<span class="tf-tag tf-tag--aberto">{esc(textos.get("tf23", ""))}</span>'))
+    return ('<dl class="tf-ficha">' + "".join(f"<div><dt>{esc(a)}</dt><dd>{b}</dd></div>" for a, b in linhas)
+            + "</dl>")
+
+
+def corpo_trofeu(t, cod, textos, prefixo, locais_ids):
+    partes = []
+    if cod != "en":
+        partes.append(f'<p class="tf-original">{esc(textos.get("tf74", ""))} <q lang="en">{esc(t["desc"]["en"])}</q></p>')
+    partes.append(f'<h2 id="como">{esc(textos.get("tf75", ""))}</h2>')
+    partes += [f"<p>{esc(p)}</p>" for p in texto_idioma(t.get("guia"), cod) or []]
+    dicas = texto_idioma(t.get("dicas"), cod) or []
+    if dicas:
+        partes.append(f'<h2 id="dicas">{esc(textos.get("tf76", ""))}</h2>')
+        partes.append("<ul>" + "".join(f"<li>{esc(d)}</li>" for d in dicas) + "</ul>")
+    links = []
+    if t.get("mapa"):
+        rotulo = textos.get("tf77", "") if t["mapa"] == "mapa" else textos.get("tf78", "")
+        links.append(f'<a class="painel__link" href="{prefixo}{caminho(cod, "mapa")}/">{esc(rotulo)} →</a>')
+    for lid in t.get("lugares") or []:
+        if lid in locais_ids:
+            links.append(f'<a class="painel__link" href="{prefixo}{caminho(cod, "mapa")}/{lid}/">'
+                         f'{esc(textos.get("tf79", "").replace("{nome}", locais_ids[lid]))} →</a>')
+    if links:
+        partes.append('<p class="tf-links">' + " ".join(links) + "</p>")
+    return "\n      ".join(partes)
+
+
+def relacionados_trofeu(t, dados, prefixo, cod, textos):
+    outros = [o for o in dados["trofeus"] if o["cat"] == t["cat"] and o is not t][:8]
+    if len(outros) < 4:
+        outros += [o for o in dados["trofeus"] if o["cat"] != t["cat"] and not o.get("oculto")][:8 - len(outros)]
+    return "\n".join(
+        f'      <li><a href="{prefixo}{rel_trofeu(cod, o)}/">{grau_html(o, textos, "tf-grau--mini")}'
+        f'<span>{esc(o["nome"]) if not o.get("oculto") else esc(textos.get("tf19", ""))}</span></a></li>' for o in outros)
+
+
 # ── o gerador ───────────────────────────────────────────────────────
 def montar():
     cabeca = (PARTES / "cabeca.html").read_text(encoding="utf-8")
@@ -1939,6 +2185,8 @@ def montar():
     _GUIAS[:] = guias
     paginas_guia = 0
     mapa = carregar_mapa()
+    trofeus = carregar_trofeus()
+    paginas_trofeu = 0
     dias, horas, minutos = contagem()
     hoje = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
@@ -2007,6 +2255,21 @@ def montar():
             elif pagina == "guias":
                 extras["__guias_lista__"] = lambda pref, cod=cod, textos=textos: "\n".join(
                     cartao_guia(g, pref, cod, textos) for g in guias)
+            elif pagina == "trofeus":
+                tf = trofeus or {"trofeus": [], "fontes": {}, "data": None}
+                cont = contagem_graus(tf)
+                extras.update({
+                    "__tf_lista__": lambda pref, cod=cod, textos=textos, tf=tf: lista_trofeus(tf, pref, cod, textos),
+                    "__tf_filtros__": filtros_trofeus(tf, textos),
+                    "__tf_graus__": resumo_graus_html(tf, textos),
+                    "__tf_graus_txt__": esc(" · ".join(f'{cont[g]} {textos.get("tfg_" + g, g).lower()}'
+                                                      for g in GRAUS_TROFEU if cont[g])),
+                    "__tf_total__": str(len(tf["trofeus"])),
+                    "__tf_fontes__": fontes_trofeus(tf, list(tf.get("fontes", {})), textos),
+                    "__tf_iso__": tf["data"].date().isoformat() if tf.get("data") else "",
+                    "__tf_data__": data_legivel(tf["data"], cod) if tf.get("data") else "",
+                    "__jsonld_extra__": jsonld_trofeus(tf, cod, textos),
+                })
             elif pagina == "videos":
                 extras["__videos_lista__"] = lambda pref, cod=cod, textos=textos: lista_videos_html(
                     posts, pref, cod, textos)
@@ -2015,7 +2278,7 @@ def montar():
                     # poucos vídeos: tela quase vazia, fora do Google e sem anúncios
                     extras["__robots__"] = ROBOTS_FINA
                     extras["__sem_anuncios__"] = "sim"
-            if pagina in ("noticias", "mapa", "guias", "videos") and textos.get(f"pg_{pagina}_t"):
+            if pagina in ("noticias", "mapa", "guias", "videos", "trofeus") and textos.get(f"pg_{pagina}_t"):
                 # título e descrição próprios (antes eram iguais aos da home)
                 titulo_pg, desc_pg = textos[f"pg_{pagina}_t"], textos.get(f"pg_{pagina}_d", "")
                 textos_pagina = dict(textos)
@@ -2174,6 +2437,55 @@ def montar():
             total += 1
             paginas_local += 1
 
+        # ── uma página por troféu ──
+        if trofeus:
+            modelo_trofeu = (PAGINAS / "trofeu.html").read_text(encoding="utf-8")
+            nomes_locais = {l["id"]: l["nome"] for l in locais}
+            for t in trofeus["trofeus"]:
+                rel = rel_trofeu(cod, t)
+                endereco = url_rel(rel)
+                titulo = titulo_trofeu(t, textos)
+                desc = texto_idioma(t["desc"], cod)
+                guia = texto_idioma(t.get("guia"), cod) or []
+                descricao = resumo(f"{desc} {guia[0] if guia else ''}", 155)
+                extras = extras_comuns(posts, cod, textos)
+                textos_t = dict(textos)
+                textos_t.update({
+                    "t001": esc(f"{titulo} | {NOME_SITE}"),
+                    "meta_desc": esc(descricao), "og_desc": esc(descricao), "tw_desc": esc(descricao),
+                    "og_title": esc(titulo), "tw_title": esc(titulo), "og_alt": esc(titulo),
+                })
+                extras.update({
+                    "__ogtype__": "article",
+                    "__jsonld_extra__": jsonld_trofeu(t, trofeus, cod, textos),
+                    "__tf_id__": t["id"],
+                    "__tf_nome__": esc(t["nome"]),
+                    "__tf_titulo__": esc(titulo),
+                    "__tf_desc__": esc(desc),
+                    "__tf_grau__": grau_html(t, textos, "tf-grau--selo"),
+                    "__tf_iso__": trofeus["data"].date().isoformat() if trofeus.get("data") else "",
+                    "__tf_data__": data_legivel(trofeus["data"], cod) if trofeus.get("data") else "",
+                    "__tf_aviso__": (f'    <p class="tf-aviso">{esc(textos.get("tf54", ""))}</p>'
+                                     if t.get("oculto") else ""),
+                    "__tf_ficha__": ficha_trofeu(t, textos, cod),
+                    "__tf_fontes__": fontes_trofeus(trofeus, t.get("fontes", []), textos),
+                    "__tf_relacionados__": lambda pref, t=t, cod=cod, textos=textos: relacionados_trofeu(
+                        t, trofeus, pref, cod, textos),
+                    "__art_share_url__": urllib.parse.quote(endereco, safe=""),
+                    "__art_share_titulo__": urllib.parse.quote(titulo),
+                    "__art_share_txt__": urllib.parse.quote(f"{titulo} {endereco}"),
+                    # texto do guia: sempre o último a ser trocado
+                    "__tf_corpo__": lambda pref, t=t, cod=cod, textos=textos, nl=nomes_locais: corpo_trofeu(
+                        t, cod, textos, pref, nl),
+                })
+                if trofeu_fino(t, cod):
+                    extras["__robots__"] = ROBOTS_FINA
+                    extras["__sem_anuncios__"] = "sim"
+                montar_pagina(cabeca, rodape, modelo_trofeu, base, textos_t, cod, "trofeus", rel, extras,
+                              alternativas={c: rel_trofeu(c, t) for c in IDIOMAS})
+                total += 1
+                paginas_trofeu += 1
+
         # ── RSS do idioma ──
         destino_rss = SAIDA / pasta if pasta else SAIDA
         destino_rss.mkdir(parents=True, exist_ok=True)
@@ -2186,6 +2498,9 @@ def montar():
             print(f"  ✓ og/ ({og_geradas} imagem(ns) de compartilhamento)")
     if paginas_guia:
         print(f"  ✓ {paginas_guia} página(s) de guia")
+    if paginas_trofeu:
+        finos = sum(1 for t in trofeus["trofeus"] for c in IDIOMAS if trofeu_fino(t, c))
+        print(f"  ✓ {paginas_trofeu} página(s) de troféu ({finos} curtas, fora do Google)")
     finas = [(p["versoes"][c]["palavras"], c, p["versoes"][c]["titulo"])
              for p in posts for c in p["versoes"] if post_fino(p, c)]
     if finas:
@@ -2238,7 +2553,7 @@ def montar():
         print(f"  ✓ midia/ ({len(list(midia.iterdir()))} arquivo(s))")
 
     # sitemaps: o geral (com lastmod) e o do Google Notícias (últimas 48 h)
-    (SAIDA / "sitemap.xml").write_text(gerar_sitemap(posts, hoje, locais_por_cod, guias), encoding="utf-8")
+    (SAIDA / "sitemap.xml").write_text(gerar_sitemap(posts, hoje, locais_por_cod, guias, trofeus), encoding="utf-8")
     (SAIDA / "news-sitemap.xml").write_text(gerar_news_sitemap(posts), encoding="utf-8")
     (SAIDA / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\nDisallow: /v/\n\nSitemap: {DOMINIO}/sitemap.xml\n"

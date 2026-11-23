@@ -341,6 +341,27 @@ Um envio com o mesmo tipo e nome de um item da base substitui a posição aproxi
 exato — a posição `"x": …, "y": …` é copiada — e cole em `mapa/pontos.json`.
 Pontos de trailer podem levar `"video"` (id do YouTube) e `"t"` (segundo da cena).
 
+## Troféus e conquistas
+
+A página **Troféus** (`/trophies/`, `/pt/trofeus/`, `/es/trofeos/`) lista os 55
+troféus do PS5 e as conquistas do Xbox (com Gamerscore), por categoria, com
+filtros, spoilers escondidos nos troféus ocultos e progresso salvo no navegador
+do leitor ("Conquistado"). Cada troféu tem página própria com o guia
+(`/pt/trofeus/<id>/`), nos três idiomas.
+
+```
+trofeus/trofeus.json   nome oficial, grau (platina/ouro/prata/bronze), Gamerscore,
+                       categoria, oculto, perdível, personagem, descrição e guia
+                       (en/pt-BR/es), dicas, fontes; "confirmado": false quando o
+                       gatilho ainda não foi confirmado
+paginas/trofeus.html   a lista;  paginas/trofeu.html  a página de cada troféu
+```
+
+Para corrigir um guia, edite o texto em `trofeus/trofeus.json` (o robô regera o
+site). Páginas de troféu com menos de 60 palavras de guia ficam fora do Google e
+sem anúncios, como as notícias curtas. Quando sair a versão de PC, atualize o
+quadro de plataformas (textos `tf07`/`tf08` em `idiomas/`).
+
 ## O robô
 
 `.github/workflows/plantao.yml` roda a cada 6 horas: busca notícias de GTA VI em feeds
