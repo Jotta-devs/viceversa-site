@@ -1,0 +1,2427 @@
+{
+ "_leia": "Troféus (PS5) e conquistas (Xbox Series X|S) de GTA 6, com guia em 3 idiomas. Os nomes são os oficiais, em inglês, iguais nas duas plataformas. 'confirmado': false = gatilho ainda não confirmado pelos guias (o texto diz isso). Atualizado em 23/11/2026.",
+ "atualizado": "2026-11-23",
+ "fontes": {
+  "gtaside": {
+   "nome": "GTAside",
+   "url": "https://gtaside.com/games/gta6/trophies/"
+  },
+  "outputlag": {
+   "nome": "Output Lag",
+   "url": "https://outputlag.com/guides/gta-6-trophy-list/"
+  },
+  "timesaver": {
+   "nome": "Timesaver",
+   "url": "https://timesaver.gg/blog/gta-6-trophy-list"
+  },
+  "gameleap": {
+   "nome": "GameLeap",
+   "url": "https://www.gameleap.com/articles/gta-6-trophies-achievements-list"
+  },
+  "insider": {
+   "nome": "Insider Gaming",
+   "url": "https://insider-gaming.com/complete-gta-6-trophy-list-how-to-get-all-trophies-achievements/"
+  },
+  "space4games": {
+   "nome": "SPACE4GAMES",
+   "url": "https://space4games.com/en/games-en/gta-6-trophy-guide/"
+  },
+  "gamerblurb": {
+   "nome": "GamerBlurb",
+   "url": "https://gamerblurb.com/articles/gta-6-achievements-guide"
+  }
+ },
+ "trofeus": [
+  {
+   "nome": "Vice Got a Price!",
+   "grau": "platina",
+   "gs": 0,
+   "cat": "conclusao",
+   "desc": {
+    "en": "Congratulations! You're a Leonida Legend.",
+    "pt-BR": "Parabéns! Você é uma lenda de Leonida.",
+    "es": "¡Felicidades! Eres una leyenda de Leonida."
+   },
+   "guia": {
+    "pt-BR": [
+     "A platina sai sozinha quando você tem os outros 54 troféus. No Xbox ela existe como conquista, mas vale 0 G: o Gamerscore cheio (1.000 G) vem das outras 54.",
+     "Nenhum troféu é online nem depende de dificuldade, e não há medalhas de missão. Tudo é feito no modo história. Os guias publicados na semana do lançamento estimam cerca de 200 horas para a platina: 60 a 80 horas de história, perto de 100 horas para os 100% e umas 10 horas de limpeza no fim.",
+     "O jogo não tem repetição de missões nem Novo Jogo+, mas o mundo continua aberto depois dos créditos. Por isso quase tudo pode ser deixado para o fim. A exceção é a meditação da Lucia no Capítulo 1 (veja Positive Mental Attitude)."
+    ],
+    "en": [
+     "The Platinum pops on its own once you have the other 54 trophies. On Xbox it exists as an achievement worth 0G: the full 1,000 Gamerscore comes from the other 54.",
+     "No trophy is online or tied to difficulty, and there are no mission medals. Everything is done in story mode. Launch-week guides estimate about 200 hours for the Platinum: 60 to 80 hours of story, close to 100 hours for 100% and around 10 hours of cleanup.",
+     "There is no mission replay and no New Game+, but the world stays open after the credits, so almost everything can wait until the end. The exception is Lucia's meditation in Chapter 1 (see Positive Mental Attitude)."
+    ],
+    "es": [
+     "El platino salta solo cuando tienes los otros 54 trofeos. En Xbox existe como logro, pero vale 0 G: los 1.000 G completos vienen de los otros 54.",
+     "Ningún trofeo es online ni depende de la dificultad, y no hay medallas de misión. Todo se hace en el modo historia. Las guías publicadas en la semana del lanzamiento calculan unas 200 horas para el platino: 60 a 80 horas de historia, cerca de 100 horas para el 100 % y unas 10 horas de limpieza al final.",
+     "El juego no tiene repetición de misiones ni Nueva Partida+, pero el mundo sigue abierto después de los créditos, así que casi todo puede dejarse para el final. La excepción es la meditación de Lucia en el Capítulo 1 (ver Positive Mental Attitude)."
+    ]
+   },
+   "dicas": {
+    "pt-BR": [
+     "Faça um save manual no começo de cada capítulo e outro antes da missão final.",
+     "Não use cheats no save da platina: com um cheat ativo, troféus e salvamento ficam desligados até o fim da sessão."
+    ],
+    "en": [
+     "Make a manual save at the start of each chapter and another before the final mission.",
+     "Do not use cheats on your Platinum save: with a cheat active, trophies and saving are off for the rest of the session."
+    ],
+    "es": [
+     "Haz un guardado manual al inicio de cada capítulo y otro antes de la misión final.",
+     "No uses trucos en la partida del platino: con un truco activo, los trofeos y el guardado quedan desactivados hasta el final de la sesión."
+    ]
+   },
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Depois da história",
+    "en": "After the story",
+    "es": "Después de la historia"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap",
+    "outputlag"
+   ],
+   "mapa": "",
+   "id": "vice-got-a-price",
+   "lugares": []
+  },
+  {
+   "nome": "A Long Road",
+   "grau": "ouro",
+   "gs": 100,
+   "cat": "conclusao",
+   "desc": {
+    "en": "Attain 100% Completion.",
+    "pt-BR": "Alcance 100% de conclusão.",
+    "es": "Consigue el 100 % de compleción."
+   },
+   "guia": {
+    "pt-BR": [
+     "A lista dos 100% aparece depois da história, em Progresso > Estatísticas > Conclusão 100%. Tudo o que você fez antes já conta, então não precisa esperar os créditos para começar.",
+     "Itens que pedem tudo: os 8 cofres de banco, 22 assaltos a banco, 7 empréstimos consignados (payday loans), as 39 operações de gangue, 33 achados submarinos, ouro nos 42 desafios de tiro, os 42 contrarrelógios de drone e os 15 baralhos de alvos do Bret.",
+     "Itens que pedem só uma parte: 200 de 277 veículos escaneados, 100 de 255 animais, 15 de 18 meditações, 70 de 80 desafios, 50 de 91 assaltos a pedestres e 300 de 397 manobras. Vários outros troféus caem no caminho, como The Shootist, Pest Control e Cunning Stunts."
+    ],
+    "en": [
+     "The 100% checklist appears after the story under Progress > Stats > 100% Completion. Everything you did before already counts, so you do not have to wait for the credits to start.",
+     "Items that need everything: all 8 bank vaults, 22 bank jobs, 7 payday loans, all 39 gang operations, 33 underwater finds, gold in all 42 shooting range challenges, all 42 drone time trials and Bret's 15 target decks.",
+     "Items that need only part: 200 of 277 vehicle scans, 100 of 255 animals, 15 of 18 meditations, 70 of 80 challenges, 50 of 91 stick-ups and 300 of 397 stunts. Several other trophies pop on the way, such as The Shootist, Pest Control and Cunning Stunts."
+    ],
+    "es": [
+     "La lista del 100 % aparece después de la historia, en Progreso > Estadísticas > Compleción 100 %. Todo lo que hiciste antes ya cuenta, así que no hace falta esperar a los créditos para empezar.",
+     "Elementos que piden todo: las 8 cámaras acorazadas, 22 atracos a bancos, 7 préstamos rápidos (payday loans), las 39 operaciones de bandas, 33 hallazgos submarinos, oro en los 42 desafíos de tiro, las 42 contrarreloj de dron y las 15 barajas de objetivos de Bret.",
+     "Elementos que piden solo una parte: 200 de 277 vehículos escaneados, 100 de 255 animales, 15 de 18 meditaciones, 70 de 80 desafíos, 50 de 91 atracos a peatones y 300 de 397 acrobacias. Varios trofeos caen por el camino, como The Shootist, Pest Control y Cunning Stunts."
+    ]
+   },
+   "dicas": {
+    "pt-BR": [
+     "Os números da lista podem mudar com atualizações do jogo: confira sempre a tela de Estatísticas."
+    ],
+    "en": [
+     "The checklist numbers may change with game updates: always check the Stats screen."
+    ],
+    "es": [
+     "Los números de la lista pueden cambiar con actualizaciones: revisa siempre la pantalla de Estadísticas."
+    ]
+   },
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Depois da história",
+    "en": "After the story",
+    "es": "Después de la historia"
+   },
+   "fontes": [
+    "timesaver",
+    "gamerblurb",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "a-long-road",
+   "lugares": []
+  },
+  {
+   "nome": "You Gotta Know When to Get Off",
+   "grau": "ouro",
+   "gs": 50,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete the final mission.",
+    "pt-BR": "Conclua a missão final.",
+    "es": "Completa la misión final."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar a missão final da história (Capítulo 5) e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo.",
+     "É um dos dois troféus de ouro. Faça um save manual antes da missão final. Depois dos créditos, o mundo continua aberto para terminar os 100% e os outros troféus."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish the final story mission (Chapter 5) and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter.",
+     "It is one of the two Gold trophies. Make a manual save before the final mission. After the credits the world stays open to finish 100% and the other trophies."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar la misión final de la historia (Capítulo 5) y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo.",
+     "Es uno de los dos trofeos de oro. Guarda a mano antes de la misión final. Después de los créditos el mundo sigue abierto para terminar el 100 % y los demás trofeos."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 5",
+    "en": "Chapter 5",
+    "es": "Capítulo 5"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "you-gotta-know-when-to-get-off",
+   "lugares": []
+  },
+  {
+   "nome": "Break the Bank",
+   "grau": "bronze",
+   "gs": 25,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete The Cartel Heist.",
+    "pt-BR": "Conclua The Cartel Heist.",
+    "es": "Completa The Cartel Heist."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar a missão The Cartel Heist e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish the mission The Cartel Heist and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar la misión The Cartel Heist y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 3",
+    "en": "Chapter 3",
+    "es": "Capítulo 3"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "break-the-bank",
+   "lugares": []
+  },
+  {
+   "nome": "Hi-Jacked",
+   "grau": "bronze",
+   "gs": 25,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete VCIA Takedown.",
+    "pt-BR": "Conclua VCIA Takedown.",
+    "es": "Completa VCIA Takedown."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar a missão VCIA Takedown e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish the mission VCIA Takedown and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar la misión VCIA Takedown y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 4",
+    "en": "Chapter 4",
+    "es": "Capítulo 4"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "hi-jacked",
+   "lugares": []
+  },
+  {
+   "nome": "Snow Storm",
+   "grau": "bronze",
+   "gs": 25,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete Operation Savage Glory.",
+    "pt-BR": "Conclua Operation Savage Glory.",
+    "es": "Completa Operation Savage Glory."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar a missão Operation Savage Glory e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish the mission Operation Savage Glory and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar la misión Operation Savage Glory y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 5",
+    "en": "Chapter 5",
+    "es": "Capítulo 5"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "snow-storm",
+   "lugares": []
+  },
+  {
+   "nome": "Paradise Lost",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete Chapter 1.",
+    "pt-BR": "Conclua o Capítulo 1.",
+    "es": "Completa el Capítulo 1."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar o Capítulo 1 e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo.",
+     "Em alguns casos ele só aparece no começo do Capítulo 2. Antes de fechar o capítulo, faça a meditação da Lucia na varanda da casa do Jason (veja Positive Mental Attitude): ela some quando o Capítulo 1 acaba."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish Chapter 1 and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter.",
+     "In some cases it only shows up at the start of Chapter 2. Before closing the chapter, do Lucia's balcony meditation at Jason's house (see Positive Mental Attitude): it disappears when Chapter 1 ends."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar el Capítulo 1 y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo.",
+     "En algunos casos aparece recién al inicio del Capítulo 2. Antes de cerrar el capítulo, haz la meditación de Lucia en el balcón de la casa de Jason (ver Positive Mental Attitude): desaparece cuando termina el Capítulo 1."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 1",
+    "en": "Chapter 1",
+    "es": "Capítulo 1"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "paradise-lost",
+   "lugares": []
+  },
+  {
+   "nome": "T**s Ass Drug Money",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete Chapter 2.",
+    "pt-BR": "Conclua o Capítulo 2.",
+    "es": "Completa el Capítulo 2."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar o Capítulo 2 e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo.",
+     "É no Capítulo 2 que Jason e Lucia passam a ser jogáveis à vontade e as chamadas para o parceiro começam, o que libera troféus em dupla como Hot Together e Retail Therapy."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish Chapter 2 and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter.",
+     "Chapter 2 is where Jason and Lucia become freely playable and partner calls begin, which opens up duo trophies such as Hot Together and Retail Therapy."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar el Capítulo 2 y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo.",
+     "En el Capítulo 2 Jason y Lucia pasan a ser jugables a voluntad y empiezan las llamadas al compañero, lo que habilita trofeos en pareja como Hot Together y Retail Therapy."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 2",
+    "en": "Chapter 2",
+    "es": "Capítulo 2"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "t-s-ass-drug-money",
+   "lugares": []
+  },
+  {
+   "nome": "Vice City, Baby!",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete Chapter 3.",
+    "pt-BR": "Conclua o Capítulo 3.",
+    "es": "Completa el Capítulo 3."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar o Capítulo 3 e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo.",
+     "No Capítulo 3 aparecem os trabalhos de joalheria do Yasmani (que dão a Snap Gun para Sneakthief) e a linha de corridas do Yago, que conta para Strangers & Freaks e pode sumir se for deixada para depois."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish Chapter 3 and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter.",
+     "Chapter 3 brings Yasmani's jewelry jobs (which give you the Snap Gun for Sneakthief) and Yago's street race strand, which counts for Strangers & Freaks and may disappear if left for later."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar el Capítulo 3 y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo.",
+     "En el Capítulo 3 aparecen los trabajos de joyería de Yasmani (que dan la Snap Gun para Sneakthief) y la línea de carreras de Yago, que cuenta para Strangers & Freaks y puede desaparecer si se deja para después."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 3",
+    "en": "Chapter 3",
+    "es": "Capítulo 3"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "vice-city-baby",
+   "lugares": []
+  },
+  {
+   "nome": "Top Of The World, Ma",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete Chapter 4.",
+    "pt-BR": "Conclua o Capítulo 4.",
+    "es": "Completa el Capítulo 4."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar o Capítulo 4 e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo.",
+     "O Capítulo 4 também libera a missão opcional That's Where The Money Is, que abre os assaltos a cofres de banco de Maximum Withdrawal."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish Chapter 4 and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter.",
+     "Chapter 4 also unlocks the optional mission That's Where The Money Is, which opens the bank vault robberies for Maximum Withdrawal."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar el Capítulo 4 y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo.",
+     "El Capítulo 4 también habilita la misión opcional That's Where The Money Is, que abre los atracos a cámaras acorazadas de Maximum Withdrawal."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 4",
+    "en": "Chapter 4",
+    "es": "Capítulo 4"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "top-of-the-world-ma",
+   "lugares": []
+  },
+  {
+   "nome": "Family Matters",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete Child's Play.",
+    "pt-BR": "Conclua Child's Play.",
+    "es": "Completa Child's Play."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar a missão Child's Play e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish the mission Child's Play and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar la misión Child's Play y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 4",
+    "en": "Chapter 4",
+    "es": "Capítulo 4"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "family-matters",
+   "lugares": []
+  },
+  {
+   "nome": "DWNFALL",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete Headliners.",
+    "pt-BR": "Conclua Headliners.",
+    "es": "Completa Headliners."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar a missão Headliners e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish the mission Headliners and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar la misión Headliners y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 4",
+    "en": "Chapter 4",
+    "es": "Capítulo 4"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "dwnfall",
+   "lugares": []
+  },
+  {
+   "nome": "Trust",
+   "grau": "bronze",
+   "gs": 10,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete Breakfast Run.",
+    "pt-BR": "Conclua Breakfast Run.",
+    "es": "Completa Breakfast Run."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar a missão Breakfast Run e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish the mission Breakfast Run and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar la misión Breakfast Run y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 2",
+    "en": "Chapter 2",
+    "es": "Capítulo 2"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "trust",
+   "lugares": []
+  },
+  {
+   "nome": "Just Like Paradise",
+   "grau": "bronze",
+   "gs": 5,
+   "cat": "historia",
+   "desc": {
+    "en": "Complete Gone Fishing.",
+    "pt-BR": "Conclua Gone Fishing.",
+    "es": "Completa Gone Fishing."
+   },
+   "guia": {
+    "pt-BR": [
+     "É um troféu de história: sai sozinho ao terminar a missão Gone Fishing e não pode ser perdido. Como o jogo não tem repetição de missões, vale manter um save manual no começo de cada capítulo.",
+     "Gone Fishing é uma das primeiras missões do Capítulo 1, então este costuma ser o primeiro troféu da maioria dos jogadores."
+    ],
+    "en": [
+     "It is a story trophy: it pops on its own when you finish the mission Gone Fishing and cannot be missed. Since the game has no mission replay, keep a manual save at the start of each chapter.",
+     "Gone Fishing is one of the first missions of Chapter 1, so this is usually most players' first trophy."
+    ],
+    "es": [
+     "Es un trofeo de historia: salta solo al terminar la misión Gone Fishing y no se puede perder. Como el juego no tiene repetición de misiones, conviene guardar a mano al inicio de cada capítulo.",
+     "Gone Fishing es una de las primeras misiones del Capítulo 1, así que suele ser el primer trofeo de la mayoría."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 1",
+    "en": "Chapter 1",
+    "es": "Capítulo 1"
+   },
+   "fontes": [
+    "gtaside",
+    "gameleap",
+    "insider"
+   ],
+   "mapa": "",
+   "id": "just-like-paradise",
+   "lugares": []
+  },
+  {
+   "nome": "Strangers & Freaks",
+   "grau": "prata",
+   "gs": 30,
+   "cat": "personagens",
+   "desc": {
+    "en": "Complete 8 mission strands for strangers across the state of Leonida.",
+    "pt-BR": "Conclua 8 linhas de missões de estranhos pelo estado de Leonida.",
+    "es": "Completa 8 líneas de misiones de desconocidos por el estado de Leonida."
+   },
+   "guia": {
+    "pt-BR": [
+     "Estranhos são personagens secundários que aparecem pelo mapa com um ícone próprio. Cada um tem uma pequena linha de missões; o troféu pede 8 linhas completas.",
+     "As linhas do Andy, do Billy e do Tyrone não contam, porque têm troféus próprios (Road to Rehabilitation, The Lone Rider e Spin On This!).",
+     "A linha de corridas de rua do Yago conta, mas aparece no Capítulo 3 e pode sumir: faça assim que ela abrir. Em geral, aceite cada estranho quando ele aparecer, em vez de deixar para o fim."
+    ],
+    "en": [
+     "Strangers are side characters who appear around the map with their own icon. Each has a short mission strand; the trophy asks for 8 complete strands.",
+     "Andy's, Billy's and Tyrone's strands do not count, since they have their own trophies (Road to Rehabilitation, The Lone Rider and Spin On This!).",
+     "Yago's street race strand counts, but it appears in Chapter 3 and may disappear: do it as soon as it opens. In general, take each stranger when they show up instead of leaving them for the end."
+    ],
+    "es": [
+     "Los desconocidos son personajes secundarios que aparecen por el mapa con un icono propio. Cada uno tiene una pequeña línea de misiones; el trofeo pide 8 líneas completas.",
+     "Las líneas de Andy, Billy y Tyrone no cuentan, porque tienen trofeos propios (Road to Rehabilitation, The Lone Rider y Spin On This!).",
+     "La línea de carreras callejeras de Yago cuenta, pero aparece en el Capítulo 3 y puede desaparecer: hazla en cuanto se abra. En general, acepta a cada desconocido cuando aparezca en vez de dejarlo para el final."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap",
+    "gtaside"
+   ],
+   "mapa": "",
+   "id": "strangers-freaks",
+   "lugares": []
+  },
+  {
+   "nome": "Supply & Demand",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "personagens",
+   "desc": {
+    "en": "Complete the final mission for Randy.",
+    "pt-BR": "Conclua a última missão do Randy.",
+    "es": "Completa la última misión de Randy."
+   },
+   "guia": {
+    "pt-BR": [
+     "Randy pede carros: a linha dele gira em torno de uma lista de desejos de veículos para roubar e entregar. Os guias falam em 16 carros na lista.",
+     "O troféu sai na última missão do Randy."
+    ],
+    "en": [
+     "Randy wants cars: his strand revolves around a wish list of vehicles to steal and deliver. Guides mention 16 cars on the list.",
+     "The trophy pops on Randy's final mission."
+    ],
+    "es": [
+     "Randy quiere coches: su línea gira en torno a una lista de deseos de vehículos para robar y entregar. Las guías hablan de 16 coches en la lista.",
+     "El trofeo salta en la última misión de Randy."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "",
+   "id": "supply-demand",
+   "lugares": []
+  },
+  {
+   "nome": "Road to Rehabilitation",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "personagens",
+   "desc": {
+    "en": "Complete the final mission for Andy.",
+    "pt-BR": "Conclua a última missão do Andy.",
+    "es": "Completa la última misión de Andy."
+   },
+   "guia": {
+    "pt-BR": [
+     "Faça toda a linha de missões do Andy até a última. Ela é exclusiva da Lucia: troque para ela quando o ícone do Andy aparecer no mapa.",
+     "Os guias descrevem a linha como cinco trabalhos curtos. O troféu sai ao fim da última missão.",
+     "Não conta para Strangers & Freaks: as linhas do Andy, do Billy e do Tyrone têm troféu próprio. Linhas de personagem aparecem no mapa com o ícone do contato; algumas só abrem com um dos protagonistas."
+    ],
+    "en": [
+     "Play Andy's whole mission strand through to the last one. It is Lucia-only: switch to her when Andy's icon shows up on the map.",
+     "Guides describe the strand as five short jobs. The trophy pops at the end of the last mission.",
+     "It does not count for Strangers & Freaks: Andy's, Billy's and Tyrone's strands have their own trophies. Character strands show up on the map with the contact's icon; some only open for one of the protagonists."
+    ],
+    "es": [
+     "Haz toda la línea de misiones de Andy hasta la última. Es exclusiva de Lucia: cambia a ella cuando aparezca el icono de Andy en el mapa.",
+     "Las guías describen la línea como cinco trabajos cortos. El trofeo salta al final de la última misión.",
+     "No cuenta para Strangers & Freaks: las líneas de Andy, Billy y Tyrone tienen trofeo propio. Las líneas de personaje aparecen en el mapa con el icono del contacto; algunas solo se abren con uno de los protagonistas."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "lucia",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "",
+   "id": "road-to-rehabilitation",
+   "lugares": []
+  },
+  {
+   "nome": "This Was No Boat Accident",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "personagens",
+   "desc": {
+    "en": "Complete the final mission for Kenton.",
+    "pt-BR": "Conclua a última missão do Kenton.",
+    "es": "Completa la última misión de Kenton."
+   },
+   "guia": {
+    "pt-BR": [
+     "Kenton é o caçador de tesouros: a linha dele leva aos naufrágios espalhados pela costa e pelos Keys, onde ficam os dobrões e outras peças.",
+     "Conclua as missões dele até a última. Os naufrágios que já localizamos estão no mapa do VICEVERSA, na camada Naufrágios e dobrões de Kenton."
+    ],
+    "en": [
+     "Kenton is the treasure hunter: his strand leads to the shipwrecks along the coast and the Keys, where the doubloons and other pieces are.",
+     "Finish his missions through to the last one. The wrecks we have located are on the VICEVERSA map, in the Kenton's wrecks and doubloons layer."
+    ],
+    "es": [
+     "Kenton es el cazatesoros: su línea lleva a los naufragios repartidos por la costa y los Keys, donde están los doblones y otras piezas.",
+     "Completa sus misiones hasta la última. Los naufragios que ya ubicamos están en el mapa de VICEVERSA, en la capa Naufragios y doblones de Kenton."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "tesouro",
+   "id": "this-was-no-boat-accident",
+   "lugares": []
+  },
+  {
+   "nome": "The Lone Rider",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "personagens",
+   "desc": {
+    "en": "Complete the final mission for Billy.",
+    "pt-BR": "Conclua a última missão do Billy.",
+    "es": "Completa la última misión de Billy."
+   },
+   "guia": {
+    "pt-BR": [
+     "Faça a linha de missões do Billy até o fim. Os guias descrevem cinco trabalhos; o troféu sai ao concluir o último.",
+     "Não conta para Strangers & Freaks: as linhas do Andy, do Billy e do Tyrone têm troféu próprio. Linhas de personagem aparecem no mapa com o ícone do contato; algumas só abrem com um dos protagonistas."
+    ],
+    "en": [
+     "Play Billy's mission strand to the end. Guides describe five jobs; the trophy pops when you finish the last one.",
+     "It does not count for Strangers & Freaks: Andy's, Billy's and Tyrone's strands have their own trophies. Character strands show up on the map with the contact's icon; some only open for one of the protagonists."
+    ],
+    "es": [
+     "Haz la línea de misiones de Billy hasta el final. Las guías describen cinco trabajos; el trofeo salta al completar el último.",
+     "No cuenta para Strangers & Freaks: las líneas de Andy, Billy y Tyrone tienen trofeo propio. Las líneas de personaje aparecen en el mapa con el icono del contacto; algunas solo se abren con uno de los protagonistas."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "",
+   "id": "the-lone-rider",
+   "lugares": []
+  },
+  {
+   "nome": "Spin On This!",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "personagens",
+   "desc": {
+    "en": "Complete the final mission for Tyrone.",
+    "pt-BR": "Conclua a última missão do Tyrone.",
+    "es": "Completa la última misión de Tyrone."
+   },
+   "guia": {
+    "pt-BR": [
+     "A linha do Tyrone é exclusiva do Jason. Os guias descrevem missões contra laboratórios de drogas sintéticas; vá armado e com armadura.",
+     "O troféu sai ao fim da última missão dele.",
+     "Não conta para Strangers & Freaks: as linhas do Andy, do Billy e do Tyrone têm troféu próprio. Linhas de personagem aparecem no mapa com o ícone do contato; algumas só abrem com um dos protagonistas."
+    ],
+    "en": [
+     "Tyrone's strand is Jason-only. Guides describe missions against synthetic drug labs; go in armed and with armor.",
+     "The trophy pops at the end of his last mission.",
+     "It does not count for Strangers & Freaks: Andy's, Billy's and Tyrone's strands have their own trophies. Character strands show up on the map with the contact's icon; some only open for one of the protagonists."
+    ],
+    "es": [
+     "La línea de Tyrone es exclusiva de Jason. Las guías describen misiones contra laboratorios de drogas sintéticas; ve armado y con chaleco.",
+     "El trofeo salta al final de su última misión.",
+     "No cuenta para Strangers & Freaks: las líneas de Andy, Billy y Tyrone tienen trofeo propio. Las líneas de personaje aparecen en el mapa con el icono del contacto; algunas solo se abren con uno de los protagonistas."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "jason",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "",
+   "id": "spin-on-this",
+   "lugares": []
+  },
+  {
+   "nome": "Fair Game",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "personagens",
+   "desc": {
+    "en": "Hunt a unique animal for Bret.",
+    "pt-BR": "Cace um animal único para o Bret.",
+    "es": "Caza un animal único para Bret."
+   },
+   "guia": {
+    "pt-BR": [
+     "Bret é o contato de caça. Além dos 15 baralhos de alvos (que contam para os 100%), ele pede animais únicos, mais raros e resistentes que os comuns.",
+     "Basta caçar um deles para o troféu. Os guias indicam que a caçada é feita com o Jason. Leve um rifle com mira."
+    ],
+    "en": [
+     "Bret is the hunting contact. Besides the 15 target decks (which count for 100%), he asks for unique animals, rarer and tougher than common ones.",
+     "Hunting one of them is enough for the trophy. Guides say the hunt is done as Jason. Bring a scoped rifle."
+    ],
+    "es": [
+     "Bret es el contacto de caza. Además de las 15 barajas de objetivos (que cuentan para el 100 %), pide animales únicos, más raros y resistentes que los comunes.",
+     "Basta con cazar uno para el trofeo. Las guías indican que la caza se hace con Jason. Lleva un rifle con mira."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "jason",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "",
+   "id": "fair-game",
+   "lugares": []
+  },
+  {
+   "nome": "Cunning Stunts",
+   "grau": "prata",
+   "gs": 40,
+   "cat": "atividades",
+   "desc": {
+    "en": "Complete 250 Stunts.",
+    "pt-BR": "Faça 250 manobras.",
+    "es": "Completa 250 acrobacias."
+   },
+   "guia": {
+    "pt-BR": [
+     "Manobras são acrobacias com veículos que o jogo registra e conta nas estatísticas. Existem 397 no total; o troféu pede 250 e os 100% pedem 300.",
+     "O jeito mais rápido de acumular é voar por baixo de pontes: cada passagem conta, e Vice City tem pontes em sequência ao longo das vias elevadas e dos canais.",
+     "Acompanhe o contador em Estatísticas e combine com outras tarefas: muitas manobras saem naturalmente durante corridas e fugas."
+    ],
+    "en": [
+     "Stunts are vehicle tricks the game logs and counts in the stats. There are 397 in total; the trophy asks for 250 and 100% asks for 300.",
+     "The fastest way to rack them up is flying under bridges: each pass counts, and Vice City has bridges in a row along the causeways and canals.",
+     "Track the counter in Stats and combine it with other tasks: many stunts happen naturally during races and getaways."
+    ],
+    "es": [
+     "Las acrobacias son maniobras con vehículos que el juego registra en las estadísticas. Hay 397 en total; el trofeo pide 250 y el 100 % pide 300.",
+     "Lo más rápido para sumarlas es volar por debajo de puentes: cada pasada cuenta, y Vice City tiene puentes seguidos a lo largo de las vías elevadas y los canales.",
+     "Sigue el contador en Estadísticas y combínalo con otras tareas: muchas acrobacias salen solas en carreras y huidas."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "cunning-stunts",
+   "lugares": []
+  },
+  {
+   "nome": "The Shootist",
+   "grau": "prata",
+   "gs": 40,
+   "cat": "atividades",
+   "desc": {
+    "en": "Earn a gold medal in all Shooting Range challenges.",
+    "pt-BR": "Ganhe medalha de ouro em todos os desafios do estande de tiro.",
+    "es": "Consigue medalla de oro en todos los desafíos del campo de tiro."
+   },
+   "guia": {
+    "pt-BR": [
+     "São 42 desafios de estande de tiro, e todos pedem ouro. Eles também fazem parte dos 100%.",
+     "Treinar no estande aumenta a habilidade de Foco, o que deixa os desafios seguintes mais fáceis e ajuda em Gunslinger. Comece pelas armas que você já domina e volte às difíceis depois de subir o Foco.",
+     "Nos desafios de precisão, mire antes do alvo aparecer e evite rajadas longas: a pontuação costuma premiar acertos seguidos."
+    ],
+    "en": [
+     "There are 42 shooting range challenges, and all of them need gold. They are also part of 100%.",
+     "Practicing at the range raises your Focus skill, which makes later challenges easier and helps with Gunslinger. Start with weapons you already handle well and come back to the hard ones after raising Focus.",
+     "In accuracy challenges, pre-aim where targets appear and avoid long bursts: scoring usually rewards consecutive hits."
+    ],
+    "es": [
+     "Son 42 desafíos de campo de tiro, y todos piden oro. También forman parte del 100 %.",
+     "Practicar en el campo sube la habilidad de Concentración, lo que facilita los desafíos siguientes y ayuda con Gunslinger. Empieza por las armas que ya dominas y vuelve a las difíciles después de subir la Concentración.",
+     "En los desafíos de precisión, apunta antes de que salga el blanco y evita ráfagas largas: la puntuación suele premiar aciertos seguidos."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "the-shootist",
+   "lugares": []
+  },
+  {
+   "nome": "Master of None",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "atividades",
+   "desc": {
+    "en": "Try each type of activity once.",
+    "pt-BR": "Experimente cada tipo de atividade uma vez.",
+    "es": "Prueba cada tipo de actividad una vez."
+   },
+   "guia": {
+    "pt-BR": [
+     "O troféu pede uma partida de cada tipo de atividade paralela. Os guias contam 9 tipos. O jogo tem, por exemplo, estande de tiro, corridas de drone Top Fun, corridas, pesca, fliperama e meditação; a lista exata dos tipos que contam fica no menu do jogo.",
+     "Basta jogar cada uma uma vez, sem precisar vencer. Vá marcando no menu quais você já fez."
+    ],
+    "en": [
+     "The trophy asks for one session of each type of side activity. Guides count 9 types. The game has, for example, the shooting range, Top Fun drone races, races, fishing, arcade games and meditation; the exact list of types that count is in the game menu.",
+     "You only need to play each once, no win required. Keep track in the menu of which ones you have done."
+    ],
+    "es": [
+     "El trofeo pide una partida de cada tipo de actividad secundaria. Las guías cuentan 9 tipos. El juego tiene, por ejemplo, campo de tiro, carreras de dron Top Fun, carreras, pesca, recreativas y meditación; la lista exacta de los tipos que cuentan está en el menú del juego.",
+     "Basta con jugar cada una una vez, sin necesidad de ganar. Ve llevando la cuenta en el menú de cuáles ya hiciste."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "gtaside"
+   ],
+   "mapa": "",
+   "id": "master-of-none",
+   "lugares": []
+  },
+  {
+   "nome": "Earn Cash, Not Kudos",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "atividades",
+   "desc": {
+    "en": "Win 20 different races.",
+    "pt-BR": "Vença 20 corridas diferentes.",
+    "es": "Gana 20 carreras diferentes."
+   },
+   "guia": {
+    "pt-BR": [
+     "O troféu pede vitórias em 20 corridas diferentes: vencer a mesma corrida várias vezes não conta.",
+     "Use o carro mais rápido que você tiver para cada tipo de corrida e guarde as difíceis para depois de comprar ou roubar um modelo melhor. A linha de corridas do Yago, no Capítulo 3, ajuda a abrir várias delas."
+    ],
+    "en": [
+     "The trophy needs wins in 20 different races: winning the same race again does not count.",
+     "Use the fastest vehicle you have for each type and save the hard ones for after you buy or steal a better model. Yago's race strand in Chapter 3 helps open many of them."
+    ],
+    "es": [
+     "El trofeo pide victorias en 20 carreras diferentes: ganar la misma carrera varias veces no cuenta.",
+     "Usa el vehículo más rápido que tengas para cada tipo y deja las difíciles para cuando compres o robes un modelo mejor. La línea de carreras de Yago, en el Capítulo 3, ayuda a abrir varias."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "gtaside"
+   ],
+   "mapa": "",
+   "id": "earn-cash-not-kudos",
+   "lugares": []
+  },
+  {
+   "nome": "Top Fun",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "atividades",
+   "desc": {
+    "en": "Win a Top Fun Drone Race at every location.",
+    "pt-BR": "Vença uma corrida de drone Top Fun em todos os locais.",
+    "es": "Gana una carrera de drones Top Fun en todas las ubicaciones."
+   },
+   "guia": {
+    "pt-BR": [
+     "As corridas de drone Top Fun ficam em 14 locais pelo mapa, segundo os guias. É preciso vencer uma em cada local.",
+     "O drone é sensível: diminua a sensibilidade da câmera nas opções e faça a primeira volta com calma para decorar os portões. Os 42 contrarrelógios de drone dos 100% são outra lista; vale fazer os dois juntos em cada local."
+    ],
+    "en": [
+     "Top Fun drone races are held at 14 locations around the map, according to guides. You need to win one at each location.",
+     "The drone is twitchy: lower the camera sensitivity in the options and take the first lap slowly to learn the gates. The 42 drone time trials for 100% are a separate list; do both together at each location."
+    ],
+    "es": [
+     "Las carreras de dron Top Fun están en 14 ubicaciones del mapa, según las guías. Hay que ganar una en cada ubicación.",
+     "El dron es sensible: baja la sensibilidad de la cámara en las opciones y haz la primera vuelta con calma para memorizar las puertas. Las 42 contrarreloj de dron del 100 % son otra lista; conviene hacer ambas juntas en cada lugar."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "top-fun",
+   "lugares": []
+  },
+  {
+   "nome": "Baited My Tackle",
+   "grau": "bronze",
+   "gs": 10,
+   "cat": "atividades",
+   "desc": {
+    "en": "Beat Cal in a fishing challenge.",
+    "pt-BR": "Vença o Cal em um desafio de pesca.",
+    "es": "Vence a Cal en un desafío de pesca."
+   },
+   "guia": {
+    "pt-BR": [
+     "Cal Hampton é o pescador que desafia você para disputas de pesca. Encontre-o pelo mapa e aceite um desafio.",
+     "Para vencer, pesque espécies maiores: troque a isca conforme o local (água doce ou mar) e não force a linha quando o peixe puxar. Basta ganhar uma vez."
+    ],
+    "en": [
+     "Cal Hampton is the angler who challenges you to fishing contests. Find him on the map and accept a challenge.",
+     "To win, go for bigger species: change bait to suit the spot (fresh or salt water) and do not force the line while the fish pulls. One win is enough."
+    ],
+    "es": [
+     "Cal Hampton es el pescador que te reta a duelos de pesca. Encuéntralo en el mapa y acepta un desafío.",
+     "Para ganar, busca especies más grandes: cambia el cebo según el lugar (agua dulce o mar) y no fuerces el sedal cuando el pez tire. Basta con ganar una vez."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "baited-my-tackle",
+   "lugares": []
+  },
+  {
+   "nome": "Stick Fiddler",
+   "grau": "bronze",
+   "gs": 10,
+   "cat": "atividades",
+   "desc": {
+    "en": "Complete an arcade game.",
+    "pt-BR": "Termine um jogo de fliperama.",
+    "es": "Completa un juego de recreativa."
+   },
+   "guia": {
+    "pt-BR": [
+     "Encontre uma máquina de fliperama e jogue um jogo até o fim, não só uma partida curta.",
+     "Os guias não apontam um jogo específico: escolha o mais curto que encontrar. O troféu sai ao chegar ao final do jogo escolhido."
+    ],
+    "en": [
+     "Find an arcade cabinet and play one game through to the end, not just a short round.",
+     "Guides do not point to a specific game: pick the shortest one you can find. The trophy pops when you reach the end of that game."
+    ],
+    "es": [
+     "Busca una máquina recreativa y juega un juego hasta el final, no solo una partida corta.",
+     "Las guías no señalan un juego concreto: elige el más corto que encuentres. El trofeo salta al llegar al final de ese juego."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "gtaside"
+   ],
+   "mapa": "",
+   "id": "stick-fiddler",
+   "lugares": []
+  },
+  {
+   "nome": "Positive Mental Attitude",
+   "grau": "bronze",
+   "gs": 10,
+   "cat": "atividades",
+   "desc": {
+    "en": "Meditate at every spot across Leonida.",
+    "pt-BR": "Medite em todos os pontos de Leonida.",
+    "es": "Medita en todos los puntos de Leonida."
+   },
+   "guia": {
+    "pt-BR": [
+     "São 18 pontos de meditação; o troféu pede todos e os 100% pedem 15. Cada ponto conta uma vez por personagem, e meditar junto com o parceiro acelera o processo.",
+     "Atenção, pode ser perdível: depois da missão Down to Earth, no Capítulo 1, a Lucia convida para meditar na varanda da casa do Jason na manhã seguinte. Aceite. Esse ponto some quando o Capítulo 1 termina, e os guias ainda não confirmaram se ele é obrigatório para o troféu.",
+     "Por segurança, faça a meditação da varanda e guarde um save separado antes de encerrar o capítulo."
+    ],
+    "en": [
+     "There are 18 meditation spots; the trophy asks for all of them and 100% asks for 15. Each spot counts once per character, and meditating with your partner speeds things up.",
+     "Warning, possibly missable: after the mission Down to Earth in Chapter 1, Lucia invites you to meditate on the balcony of Jason's house the next morning. Accept. That spot disappears when Chapter 1 ends, and guides have not confirmed yet whether it is required for the trophy.",
+     "To be safe, do the balcony meditation and keep a separate save before closing the chapter."
+    ],
+    "es": [
+     "Hay 18 puntos de meditación; el trofeo pide todos y el 100 % pide 15. Cada punto cuenta una vez por personaje, y meditar con el compañero acelera el proceso.",
+     "Atención, puede ser perdible: después de la misión Down to Earth, en el Capítulo 1, Lucia te invita a meditar en el balcón de la casa de Jason a la mañana siguiente. Acepta. Ese punto desaparece al terminar el Capítulo 1, y las guías aún no confirmaron si es obligatorio para el trofeo.",
+     "Por seguridad, haz la meditación del balcón y guarda una partida aparte antes de cerrar el capítulo."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": true,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 1",
+    "en": "Chapter 1",
+    "es": "Capítulo 1"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap",
+    "gamerblurb"
+   ],
+   "mapa": "",
+   "id": "positive-mental-attitude",
+   "lugares": []
+  },
+  {
+   "nome": "One Last Thing",
+   "grau": "bronze",
+   "gs": 5,
+   "cat": "atividades",
+   "desc": {
+    "en": "Complete 50 Challenges.",
+    "pt-BR": "Conclua 50 desafios.",
+    "es": "Completa 50 desafíos."
+   },
+   "guia": {
+    "pt-BR": [
+     "Desafios são metas pequenas listadas no menu. Existem 80; o troféu pede 50 e os 100% pedem 70.",
+     "Abra a lista de desafios de vez em quando e escolha os que combinam com o que você já está fazendo. Muitos saem sozinhos ao longo da história."
+    ],
+    "en": [
+     "Challenges are small goals listed in the menu. There are 80; the trophy asks for 50 and 100% asks for 70.",
+     "Open the challenge list now and then and pick the ones that fit what you are already doing. Many complete on their own during the story."
+    ],
+    "es": [
+     "Los desafíos son metas pequeñas listadas en el menú. Hay 80; el trofeo pide 50 y el 100 % pide 70.",
+     "Abre la lista de desafíos de vez en cuando y elige los que encajan con lo que ya estás haciendo. Muchos salen solos durante la historia."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "one-last-thing",
+   "lugares": []
+  },
+  {
+   "nome": "Personal Best",
+   "grau": "bronze",
+   "gs": 5,
+   "cat": "atividades",
+   "desc": {
+    "en": "A partnership with mass appeal.",
+    "pt-BR": "Uma parceria com apelo de massa.",
+    "es": "Una sociedad con atractivo de masas."
+   },
+   "guia": {
+    "pt-BR": [
+     "A descrição é uma pista: \"mass\" é massa muscular. Segundo os guias, o troféu sai ao levar a Força do Jason e da Lucia ao máximo.",
+     "Treine na academia: com o parceiro presente o progresso é maior."
+    ],
+    "en": [
+     "The description is a hint: \"mass\" as in muscle mass. According to guides, the trophy pops when both Jason's and Lucia's Strength are maxed.",
+     "Train at the gym: progress is faster with your partner there."
+    ],
+    "es": [
+     "La descripción es una pista: \"mass\" es masa muscular. Según las guías, el trofeo salta al llevar al máximo la Fuerza de Jason y de Lucia.",
+     "Entrena en el gimnasio: con el compañero presente el progreso es mayor."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "ambos",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "personal-best",
+   "lugares": []
+  },
+  {
+   "nome": "Maximum Withdrawal",
+   "grau": "prata",
+   "gs": 40,
+   "cat": "crime",
+   "desc": {
+    "en": "Rob 5 Bank Vaults and escape.",
+    "pt-BR": "Roube 5 cofres de banco e fuja.",
+    "es": "Roba 5 cámaras acorazadas y escapa."
+   },
+   "guia": {
+    "pt-BR": [
+     "Os assaltos a cofre abrem com a missão opcional That's Where The Money Is, no Capítulo 4. Existem 8 cofres: o troféu pede 5 e os 100% pedem os 8.",
+     "O método é seguir uma van de segurança até o banco e entrar junto com a entrega. Leve o parceiro: ajuda na fuga e ainda pode render Hot Together, porque o assalto dá 4 estrelas.",
+     "Cada cofre só conta depois da fuga completa. Os guias relatam de 65 mil a 205 mil dólares por cofre, e as notas marcadas ajudam em Dime on the Dollar."
+    ],
+    "en": [
+     "Vault robberies open with the optional mission That's Where The Money Is in Chapter 4. There are 8 vaults: the trophy asks for 5 and 100% asks for all 8.",
+     "The method is to follow a security van to the bank and go in with the delivery. Bring your partner: it helps with the getaway and can also earn Hot Together, since the robbery gives 4 stars.",
+     "Each vault only counts after a full escape. Guides report $65,000 to $205,000 per vault, and the marked bills help with Dime on the Dollar."
+    ],
+    "es": [
+     "Los atracos a cámaras acorazadas se abren con la misión opcional That's Where The Money Is, en el Capítulo 4. Hay 8 cámaras: el trofeo pide 5 y el 100 % pide las 8.",
+     "El método es seguir una furgoneta de seguridad hasta el banco y entrar con la entrega. Lleva al compañero: ayuda en la huida y además puede dar Hot Together, porque el atraco da 4 estrellas.",
+     "Cada cámara solo cuenta tras una huida completa. Las guías hablan de 65.000 a 205.000 dólares por cámara, y los billetes marcados ayudan con Dime on the Dollar."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 4",
+    "en": "Chapter 4",
+    "es": "Capítulo 4"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "maximum-withdrawal",
+   "lugares": []
+  },
+  {
+   "nome": "Hot Together",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "crime",
+   "desc": {
+    "en": "Lose a 4 star Wanted Level with your partner and escape the heat.",
+    "pt-BR": "Fuja de um nível de procurado de 4 estrelas com seu parceiro e escape da polícia.",
+    "es": "Pierde un nivel de búsqueda de 4 estrellas con tu compañero y escapa de la policía."
+   },
+   "guia": {
+    "pt-BR": [
+     "Com Jason e Lucia juntos, chegue a 4 estrelas e fuja até o nível de procurado zerar. O troféu só conta depois de sair da zona vermelha de busca, então não pare no meio da fuga.",
+     "Só dá a partir do Capítulo 2, quando os dois andam juntos. O jeito mais natural é com um assalto a cofre de banco: ele já dá 4 estrelas, então Hot Together costuma sair junto com Maximum Withdrawal."
+    ],
+    "en": [
+     "With Jason and Lucia together, reach 4 stars and escape until the Wanted Level clears. It only counts once you leave the red search zone, so do not stop halfway.",
+     "It is only possible from Chapter 2, when the two travel together. The most natural way is a bank vault robbery: it already gives 4 stars, so Hot Together often pops alongside Maximum Withdrawal."
+    ],
+    "es": [
+     "Con Jason y Lucia juntos, llega a 4 estrellas y huye hasta que el nivel de búsqueda se borre. Solo cuenta después de salir de la zona roja de búsqueda, así que no te detengas a mitad de camino.",
+     "Solo es posible desde el Capítulo 2, cuando los dos van juntos. Lo más natural es un atraco a una cámara acorazada: ya da 4 estrellas, así que Hot Together suele saltar junto con Maximum Withdrawal."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "ambos",
+   "quando": {
+    "pt-BR": "Capítulo 2",
+    "en": "Chapter 2",
+    "es": "Capítulo 2"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "hot-together",
+   "lugares": []
+  },
+  {
+   "nome": "Retail Therapy",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "crime",
+   "desc": {
+    "en": "Rob 3 shops back-to-back with your partner without losing your Wanted Level.",
+    "pt-BR": "Roube 3 lojas seguidas com seu parceiro sem perder o nível de procurado.",
+    "es": "Roba 3 tiendas seguidas con tu compañero sin perder el nivel de búsqueda."
+   },
+   "guia": {
+    "pt-BR": [
+     "Com o parceiro junto, assalte três lojas em sequência sem deixar as estrelas sumirem. Se o nível de procurado apagar entre um assalto e outro, a sequência zera.",
+     "Antes de começar, marque no mapa três lojas próximas umas das outras. Vá direto de uma para a outra sem fugir da polícia. Depois da terceira, o troféu pode levar uns 30 segundos para aparecer."
+    ],
+    "en": [
+     "With your partner along, rob three shops in a row without letting the stars fade. If the Wanted Level clears between robberies, the chain resets.",
+     "Before starting, mark three shops close to each other on the map. Drive straight from one to the next without shaking the police. After the third, the trophy can take about 30 seconds to appear."
+    ],
+    "es": [
+     "Con tu compañero, atraca tres tiendas seguidas sin dejar que las estrellas se apaguen. Si el nivel de búsqueda se borra entre un atraco y otro, la cadena se reinicia.",
+     "Antes de empezar, marca en el mapa tres tiendas cercanas entre sí. Ve directo de una a otra sin despistar a la policía. Después de la tercera, el trofeo puede tardar unos 30 segundos en aparecer."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "ambos",
+   "quando": {
+    "pt-BR": "Capítulo 2",
+    "en": "Chapter 2",
+    "es": "Capítulo 2"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "retail-therapy",
+   "lugares": []
+  },
+  {
+   "nome": "Pest Control",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "crime",
+   "desc": {
+    "en": "Rob an Illegal Operation belonging to each gang.",
+    "pt-BR": "Roube uma operação ilegal de cada gangue.",
+    "es": "Roba una operación ilegal de cada banda."
+   },
+   "guia": {
+    "pt-BR": [
+     "Leonida tem 9 gangues, e cada uma tem operações ilegais pelo mapa. O troféu pede uma de cada gangue; os 100% pedem as 39 operações.",
+     "Vá equipado, com armadura e com o parceiro. Essas operações são o melhor lugar para tentar Gunslinger, porque têm vários guardas juntos."
+    ],
+    "en": [
+     "Leonida has 9 gangs, and each runs illegal operations around the map. The trophy asks for one per gang; 100% asks for all 39 operations.",
+     "Go in armed, armored and with your partner. These operations are the best place to try Gunslinger, since they have several guards together."
+    ],
+    "es": [
+     "Leonida tiene 9 bandas, y cada una tiene operaciones ilegales por el mapa. El trofeo pide una de cada banda; el 100 % pide las 39 operaciones.",
+     "Ve armado, con chaleco y con tu compañero. Estas operaciones son el mejor lugar para intentar Gunslinger, porque tienen varios guardias juntos."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "pest-control",
+   "lugares": []
+  },
+  {
+   "nome": "Dime on the Dollar",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "crime",
+   "desc": {
+    "en": "Earn $250,000 laundering Marked Bills through your contacts.",
+    "pt-BR": "Ganhe US$ 250.000 lavando notas marcadas com seus contatos.",
+    "es": "Gana 250.000 $ blanqueando billetes marcados con tus contactos."
+   },
+   "guia": {
+    "pt-BR": [
+     "Assaltos a banco e empréstimos consignados (payday loans) pagam em notas marcadas. Elas precisam ser lavadas com um contato (receptador) para virar dinheiro limpo.",
+     "O troféu soma o que você recebe na lavagem até chegar a 250 mil dólares. Faça os cofres de banco de Maximum Withdrawal e leve o dinheiro marcado aos contatos: o total sobe rápido."
+    ],
+    "en": [
+     "Bank jobs and payday loans pay out in marked bills. They have to be laundered through a contact (a fence) to become clean cash.",
+     "The trophy adds up what you get from laundering until it reaches $250,000. Do the bank vaults for Maximum Withdrawal and take the marked cash to your contacts: the total climbs fast."
+    ],
+    "es": [
+     "Los atracos a bancos y los préstamos rápidos (payday loans) pagan en billetes marcados. Hay que blanquearlos con un contacto (perista) para convertirlos en dinero limpio.",
+     "El trofeo suma lo que recibes al blanquear hasta llegar a 250.000 dólares. Haz las cámaras acorazadas de Maximum Withdrawal y lleva el dinero marcado a tus contactos: el total sube rápido."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 4",
+    "en": "Chapter 4",
+    "es": "Capítulo 4"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "dime-on-the-dollar",
+   "lugares": []
+  },
+  {
+   "nome": "Gunslinger",
+   "grau": "bronze",
+   "gs": 10,
+   "cat": "crime",
+   "desc": {
+    "en": "Take down 5 enemies in a single use of Combat Focus.",
+    "pt-BR": "Derrube 5 inimigos em um único uso do Foco de Combate.",
+    "es": "Abate a 5 enemigos en un solo uso de la Concentración de combate."
+   },
+   "guia": {
+    "pt-BR": [
+     "O Foco de Combate é a câmera lenta do jogo: mirando, aperte os dois analógicos (L3 + R3 no PlayStation, LS + RS no Xbox). Ele gasta a barra de Foco, então comece com a barra cheia.",
+     "Escolha um grupo de pelo menos cinco inimigos, como os guardas de uma operação de gangue, e use um fuzil de assalto. Ative o Foco já com o primeiro alvo na mira e emende os tiros na cabeça.",
+     "Subir a habilidade de Foco no estande de tiro deixa a câmera lenta mais longa (e ajuda em The Shootist)."
+    ],
+    "en": [
+     "Combat Focus is the game's slow motion: while aiming, click both sticks (L3 + R3 on PlayStation, LS + RS on Xbox). It drains the Focus bar, so start with a full bar.",
+     "Pick a group of at least five enemies, like the guards at a gang operation, and use an assault rifle. Trigger Focus with the first target already in your sights and chain headshots.",
+     "Raising the Focus skill at the shooting range makes the slow motion last longer (and helps with The Shootist)."
+    ],
+    "es": [
+     "La Concentración de combate es la cámara lenta del juego: apuntando, pulsa los dos sticks (L3 + R3 en PlayStation, LS + RS en Xbox). Gasta la barra de Concentración, así que empieza con la barra llena.",
+     "Elige un grupo de al menos cinco enemigos, como los guardias de una operación de banda, y usa un fusil de asalto. Activa la Concentración con el primer objetivo ya en la mira y encadena disparos a la cabeza.",
+     "Subir la habilidad de Concentración en el campo de tiro alarga la cámara lenta (y ayuda con The Shootist)."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "gunslinger",
+   "lugares": []
+  },
+  {
+   "nome": "Sneakthief",
+   "grau": "bronze",
+   "gs": 10,
+   "cat": "crime",
+   "desc": {
+    "en": "Rob a jewelry store without being detected.",
+    "pt-BR": "Roube uma joalheria sem ser detectado.",
+    "es": "Roba una joyería sin ser detectado."
+   },
+   "guia": {
+    "pt-BR": [
+     "Os trabalhos de joalheria do Yasmani, no Capítulo 3, dão a Snap Gun, a ferramenta para abrir fechaduras em silêncio.",
+     "Vá pela porta dos fundos e abra com a Snap Gun. Não chute a porta: isso dispara o alarme e estraga o troféu. A combinação do cofre fica num bilhete na sala dos fundos.",
+     "Fique fora da visão de funcionários e câmeras. Se for detectado, saia, espere a poeira baixar e tente em outra joalheria."
+    ],
+    "en": [
+     "Yasmani's jewelry jobs in Chapter 3 give you the Snap Gun, the tool for picking locks quietly.",
+     "Go through the back door and open it with the Snap Gun. Do not kick it: that trips the alarm and ruins the trophy. The safe code is on a note in the back room.",
+     "Stay out of sight of staff and cameras. If you are spotted, leave, let things cool down and try another jewelry store."
+    ],
+    "es": [
+     "Los trabajos de joyería de Yasmani, en el Capítulo 3, dan la Snap Gun, la herramienta para abrir cerraduras en silencio.",
+     "Entra por la puerta trasera y ábrela con la Snap Gun. No la patees: eso dispara la alarma y arruina el trofeo. La combinación de la caja fuerte está en una nota en la trastienda.",
+     "Mantente fuera de la vista de empleados y cámaras. Si te detectan, sal, espera a que se calme todo y prueba en otra joyería."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "Capítulo 3",
+    "en": "Chapter 3",
+    "es": "Capítulo 3"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "sneakthief",
+   "lugares": []
+  },
+  {
+   "nome": "A Classic Blitz Play",
+   "grau": "bronze",
+   "gs": 10,
+   "cat": "crime",
+   "desc": {
+    "en": "Rob an Armored Truck and escape.",
+    "pt-BR": "Roube um carro-forte e fuja.",
+    "es": "Roba un furgón blindado y escapa."
+   },
+   "guia": {
+    "pt-BR": [
+     "Encontre um carro-forte circulando, pare o veículo, pegue o dinheiro e fuja. Fugir significa sair da zona de busca da polícia ou passar por uma oficina Pay 'n' Spray.",
+     "Os guias relatam que um assalto a cofre de banco com fuga completa também libera o troféu, então ele costuma sair junto com Maximum Withdrawal."
+    ],
+    "en": [
+     "Find an armored truck on the road, stop it, grab the cash and escape. Escaping means leaving the police search zone or going through a Pay 'n' Spray.",
+     "Guides report that a bank vault robbery with a full escape also unlocks it, so it often pops alongside Maximum Withdrawal."
+    ],
+    "es": [
+     "Encuentra un furgón blindado en circulación, detenlo, toma el dinero y huye. Huir significa salir de la zona de búsqueda policial o pasar por un Pay 'n' Spray.",
+     "Las guías cuentan que un atraco a una cámara acorazada con huida completa también lo desbloquea, así que suele saltar junto con Maximum Withdrawal."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "a-classic-blitz-play",
+   "lugares": []
+  },
+  {
+   "nome": "Catch Me If You Can",
+   "grau": "bronze",
+   "gs": 10,
+   "cat": "crime",
+   "desc": {
+    "en": "Make an unscheduled departure at VCIA.",
+    "pt-BR": "Faça uma partida fora do horário no VCIA.",
+    "es": "Haz una salida no programada en el VCIA."
+   },
+   "guia": {
+    "pt-BR": [
+     "VCIA é o aeroporto internacional de Vice City. Segundo os guias, é preciso roubar um avião de passageiros encostado numa ponte de embarque (os portões E3 e E4 são os citados) e voar cerca de 1 km para longe do aeroporto.",
+     "Aviões parados na pista ou no pátio não contam: tem que ser o jato ligado ao portão. Espere ganhar estrelas e decole o quanto antes."
+    ],
+    "en": [
+     "VCIA is Vice City's international airport. According to guides, you have to steal a passenger jet docked at a boarding bridge (gates E3 and E4 are the ones cited) and fly about 1 km away from the airport.",
+     "Planes parked on the runway or apron do not count: it has to be the jet at the gate. Expect stars and take off as fast as you can."
+    ],
+    "es": [
+     "VCIA es el aeropuerto internacional de Vice City. Según las guías, hay que robar un avión de pasajeros acoplado a una pasarela de embarque (las puertas E3 y E4 son las citadas) y volar cerca de 1 km lejos del aeropuerto.",
+     "Los aviones parados en la pista o en la plataforma no cuentan: tiene que ser el avión de la puerta. Espera estrellas y despega lo antes posible."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "catch-me-if-you-can",
+   "lugares": [
+    "aeroporto"
+   ]
+  },
+  {
+   "nome": "Challenging Tank",
+   "grau": "bronze",
+   "gs": 10,
+   "cat": "crime",
+   "desc": {
+    "en": "Kinda hot in these Rhinos.",
+    "pt-BR": "Meio quente dentro desses Rhinos.",
+    "es": "Hace calor dentro de estos Rhinos."
+   },
+   "guia": {
+    "pt-BR": [
+     "Rhino é o tanque de guerra da série. Os guias indicam a Mile Zero Air Station, a base militar dos Keys, como o lugar para roubar um.",
+     "Espere resistência dentro da base. Vá com armadura, corra direto para o tanque e saia da base com ele; o troféu sai com o tanque roubado."
+    ],
+    "en": [
+     "Rhino is the series' battle tank. Guides point to Mile Zero Air Station, the military base in the Keys, as the place to steal one.",
+     "Expect resistance inside the base. Go in with armor, run straight to the tank and drive it out of the base; the trophy pops with the stolen tank."
+    ],
+    "es": [
+     "Rhino es el tanque de guerra de la saga. Las guías señalan la Mile Zero Air Station, la base militar de los Keys, como el lugar para robar uno.",
+     "Espera resistencia dentro de la base. Ve con chaleco, corre directo al tanque y sácalo de la base; el trofeo salta con el tanque robado."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap",
+    "space4games"
+   ],
+   "mapa": "",
+   "id": "challenging-tank",
+   "lugares": [
+    "aeroporto-keys"
+   ]
+  },
+  {
+   "nome": "Let's Go Bowling",
+   "grau": "bronze",
+   "gs": 5,
+   "cat": "crime",
+   "desc": {
+    "en": "Follow-through at the Kolt & Associates' bowling alley.",
+    "pt-BR": "Vá até o fim no boliche da Kolt & Associates.",
+    "es": "Llega hasta el final en la bolera de Kolt & Associates."
+   },
+   "guia": {
+    "pt-BR": [
+     "Segundo os guias, o troféu pede roubar os três objetos de valor do boliche Kingpin Bowling, em Port Gellhorn, e depois despistar a polícia.",
+     "A descrição oficial cita o boliche da Kolt & Associates; os guias acreditam que é o mesmo lugar, mas isso ainda não foi confirmado. Se o troféu não sair, confira se pegou os três itens e se o nível de procurado zerou."
+    ],
+    "en": [
+     "According to guides, the trophy asks you to steal the three valuables from Kingpin Bowling in Port Gellhorn and then lose the police.",
+     "The official description mentions the Kolt & Associates' bowling alley; guides believe it is the same place, but this is not confirmed yet. If it does not pop, check you took all three items and that the Wanted Level cleared."
+    ],
+    "es": [
+     "Según las guías, el trofeo pide robar los tres objetos de valor de la bolera Kingpin Bowling, en Port Gellhorn, y luego despistar a la policía.",
+     "La descripción oficial menciona la bolera de Kolt & Associates; las guías creen que es el mismo lugar, pero aún no está confirmado. Si no salta, revisa que tomaste los tres objetos y que el nivel de búsqueda se borró."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "lets-go-bowling",
+   "lugares": []
+  },
+  {
+   "nome": "Actions Speak Louder",
+   "grau": "bronze",
+   "gs": 5,
+   "cat": "crime",
+   "desc": {
+    "en": "Choices made (for better or worse).",
+    "pt-BR": "Escolhas feitas (para o bem ou para o mal).",
+    "es": "Decisiones tomadas (para bien o para mal)."
+   },
+   "guia": {
+    "pt-BR": [
+     "Está ligado ao Perfil Criminal, que muda conforme o que você faz no mundo aberto. Segundo os guias, o troféu sai depois de 500 ações que alteram o perfil, boas ou ruins.",
+     "Ele sai naturalmente jogando. Só evite o perfil permanente Irredeemable (irrecuperável), que os guias recomendam não deixar acontecer no save da platina."
+    ],
+    "en": [
+     "It is tied to the Criminal Profile, which changes based on what you do in the open world. According to guides, the trophy pops after 500 actions that change the profile, good or bad.",
+     "It comes naturally while playing. Just avoid the permanent Irredeemable profile, which guides recommend not letting happen on your Platinum save."
+    ],
+    "es": [
+     "Está ligado al Perfil Criminal, que cambia según lo que haces en el mundo abierto. Según las guías, el trofeo salta tras 500 acciones que alteran el perfil, buenas o malas.",
+     "Sale de forma natural jugando. Solo evita el perfil permanente Irredeemable (irrecuperable), que las guías recomiendan no dejar que ocurra en la partida del platino."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "timesaver",
+    "gameleap"
+   ],
+   "mapa": "",
+   "id": "actions-speak-louder",
+   "lugares": []
+  },
+  {
+   "nome": "Don't Touch My Deck",
+   "grau": "prata",
+   "gs": 30,
+   "cat": "exploracao",
+   "desc": {
+    "en": "Complete 3 Collectible Card sets.",
+    "pt-BR": "Complete 3 coleções de cartas colecionáveis.",
+    "es": "Completa 3 colecciones de cartas coleccionables."
+   },
+   "guia": {
+    "pt-BR": [
+     "As cartas colecionáveis ficam espalhadas por Leonida e são organizadas em coleções. O troféu pede 3 coleções completas, quaisquer que sejam.",
+     "Escolha as coleções com cartas mais próximas umas das outras e feche uma de cada vez, em vez de pegar cartas soltas pelo mapa.",
+     "O mapa interativo do VICEVERSA tem a camada Cartas colecionáveis, com as posições que já reunimos e a descrição de onde cada carta fica. Marque como coletada para acompanhar o que falta."
+    ],
+    "en": [
+     "Collectible cards are scattered around Leonida and grouped into sets. The trophy asks for any 3 complete sets.",
+     "Pick the sets whose cards are closest together and finish one at a time, instead of grabbing loose cards around the map.",
+     "The VICEVERSA interactive map has a Collectible cards layer, with the positions we have gathered and a description of where each card is. Mark them as collected to track what is left."
+    ],
+    "es": [
+     "Las cartas coleccionables están repartidas por Leonida y organizadas en colecciones. El trofeo pide 3 colecciones completas, cualesquiera.",
+     "Elige las colecciones con cartas más cercanas entre sí y cierra una cada vez, en lugar de recoger cartas sueltas por el mapa.",
+     "El mapa interactivo de VICEVERSA tiene la capa Cartas coleccionables, con las posiciones que reunimos y la descripción de dónde está cada carta. Márcalas como recogidas para seguir lo que falta."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "space4games"
+   ],
+   "mapa": "carta",
+   "id": "dont-touch-my-deck",
+   "lugares": []
+  },
+  {
+   "nome": "You WAiNKer!",
+   "grau": "prata",
+   "gs": 30,
+   "cat": "exploracao",
+   "desc": {
+    "en": "WAiNK It at 100 locations.",
+    "pt-BR": "Use o WAiNK em 100 locais.",
+    "es": "Usa WAiNK en 100 ubicaciones."
+   },
+   "guia": {
+    "pt-BR": [
+     "WAiNK é o app de escaneamento do celular: aponte a câmera para pontos de interesse, esculturas e curiosidades e registre o lugar. O troféu pede 100 locais diferentes.",
+     "Muitos pontos ficam em lugares famosos de Vice City e das cidades menores. Use o WAiNK sempre que passar por um marco novo, em vez de deixar tudo para o fim.",
+     "O mapa interativo do VICEVERSA tem a camada Pontos WAiNK com os locais que já reunimos."
+    ],
+    "en": [
+     "WAiNK is the phone's scanning app: point the camera at points of interest, sculptures and curiosities to log the place. The trophy asks for 100 different locations.",
+     "Many spots are at famous places in Vice City and the smaller towns. Use WAiNK whenever you pass a new landmark instead of leaving it all for the end.",
+     "The VICEVERSA interactive map has a WAiNK scans layer with the locations we have gathered."
+    ],
+    "es": [
+     "WAiNK es la app de escaneo del móvil: apunta la cámara a puntos de interés, esculturas y curiosidades para registrar el lugar. El trofeo pide 100 ubicaciones diferentes.",
+     "Muchos puntos están en lugares famosos de Vice City y de las ciudades más pequeñas. Usa WAiNK cada vez que pases por un lugar nuevo en vez de dejarlo todo para el final.",
+     "El mapa interactivo de VICEVERSA tiene la capa Puntos WAiNK con las ubicaciones que reunimos."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "gamerblurb"
+   ],
+   "mapa": "wink",
+   "id": "you-wainker",
+   "lugares": []
+  },
+  {
+   "nome": "Whip It Good",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "exploracao",
+   "desc": {
+    "en": "Discover 100 vehicles.",
+    "pt-BR": "Descubra 100 veículos.",
+    "es": "Descubre 100 vehículos."
+   },
+   "guia": {
+    "pt-BR": [
+     "\"Descobrir\" um veículo é registrá-lo pela primeira vez. Os guias associam isso a escanear veículos com o celular: existem 277 para escanear, e os 100% pedem 200.",
+     "Ruas movimentadas de Vice City, estacionamentos, marinas e aeroportos têm muita variedade. Escaneie tudo o que for diferente pelo caminho; o troféu sai no centésimo."
+    ],
+    "en": [
+     "\"Discovering\" a vehicle means logging it for the first time. Guides link this to scanning vehicles with your phone: there are 277 to scan, and 100% asks for 200.",
+     "Busy Vice City streets, parking lots, marinas and airports have lots of variety. Scan anything new along the way; the trophy pops at the hundredth."
+    ],
+    "es": [
+     "\"Descubrir\" un vehículo es registrarlo por primera vez. Las guías lo asocian a escanear vehículos con el móvil: hay 277 para escanear, y el 100 % pide 200.",
+     "Las calles concurridas de Vice City, aparcamientos, puertos deportivos y aeropuertos tienen mucha variedad. Escanea todo lo nuevo por el camino; el trofeo salta en el número cien."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver"
+   ],
+   "mapa": "",
+   "id": "whip-it-good",
+   "lugares": []
+  },
+  {
+   "nome": "The Goodtime State",
+   "grau": "bronze",
+   "gs": 20,
+   "cat": "exploracao",
+   "desc": {
+    "en": "Explore all of Leonida.",
+    "pt-BR": "Explore toda Leonida.",
+    "es": "Explora toda Leonida."
+   },
+   "guia": {
+    "pt-BR": [
+     "O troféu pede revelar o mapa inteiro, tirando toda a névoa. Leonida tem cinco condados, das ilhas dos Keys ao norte de Kelly County e à região de Mount Kalaga, então ele costuma ser um dos últimos.",
+     "O jeito mais rápido é voar: com um helicóptero ou avião, faça faixas paralelas de norte a sul sobre as áreas ainda escuras. Confira o mapa do jogo para ver os cantos que faltam, como ilhas pequenas e o interior dos pântanos.",
+     "O mapa interativo do VICEVERSA, feito a partir do pôster oficial, ajuda a planejar a rota."
+    ],
+    "en": [
+     "The trophy asks you to reveal the whole map, clearing all the fog. Leonida has five counties, from the Keys islands to northern Kelly County and the Mount Kalaga area, so it is usually one of the last ones.",
+     "The fastest way is to fly: in a helicopter or plane, run parallel north-south strips over the dark areas. Check the in-game map for leftover corners such as small islands and the inner swamps.",
+     "The VICEVERSA interactive map, built from the official poster, helps you plan the route."
+    ],
+    "es": [
+     "El trofeo pide revelar el mapa entero, quitando toda la niebla. Leonida tiene cinco condados, desde las islas de los Keys hasta el norte de Kelly County y la zona de Mount Kalaga, así que suele ser de los últimos.",
+     "Lo más rápido es volar: en helicóptero o avión, haz franjas paralelas de norte a sur sobre las zonas oscuras. Revisa el mapa del juego para ver los rincones que faltan, como islas pequeñas y el interior de los pantanos.",
+     "El mapa interactivo de VICEVERSA, hecho a partir del póster oficial, ayuda a planear la ruta."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "gtaside"
+   ],
+   "mapa": "mapa",
+   "id": "the-goodtime-state",
+   "lugares": []
+  },
+  {
+   "nome": "Treat Yo Self",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "exploracao",
+   "desc": {
+    "en": "Spend $100,000 across all shops.",
+    "pt-BR": "Gaste US$ 100.000 nas lojas.",
+    "es": "Gasta 100.000 $ en las tiendas."
+   },
+   "guia": {
+    "pt-BR": [
+     "O valor é somado entre todas as lojas do jogo, não precisa ser numa só. Qualquer compra em loja entra na conta.",
+     "Ele costuma sair sozinho na segunda metade da história. Se quiser adiantar, gaste o dinheiro dos cofres de banco em equipamento que você vai usar de qualquer jeito."
+    ],
+    "en": [
+     "The amount adds up across every shop in the game; it does not have to be one shop. Any shop purchase counts.",
+     "It usually pops on its own in the second half of the story. To speed it up, spend bank vault money on gear you would buy anyway."
+    ],
+    "es": [
+     "El importe se suma entre todas las tiendas del juego, no hace falta que sea en una sola. Cualquier compra en tienda cuenta.",
+     "Suele saltar solo en la segunda mitad de la historia. Para adelantarlo, gasta el dinero de las cámaras acorazadas en equipo que vas a comprar de todos modos."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "gtaside"
+   ],
+   "mapa": "",
+   "id": "treat-yo-self",
+   "lugares": []
+  },
+  {
+   "nome": "Little Boxes",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "exploracao",
+   "desc": {
+    "en": "Purchase all garage properties.",
+    "pt-BR": "Compre todas as garagens à venda.",
+    "es": "Compra todos los garajes en venta."
+   },
+   "guia": {
+    "pt-BR": [
+     "Garagens são propriedades para guardar veículos. Os guias contam 8 garagens à venda pelo mapa; o troféu pede todas.",
+     "Deixe para depois de alguns cofres de banco (Maximum Withdrawal), quando o dinheiro deixa de ser problema."
+    ],
+    "en": [
+     "Garages are properties for storing vehicles. Guides count 8 garages for sale around the map; the trophy asks for all of them.",
+     "Leave them for after a few bank vaults (Maximum Withdrawal), when money is no longer an issue."
+    ],
+    "es": [
+     "Los garajes son propiedades para guardar vehículos. Las guías cuentan 8 garajes en venta por el mapa; el trofeo pide todos.",
+     "Déjalos para después de algunas cámaras acorazadas (Maximum Withdrawal), cuando el dinero ya no es problema."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "space4games"
+   ],
+   "mapa": "",
+   "id": "little-boxes",
+   "lugares": []
+  },
+  {
+   "nome": "On the Spot",
+   "grau": "bronze",
+   "gs": 15,
+   "cat": "exploracao",
+   "desc": {
+    "en": "Register 10 vehicles to the Scooter Bros app.",
+    "pt-BR": "Registre 10 veículos no app Scooter Bros.",
+    "es": "Registra 10 vehículos en la app Scooter Bros."
+   },
+   "guia": {
+    "pt-BR": [
+     "Scooter Bros é um app do celular de Leonida. Registre nele 10 veículos diferentes para o troféu.",
+     "Faça os registros aos poucos, quando estiver com um veículo novo; o contador fica no próprio app."
+    ],
+    "en": [
+     "Scooter Bros is one of Leonida's phone apps. Register 10 different vehicles in it for the trophy.",
+     "Register them gradually whenever you have a new vehicle; the counter is in the app itself."
+    ],
+    "es": [
+     "Scooter Bros es una app del móvil de Leonida. Registra en ella 10 vehículos diferentes para el trofeo.",
+     "Regístralos poco a poco, cuando tengas un vehículo nuevo; el contador está en la propia app."
+    ]
+   },
+   "dicas": {},
+   "oculto": false,
+   "perdivel": false,
+   "confirmado": true,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "gtaside"
+   ],
+   "mapa": "",
+   "id": "on-the-spot",
+   "lugares": []
+  },
+  {
+   "nome": "In The Beginning…",
+   "grau": "bronze",
+   "gs": 5,
+   "cat": "segredos",
+   "desc": {
+    "en": "Enjoy a cocktail with a view on Ocean Beach.",
+    "pt-BR": "Tome um drinque com vista em Ocean Beach.",
+    "es": "Disfruta un cóctel con vistas en Ocean Beach."
+   },
+   "guia": {
+    "pt-BR": [
+     "Ocean Beach é a faixa de praia de Vice Beach. A pista mais citada é pedir um Apple Martini no bar de cobertura Ocean View Rooftop Bar.",
+     "Ainda não confirmado: os guias trazem só uma pista ou uma suspeita, e vamos atualizar quando o gatilho for confirmado."
+    ],
+    "en": [
+     "Ocean Beach is the beachfront strip of Vice Beach. The most cited lead is ordering an Apple Martini at the Ocean View Rooftop Bar.",
+     "Not confirmed yet: guides only offer a hint or a suspicion, and we will update this once the trigger is confirmed."
+    ],
+    "es": [
+     "Ocean Beach es la franja de playa de Vice Beach. La pista más citada es pedir un Apple Martini en el bar de azotea Ocean View Rooftop Bar.",
+     "Aún sin confirmar: las guías solo dan una pista o una sospecha, y actualizaremos cuando se confirme el disparador."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": false,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "",
+   "lugares": [],
+   "id": "in-the-beginning"
+  },
+  {
+   "nome": "Capital Offense",
+   "grau": "bronze",
+   "gs": 5,
+   "cat": "segredos",
+   "desc": {
+    "en": "Smash your way out of a vehicle showroom in classic style.",
+    "pt-BR": "Saia de uma concessionária quebrando tudo, em estilo clássico.",
+    "es": "Sal de un concesionario rompiéndolo todo, con estilo clásico."
+   },
+   "guia": {
+    "pt-BR": [
+     "É uma homenagem a uma cena clássica da série: sair dirigindo pela vitrine de uma concessionária. A pista mais citada é a concessionária do sul de Vice City, levando o Banshee azul pela vitrine; para isso seria preciso ter o Key Cloner.",
+     "Ainda não confirmado: os guias trazem só uma pista ou uma suspeita, e vamos atualizar quando o gatilho for confirmado."
+    ],
+    "en": [
+     "It is a nod to a classic series moment: driving out through a dealership window. The most cited lead is the showroom in southern Vice City, taking the blue Banshee through the glass; you would need the Key Cloner for it.",
+     "Not confirmed yet: guides only offer a hint or a suspicion, and we will update this once the trigger is confirmed."
+    ],
+    "es": [
+     "Es un guiño a una escena clásica de la saga: salir conduciendo por el escaparate de un concesionario. La pista más citada es el concesionario del sur de Vice City, sacando el Banshee azul por el cristal; para eso haría falta el Key Cloner.",
+     "Aún sin confirmar: las guías solo dan una pista o una sospecha, y actualizaremos cuando se confirme el disparador."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": false,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "",
+   "lugares": [],
+   "id": "capital-offense"
+  },
+  {
+   "nome": "Bad Luck, I Guess",
+   "grau": "bronze",
+   "gs": 5,
+   "cat": "segredos",
+   "desc": {
+    "en": "Second time's the charm.",
+    "pt-BR": "A segunda vez é a que dá certo.",
+    "es": "A la segunda va la vencida."
+   },
+   "guia": {
+    "pt-BR": [
+     "A descrição sugere repetir algo que deu errado na primeira vez. A suspeita mais citada é a loja de empréstimos consignados (Payday Loans) de Little Cuba, do prólogo: voltar lá e tentar de novo.",
+     "Ainda não confirmado: os guias trazem só uma pista ou uma suspeita, e vamos atualizar quando o gatilho for confirmado."
+    ],
+    "en": [
+     "The description suggests repeating something that went wrong the first time. The most cited suspicion is the Payday Loans store in Little Cuba from the prologue: going back and trying again.",
+     "Not confirmed yet: guides only offer a hint or a suspicion, and we will update this once the trigger is confirmed."
+    ],
+    "es": [
+     "La descripción sugiere repetir algo que salió mal la primera vez. La sospecha más citada es la tienda de préstamos rápidos (Payday Loans) de Little Cuba, del prólogo: volver allí e intentarlo de nuevo.",
+     "Aún sin confirmar: las guías solo dan una pista o una sospecha, y actualizaremos cuando se confirme el disparador."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": false,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "",
+   "lugares": [
+    "little-cuba"
+   ],
+   "id": "bad-luck-i-guess"
+  },
+  {
+   "nome": "The Truth Is Out There",
+   "grau": "bronze",
+   "gs": 5,
+   "cat": "segredos",
+   "desc": {
+    "en": "What the hell just happened?",
+    "pt-BR": "Que diabos acabou de acontecer?",
+    "es": "¿Qué demonios acaba de pasar?"
+   },
+   "guia": {
+    "pt-BR": [
+     "O nome lembra Arquivo X, e a pista mais citada é um easter egg de OVNI: a noroeste do Starlet Motel, em Kelly County, sozinho e depois das 2 da manhã.",
+     "Ainda não confirmado: os guias trazem só uma pista ou uma suspeita, e vamos atualizar quando o gatilho for confirmado."
+    ],
+    "en": [
+     "The name recalls The X-Files, and the most cited lead is a UFO easter egg: northwest of the Starlet Motel in Kelly County, alone and after 2 AM.",
+     "Not confirmed yet: guides only offer a hint or a suspicion, and we will update this once the trigger is confirmed."
+    ],
+    "es": [
+     "El nombre recuerda a Expediente X, y la pista más citada es un easter egg de ovni: al noroeste del Starlet Motel, en Kelly County, a solas y después de las 2 de la madrugada.",
+     "Aún sin confirmar: las guías solo dan una pista o una sospecha, y actualizaremos cuando se confirme el disparador."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": false,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "",
+   "lugares": [],
+   "id": "the-truth-is-out-there"
+  },
+  {
+   "nome": "Ten Pin",
+   "grau": "bronze",
+   "gs": 5,
+   "cat": "segredos",
+   "desc": {
+    "en": "Bowl 'em over with a melee drive-by.",
+    "pt-BR": "Derrube todo mundo com um ataque corpo a corpo em movimento.",
+    "es": "Derríbalos a todos con un ataque cuerpo a cuerpo en marcha."
+   },
+   "guia": {
+    "pt-BR": [
+     "\"Ten pin\" são os dez pinos do boliche. A descrição fala em derrubar pessoas com golpes de dentro de um veículo em movimento, e a pista mais citada é derrubar 10 pedestres com chutes de cima de uma moto ou bicicleta em até 60 segundos.",
+     "Ainda não confirmado: os guias trazem só uma pista ou uma suspeita, e vamos atualizar quando o gatilho for confirmado."
+    ],
+    "en": [
+     "\"Ten pin\" refers to the ten bowling pins. The description talks about knocking people down with melee hits from a moving vehicle, and the most cited lead is kicking 10 pedestrians over from a bike within 60 seconds.",
+     "Not confirmed yet: guides only offer a hint or a suspicion, and we will update this once the trigger is confirmed."
+    ],
+    "es": [
+     "\"Ten pin\" son los diez bolos del boliche. La descripción habla de derribar gente con golpes desde un vehículo en marcha, y la pista más citada es tumbar a 10 peatones a patadas desde una moto o bici en 60 segundos.",
+     "Aún sin confirmar: las guías solo dan una pista o una sospecha, y actualizaremos cuando se confirme el disparador."
+    ]
+   },
+   "dicas": {},
+   "oculto": true,
+   "perdivel": false,
+   "confirmado": false,
+   "personagem": "",
+   "quando": {
+    "pt-BR": "A qualquer momento",
+    "en": "Any time",
+    "es": "En cualquier momento"
+   },
+   "fontes": [
+    "gameleap",
+    "timesaver",
+    "space4games"
+   ],
+   "mapa": "",
+   "lugares": [],
+   "id": "ten-pin"
+  }
+ ]
+}
