@@ -78,6 +78,7 @@ PAGINAS_SITE = {
     "guias":       ("guias.html",         {"en": "guides",           "pt-BR": "guias",              "es": "guias"}),
     "videos":      ("videos.html",        {"en": "videos",           "pt-BR": "videos",             "es": "videos"}),
     "trofeus":     ("trofeus.html",       {"en": "trophies",         "pt-BR": "trofeus",            "es": "trofeos"}),
+    "codigos":     ("codigos.html",       {"en": "cheats",           "pt-BR": "codigos",            "es": "trucos"}),
     "sobre":       ("institucional.html", {"en": "about",            "pt-BR": "sobre",              "es": "sobre"}),
     "contato":     ("institucional.html", {"en": "contact",          "pt-BR": "contato",            "es": "contacto"}),
     "privacidade": ("institucional.html", {"en": "privacy",          "pt-BR": "privacidade",        "es": "privacidad"}),
@@ -146,6 +147,7 @@ ROBOTS_PADRAO = "index, follow, max-image-preview:large"
 ROBOTS_FINA = "noindex, follow"
 PASTA_GUIAS = RAIZ / "guias"         # guias longos e permanentes (conteúdo próprio)
 PASTA_TROFEUS = RAIZ / "trofeus"     # troféus/conquistas com guia (trofeus/trofeus.json)
+PASTA_CODIGOS = RAIZ / "codigos"     # cheats do jogo (codigos/codigos.json)
 # página de troféu com guia curto demais (ex.: "conclua o capítulo 3") fica fora do
 # Google e sem anúncios, como as notícias e os locais curtos
 MIN_PALAVRAS_TROFEU = 60
@@ -1127,6 +1129,8 @@ def montar_pagina(cabeca, rodape, corpo, base, textos, cod, pagina_nav, rel, ext
             .replace("{{__guides__}}", prefixo + caminho(cod, "guias") + "/")
             .replace("{{__trophies__}}", prefixo + caminho(cod, "trofeus") + "/")
             .replace("{{__at_trophies__}}", atual["trofeus"])
+            .replace("{{__cheats__}}", prefixo + caminho(cod, "codigos") + "/")
+            .replace("{{__at_cheats__}}", atual["codigos"])
             .replace("{{__at_guides__}}", atual["guias"])
             # item "Vídeos" do menu: só aparece quando existe algum vídeo publicado
             .replace("{{__nav_videos__}}",
@@ -2165,6 +2169,121 @@ def relacionados_trofeu(t, dados, prefixo, cod, textos):
         f'<span>{esc(o["nome"]) if not o.get("oculto") else esc(textos.get("tf19", ""))}</span></a></li>' for o in outros)
 
 
+# ── códigos (cheats) ────────────────────────────────────────────────
+# codigos/codigos.json: os cheats de GTA 6 com a sequência no direcional (igual
+# no PS5 e no Xbox), o efeito e como desbloquear, nos 3 idiomas.
+CATS_CODIGO = ["jogador", "combate", "veiculos", "ambiente", "filtros"]
+SETAS = {"U": "↑", "D": "↓", "L": "←", "R": "→"}
+
+
+def carregar_codigos():
+    arq = PASTA_CODIGOS / "codigos.json"
+    if not arq.exists():
+        return None
+    try:
+        dados = json.loads(arq.read_text(encoding="utf-8"))
+    except ValueError as e:
+        print(f"  ! codigos/codigos.json inválido: {e}")
+        return None
+    validos = []
+    for c in dados.get("codigos", []):
+        if not re.match(r"^[a-z0-9-]+$", str(c.get("id", ""))):
+            continue
+        if c.get("cat") not in CATS_CODIGO:
+            c["cat"] = "jogador"
+        if c.get("seq") and any(p not in SETAS for p in c["seq"]):
+            print(f"  ! código com sequência inválida (ignorada): {c.get('nome')}")
+            c["seq"] = None
+        validos.append(c)
+    dados["codigos"] = validos
+    try:
+        dados["data"] = datetime.strptime(dados.get("atualizado", ""), "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    except ValueError:
+        dados["data"] = None
+    return dados
+
+
+def seq_texto(seq, textos):
+    return ", ".join(textos.get("cgd_" + p, p) for p in seq)
+
+
+def item_codigo(c, cod, textos):
+    if c.get("seq"):
+        seq_txt = seq_texto(c["seq"], textos)
+        setas = "".join(f'<kbd class="cg-seta">{SETAS[p]}</kbd>' for p in c["seq"])
+        codigo = (f'<div class="cg-seq" role="img" aria-label="{esc(textos.get("cg30", ""))}: {esc(seq_txt)}">'
+                  f'<span class="cg-segurar"><kbd class="so-ps">L1</kbd><kbd class="so-ps">R1</kbd>'
+                  f'<kbd class="so-xbox">LB</kbd><kbd class="so-xbox">RB</kbd><span>+</span></span>{setas}</div>'
+                  f'<button type="button" class="cg-copiar" data-copiar-seq="{esc(seq_txt)}" data-ok="{esc(textos.get("ar05", ""))}">'
+                  f'{esc(textos.get("cg31", ""))}</button>')
+    else:
+        codigo = f'<p class="cg-semcodigo">{esc(textos.get("cg32", ""))}</p>'
+    tags = []
+    if c.get("desliga"):
+        tags.append(f'<span class="tf-tag">{esc(textos.get("cg33", ""))}</span>')
+    if c.get("conferir"):
+        tags.append(f'<span class="tf-tag tf-tag--aberto">{esc(textos.get("cg34", ""))}</span>')
+    nota = texto_idioma(c.get("nota"), cod) if c.get("nota") else ""
+    return (f'      <li class="cg-item" id="c-{c["id"]}" data-cat="{c["cat"]}"{" data-codigo" if c.get("seq") else ""}>'
+            f'<div class="cg-item__topo"><h3>{esc(c["nome"])}</h3>{"".join(tags)}</div>'
+            f'<p class="cg-item__efeito">{esc(texto_idioma(c["efeito"], cod))}</p>'
+            f'{codigo}'
+            f'<p class="cg-item__desbloq"><span>{esc(textos.get("cg35", ""))}</span> {esc(texto_idioma(c["desbloqueio"], cod))}</p>'
+            + (f'<p class="cg-item__nota">{esc(nota)}</p>' if nota else "") + '</li>')
+
+
+def lista_codigos(dados, cod, textos):
+    blocos = []
+    for cat in CATS_CODIGO:
+        itens = [c for c in dados["codigos"] if c["cat"] == cat]
+        if not itens:
+            continue
+        com = sum(1 for c in itens if c.get("seq"))
+        conta = textos.get("cg36", "{n}/{t}").replace("{n}", str(com)).replace("{t}", str(len(itens)))
+        itens.sort(key=lambda c: (not c.get("seq"), c["nome"].lstrip("'$").lower()))
+        blocos.append(
+            f'  <section class="tf-secao cg-secao" id="{cat}">\n'
+            f'    <div class="tf-secao__cabeca"><h2>{esc(textos.get("cgc_" + cat, cat))}</h2>'
+            f'<span class="tf-secao__conta">{esc(conta)}</span></div>\n'
+            f'    <ul class="cg-lista">\n' + "\n".join(item_codigo(c, cod, textos) for c in itens)
+            + "\n    </ul>\n  </section>")
+    return "\n".join(blocos)
+
+
+def filtros_codigos(dados, textos):
+    botoes = [f'<button type="button" class="tf-filtro" data-filtro="" aria-pressed="true">{esc(textos.get("tf30", ""))}'
+              f' <small>{len(dados["codigos"])}</small></button>']
+    for cat in CATS_CODIGO:
+        n = sum(1 for c in dados["codigos"] if c["cat"] == cat)
+        if n:
+            botoes.append(f'<button type="button" class="tf-filtro" data-filtro="{cat}" aria-pressed="false">'
+                          f'{esc(textos.get("cgc_" + cat, cat))} <small>{n}</small></button>')
+    return "".join(botoes)
+
+
+def fontes_codigos(dados, textos):
+    itens = [f'<li><a href="{esc(f["url"])}" target="_blank" rel="noopener nofollow">{esc(f["nome"])}</a></li>'
+             for f in dados.get("fontes", {}).values()]
+    if not itens:
+        return ""
+    return (f'<aside class="tf-fontes"><h2>{esc(textos.get("tf40", ""))}</h2><ul>{"".join(itens)}</ul>'
+            f'<p>{esc(textos.get("cg37", ""))}</p></aside>')
+
+
+def jsonld_codigos(dados, cod, textos):
+    faq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": texto_puro(textos.get(f"cg{p}", "")),
+         "acceptedAnswer": {"@type": "Answer", "text": texto_puro(textos.get(f"cg{r}", ""))}}
+        for p, r in ((41, 42), (43, 44), (45, 46), (47, 48)) if textos.get(f"cg{p}")]}
+    migalhas = {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": NOME_SITE, "item": url(cod, "home")},
+            {"@type": "ListItem", "position": 2, "name": textos.get("cg00", "Cheats"), "item": url(cod, "codigos")},
+        ]}
+    return jsonld(faq) + "\n" + jsonld(migalhas)
+
+
 # ── o gerador ───────────────────────────────────────────────────────
 def montar():
     cabeca = (PARTES / "cabeca.html").read_text(encoding="utf-8")
@@ -2186,6 +2305,7 @@ def montar():
     paginas_guia = 0
     mapa = carregar_mapa()
     trofeus = carregar_trofeus()
+    codigos = carregar_codigos()
     paginas_trofeu = 0
     dias, horas, minutos = contagem()
     hoje = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -2270,6 +2390,16 @@ def montar():
                     "__tf_data__": data_legivel(tf["data"], cod) if tf.get("data") else "",
                     "__jsonld_extra__": jsonld_trofeus(tf, cod, textos),
                 })
+            elif pagina == "codigos":
+                cg = codigos or {"codigos": [], "fontes": {}, "data": None}
+                extras.update({
+                    "__cg_lista__": lista_codigos(cg, cod, textos),
+                    "__cg_filtros__": filtros_codigos(cg, textos),
+                    "__cg_fontes__": fontes_codigos(cg, textos),
+                    "__cg_iso__": cg["data"].date().isoformat() if cg.get("data") else "",
+                    "__cg_data__": data_legivel(cg["data"], cod) if cg.get("data") else "",
+                    "__jsonld_extra__": jsonld_codigos(cg, cod, textos),
+                })
             elif pagina == "videos":
                 extras["__videos_lista__"] = lambda pref, cod=cod, textos=textos: lista_videos_html(
                     posts, pref, cod, textos)
@@ -2278,7 +2408,7 @@ def montar():
                     # poucos vídeos: tela quase vazia, fora do Google e sem anúncios
                     extras["__robots__"] = ROBOTS_FINA
                     extras["__sem_anuncios__"] = "sim"
-            if pagina in ("noticias", "mapa", "guias", "videos", "trofeus") and textos.get(f"pg_{pagina}_t"):
+            if pagina in ("noticias", "mapa", "guias", "videos", "trofeus", "codigos") and textos.get(f"pg_{pagina}_t"):
                 # título e descrição próprios (antes eram iguais aos da home)
                 titulo_pg, desc_pg = textos[f"pg_{pagina}_t"], textos.get(f"pg_{pagina}_d", "")
                 textos_pagina = dict(textos)

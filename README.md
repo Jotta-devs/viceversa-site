@@ -362,6 +362,24 @@ site). Páginas de troféu com menos de 60 palavras de guia ficam fora do Google
 sem anúncios, como as notícias curtas. Quando sair a versão de PC, atualize o
 quadro de plataformas (textos `tf07`/`tf08` em `idiomas/`).
 
+## Códigos (cheats)
+
+A página **Códigos** (`/cheats/`, `/pt/codigos/`, `/es/trucos/`) lista os 61
+cheats do jogo por categoria, com a sequência no direcional (igual no PS5 e no
+Xbox; o botão PlayStation/Xbox troca L1+R1 por LB+RB), o efeito, como
+desbloquear, busca, filtro "só com código conhecido", botão de copiar e perguntas
+frequentes.
+
+```
+codigos/codigos.json   nome oficial, categoria, efeito e desbloqueio (en/pt-BR/es),
+                       "seq": ["U","R","D","L",...] (null = ainda não descoberto),
+                       "desliga" (repetir desativa), "conferir" (só parte das fontes)
+paginas/codigos.html   a página
+```
+
+Quando um código novo for descoberto, preencha o `seq` dele no JSON (o robô regera
+o site). Só publique sequências que apareçam iguais em mais de uma fonte.
+
 ## O robô
 
 `.github/workflows/plantao.yml` roda a cada 6 horas: busca notícias de GTA VI em feeds
