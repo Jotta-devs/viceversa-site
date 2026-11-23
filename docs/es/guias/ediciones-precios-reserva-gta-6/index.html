@@ -823,6 +823,18 @@
     color:var(--creme-40);margin-top:1.3rem;display:block;line-height:1.7;
   }
   .mapa-nota{max-width:1080px;margin:1.8rem auto 0;font-size:.75rem;color:var(--creme-40);line-height:1.7;text-align:center}
+  /* pôster oficial (arte da Rockstar): seção abaixo do mapa */
+  .poster-oficial{max-width:760px;margin:3rem auto 0;text-align:center}
+  .poster-oficial h3{font-size:1.35rem;margin:0 0 .5rem}
+  .poster-oficial p{color:var(--creme-70,#d9cfc4);font-size:.95rem;line-height:1.6;margin:0 auto 1.2rem;max-width:620px}
+  .poster-oficial__img{display:block;border-radius:14px;overflow:hidden;border:1px solid rgba(255,243,228,.14);box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .poster-oficial__img img{display:block;width:100%;height:auto}
+  .poster-oficial figcaption{margin-top:.9rem;font-size:.78rem;color:var(--creme-40);line-height:1.7}
+  .poster-oficial figcaption a{color:var(--agua)}
+  .poster-oficial__acoes{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-top:.9rem}
+  .poster-oficial__acoes>*{font:600 .72rem/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;padding:.8rem 1.1rem;border-radius:999px;
+    cursor:pointer;text-decoration:none;border:1px solid var(--agua);background:var(--agua);color:#0B0414!important}
+  .poster-oficial__acoes>a{background:transparent;color:var(--agua)!important}
 
   /* ---- PLANTÃO (feed vindo do X) ---- */
   .painel-largo{max-width:900px;margin:0 auto}
@@ -1196,7 +1208,7 @@
     border:1px solid var(--linha);border-radius:18px;overflow:hidden;background:var(--atlas-fundo);isolation:isolate;
   }
   .atlas [hidden]{display:none!important}
-  .atlas svg:not(.atlas-vetor){width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .atlas svg:not(.atlas-grade-camada){width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
   /* lateral */
   .atlas__lado{display:flex;flex-direction:column;gap:.85rem;min-height:0;overflow-y:auto;overscroll-behavior:contain;
@@ -1389,71 +1401,24 @@
   .atlas--cheia{position:fixed;inset:0;z-index:9999;max-width:none;height:100vh!important;margin:0;border-radius:0;border:0}
   body.atlas-aberto{overflow:hidden}
 
-  /* ---- ATLAS: paletas do vetor (o SVG só traz classes; base: mapa oficial da Rockstar redesenhado) ---- */
+  /* ---- ATLAS: a base é o mapa oficial da Rockstar com as cores do site (imagens Dia e Noite) ---- */
   .atlas--noite{--atlas-mar:#17263C}
   .atlas--dia{--atlas-mar:#9EC3F7}
-  .atlas-vetor .grade{display:none}
-  .atlas--grade .atlas-vetor .grade{display:inline}
-  .atlas-vetor .grade path{stroke-width:1;stroke-dasharray:4 4}
-  .atlas-vetor .grade text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
-  .atlas-vetor path[class^="l-"]{fill:none}
-
-  /* Dia: claro, no estilo dos mapas de navegação */
-  .atlas--dia .c-mar{fill:#9EC3F7}
-  .atlas--dia .c-raso3{fill:#A7C9F8}
-  .atlas--dia .c-raso2{fill:#AFCFF9}
-  .atlas--dia .c-raso1{fill:#B9D6FA}
-  .atlas--dia .c-lago{fill:#9EC3F7}
-  .atlas--dia .c-terra{fill:#EEF1E7}
-  .atlas--dia .c-colina{fill:#E1ECD4}
-  .atlas--dia .c-floresta{fill:#D2E5C2}
-  .atlas--dia .c-serra{fill:#C2DCAF}
-  .atlas--dia .c-campo{fill:#E7E8CC}
-  .atlas--dia .c-pantano{fill:#CDE6D6}
-  .atlas--dia .c-industrial{fill:#E9E5DC}
-  .atlas--dia .c-areia{fill:#FAEFC8}
-  .atlas--dia .c-urbana{fill:#F2F3F6}
-  .atlas--dia .c-quadra{fill:#E2E4EA}
-  .atlas--dia .c-predio{fill:#D4D7E0}
-  .atlas--dia .c-pista{fill:#DADBE3}
-  .atlas--dia .l-vielas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * .6px)}
-  .atlas--dia .l-ruas{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1px)}
-  .atlas--dia .l-vias{stroke:#FFFFFF;stroke-width:calc(var(--traco) * 1.6px);filter:drop-shadow(0 0 .35px #A9AEB8)}
-  .atlas--dia .l-rotas{stroke:#FDE79A;stroke-width:calc(var(--traco) * 2px);filter:drop-shadow(0 0 .4px #E8B64C)}
-  .atlas--dia .l-vias-largas{stroke:#FCD565;stroke-width:calc(var(--traco) * 2.4px);filter:drop-shadow(0 0 .5px #E1A23B)}
-  .atlas--dia .l-ferrovia{stroke:#A79FB3;stroke-width:calc(var(--traco) * .7px);stroke-dasharray:3 2}
+  .atlas-vetor{image-rendering:auto}
+  /* camada "pôster oficial": a arte da Rockstar já traz nomes e placas, então os do site saem */
+  .atlas--poster{--atlas-mar:#00AECA}
+  .atlas--poster .atlas-vetor,.atlas--poster .atlas-rotulo,.atlas--poster .atlas-escudo,.atlas--poster .atlas-regiao{display:none}
+  /* grade de referência (a do pôster), desenhada por cima do mapa */
+  .atlas-grade-camada{display:none;pointer-events:none}
+  .atlas--grade .atlas-grade-camada{display:block}
+  .atlas-grade-camada path{stroke-width:1;stroke-dasharray:4 4}
+  .atlas-grade-camada text{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.05em}
   .atlas--dia .grade path{stroke:rgba(32,33,36,.35)}
   .atlas--dia .grade text{fill:rgba(32,33,36,.6)}
-
-  /* Noite: escuro, para quem prefere */
-  .atlas--noite .c-mar,.atlas--noite .c-lago{fill:#17263C}
-  .atlas--noite .c-raso3{fill:#1A2C44}
-  .atlas--noite .c-raso2{fill:#1D324C}
-  .atlas--noite .c-raso1{fill:#213955}
-  .atlas--noite .c-terra{fill:#242F3E}
-  .atlas--noite .c-colina{fill:#263445}
-  .atlas--noite .c-floresta{fill:#26393A}
-  .atlas--noite .c-serra{fill:#243B36}
-  .atlas--noite .c-campo{fill:#2C3540}
-  .atlas--noite .c-pantano{fill:#22383F}
-  .atlas--noite .c-industrial{fill:#2C3442}
-  .atlas--noite .c-areia{fill:#3A3A3A}
-  .atlas--noite .c-urbana{fill:#283241}
-  .atlas--noite .c-quadra{fill:#2F3A4A}
-  .atlas--noite .c-predio{fill:#384354}
-  .atlas--noite .c-pista{fill:#3A4352}
-  .atlas--noite .l-vielas{stroke:#3B4555;stroke-width:calc(var(--traco) * .55px)}
-  .atlas--noite .l-ruas{stroke:#46505F;stroke-width:calc(var(--traco) * .9px)}
-  .atlas--noite .l-vias{stroke:#5B6474;stroke-width:calc(var(--traco) * 1.4px)}
-  .atlas--noite .l-rotas{stroke:#9A5B78;stroke-width:calc(var(--traco) * 1.8px)}
-  .atlas--noite .l-vias-largas{stroke:#C7397A;stroke-width:calc(var(--traco) * 2.2px)}
-  .atlas--noite .l-ferrovia{stroke:#5E5470;stroke-width:calc(var(--traco) * .7px);stroke-dasharray:3 2}
   .atlas--noite .grade path{stroke:rgba(47,230,200,.45)}
   .atlas--noite .grade text{fill:rgba(47,230,200,.8)}
-  /* de longe, só o essencial: ruas e prédios aparecem ao aproximar */
-  .atlas[data-zoom="longe"] .atlas-vetor .l-vielas,
-  .atlas[data-zoom="longe"] .atlas-vetor .c-predio{display:none}
-  .atlas[data-zoom="longe"] .atlas-vetor .l-ruas{stroke-opacity:.55}
+  .atlas--poster .grade path{stroke:rgba(255,255,255,.55)}
+  .atlas--poster .grade text{fill:rgba(255,255,255,.9)}
 
   /* nomes: o ponto do Leaflet é a âncora; o texto fica centrado nela */
   .atlas-regiao,.atlas-rotulo,.atlas-escudo{width:0!important;height:0!important;margin:0!important;background:none;border:0}
@@ -2281,14 +2246,86 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     if(info.milha) escala.addTo(mapa);
     mapa.on("zoomend", porZoom); porZoom();
 
-    /* ── base: o vetor recriado, no estilo Noite ou Dia ── */
-    fetch(cfg.svg).then(function(r){ return r.text(); }).then(function(t){
-      const tmp = document.createElement("div");
-      tmp.innerHTML = t;
-      const el = tmp.querySelector("svg");
-      if(!el) return;
+    /* ── base: o mapa oficial com as cores do site (Dia ou Noite); traçado idêntico ao pôster ──
+       de longe basta a versão de 2048 px; ao aproximar, troca pela da resolução do pôster */
+    const camadas = cfg.camadas || {};
+    let camadaBase = null, baseGrande = false, estiloBase = "dia";
+    function fonteBase(estilo){
+      const lista = camadas[estilo] || camadas.dia || [];
+      if(!lista.length) return "";
+      return (baseGrande && lista.length > 1 ? lista[lista.length - 1] : lista[0]).src;
+    }
+    function mostrarBase(estilo){
+      estiloBase = estilo;
+      const src = fonteBase(estilo);
+      if(!src) return;
+      if(camadaBase){ if(camadaBase._url !== src) camadaBase.setUrl(src); }
+      else camadaBase = L.imageOverlay(src, limites, {interactive: false, className: "atlas-vetor"}).addTo(mapa).bringToBack();
+    }
+    mapa.on("zoomend", function(){
+      if(!baseGrande && mapa.getZoom() - mapa.getMinZoom() >= 1.2){ baseGrande = true; mostrarBase(estiloBase); }
+    });
+
+    /* grade de referência do pôster (linhas A–M, colunas 1–9), desenhada por cima */
+    (function(){
+      const g = info.grade || {};
+      if(!g.celula_x) return;
+      const cx = g.celula_x, cy = g.celula_y || g.celula_x, ox = g.origem_x || 0, oy = g.origem_y || 0;
+      let d = "", textos = "";
+      for(let i = 1; i < g.colunas; i++) d += "M" + (ox + i * cx).toFixed(1) + ",0V" + H;
+      for(let j = 0; j <= g.linhas; j++){ const y = oy + j * cy; if(y > 0 && y < H) d += "M0," + y.toFixed(1) + "H" + W; }
+      for(let i = 0; i < g.colunas; i++) for(let j = 0; j < g.linhas; j++){
+        const ty = Math.max(oy + j * cy, 0) + 16;
+        if(ty < H) textos += '<text x="' + (ox + i * cx + 5).toFixed(1) + '" y="' + ty.toFixed(1) + '">' + String.fromCharCode(65 + j) + (i + 1) + "</text>";
+      }
+      const el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      el.setAttribute("viewBox", "0 0 " + W + " " + H);
       el.setAttribute("preserveAspectRatio", "none");
-      L.svgOverlay(el, limites, {interactive: false, className: "atlas-vetor"}).addTo(mapa).bringToBack();
+      el.innerHTML = '<g class="grade"><path fill="none" vector-effect="non-scaling-stroke" d="' + d + '"/>' + textos + "</g>";
+      L.svgOverlay(el, limites, {interactive: false, className: "atlas-grade-camada"}).addTo(mapa);
+    })();
+
+    /* ── pôster oficial da Rockstar como camada, alinhado com o redesenho (mesma moldura) ── */
+    const botaoPoster = document.getElementById("atlas-poster");
+    const fontesPoster = cfg.poster || [];
+    let camadaPoster = null;
+    function ligarPoster(ligar){
+      if(!fontesPoster.length) return;
+      if(ligar && !camadaPoster){
+        const fonte = baseGrande && fontesPoster.length > 1 ? fontesPoster[fontesPoster.length - 1] : fontesPoster[0];
+        camadaPoster = L.imageOverlay(fonte.src, limites, {className: "atlas-poster", interactive: false, alt: txt.poster || ""});
+        mapa.on("zoomend", function(){
+          const grande = fontesPoster[fontesPoster.length - 1].src;
+          if(baseGrande && camadaPoster._url !== grande) camadaPoster.setUrl(grande);
+        });
+      }
+      if(ligar){ camadaPoster.addTo(mapa); camadaPoster.bringToBack(); }
+      else if(camadaPoster) mapa.removeLayer(camadaPoster);
+      caixa.classList.toggle("atlas--poster", ligar);
+      if(botaoPoster){
+        botaoPoster.setAttribute("aria-pressed", ligar ? "true" : "false");
+        const rotulo = ligar ? (txt.redesenho || "") : (txt.poster || "");
+        botaoPoster.title = rotulo; botaoPoster.setAttribute("aria-label", rotulo);
+      }
+      if(txt.fontePoster){
+        if(ligar) mapa.attributionControl.removeAttribution(txt.fonteMapa).addAttribution(txt.fontePoster);
+        else mapa.attributionControl.removeAttribution(txt.fontePoster).addAttribution(txt.fonteMapa);
+      }
+    }
+    if(botaoPoster && fontesPoster.length){
+      botaoPoster.hidden = false;
+      botaoPoster.addEventListener("click", function(){
+        const ligar = botaoPoster.getAttribute("aria-pressed") !== "true";
+        ligarPoster(ligar);
+        if(ligar) evento("mapa_poster");
+      });
+    }
+    document.querySelectorAll("[data-poster-no-mapa]").forEach(function(b){
+      b.addEventListener("click", function(){
+        ligarPoster(true);
+        caixa.scrollIntoView({behavior: "smooth", block: "start"});
+        evento("mapa_poster", {origem: "secao"});
+      });
     });
 
     const botaoEstilo = document.getElementById("atlas-estilo");
@@ -2299,6 +2336,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       estiloAtual = estilo;
       caixa.classList.remove("atlas--noite", "atlas--dia");
       caixa.classList.add("atlas--" + estilo);
+      mostrarBase(estilo);
       if(botaoEstilo){
         const proximo = estilo === "noite" ? botaoEstilo.dataset.dia : botaoEstilo.dataset.noite;
         botaoEstilo.title = proximo || ""; botaoEstilo.setAttribute("aria-label", proximo || "");
