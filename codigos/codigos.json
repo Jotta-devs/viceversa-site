@@ -1,0 +1,1373 @@
+{
+ "_leia": "Cheats de GTA 6 (PS5 e Xbox Series X|S). Nomes oficiais em inglês. 'seq' = sequência no direcional (U/D/L/R), igual nas duas plataformas; null = código ainda não descoberto. 'conferir': só parte dos guias traz o código. 'desliga': repetir o código desativa. Atualizado em 23/11/2026.",
+ "atualizado": "2026-11-23",
+ "fontes": {
+  "redbull": {
+   "nome": "Red Bull",
+   "url": "https://www.redbull.com/us-en/gta-6-cheat-codes"
+  },
+  "timesaver": {
+   "nome": "Timesaver",
+   "url": "https://timesaver.gg/tools/gta-6/cheats"
+  },
+  "beebom": {
+   "nome": "Beebom",
+   "url": "https://beebom.com/gta-6-cheat-codes/"
+  },
+  "gamertweak": {
+   "nome": "Gamer Tweak",
+   "url": "https://gamertweak.com/cheat-codes-gta-6/"
+  },
+  "g2a": {
+   "nome": "G2A News",
+   "url": "https://www.g2a.com/news/gta-6-news/gta-6-cheat-codes-guide-all-cheats/"
+  }
+ },
+ "codigos": [
+  {
+   "nome": "$250,000",
+   "cat": "jogador",
+   "efeito": {
+    "pt-BR": "Dá US$ 250.000 na hora.",
+    "en": "Gives you $250,000 on the spot.",
+    "es": "Te da 250.000 $ al instante."
+   },
+   "desbloqueio": {
+    "pt-BR": "Terminar a história",
+    "en": "Finish the story",
+    "es": "Terminar la historia"
+   },
+   "seq": [
+    "U",
+    "R",
+    "D",
+    "L",
+    "U",
+    "L",
+    "D",
+    "R"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "money-250000"
+  },
+  {
+   "nome": "Unlimited Focus",
+   "cat": "jogador",
+   "efeito": {
+    "pt-BR": "A barra de Foco nunca acaba.",
+    "en": "Your Focus meter never drains.",
+    "es": "La barra de Concentración nunca se agota."
+   },
+   "desbloqueio": {
+    "pt-BR": "Terminar a história",
+    "en": "Finish the story",
+    "es": "Terminar la historia"
+   },
+   "seq": [
+    "D",
+    "U",
+    "U",
+    "D",
+    "U",
+    "D",
+    "U",
+    "D",
+    "U",
+    "R"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "unlimited-focus"
+  },
+  {
+   "nome": "Body Armor",
+   "cat": "jogador",
+   "efeito": {
+    "pt-BR": "Coloca colete à prova de balas no seu equipamento.",
+    "en": "Adds body armor to your loadout.",
+    "es": "Añade chaleco antibalas a tu equipo."
+   },
+   "desbloqueio": {
+    "pt-BR": "Fazer 100 treinos na academia",
+    "en": "Complete 100 workouts",
+    "es": "Completar 100 entrenamientos"
+   },
+   "seq": [
+    "D",
+    "U",
+    "L",
+    "U",
+    "U",
+    "U",
+    "U",
+    "U",
+    "D",
+    "D"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "body-armor"
+  },
+  {
+   "nome": "Raise Heat Level",
+   "cat": "jogador",
+   "efeito": {
+    "pt-BR": "Aumenta o nível de alerta (heat) em todo o mapa.",
+    "en": "Raises the Heat level across the whole map.",
+    "es": "Sube el nivel de alerta (heat) en todo el mapa."
+   },
+   "desbloqueio": {
+    "pt-BR": "Escapar de 3 estrelas 25 vezes",
+    "en": "Lose a 3-star Wanted Level 25 times",
+    "es": "Escapar de 3 estrellas 25 veces"
+   },
+   "seq": [
+    "L",
+    "D",
+    "R",
+    "D",
+    "U",
+    "D",
+    "U"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "raise-heat-level"
+  },
+  {
+   "nome": "Raise Wanted Level",
+   "cat": "jogador",
+   "efeito": {
+    "pt-BR": "Aumenta o nível de procurado em todo o mapa.",
+    "en": "Raises your Wanted Level across the whole map.",
+    "es": "Sube el nivel de búsqueda en todo el mapa."
+   },
+   "desbloqueio": {
+    "pt-BR": "Escapar de 3 estrelas 50 vezes",
+    "en": "Lose a 3-star Wanted Level 50 times",
+    "es": "Escapar de 3 estrellas 50 veces"
+   },
+   "seq": [
+    "L",
+    "D",
+    "R",
+    "D",
+    "U",
+    "R",
+    "U"
+   ],
+   "desliga": false,
+   "conferir": true,
+   "nota": null,
+   "id": "raise-wanted-level"
+  },
+  {
+   "nome": "Drunk",
+   "cat": "jogador",
+   "efeito": {
+    "pt-BR": "Deixa você e seu parceiro bêbados.",
+    "en": "Makes you and your partner drunk.",
+    "es": "Te emborracha a ti y a tu compañero."
+   },
+   "desbloqueio": {
+    "pt-BR": "Gastar US$ 2.500 em bebida",
+    "en": "Spend $2,500 on alcohol",
+    "es": "Gastar 2.500 $ en alcohol"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "drunk"
+  },
+  {
+   "nome": "No Fall Damage",
+   "cat": "jogador",
+   "efeito": {
+    "pt-BR": "Quedas deixam de causar dano.",
+    "en": "Falls no longer hurt you.",
+    "es": "Las caídas dejan de hacer daño."
+   },
+   "desbloqueio": {
+    "pt-BR": "Sobreviver a 20 quedas livres de 12 m (40 pés)",
+    "en": "Survive a 40 ft freefall 20 times",
+    "es": "Sobrevivir a 20 caídas libres de 12 m (40 pies)"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "no-fall-damage"
+  },
+  {
+   "nome": "Parachute",
+   "cat": "jogador",
+   "efeito": {
+    "pt-BR": "Coloca um paraquedas no seu equipamento.",
+    "en": "Adds a parachute to your loadout.",
+    "es": "Añade un paracaídas a tu equipo."
+   },
+   "desbloqueio": {
+    "pt-BR": "Fazer 50 saltos de paraquedas ou BASE de mais de 90 m (300 pés)",
+    "en": "Complete 50 skydives or BASE jumps from 300 ft or higher",
+    "es": "Hacer 50 saltos en paracaídas o BASE de más de 90 m (300 pies)"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "parachute"
+  },
+  {
+   "nome": "Repair Vehicle",
+   "cat": "jogador",
+   "efeito": {
+    "pt-BR": "Conserta totalmente o veículo em que você está.",
+    "en": "Fully repairs the vehicle you are in.",
+    "es": "Repara por completo el vehículo en el que vas."
+   },
+   "desbloqueio": {
+    "pt-BR": "Vencer 10 corridas no Gellhorn Raceway, Thrillbilly Mud Club e Boone Speedway",
+    "en": "Finish 1st in 10 races at Gellhorn Raceway, Thrillbilly Mud Club and Boone Speedway",
+    "es": "Ganar 10 carreras en Gellhorn Raceway, Thrillbilly Mud Club y Boone Speedway"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "repair-vehicle"
+  },
+  {
+   "nome": "Unlimited Nitrous",
+   "cat": "jogador",
+   "efeito": {
+    "pt-BR": "Nitro e combustível dos veículos nunca acabam.",
+    "en": "Vehicles never run out of nitrous or fuel.",
+    "es": "El nitro y el combustible nunca se acaban."
+   },
+   "desbloqueio": {
+    "pt-BR": "Fazer 50 saltos acrobáticos",
+    "en": "Complete 50 stunt jumps",
+    "es": "Completar 50 saltos acrobáticos"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "unlimited-nitrous"
+  },
+  {
+   "nome": "Max Ammo",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "Enche a munição de todas as armas uma vez.",
+    "en": "Tops every weapon up to full ammo once.",
+    "es": "Llena la munición de todas las armas una vez."
+   },
+   "desbloqueio": {
+    "pt-BR": "Ganhar 25 medalhas de bronze ou melhor nos estandes de tiro",
+    "en": "Win 25 bronze medals or better at shooting ranges",
+    "es": "Ganar 25 medallas de bronce o mejor en los campos de tiro"
+   },
+   "seq": [
+    "D",
+    "U",
+    "R",
+    "D",
+    "L",
+    "L",
+    "U",
+    "U",
+    "D",
+    "L"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": {
+    "pt-BR": "Alguns guias falam em 20 medalhas.",
+    "en": "Some guides say 20 medals.",
+    "es": "Algunas guías hablan de 20 medallas."
+   },
+   "id": "max-ammo"
+  },
+  {
+   "nome": "Infinite Ammo",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "A munição nunca acaba, mas ainda é preciso recarregar.",
+    "en": "Ammo never runs out, but you still reload.",
+    "es": "La munición nunca se acaba, pero hay que recargar."
+   },
+   "desbloqueio": {
+    "pt-BR": "Ganhar 25 medalhas de prata ou melhor nos estandes de tiro",
+    "en": "Win 25 silver medals or better at shooting ranges",
+    "es": "Ganar 25 medallas de plata o mejor en los campos de tiro"
+   },
+   "seq": [
+    "D",
+    "U",
+    "R",
+    "D",
+    "L",
+    "L",
+    "U",
+    "D",
+    "D",
+    "D"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "infinite-ammo"
+  },
+  {
+   "nome": "No Reload",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "Munição infinita e sem recarregar.",
+    "en": "Infinite ammo and no reloading.",
+    "es": "Munición infinita y sin recargar."
+   },
+   "desbloqueio": {
+    "pt-BR": "Ganhar 25 medalhas de ouro nos estandes de tiro",
+    "en": "Win 25 gold medals at shooting ranges",
+    "es": "Ganar 25 medallas de oro en los campos de tiro"
+   },
+   "seq": [
+    "D",
+    "U",
+    "R",
+    "D",
+    "L",
+    "L",
+    "U",
+    "D",
+    "D",
+    "U"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "no-reload"
+  },
+  {
+   "nome": "Attack Force",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "Tiros e golpes arremessam os alvos longe.",
+    "en": "Bullets and melee hits send targets flying.",
+    "es": "Disparos y golpes mandan a volar a los objetivos."
+   },
+   "desbloqueio": {
+    "pt-BR": "Terminar a história",
+    "en": "Finish the story",
+    "es": "Terminar la historia"
+   },
+   "seq": [
+    "D",
+    "U",
+    "L",
+    "L",
+    "R",
+    "D",
+    "D",
+    "U",
+    "D"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "attack-force"
+  },
+  {
+   "nome": "Exploding Balls",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "Bolas de esporte explodem ao bater.",
+    "en": "Sports balls explode on impact.",
+    "es": "Las pelotas deportivas explotan al impactar."
+   },
+   "desbloqueio": {
+    "pt-BR": "Atingir 20 inimigos com dano de explosão",
+    "en": "Hit 20 enemies with explosive damage",
+    "es": "Alcanzar a 20 enemigos con daño explosivo"
+   },
+   "seq": [
+    "D",
+    "U",
+    "L",
+    "L",
+    "R",
+    "D",
+    "D",
+    "U",
+    "R"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "exploding-balls"
+  },
+  {
+   "nome": "Vehicle Force",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "Tudo o que o seu veículo atinge é arremessado.",
+    "en": "Anything your vehicle hits gets launched.",
+    "es": "Todo lo que golpea tu vehículo sale volando."
+   },
+   "desbloqueio": {
+    "pt-BR": "Matar 25 inimigos com um veículo",
+    "en": "Kill 25 enemies with a vehicle",
+    "es": "Matar a 25 enemigos con un vehículo"
+   },
+   "seq": [
+    "D",
+    "U",
+    "L",
+    "L",
+    "R",
+    "D",
+    "L",
+    "U",
+    "D"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "vehicle-force"
+  },
+  {
+   "nome": "All Explosive Weapons",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "Dá todas as armas explosivas com munição cheia.",
+    "en": "Gives every explosive weapon with full ammo.",
+    "es": "Da todas las armas explosivas con munición llena."
+   },
+   "desbloqueio": {
+    "pt-BR": "Lançar 100 granadas",
+    "en": "Throw 100 grenades",
+    "es": "Lanzar 100 granadas"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "all-explosive-weapons"
+  },
+  {
+   "nome": "Incendiary Ammo",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "Todo tiro põe fogo no alvo.",
+    "en": "Every bullet sets targets on fire.",
+    "es": "Cada disparo prende fuego al objetivo."
+   },
+   "desbloqueio": {
+    "pt-BR": "Queimar 100 inimigos com fogo",
+    "en": "Burn 100 enemies with fire damage",
+    "es": "Quemar a 100 enemigos con fuego"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "incendiary-ammo"
+  },
+  {
+   "nome": "Exploding Bottles",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "Garrafas explodem quando são atingidas.",
+    "en": "Bottles blow up when damaged.",
+    "es": "Las botellas explotan al recibir daño."
+   },
+   "desbloqueio": {
+    "pt-BR": "Lançar 100 coquetéis molotov",
+    "en": "Throw 100 molotovs",
+    "es": "Lanzar 100 cócteles molotov"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "exploding-bottles"
+  },
+  {
+   "nome": "Explosive Shotgun",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "Dá uma escopeta Mason & Keen Shortstraw com cartuchos explosivos.",
+    "en": "Gives a Mason & Keen Shortstraw shotgun firing explosive shells.",
+    "es": "Da una escopeta Mason & Keen Shortstraw con cartuchos explosivos."
+   },
+   "desbloqueio": {
+    "pt-BR": "Atingir 100 inimigos com dano de explosão",
+    "en": "Hit 100 enemies with explosive damage",
+    "es": "Alcanzar a 100 enemigos con daño explosivo"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "explosive-shotgun"
+  },
+  {
+   "nome": "Hauners H-AT",
+   "cat": "combate",
+   "efeito": {
+    "pt-BR": "Coloca o lança-mísseis Hauners H-AT no seu equipamento.",
+    "en": "Adds a Hauners H-AT launcher to your loadout.",
+    "es": "Añade el lanzamisiles Hauners H-AT a tu equipo."
+   },
+   "desbloqueio": {
+    "pt-BR": "Explodir 100 veículos",
+    "en": "Blow up 100 vehicles",
+    "es": "Volar 100 vehículos"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "hauners-h-at"
+  },
+  {
+   "nome": "Maibatsu Boomazoom",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o veículo Maibatsu Boomazoom ao seu lado.",
+    "en": "Spawns the vehicle Maibatsu Boomazoom next to you.",
+    "es": "Hace aparecer el vehículo Maibatsu Boomazoom a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar 5 desafios de compras",
+    "en": "Complete 5 shopping challenges",
+    "es": "Completar 5 desafíos de compras"
+   },
+   "seq": [
+    "L",
+    "U",
+    "R",
+    "D",
+    "L",
+    "L",
+    "U",
+    "L"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "maibatsu-boomazoom"
+  },
+  {
+   "nome": "MTL Pumper",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o caminhão de bombeiros MTL Pumper ao seu lado.",
+    "en": "Spawns the fire truck MTL Pumper next to you.",
+    "es": "Hace aparecer el camión de bomberos MTL Pumper a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Descobrir o veículo (menu Progresso)",
+    "en": "Discover it (Progress menu)",
+    "es": "Descubrir el vehículo (menú Progreso)"
+   },
+   "seq": [
+    "L",
+    "U",
+    "R",
+    "D",
+    "L",
+    "R",
+    "R",
+    "U"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "mtl-pumper"
+  },
+  {
+   "nome": "HVY Bulldozer",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer a escavadeira HVY Bulldozer ao seu lado.",
+    "en": "Spawns the bulldozer HVY Bulldozer next to you.",
+    "es": "Hace aparecer la excavadora HVY Bulldozer a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Descobrir o veículo (menu Progresso)",
+    "en": "Discover it (Progress menu)",
+    "es": "Descubrir el vehículo (menú Progreso)"
+   },
+   "seq": [
+    "L",
+    "U",
+    "R",
+    "D",
+    "L",
+    "R",
+    "R",
+    "D"
+   ],
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "hvy-bulldozer"
+  },
+  {
+   "nome": "Interstate Ambulance",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer a ambulância Interstate Ambulance ao seu lado.",
+    "en": "Spawns the ambulance Interstate Ambulance next to you.",
+    "es": "Hace aparecer la ambulancia Interstate Ambulance a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Descobrir o veículo (menu Progresso)",
+    "en": "Discover it (Progress menu)",
+    "es": "Descubrir el vehículo (menú Progreso)"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "interstate-ambulance"
+  },
+  {
+   "nome": "Airboat 09",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o aerobarco Airboat 09 ao seu lado.",
+    "en": "Spawns the airboat Airboat 09 next to you.",
+    "es": "Hace aparecer el aerodeslizador Airboat 09 a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar 5 desafios de sobrevivência",
+    "en": "Complete 5 survival challenges",
+    "es": "Completar 5 desafíos de supervivencia"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "airboat-09"
+  },
+  {
+   "nome": "Bravado Banshee",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o carro Bravado Banshee ao seu lado.",
+    "en": "Spawns the car Bravado Banshee next to you.",
+    "es": "Hace aparecer el coche Bravado Banshee a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar todos os desafios de combate",
+    "en": "Complete all combat challenges",
+    "es": "Completar todos los desafíos de combate"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "bravado-banshee"
+  },
+  {
+   "nome": "Tuff BMX",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer a bicicleta Tuff BMX ao seu lado.",
+    "en": "Spawns the bike Tuff BMX next to you.",
+    "es": "Hace aparecer la bici Tuff BMX a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar 5 desafios de condicionamento físico",
+    "en": "Complete 5 fitness challenges",
+    "es": "Completar 5 desafíos de forma física"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "tuff-bmx"
+  },
+  {
+   "nome": "Nagasaki Carbon RS",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer a moto Nagasaki Carbon RS ao seu lado.",
+    "en": "Spawns the motorcycle Nagasaki Carbon RS next to you.",
+    "es": "Hace aparecer la moto Nagasaki Carbon RS a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar todos os desafios de exploração",
+    "en": "Complete all exploration challenges",
+    "es": "Completar todos los desafíos de exploración"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "nagasaki-carbon-rs"
+  },
+  {
+   "nome": "'65 Vapid Dominator",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o carro '65 Vapid Dominator ao seu lado.",
+    "en": "Spawns the car '65 Vapid Dominator next to you.",
+    "es": "Hace aparecer el coche '65 Vapid Dominator a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar todos os desafios de condicionamento físico",
+    "en": "Complete all fitness challenges",
+    "es": "Completar todos los desafíos de forma física"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "65-vapid-dominator"
+  },
+  {
+   "nome": "Progen Emerus",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o carro Progen Emerus ao seu lado.",
+    "en": "Spawns the car Progen Emerus next to you.",
+    "es": "Hace aparecer el coche Progen Emerus a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar todos os desafios de veículos",
+    "en": "Complete all vehicle challenges",
+    "es": "Completar todos los desafíos de vehículos"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "progen-emerus"
+  },
+  {
+   "nome": "Inflatable Flamingo",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o flamingo inflável Inflatable Flamingo ao seu lado.",
+    "en": "Spawns the inflatable flamingo Inflatable Flamingo next to you.",
+    "es": "Hace aparecer el flamenco inflable Inflatable Flamingo a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Destruir 50 flamingos de cocaína",
+    "en": "Destroy 50 cocaine flamingos",
+    "es": "Destruir 50 flamencos de cocaína"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "inflatable-flamingo"
+  },
+  {
+   "nome": "Vapid Stanier G2 Taxi",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o táxi Vapid Stanier G2 Taxi ao seu lado.",
+    "en": "Spawns the taxi Vapid Stanier G2 Taxi next to you.",
+    "es": "Hace aparecer el taxi Vapid Stanier G2 Taxi a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar 5 desafios de esportes",
+    "en": "Complete 5 sports challenges",
+    "es": "Completar 5 desafíos de deportes"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "vapid-stanier-g2-taxi"
+  },
+  {
+   "nome": "Hauners P-996 Lazer",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o jato Hauners P-996 Lazer ao seu lado.",
+    "en": "Spawns the jet Hauners P-996 Lazer next to you.",
+    "es": "Hace aparecer el avión Hauners P-996 Lazer a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar todos os desafios",
+    "en": "Complete all challenges",
+    "es": "Completar todos los desafíos"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "hauners-p-996-lazer"
+  },
+  {
+   "nome": "Lapwing Mallard",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o veículo Lapwing Mallard ao seu lado.",
+    "en": "Spawns the vehicle Lapwing Mallard next to you.",
+    "es": "Hace aparecer el vehículo Lapwing Mallard a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar 5 desafios de veículos",
+    "en": "Complete 5 vehicle challenges",
+    "es": "Completar 5 desafíos de vehículos"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "lapwing-mallard"
+  },
+  {
+   "nome": "Brimstone Golfer",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o veículo Brimstone Golfer ao seu lado.",
+    "en": "Spawns the vehicle Brimstone Golfer next to you.",
+    "es": "Hace aparecer el vehículo Brimstone Golfer a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar todos os desafios de esportes",
+    "en": "Complete all sports challenges",
+    "es": "Completar todos los desafíos de deportes"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "brimstone-golfer"
+  },
+  {
+   "nome": "Hauners Rhino Tank",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o tanque Hauners Rhino Tank ao seu lado.",
+    "en": "Spawns the tank Hauners Rhino Tank next to you.",
+    "es": "Hace aparecer el tanque Hauners Rhino Tank a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar todos os desafios de sobrevivência",
+    "en": "Complete all survival challenges",
+    "es": "Completar todos los desafíos de supervivencia"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "hauners-rhino-tank"
+  },
+  {
+   "nome": "Maibatsu Sanchez",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer a moto de trilha Maibatsu Sanchez ao seu lado.",
+    "en": "Spawns the dirt bike Maibatsu Sanchez next to you.",
+    "es": "Hace aparecer la moto de cross Maibatsu Sanchez a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar 5 desafios criminosos",
+    "en": "Complete 5 criminal challenges",
+    "es": "Completar 5 desafíos criminales"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "maibatsu-sanchez"
+  },
+  {
+   "nome": "Nagasaki Sea Sparrow",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o helicóptero Nagasaki Sea Sparrow ao seu lado.",
+    "en": "Spawns the helicopter Nagasaki Sea Sparrow next to you.",
+    "es": "Hace aparecer el helicóptero Nagasaki Sea Sparrow a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar 5 desafios de exploração",
+    "en": "Complete 5 exploration challenges",
+    "es": "Completar 5 desafíos de exploración"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "nagasaki-sea-sparrow"
+  },
+  {
+   "nome": "Speeder 700 GT",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer a lancha Speeder 700 GT ao seu lado.",
+    "en": "Spawns the speedboat Speeder 700 GT next to you.",
+    "es": "Hace aparecer la lancha Speeder 700 GT a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar 5 desafios de combate",
+    "en": "Complete 5 combat challenges",
+    "es": "Completar 5 desafíos de combate"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "speeder-700-gt"
+  },
+  {
+   "nome": "Truffade Thrax",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer o carro Truffade Thrax ao seu lado.",
+    "en": "Spawns the car Truffade Thrax next to you.",
+    "es": "Hace aparecer el coche Truffade Thrax a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar todos os desafios de compras",
+    "en": "Complete all shopping challenges",
+    "es": "Completar todos los desafíos de compras"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "truffade-thrax"
+  },
+  {
+   "nome": "Western Zombie Bobber",
+   "cat": "veiculos",
+   "efeito": {
+    "pt-BR": "Faz aparecer a moto Western Zombie Bobber ao seu lado.",
+    "en": "Spawns the motorcycle Western Zombie Bobber next to you.",
+    "es": "Hace aparecer la moto Western Zombie Bobber a tu lado."
+   },
+   "desbloqueio": {
+    "pt-BR": "Completar todos os desafios criminosos",
+    "en": "Complete all criminal challenges",
+    "es": "Completar todos los desafíos criminales"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "western-zombie-bobber"
+  },
+  {
+   "nome": "Cycle Weather",
+   "cat": "ambiente",
+   "efeito": {
+    "pt-BR": "Troca o clima para o próximo tipo.",
+    "en": "Switches to the next weather type.",
+    "es": "Cambia el clima al siguiente tipo."
+   },
+   "desbloqueio": {
+    "pt-BR": "Terminar a história",
+    "en": "Finish the story",
+    "es": "Terminar la historia"
+   },
+   "seq": [
+    "D",
+    "R",
+    "U",
+    "D",
+    "R",
+    "U",
+    "R"
+   ],
+   "desliga": true,
+   "conferir": false,
+   "nota": {
+    "pt-BR": "Um guia diz que o desbloqueio é revelar o mapa inteiro.",
+    "en": "One guide says it unlocks by revealing the whole map.",
+    "es": "Una guía dice que se desbloquea revelando todo el mapa."
+   },
+   "id": "cycle-weather"
+  },
+  {
+   "nome": "Move Time Forward",
+   "cat": "ambiente",
+   "efeito": {
+    "pt-BR": "Adianta o relógio do jogo.",
+    "en": "Skips the clock ahead.",
+    "es": "Adelanta el reloj del juego."
+   },
+   "desbloqueio": {
+    "pt-BR": "Achar 10 relógios colecionáveis",
+    "en": "Find 10 collectible watches",
+    "es": "Encontrar 10 relojes coleccionables"
+   },
+   "seq": null,
+   "desliga": false,
+   "conferir": false,
+   "nota": null,
+   "id": "move-time-forward"
+  },
+  {
+   "nome": "Pause Time of Day",
+   "cat": "ambiente",
+   "efeito": {
+    "pt-BR": "Congela o relógio na hora atual.",
+    "en": "Freezes the clock at the current time.",
+    "es": "Congela el reloj en la hora actual."
+   },
+   "desbloqueio": {
+    "pt-BR": "Achar 20 relógios colecionáveis",
+    "en": "Find 20 collectible watches",
+    "es": "Encontrar 20 relojes coleccionables"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "pause-time-of-day"
+  },
+  {
+   "nome": "Cataclysm",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Fumaça escura e turva sobre o mundo.",
+    "en": "Dark, murky smoke over the world.",
+    "es": "Humo oscuro y turbio sobre el mundo."
+   },
+   "desbloqueio": {
+    "pt-BR": "Descobrir o Martha's Vamos (menu Progresso)",
+    "en": "Discover Martha's Vamos (Progress menu)",
+    "es": "Descubrir el Martha's Vamos (menú Progreso)"
+   },
+   "seq": [
+    "D",
+    "D",
+    "U",
+    "R",
+    "R",
+    "U",
+    "L",
+    "L",
+    "R",
+    "R"
+   ],
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "cataclysm"
+  },
+  {
+   "nome": "Dollhouse",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Cores saturadas num quadro estreito.",
+    "en": "Saturated colors in a narrow frame.",
+    "es": "Colores saturados en un encuadre estrecho."
+   },
+   "desbloqueio": {
+    "pt-BR": "Passar 8 horas com o parceiro",
+    "en": "Spend 8 hours with your partner",
+    "es": "Pasar 8 horas con tu compañero"
+   },
+   "seq": [
+    "D",
+    "D",
+    "U",
+    "R",
+    "R",
+    "U",
+    "L",
+    "L",
+    "D",
+    "R"
+   ],
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "dollhouse"
+  },
+  {
+   "nome": "Faded Glory",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Visual de TV de tubo colorida antiga.",
+    "en": "Old color CRT TV look.",
+    "es": "Aspecto de televisor de tubo antiguo a color."
+   },
+   "desbloqueio": {
+    "pt-BR": "Roubar 50 lojas com o parceiro",
+    "en": "Rob 50 stores with your partner",
+    "es": "Robar 50 tiendas con tu compañero"
+   },
+   "seq": [
+    "D",
+    "D",
+    "U",
+    "R",
+    "R",
+    "U",
+    "L",
+    "L",
+    "L",
+    "R"
+   ],
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "faded-glory"
+  },
+  {
+   "nome": "Golden Hour",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Tons dourados com quadro widescreen.",
+    "en": "Golden color grade with a widescreen frame.",
+    "es": "Tonos dorados con encuadre panorámico."
+   },
+   "desbloqueio": {
+    "pt-BR": "Passar 4 horas de mãos dadas",
+    "en": "Spend 4 hours holding hands",
+    "es": "Pasar 4 horas de la mano"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "golden-hour"
+  },
+  {
+   "nome": "Powdered Sugar",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Mundo branco com brilhos.",
+    "en": "The world turns white with glittering highlights.",
+    "es": "El mundo se vuelve blanco con destellos."
+   },
+   "desbloqueio": {
+    "pt-BR": "Escanear todos os detritos espaciais com o WAiNK",
+    "en": "Scan all space debris with WAiNK",
+    "es": "Escanear todos los restos espaciales con WAiNK"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "powdered-sugar"
+  },
+  {
+   "nome": "Pinhole",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Visual de câmera pinhole.",
+    "en": "Pinhole camera look.",
+    "es": "Aspecto de cámara estenopeica."
+   },
+   "desbloqueio": {
+    "pt-BR": "Limpar 25 operações de gangue com o parceiro",
+    "en": "Clear 25 gang operations with your partner",
+    "es": "Limpiar 25 operaciones de bandas con tu compañero"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "pinhole"
+  },
+  {
+   "nome": "Neon Jungle",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Contornos de neon em tudo.",
+    "en": "Neon edges on everything.",
+    "es": "Bordes de neón en todo."
+   },
+   "desbloqueio": {
+    "pt-BR": "Descobrir os 16 veículos Girlypop",
+    "en": "Discover all 16 Girlypop vehicles",
+    "es": "Descubrir los 16 vehículos Girlypop"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "neon-jungle"
+  },
+  {
+   "nome": "Yesteryear",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Visual de TV de tubo em preto e branco.",
+    "en": "Black-and-white CRT TV look.",
+    "es": "Aspecto de televisor de tubo en blanco y negro."
+   },
+   "desbloqueio": {
+    "pt-BR": "Descobrir o Ridgway (menu Progresso)",
+    "en": "Discover the Ridgway (Progress menu)",
+    "es": "Descubrir el Ridgway (menú Progreso)"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "yesteryear"
+  },
+  {
+   "nome": "Videotape",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Visual de fita VHS.",
+    "en": "VHS tape look.",
+    "es": "Aspecto de cinta VHS."
+   },
+   "desbloqueio": {
+    "pt-BR": "Fazer 50 atividades com o parceiro",
+    "en": "Complete 50 activities with your partner",
+    "es": "Completar 50 actividades con tu compañero"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "videotape"
+  },
+  {
+   "nome": "Dark Mirror",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Mundo de cabeça para baixo e escuro.",
+    "en": "The world turned upside down and black.",
+    "es": "El mundo al revés y oscuro."
+   },
+   "desbloqueio": {
+    "pt-BR": "Ganhar US$ 500.000 vendendo veículos",
+    "en": "Make $500,000 selling vehicles",
+    "es": "Ganar 500.000 $ vendiendo vehículos"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "dark-mirror"
+  },
+  {
+   "nome": "Migraine",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Imagem borrada e distorcida.",
+    "en": "Blurry, warped image.",
+    "es": "Imagen borrosa y distorsionada."
+   },
+   "desbloqueio": {
+    "pt-BR": "Sobreviver 6 minutos com 6 estrelas",
+    "en": "Survive 6 minutes at a 6-star Wanted Level",
+    "es": "Sobrevivir 6 minutos con 6 estrellas"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "migraine"
+  },
+  {
+   "nome": "Bubblegum",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Mundo roxo e amarelo com brilhos.",
+    "en": "Purple-and-yellow world with glittering highlights.",
+    "es": "Mundo morado y amarillo con destellos."
+   },
+   "desbloqueio": {
+    "pt-BR": "Achar as 24 cartas Vice City Flamingos",
+    "en": "Find all 24 Vice City Flamingos cards",
+    "es": "Encontrar las 24 cartas Vice City Flamingos"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "bubblegum"
+  },
+  {
+   "nome": "Fast Forward",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Borrão de movimento e nuvens aceleradas.",
+    "en": "Motion blur and fast-moving clouds.",
+    "es": "Desenfoque de movimiento y nubes aceleradas."
+   },
+   "desbloqueio": {
+    "pt-BR": "Meditar 50 vezes",
+    "en": "Complete 50 meditations",
+    "es": "Meditar 50 veces"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "fast-forward"
+  },
+  {
+   "nome": "Fisheye",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Visão de lente olho de peixe.",
+    "en": "Fisheye lens view.",
+    "es": "Vista con lente ojo de pez."
+   },
+   "desbloqueio": {
+    "pt-BR": "Pescar 100 peixes",
+    "en": "Catch 100 fish",
+    "es": "Pescar 100 peces"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "fisheye"
+  },
+  {
+   "nome": "Pixel Art",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Imagem pixelada.",
+    "en": "Pixelated image.",
+    "es": "Imagen pixelada."
+   },
+   "desbloqueio": {
+    "pt-BR": "Ganhar US$ 250.000 vendendo colecionáveis",
+    "en": "Make $250,000 selling collectibles",
+    "es": "Ganar 250.000 $ vendiendo coleccionables"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "pixel-art"
+  },
+  {
+   "nome": "Hellscape",
+   "cat": "filtros",
+   "efeito": {
+    "pt-BR": "Mundo vermelho e laranja com distorção de calor.",
+    "en": "Red-and-orange world with heat haze.",
+    "es": "Mundo rojo y naranja con distorsión de calor."
+   },
+   "desbloqueio": {
+    "pt-BR": "Roubar 100 viaturas de polícia",
+    "en": "Steal 100 cop vehicles",
+    "es": "Robar 100 vehículos de policía"
+   },
+   "seq": null,
+   "desliga": true,
+   "conferir": false,
+   "nota": null,
+   "id": "hellscape"
+  }
+ ]
+}
