@@ -1255,6 +1255,9 @@
   .cat__linha input:not(:checked) ~ .cat__nome,.cat__linha input:not(:checked) ~ .cat__icone{opacity:.45}
   .cat__conta{font-family:var(--font-mono);font-size:.68rem;color:var(--creme-40);min-width:2.2rem;text-align:right}
   .cat__conta--vis{color:var(--agua)}
+  .cat__grupo{margin:1rem .3rem .4rem;padding-top:.8rem;border-top:1px solid rgba(255,243,228,.12)}
+  .cat__grupo b{display:block;font:600 .7rem/1.2 var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--creme)}
+  .cat__grupo small{display:block;margin-top:.35rem;font-size:.72rem;line-height:1.45;color:var(--creme-40)}
   .cat__abrir{width:28px;height:28px;border-radius:8px;cursor:pointer;background:transparent;border:0;color:var(--creme-40);
     display:grid;place-items:center;font-size:1rem;transition:transform .2s,color .2s}
   .cat__abrir:hover{color:var(--creme)}
@@ -1342,6 +1345,11 @@
   .atlas-pin--visitado span{filter:saturate(.25) brightness(.85)}
   .atlas-pin--visitado::before{content:"✓";position:absolute;right:-5px;top:-5px;z-index:2;width:16px;height:16px;border-radius:50%;
     background:var(--agua);color:#0B0414;font:700 11px/16px var(--font-body);text-align:center;border:1.5px solid #0B0414}
+  /* colecionáveis: marcador menor, quadrado arredondado, para não confundir com os lugares */
+  .atlas-pin--col span{width:24px;height:24px;border-radius:7px;font-size:13px;border-width:2px;
+    box-shadow:0 0 0 1.5px rgba(255,243,228,.9),0 3px 8px rgba(0,0,0,.4)}
+  .atlas[data-nivel="0"] .atlas-pin--col span{transform:scale(.75)}
+  .atlas-pin--col.atlas-pin--visitado::before{right:-6px;top:-6px;width:14px;height:14px;font-size:10px;line-height:14px}
   @media (prefers-reduced-motion: reduce){.atlas-pin span{transition:none}}
 
   /* janela do local (popup) */
@@ -1362,6 +1370,8 @@
   .pop__real{font-size:.8rem;color:var(--laranja);margin:0 0 .55rem}
   .pop__real strong{color:var(--creme)}
   .pop__desc{font-size:.86rem;line-height:1.55;color:var(--creme-70);margin:0 0 .7rem}
+  .pop__itens{font-size:.8rem;line-height:1.5;color:var(--creme-70);margin:-.3rem 0 .7rem}
+  .pop__itens b{color:var(--creme)}
   .pop__selos{display:flex;flex-wrap:wrap;gap:.3rem;margin:0 0 .8rem}
   .pop__selo{font-family:var(--font-mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--creme-70);
     border:1px solid rgba(255,243,228,.18);border-radius:999px;padding:.22rem .5rem}
@@ -2143,6 +2153,11 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     if(!cfg || !cfg.info) return;
     const info = cfg.info, pontos = cfg.pontos || [], txt = cfg.textos || {};
     const cats = cfg.categorias || [];
+    /* colecionáveis: entram como categorias próprias (desligadas no começo) e pontos marcados com col */
+    if(cfg.colecionaveis){
+      cfg.colecionaveis.tipos.forEach(function(t){ cats.push(t); });
+      cfg.colecionaveis.itens.forEach(function(i){ i.col = true; pontos.push(i); });
+    }
     const W = info.largura, H = info.altura;
     const CAT = {};
     cats.forEach(function(c){ CAT[c.id] = c; });
@@ -2164,7 +2179,12 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       loja:    '<path d="M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2"/>',
       carro:   '<path d="M3 16v-4l2.5-5h13L21 12v4zM3 16v2h3v-2M18 16v2h3v-2M3 12h18"/><circle cx="7.5" cy="14" r=".6"/><circle cx="16.5" cy="14" r=".6"/>',
       musica:  '<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
-      casa:    '<path d="M3 11l9-7 9 7M5 9.5V21h5v-6h4v6h5V9.5"/>'
+      casa:    '<path d="M3 11l9-7 9 7M5 9.5V21h5v-6h4v6h5V9.5"/>',
+      carta:   '<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 7h6M12 11.5l1.4 2.6-1.4 2.4-1.4-2.4z"/>',
+      olho:    '<path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/>',
+      meteoro: '<circle cx="15" cy="15" r="5"/><path d="M3 3l7.5 7.5M7 3l5 5M3 7l5 5"/>',
+      bau:     '<path d="M4 11h16v9H4zM4 11V8a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v3M11 11v3h2v-3"/>',
+      livro:   '<path d="M4 5.5C6.5 4 9.5 4 12 6c2.5-2 5.5-2 8-.5V19c-2.5-1.5-5.5-1.5-8 .5-2.5-2-5.5-2-8-.5z"/><path d="M12 6v13.5"/>'
     };
     function svgIcone(nome){
       return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONES[nome] || ICONES.estrela) + '</svg>';
@@ -2395,13 +2415,14 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       if(p.desc) h += '<p class="pop__desc">' + escapar(p.desc) + '</p>';
       const selos = [];
       if(rotuloNome(p)) selos.push('<span class="pop__selo pop__selo--' + escapar(p.nome_tipo) + '">' + escapar(rotuloNome(p)) + '</span>');
-      if(p.aprox) selos.push('<span class="pop__selo pop__selo--aprox">' + escapar(txt.aprox) + '</span>');
+      if(p.itens && p.itens.length) h += '<p class="pop__itens"><b>' + escapar(txt.tesouros) + ':</b> ' + p.itens.map(escapar).join(", ") + '</p>';
+      if(p.aprox) selos.push('<span class="pop__selo pop__selo--aprox">' + escapar(p.col ? (txt.aproxCol || txt.aprox) : txt.aprox) + '</span>');
       p.tags.forEach(function(t){ selos.push('<span class="pop__selo">' + escapar(t) + '</span>'); });
       if(selos.length) h += '<div class="pop__selos">' + selos.join("") + '</div>';
       h += '<div class="pop__acoes">';
       if(p.cat !== "regiao") h += '<button type="button" class="pop__vis" data-acao="visitado" aria-pressed="' + vis + '">' +
         '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' +
-        escapar(vis ? txt.visitado : txt.marcar) + '</button>';
+        escapar(p.col ? (vis ? txt.coletado : txt.coletar) : (vis ? txt.visitado : txt.marcar)) + '</button>';
       h += '<button type="button" data-acao="zoom">' + escapar(txt.aproximar) + '</button>';
       h += '<button type="button" data-acao="copiar">' + escapar(txt.copiar) + '</button>';
       h += '</div>';
@@ -2426,6 +2447,11 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       if(p.cat === "regiao"){
         return L.divIcon({className: "atlas-regiao" + (p.rotulo ? " atlas-regiao--" + p.rotulo : ""), iconSize: [0, 0],
           html: '<span><b>' + escapar(p.nome) + '</b><small>' + escapar(p.real) + '</small></span>'});
+      }
+      if(p.col){                         // colecionável: ícone menor, sem o anel de "aproximado"
+        return L.divIcon({className: "atlas-pin atlas-pin--col" + (visitados.has(p.id) ? " atlas-pin--visitado" : ""),
+          iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -10],
+          html: '<span style="--cor:' + c.cor + '">' + svgIcone(p.icone || c.icone) + '</span>'});
       }
       const classes = "atlas-pin" + (p.aprox ? " atlas-pin--aprox" : "") + (visitados.has(p.id) ? " atlas-pin--visitado" : "");
       return L.divIcon({className: classes, iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -14],
@@ -2466,7 +2492,9 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
       }).addTo(rotulos);
     });
 
+    let ultimoCol = null;                  // modo de edição: último colecionável aberto
     function aoAbrir(p, m, popup){
+      if(p.col) ultimoCol = p;
       evento("mapa_local", {local_id: p.id, categoria: p.cat});
       document.querySelectorAll(".atlas .ativo").forEach(function(n){ n.classList.remove("ativo"); });
       if(m._icon) m._icon.classList.add("ativo");
@@ -2495,7 +2523,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
 
     /* ── visibilidade: categoria ligada e (opcional) esconder visitados ── */
     const ligadas = {};
-    cats.forEach(function(c){ ligadas[c.id] = true; });
+    cats.forEach(function(c){ ligadas[c.id] = c.grupo !== "col"; });
     const ocultarVis = document.getElementById("atlas-ocultar-visitados");
     function visivel(p){
       return ligadas[p.cat] !== false && !(ocultarVis && ocultarVis.checked && visitados.has(p.id) && p.cat !== "regiao");
@@ -2521,13 +2549,22 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     function montarCategorias(){
       if(!listaCats) return;
       listaCats.innerHTML = "";
+      let grupoCol = false;
       cats.forEach(function(c){
         const itens = locaisDa(c.id);
         if(!itens.length) return;
+        if(c.grupo === "col" && !grupoCol){
+          grupoCol = true;
+          const cab = document.createElement("div");
+          cab.className = "cat__grupo";
+          cab.innerHTML = '<b>' + escapar(txt.colecionaveis) + '</b>' + (txt.notaCol ? '<small>' + escapar(txt.notaCol) + '</small>' : '');
+          listaCats.appendChild(cab);
+        }
         const bloco = document.createElement("div");
         bloco.className = "cat"; bloco.style.setProperty("--cor", c.cor); bloco.dataset.cat = c.id;
         const vistos = itens.filter(function(p){ return visitados.has(p.id); }).length;
-        const conta = c.id === "regiao" || !vistos ? String(itens.length) : vistos + "/" + itens.length;
+        const conta = c.grupo === "col" ? vistos + "/" + itens.length
+                    : c.id === "regiao" || !vistos ? String(itens.length) : vistos + "/" + itens.length;
         bloco.innerHTML =
           '<div class="cat__linha">' +
             '<label><input type="checkbox"' + (ligadas[c.id] !== false ? " checked" : "") + '>' +
@@ -2560,8 +2597,8 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
         });
         listaCats.appendChild(bloco);
       });
-      const total = pontos.filter(function(p){ return p.cat !== "regiao"; }).length;
-      const vistosTotal = pontos.filter(function(p){ return p.cat !== "regiao" && visitados.has(p.id); }).length;
+      const total = pontos.filter(function(p){ return p.cat !== "regiao" && !p.col; }).length;
+      const vistosTotal = pontos.filter(function(p){ return p.cat !== "regiao" && !p.col && visitados.has(p.id); }).length;
       if(progresso) progresso.textContent = (vistosTotal ? vistosTotal + "/" + total + " " + txt.visitados + " · " : "") + textoProgresso;
     }
     function alternarVisitado(id){
@@ -2712,7 +2749,15 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
         const f = paraFracao(e.latlng);
         const linha = '"x": ' + f[0].toFixed(4) + ', "y": ' + f[1].toFixed(4);
         coord.textContent = linha;
-        L.popup().setLatLng(e.latlng).setContent("<code>" + linha + "</code>").openOn(mapa);
+        let extra = "";
+        if(ultimoCol && cfg.repo){
+          // abre o formulário "Novo colecionável" já preenchido com o item aberto por último
+          const q = new URLSearchParams({template: "colecionavel.yml", title: ultimoCol.nome, posicao: linha,
+                                         local_en: ultimoCol.desc_en || (/^en/.test(document.documentElement.lang) ? ultimoCol.desc : ""), tesouros: (ultimoCol.itens || []).join("\n")});
+          extra = '<br><a href="https://github.com/' + cfg.repo + '/issues/new?' + q.toString() + '" target="_blank" rel="noopener">' +
+                  escapar("Enviar posição exata: " + ultimoCol.nome) + '</a>';
+        }
+        L.popup().setLatLng(e.latlng).setContent("<code>" + linha + "</code>" + extra).openOn(mapa);
         if(navigator.clipboard) navigator.clipboard.writeText(linha).catch(function(){});
       });
     }
