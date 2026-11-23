@@ -2130,7 +2130,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     if(!cfg || !cfg.info) return;
     const info = cfg.info, pontos = cfg.pontos || [], txt = cfg.textos || {};
     const cats = cfg.categorias || [];
-    /* colecionáveis: entram como categorias próprias (desligadas no começo) e pontos marcados com col */
+    /* colecionáveis: entram como categorias próprias (ligadas, como as outras) e pontos marcados com col */
     if(cfg.colecionaveis){
       cfg.colecionaveis.tipos.forEach(function(t){ cats.push(t); });
       cfg.colecionaveis.itens.forEach(function(i){ i.col = true; pontos.push(i); });
@@ -2250,6 +2250,8 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
        de longe basta a versão de 2048 px; ao aproximar, troca pela da resolução do pôster */
     const camadas = cfg.camadas || {};
     let camadaBase = null, baseGrande = false, estiloBase = "dia";
+    /* o pôster oficial é o primeiro mapa a aparecer; o redesenho só carrega quando o leitor troca */
+    let posterAtivo = (cfg.poster || []).length > 0;
     function fonteBase(estilo){
       const lista = camadas[estilo] || camadas.dia || [];
       if(!lista.length) return "";
@@ -2257,6 +2259,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     }
     function mostrarBase(estilo){
       estiloBase = estilo;
+      if(posterAtivo) return;
       const src = fonteBase(estilo);
       if(!src) return;
       if(camadaBase){ if(camadaBase._url !== src) camadaBase.setUrl(src); }
@@ -2291,6 +2294,8 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     let camadaPoster = null;
     function ligarPoster(ligar){
       if(!fontesPoster.length) return;
+      posterAtivo = ligar;
+      if(!ligar) mostrarBase(estiloBase);
       if(ligar && !camadaPoster){
         const fonte = baseGrande && fontesPoster.length > 1 ? fontesPoster[fontesPoster.length - 1] : fontesPoster[0];
         camadaPoster = L.imageOverlay(fonte.src, limites, {className: "atlas-poster", interactive: false, alt: txt.poster || ""});
@@ -2307,7 +2312,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
         const rotulo = ligar ? (txt.redesenho || "") : (txt.poster || "");
         botaoPoster.title = rotulo; botaoPoster.setAttribute("aria-label", rotulo);
       }
-      if(txt.fontePoster){
+      if(txt.fontePoster && txt.fonteMapa){
         if(ligar) mapa.attributionControl.removeAttribution(txt.fonteMapa).addAttribution(txt.fontePoster);
         else mapa.attributionControl.removeAttribution(txt.fontePoster).addAttribution(txt.fonteMapa);
       }
@@ -2320,6 +2325,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
         if(ligar) evento("mapa_poster");
       });
     }
+    ligarPoster(posterAtivo);
     document.querySelectorAll("[data-poster-no-mapa]").forEach(function(b){
       b.addEventListener("click", function(){
         ligarPoster(true);
@@ -2349,7 +2355,8 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
     } catch(e){}
     aplicarEstilo(estiloAtual, false);
     if(botaoEstilo) botaoEstilo.addEventListener("click", function(){
-      aplicarEstilo(estiloAtual === "noite" ? "dia" : "noite", true);
+      if(posterAtivo){ ligarPoster(false); aplicarEstilo(estiloAtual, false); }
+      else aplicarEstilo(estiloAtual === "noite" ? "dia" : "noite", true);
       evento("mapa_estilo", {estilo: estiloAtual});
     });
 
@@ -2500,7 +2507,7 @@ document.querySelectorAll("[data-privacidade]").forEach(function(a){
 
     /* ── visibilidade: categoria ligada e (opcional) esconder visitados ── */
     const ligadas = {};
-    cats.forEach(function(c){ ligadas[c.id] = c.grupo !== "col"; });
+    cats.forEach(function(c){ ligadas[c.id] = true; });
     const ocultarVis = document.getElementById("atlas-ocultar-visitados");
     function visivel(p){
       return ligadas[p.cat] !== false && !(ocultarVis && ocultarVis.checked && visitados.has(p.id) && p.cat !== "regiao");
