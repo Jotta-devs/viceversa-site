@@ -1,0 +1,53 @@
+<main class="artigo trofeu" data-trofeu-pagina="{{__tf_id__}}">
+  <div class="local__trilha" role="navigation" aria-label="{{tf00}}">
+    <a href="{{__trophies__}}">{{tf00}}</a><span aria-hidden="true">›</span><span>{{__tf_nome__}}</span>
+  </div>
+  <article>
+    <p class="artigo__meta">{{__tf_grau__}}<span class="artigo__autor">{{gd01}} <a href="{{__link_sobre__}}#editor" rel="author">{{__autor__}}</a></span><span>{{gd02}} <time datetime="{{__tf_iso__}}">{{__tf_data__}}</time></span></p>
+    <h1>{{__tf_titulo__}}</h1>
+    <p class="guia__lead"><q>{{__tf_desc__}}</q></p>
+{{__tf_aviso__}}
+    <div class="tf-pagina__topo">
+{{__tf_ficha__}}
+      <label class="tf-check tf-check--grande"><input type="checkbox" data-trofeu="{{__tf_id__}}"><span>{{tf18}}</span></label>
+    </div>
+    <div class="artigo__corpo">
+      {{__tf_corpo__}}
+    </div>
+    <p class="tf-voltar"><a class="painel__link" href="{{__trophies__}}#t-{{__tf_id__}}">← {{tf51}}</a></p>
+{{__tf_fontes__}}
+  </article>
+
+  <div class="compartilhar">
+    <span class="compartilhar__rotulo">{{ar03}}</span>
+    <a class="zap" href="https://wa.me/?text={{__art_share_txt__}}" target="_blank" rel="noopener" data-rede="whatsapp">WhatsApp</a>
+    <a href="https://x.com/intent/post?text={{__art_share_titulo__}}&amp;url={{__art_share_url__}}&amp;via=vvviceversaa" target="_blank" rel="noopener" data-rede="x">X</a>
+    <a href="https://t.me/share/url?url={{__art_share_url__}}&amp;text={{__art_share_titulo__}}" target="_blank" rel="noopener" data-rede="telegram">Telegram</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{__art_share_url__}}" target="_blank" rel="noopener" data-rede="facebook">Facebook</a>
+    <button type="button" data-copiar="{{__canonical__}}" data-ok="{{ar05}}">{{ar04}}</button>
+    <button type="button" data-compartilhar="{{__canonical__}}" aria-label="{{ar03}}">↗</button>
+  </div>
+
+  <section class="tf-mais" aria-labelledby="tf-mais-titulo">
+    <h2 id="tf-mais-titulo">{{tf52}}</h2>
+    <ul class="tf-mini">
+{{__tf_relacionados__}}
+    </ul>
+    <p><a class="painel__link" href="{{__trophies__}}">{{tf53}} →</a></p>
+  </section>
+</main>
+<script>
+(function(){
+  var CHAVE = "viceversa_trofeus", caixa = document.querySelector("input[data-trofeu]");
+  if(!caixa) return;
+  var id = caixa.dataset.trofeu, lista = [];
+  try { lista = JSON.parse(localStorage.getItem(CHAVE) || "[]") || []; } catch(e){}
+  caixa.checked = lista.indexOf(id) >= 0;
+  caixa.addEventListener("change", function(){
+    try { lista = JSON.parse(localStorage.getItem(CHAVE) || "[]") || []; } catch(e){ lista = []; }
+    lista = lista.filter(function(x){ return x !== id; });
+    if(caixa.checked) lista.push(id);
+    try { localStorage.setItem(CHAVE, JSON.stringify(lista)); } catch(e){}
+  });
+})();
+</script>

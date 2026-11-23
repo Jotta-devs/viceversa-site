@@ -1,0 +1,119 @@
+<main class="artigo trofeus">
+  <a class="artigo__voltar" href="{{__home__}}">← VICEVERSA</a>
+  <p class="artigo__meta"><span class="selo selo--guia">{{gd15}}</span><span class="artigo__autor">{{gd01}} <a href="{{__link_sobre__}}#editor" rel="author">{{__autor__}}</a></span><span>{{gd02}} <time datetime="{{__tf_iso__}}">{{__tf_data__}}</time></span></p>
+  <h1>{{tf01}}</h1>
+  <p class="guia__lead">{{tf02}}</p>
+
+  <ul class="tf-plataformas" aria-label="{{tf03}}">
+    <li><strong>PlayStation 5 · PS5 Pro</strong><span>{{tf04}}</span><small>{{__tf_graus_txt__}}</small></li>
+    <li><strong>Xbox Series X|S</strong><span>{{tf05}}</span><small>{{tf06}}</small></li>
+    <li><strong>PC</strong><span>{{tf07}}</span><small>{{tf08}}</small></li>
+  </ul>
+
+  <dl class="tf-fatos">
+    <div><dt>{{tf80}}</dt><dd>{{tf81}}</dd></div>
+    <div><dt>{{tf82}}</dt><dd>{{tf83}}</dd></div>
+    <div><dt>{{tf84}}</dt><dd>{{tf85}}</dd></div>
+    <div><dt>{{tf86}}</dt><dd>{{tf87}}</dd></div>
+    <div><dt>{{tf88}}</dt><dd>{{tf89}}</dd></div>
+  </dl>
+
+  <section class="tf-prog" aria-labelledby="tf-prog-titulo">
+    <div class="tf-prog__topo">
+      <h2 id="tf-prog-titulo">{{tf09}}</h2>
+      <p class="tf-prog__num"><b id="tf-feitos">0</b>/{{__tf_total__}} <span>·</span> <b id="tf-gs">0</b>/1000 G</p>
+    </div>
+    <div class="tf-prog__barra" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="{{tf09}}"><span id="tf-barra"></span></div>
+    <ul class="tf-prog__graus">{{__tf_graus__}}</ul>
+    <p class="tf-prog__nota">{{tf10}}</p>
+  </section>
+
+  <div class="tf-controles">
+    <div class="tf-filtros" role="group" aria-label="{{tf11}}">{{__tf_filtros__}}</div>
+    <div class="tf-opcoes">
+      <label class="tf-opcao"><input type="checkbox" id="tf-esconder"> {{tf13}}</label>
+      <label class="tf-opcao"><input type="checkbox" id="tf-ocultos"> {{tf14}}</label>
+      <button type="button" class="tf-limpar" id="tf-limpar" data-confirmar="{{tf15}}" hidden>{{tf24}}</button>
+    </div>
+  </div>
+
+{{__tf_lista__}}
+
+  <section class="tf-roteiro" aria-labelledby="tf-roteiro-titulo">
+    <h2 id="tf-roteiro-titulo">{{tf90}}</h2>
+    <ol>
+      <li><strong>{{tf91}}</strong> {{tf92}}</li>
+      <li><strong>{{tf93}}</strong> {{tf94}}</li>
+      <li><strong>{{tf95}}</strong> {{tf96}}</li>
+    </ol>
+  </section>
+
+{{__tf_fontes__}}
+</main>
+<script>
+(function(){
+  var CHAVE = "viceversa_trofeus";
+  var feitos = {};
+  try { (JSON.parse(localStorage.getItem(CHAVE) || "[]") || []).forEach(function(id){ feitos[id] = 1; }); } catch(e){}
+  function salvar(){ try { localStorage.setItem(CHAVE, JSON.stringify(Object.keys(feitos))); } catch(e){} }
+  var itens = [].slice.call(document.querySelectorAll(".tf-item"));
+  var esconder = document.getElementById("tf-esconder"), ocultos = document.getElementById("tf-ocultos");
+  var limpar = document.getElementById("tf-limpar");
+  var filtro = "";
+  function atualizar(){
+    var n = 0, gs = 0, graus = {}, cats = {};
+    itens.forEach(function(li){
+      var id = li.dataset.id, feito = !!feitos[id];
+      li.classList.toggle("tf-item--feito", feito);
+      li.querySelector("input[data-trofeu]").checked = feito;
+      if(feito){ n++; gs += +li.dataset.gs; graus[li.dataset.grau] = (graus[li.dataset.grau] || 0) + 1; cats[li.dataset.cat] = (cats[li.dataset.cat] || 0) + 1; }
+      li.hidden = (esconder.checked && feito) || (filtro && li.dataset.cat !== filtro);
+    });
+    document.querySelectorAll(".tf-secao").forEach(function(s){
+      var c = s.dataset.secao;
+      s.hidden = !!filtro && filtro !== c;
+      var conta = s.querySelector("[data-conta]");
+      if(conta) conta.textContent = (cats[c] || 0) + "/" + s.querySelectorAll(".tf-item").length;
+    });
+    document.querySelectorAll("[data-grau-feitos]").forEach(function(b){ b.textContent = graus[b.dataset.grauFeitos] || 0; });
+    document.getElementById("tf-feitos").textContent = n;
+    document.getElementById("tf-gs").textContent = gs;
+    var pct = itens.length ? Math.round(n * 100 / itens.length) : 0;
+    document.getElementById("tf-barra").style.width = pct + "%";
+    document.querySelector(".tf-prog__barra").setAttribute("aria-valuenow", pct);
+    limpar.hidden = n === 0;
+  }
+  itens.forEach(function(li){
+    li.querySelector("input[data-trofeu]").addEventListener("change", function(e){
+      if(e.target.checked) feitos[li.dataset.id] = 1; else delete feitos[li.dataset.id];
+      salvar(); atualizar();
+    });
+  });
+  document.querySelectorAll("[data-spoiler] .tf-spoiler__ver").forEach(function(b){
+    b.addEventListener("click", function(){ b.parentNode.classList.add("tf-spoiler--aberto"); });
+  });
+  ocultos.addEventListener("change", function(){
+    document.querySelector(".trofeus").classList.toggle("trofeus--spoilers", ocultos.checked);
+    try { localStorage.setItem(CHAVE + "_spoilers", ocultos.checked ? "1" : ""); } catch(e){}
+  });
+  try { if(localStorage.getItem(CHAVE + "_spoilers")){ ocultos.checked = true; document.querySelector(".trofeus").classList.add("trofeus--spoilers"); } } catch(e){}
+  esconder.addEventListener("change", atualizar);
+  document.querySelectorAll(".tf-filtro").forEach(function(b){
+    b.addEventListener("click", function(){
+      filtro = b.dataset.filtro;
+      document.querySelectorAll(".tf-filtro").forEach(function(o){ o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+      atualizar();
+    });
+  });
+  limpar.addEventListener("click", function(){
+    if(!window.confirm(limpar.dataset.confirmar)) return;
+    feitos = {}; salvar(); atualizar();
+  });
+  /* link direto para um troféu (#t-id): abre o spoiler e destaca */
+  if(location.hash.indexOf("#t-") === 0){
+    var alvo = document.getElementById(location.hash.slice(1));
+    if(alvo){ var sp = alvo.querySelector("[data-spoiler]"); if(sp) sp.classList.add("tf-spoiler--aberto"); alvo.classList.add("tf-item--alvo"); }
+  }
+  atualizar();
+})();
+</script>
