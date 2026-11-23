@@ -269,30 +269,33 @@ dimensão personalizada (escopo: evento). Vale marcar `seguir_canal` como
 
 ## Mapa de Leonida
 
-A página `/map/` (e `/pt/mapa/`, `/es/mapa/`) mostra Leonida **recriada em
-vetor, no estilo do VICEVERSA**, a partir de uma imagem-base do mapa de
-Leonida.
+A página `/map/` (e `/pt/mapa/`, `/es/mapa/`) usa como base o **mapa oficial
+"Visit Leonida"** que a Rockstar liberou no lançamento (19/11/2026), em
+rockstargames.com/VI/media → Ilustrações. O traçado é exatamente o do pôster
+(litoral, rodovias, ruas, ferrovias, relevo); o site troca as cores pelas do
+VICEVERSA (estilos **Dia**, o padrão, e **Noite**) e tira os textos impressos,
+porque escreve os nomes oficiais nos três idiomas por cima.
 
 ```
-mapa/base/            a imagem-base do mapa (só no seu computador — fica fora do Git)
-mapa/recriar_mapa.py  redesenha o mapa em vetor → mapa/leonida.svg, mapa/leonida.json
-mapa/pontos.json      pontos clicáveis (regiões, marcos, trailers, vida real) e rótulos
-mapa/gerar_previa.py  "foto" do mapa no estilo Dia → mapa/leonida-dia.webp
-mapa/leonida-dia.webp  usada para recortar a imagem de cada página de local
-vendor/leaflet/       a biblioteca do mapa (Leaflet, licença BSD), servida pelo próprio site
+mapa/base/              o pôster oficial em JPG (só no seu computador — fica fora do Git)
+mapa/recriar_oficial.py tira textos/grade/legenda e troca as cores → mapa/leonida-dia.webp,
+                        leonida-noite.webp (+ versões de 2048 px para o celular) e leonida.json
+mapa/poster_site.py     o pôster original para o site → mapa/poster/ (camada e seção)
+mapa/pontos.json        pontos clicáveis, nomes oficiais (rotulos) e placas das rodovias (escudos)
+mapa/leonida-dia.webp   também é a imagem recortada para cada página de local
+vendor/leaflet/         a biblioteca do mapa (Leaflet, licença BSD), servida pelo próprio site
 ```
 
-O vetor traz: mar em 4 profundidades, relevo em 3 níveis, pântanos, praias,
-áreas industriais, cidades com quarteirões e prédios, e a rede de vias
-redesenhada em rodovias, estradas e ruas (as ruas e os prédios ganham destaque
-ao aproximar). Em cima disso o site oferece os estilos **Dia** (o padrão) e **Noite** (as
-cores estão em `partes/cabeca.html`, seção "ATLAS recriado"), **grade de
-referência** A1…H11, nomes das regiões e locais nos três idiomas, busca, link
-direto para cada local e tela cheia.
+Em cima do mapa o site oferece: nomes por nível de zoom, placas das rodovias,
+escala em mi/km, **grade de referência** igual à do pôster (linhas A–M, colunas
+1–9, quadrados de 1 milha), busca, link direto para cada local, tela cheia e o
+botão **"Ver o pôster oficial no mapa"**, que troca a base pela arte original
+da Rockstar, alinhada com os ícones. Abaixo do mapa fica o pôster inteiro, com
+crédito à Rockstar e link para o download oficial em alta resolução.
 
 Nos locais, a tag "Nome descritivo" marca nomes dados por nós (ex.: "Ilha
 portuária") e "Nome especulativo" marca apelidos da comunidade que a Rockstar
-não confirmou (em vermelho no mapa original).
+não confirmou.
 
 **Uma página para cada local.** Todo ponto do `mapa/pontos.json` que tem nome
 ganha uma página própria, nos 3 idiomas: `/map/vice-beach/`, `/pt/mapa/vice-beach/`,
@@ -307,29 +310,16 @@ mapa ganhou o botão "Ver página do local" e as páginas entram no `sitemap.xml
 Quanto mais completa a descrição (`desc` no `pontos.json`, ou os textos `m…` em
 `idiomas/*.json` para os pontos com `ficha`), melhor a página se sai no Google.
 
-O recorte vem de `mapa/leonida-dia.webp`. Quando o mapa mudar (depois do
-`recriar_mapa.py`) ou as cores do estilo Dia mudarem, refaça essa imagem:
+**Refazer o mapa** (por exemplo, com o pôster em alta resolução de 5775 px, que
+vem no ZIP "Baixar tudo" das ilustrações da Rockstar):
 
 ```bash
-pip install playwright pillow
-python -m playwright install chromium
-python mapa/gerar_previa.py
+# coloque o JPG do pôster em mapa/base/ — vale o maior arquivo
+pip install opencv-python-headless numpy pillow     # só na primeira vez
+python mapa/recriar_oficial.py
+python mapa/poster_site.py
 python montar.py
 ```
-
-**Refazer com a versão em alta resolução ou uma versão nova (V17…):**
-
-```bash
-# coloque a imagem (PNG ou JPG) em mapa/base/ — vale a mais recente; pode apagar as antigas
-pip install opencv-python-headless numpy     # só na primeira vez
-python mapa/recriar_mapa.py
-python montar.py
-```
-
-O script está calibrado para o pôster V16 (legenda à esquerda, mapa à direita);
-com uma imagem maior do mesmo pôster ele escala tudo sozinho. Se o layout for
-outro, ajuste `RECORTE` e `PASSO_GRADE` no começo do `recriar_mapa.py`. Os
-textos e a grade do original são apagados automaticamente.
 
 **Adicionar ou ajustar pontos:** abra `/map/?editar=1` no site, clique no lugar
 exato — a posição `"x": …, "y": …` é copiada — e cole em `mapa/pontos.json`.
@@ -346,6 +336,6 @@ desative o workflow na aba Actions.
 
 ## Aviso
 
-Site de fãs, sem afiliação com a Rockstar Games ou a Take-Two Interactive. Nenhuma arte
-oficial é reproduzida: o skyline, as palmeiras e o mapa de Leonida são ilustrações
-próprias, geradas por código.
+Site de fãs, sem afiliação com a Rockstar Games ou a Take-Two Interactive. O skyline e
+as palmeiras são ilustrações próprias, geradas por código. O mapa de Leonida usa o
+pôster oficial que a Rockstar distribui de graça, sempre com crédito e link para a fonte.

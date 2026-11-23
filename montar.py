@@ -103,7 +103,7 @@ SELOS = {
 SELO_OFF = ("st07", "st08")
 
 # páginas de cada local do mapa (/map/<local>/): o recorte do mapa vem desta
-# imagem, gerada por mapa/gerar_previa.py
+# imagem (o mapa no estilo Dia), gerada por mapa/recriar_oficial.py
 PREVIA_MAPA = RAIZ / "mapa" / "leonida-dia.webp"
 # categorias do mapa, na ordem da lista lateral: (chave, cor, texto do plural,
 # texto do singular, ícone padrão). Os textos ficam em idiomas/*.json.
@@ -1381,22 +1381,48 @@ def gerar_sitemap(posts, hoje, locais_por_cod=None, guias=()):
 
 # ── mapa de Leonida ─────────────────────────────────────────────────
 def carregar_mapa():
-    """Lê o mapa recriado (mapa/leonida.svg + leonida.json) e mapa/pontos.json."""
+    """Lê o mapa (camadas mapa/leonida-*.webp + leonida.json) e mapa/pontos.json."""
     try:
         info = json.loads((PASTA_MAPA / "leonida.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         print("  ! mapa/leonida.json ausente — rode: python mapa/recriar_mapa.py")
         return None
-    if not (PASTA_MAPA / "leonida.svg").exists():
-        print("  ! mapa/leonida.svg ausente — rode: python mapa/recriar_mapa.py")
+    camadas = info.get("camadas") or {}
+    if not camadas.get("dia") or not all((PASTA_MAPA / c["src"]).exists() for e in camadas.values() for c in e):
+        print("  ! camadas do mapa ausentes (mapa/leonida-dia.webp…) — rode: python mapa/recriar_oficial.py")
         return None
     try:
         dados = json.loads((PASTA_MAPA / "pontos.json").read_text(encoding="utf-8"))
     except (OSError, ValueError) as exc:
         print(f"  ! mapa/pontos.json inválido ({exc}) — mapa sem pontos")
         dados = {}
+    try:
+        poster = json.loads((PASTA_MAPA / "poster" / "poster.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        poster = None                      # sem o pôster oficial: o mapa fica só com o redesenho
     return {"info": info, "pontos": dados.get("pontos", []), "rotulos": dados.get("rotulos", []),
-            "escudos": dados.get("escudos", []), "confirmados": dados.get("confirmados", [])}
+            "escudos": dados.get("escudos", []), "confirmados": dados.get("confirmados", []),
+            "poster": poster}
+
+
+def poster_secao(mapa, textos, prefixo):
+    """Seção com o pôster oficial inteiro (arte da Rockstar), crédito e link para o download oficial."""
+    poster = mapa and mapa.get("poster")
+    if not poster:
+        return ""
+    img = poster["inteiro"]
+    return (f'<figure class="poster-oficial" id="poster-oficial">\n'
+            f'    <h3>{esc(textos.get("mp43", ""))}</h3>\n'
+            f'    <p>{esc(textos.get("mp44", ""))}</p>\n'
+            f'    <a class="poster-oficial__img" href="{prefixo}map-data/poster/{img["src"]}" target="_blank" rel="noopener">'
+            f'<img src="{prefixo}map-data/poster/{img["src"]}" width="{img["w"]}" height="{img["h"]}" loading="lazy" '
+            f'decoding="async" alt="{esc(textos.get("mp45", ""))}"></a>\n'
+            f'    <figcaption>{textos.get("mp46", "")}\n'
+            f'      <span class="poster-oficial__acoes"><button type="button" class="botao" data-poster-no-mapa>'
+            f'{esc(textos.get("mp47", ""))}</button>'
+            f'<a class="botao botao--fantasma" href="{esc(poster["download"])}" target="_blank" rel="noopener">'
+            f'{esc(textos.get("mp48", ""))}</a></span></figcaption>\n'
+            f'  </figure>')
 
 
 def texto_idioma(valor, cod):
@@ -1450,24 +1476,28 @@ def config_mapa(mapa, cod, textos, prefixo, com_pagina=()):
                             "y": round(float(e["y"]), 5)})
         except (KeyError, TypeError, ValueError):
             print(f"  ! escudo de rodovia ignorado: {e}")
-    versao = int((PASTA_MAPA / "leonida.svg").stat().st_mtime)     # evita cache velho após atualizar
+    versao = int(PREVIA_MAPA.stat().st_mtime)     # evita cache velho após atualizar
     usadas = {p["cat"] for p in pontos}
     categorias = [{"id": c, "cor": cor, "nome": textos.get(plural, c), "singular": textos.get(singular, c),
                    "icone": icone or ""}
                   for c, cor, plural, singular, icone in CATEGORIAS_MAPA if c in usadas]
     config = {
-        "info": mapa["info"],
-        "svg": f"{prefixo}map-data/leonida.svg?v={versao}",
+        "info": {c: v for c, v in mapa["info"].items() if c != "camadas"},
+        "camadas": {estilo: [{"src": f"{prefixo}map-data/{c['src']}?v={versao}", "w": c["w"]} for c in lista]
+                    for estilo, lista in mapa["info"].get("camadas", {}).items()},
         "pontos": pontos,
         "rotulos": rotulos,
         "escudos": escudos,
+        "poster": ([{"src": f"{prefixo}map-data/poster/{c['src']}", "w": c["w"]} for c in mapa["poster"]["mapa"]]
+                   if mapa.get("poster") else []),
         "categorias": categorias,
         "textos": {chave: textos.get(k, "") for chave, k in (
             ("video", "mp06"), ("copiar", "mp07"), ("pagina", "lc06"), ("copiado", "mp08"), ("nada", "mp09"),
             ("editar", "mp12"), ("quadrante", "mp19"), ("inspirado", "lc10"), ("visitado", "mp24"),
             ("marcar", "mp25"), ("visitados", "mp27"), ("aprox", "mp28"), ("aproximar", "mp29"),
             ("oficial", "mp33"), ("descritivo", "mp34"), ("comunidade", "mp35"), ("fontes", "mp38"),
-            ("verRegiao", "mp32"), ("fonteMapa", "mp41"))},
+            ("verRegiao", "mp32"), ("fonteMapa", "mp41"), ("fontePoster", "mp49"),
+            ("poster", "mp42"), ("redesenho", "mp50"))},
     }
     return json.dumps(config, ensure_ascii=False).replace("</", "<\\/")
 
@@ -1909,6 +1939,7 @@ def montar():
                 extras["__locais_lista__"] = (lambda pref, locais=locais, cod=cod, textos=textos:
                                               lista_locais(locais, pref, cod, textos))
                 extras["__confirmados_lista__"] = confirmados_html(mapa, cod, textos)
+                extras["__poster_secao__"] = lambda pref, textos=textos: poster_secao(mapa, textos, pref)
                 extras["__mapa_config__"] = (
                     lambda pref, cod=cod, textos=textos, ids=ids_locais: config_mapa(mapa, cod, textos, pref, ids)
                     if mapa else "null")
@@ -2109,22 +2140,27 @@ def montar():
         print(f"  ✓ {paginas_local} página(s) de locais do mapa")
         if not PREVIA_MAPA.exists():
             print("  ! mapa/leonida-dia.webp ausente: as páginas de local saem sem o recorte do mapa.\n"
-                  "    Para gerar: python mapa/gerar_previa.py")
+                  "    Para gerar: python mapa/recriar_oficial.py")
     print("  ✓ feed.xml, pt/feed.xml, es/feed.xml")
 
     for nome in ESTATICOS:
         if (RAIZ / nome).exists():
             shutil.copy(RAIZ / nome, SAIDA / nome)
 
-    # mapa de Leonida recriado (vetor), e bibliotecas do próprio site
+    # mapa de Leonida (camadas Dia e Noite, a partir do pôster oficial), e bibliotecas do próprio site
     if mapa:
         (SAIDA / "map-data").mkdir(exist_ok=True)
-        if (PASTA_MAPA / "leonida.svg").exists():
-            shutil.copy(PASTA_MAPA / "leonida.svg", SAIDA / "map-data" / "leonida.svg")
+        for lista in mapa["info"].get("camadas", {}).values():
+            for c in lista:
+                shutil.copy(PASTA_MAPA / c["src"], SAIDA / "map-data" / c["src"])
+        if mapa.get("poster"):             # pôster oficial (arte da Rockstar, com crédito)
+            (SAIDA / "map-data" / "poster").mkdir(exist_ok=True)
+            for arq in (PASTA_MAPA / "poster").glob("*.webp"):
+                shutil.copy(arq, SAIDA / "map-data" / "poster" / arq.name)
         velho = SAIDA / "map-data" / "original.webp"
         if velho.exists():
             velho.unlink()     # não usamos mais a visualização "Original"
-        print("  ✓ map-data/ (mapa recriado)")
+        print("  ✓ map-data/ (mapa a partir do pôster oficial)")
     if PASTA_VENDOR.is_dir():
         shutil.copytree(PASTA_VENDOR, SAIDA / "vendor")
     # logo oficial e ícones (favicon, app, dados estruturados)
