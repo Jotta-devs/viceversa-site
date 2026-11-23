@@ -25,6 +25,11 @@
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/trofeus/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://vvviceversa.com/es/trofeos/"/>
   </url>
+  <url><loc>https://vvviceversa.com/cheats/</loc><lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vvviceversa.com/cheats/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/codigos/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://vvviceversa.com/es/trucos/"/>
+  </url>
   <url><loc>https://vvviceversa.com/about/</loc><lastmod>2026-11-23</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://vvviceversa.com/about/"/>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/sobre/"/>
@@ -70,6 +75,11 @@
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/trofeus/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://vvviceversa.com/es/trofeos/"/>
   </url>
+  <url><loc>https://vvviceversa.com/pt/codigos/</loc><lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vvviceversa.com/cheats/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/codigos/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://vvviceversa.com/es/trucos/"/>
+  </url>
   <url><loc>https://vvviceversa.com/pt/sobre/</loc><lastmod>2026-11-23</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://vvviceversa.com/about/"/>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/sobre/"/>
@@ -114,6 +124,11 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://vvviceversa.com/trophies/"/>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/trofeus/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://vvviceversa.com/es/trofeos/"/>
+  </url>
+  <url><loc>https://vvviceversa.com/es/trucos/</loc><lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vvviceversa.com/cheats/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://vvviceversa.com/pt/codigos/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://vvviceversa.com/es/trucos/"/>
   </url>
   <url><loc>https://vvviceversa.com/es/sobre/</loc><lastmod>2026-11-23</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://vvviceversa.com/about/"/>
