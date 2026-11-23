@@ -18,6 +18,7 @@ on:
       - "idiomas/**"
       - "institucional/**"
       - "mapa/pontos.json"
+      - "mapa/colecionaveis.json"
       - "aprofundamento/**"
 
 concurrency:
@@ -74,7 +75,7 @@ jobs:
           git config user.name "viceversa-bot"
           git config user.email "bot@viceversa"
           for tentativa in 1 2 3; do
-            git add feed.json videos.json slugs.json midia/ docs/
+            git add feed.json videos.json slugs.json mapa/colecionaveis-enviados.json midia/ docs/
             if git diff --cached --quiet; then
               echo "nada mudou, nada a publicar."
               exit 0
