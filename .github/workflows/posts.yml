@@ -19,6 +19,7 @@ on:
       - "institucional/**"
       - "mapa/pontos.json"
       - "mapa/colecionaveis.json"
+      - "trofeus/**"
       - "aprofundamento/**"
 
 concurrency:
