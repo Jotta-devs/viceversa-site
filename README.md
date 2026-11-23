@@ -321,6 +321,21 @@ python mapa/poster_site.py
 python montar.py
 ```
 
+**Colecionáveis** (cartas, pontos WAiNK, meteoritos, naufrágios de Kenton, revistas e
+livros) ficam em camadas próprias do mapa, desligadas no começo, com "marcar como
+coletado" e contador por tipo (salvos no navegador do leitor).
+
+```
+mapa/colecionaveis.json          base, a partir dos guias publicados: posição APROXIMADA,
+                                 ancorada nos nomes oficiais do mapa; o texto "local" diz onde fica
+mapa/colecionaveis-enviados.json o robô grava aqui as Issues do formulário "Novo colecionável"
+```
+
+Para pôr a **posição exata**: abra o mapa com `?editar=1`, clique no colecionável e
+depois no ponto exato; o link "Enviar posição exata" abre o formulário já preenchido.
+Um envio com o mesmo tipo e nome de um item da base substitui a posição aproximada
+(e o selo "aproximada" sai). Só Issues de quem tem acesso ao repositório entram.
+
 **Adicionar ou ajustar pontos:** abra `/map/?editar=1` no site, clique no lugar
 exato — a posição `"x": …, "y": …` é copiada — e cole em `mapa/pontos.json`.
 Pontos de trailer podem levar `"video"` (id do YouTube) e `"t"` (segundo da cena).

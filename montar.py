@@ -48,6 +48,7 @@ PARTES = RAIZ / "partes"
 PAGINAS = RAIZ / "paginas"
 PASTA_IDIOMAS = RAIZ / "idiomas"
 PASTA_INSTITUCIONAL = RAIZ / "institucional"
+REPO_GITHUB = "Jotta-devs/viceversa-site"   # formulário "Novo colecionável" (modo de edição do mapa)
 PASTA_MAPA = RAIZ / "mapa"          # imagem-base, vetor e pontos do mapa de Leonida
 PASTA_VENDOR = RAIZ / "vendor"      # bibliotecas de terceiros servidas pelo próprio site (Leaflet)
 SAIDA = RAIZ / "docs"   # o GitHub Pages serve a raiz ou /docs
@@ -1402,7 +1403,63 @@ def carregar_mapa():
         poster = None                      # sem o pôster oficial: o mapa fica só com o redesenho
     return {"info": info, "pontos": dados.get("pontos", []), "rotulos": dados.get("rotulos", []),
             "escudos": dados.get("escudos", []), "confirmados": dados.get("confirmados", []),
-            "poster": poster}
+            "poster": poster, "colecionaveis": carregar_colecionaveis()}
+
+
+def carregar_colecionaveis():
+    """mapa/colecionaveis.json (base, dos guias publicados, posição aproximada) + mapa/colecionaveis-enviados.json
+    (formulário "Novo colecionável": posição conferida no jogo). Um enviado com o mesmo tipo e nome de um
+    item da base substitui a posição aproximada; os outros entram como itens novos."""
+    try:
+        base = json.loads((PASTA_MAPA / "colecionaveis.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        if (PASTA_MAPA / "colecionaveis.json").exists():
+            print(f"  ! mapa/colecionaveis.json inválido ({exc}) — mapa sem colecionáveis")
+        return None
+    try:
+        enviados = json.loads((PASTA_MAPA / "colecionaveis-enviados.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        enviados = []
+    itens = [dict(i) for i in base.get("itens", [])]
+    tipos = {t["id"] for t in base.get("tipos", [])}
+    chave = lambda i: (i.get("tipo"), re.sub(r"\W+", " ", str(i.get("nome", "")).lower()).strip())
+    for env in enviados:
+        if env.get("tipo") not in tipos:
+            continue
+        alvo = next((i for i in itens if chave(i) == chave(env) and i.get("aprox")), None)
+        if alvo:
+            alvo.update({k: v for k, v in env.items() if k in ("x", "y", "local", "itens") and v})
+            alvo["aprox"] = False
+            alvo["fontes"] = env.get("fontes") or []
+        else:
+            itens.append({**env, "aprox": False})
+    return {"tipos": base.get("tipos", []), "itens": itens}
+
+
+def config_colecionaveis(mapa, cod):
+    col = mapa.get("colecionaveis")
+    if not col:
+        return None
+    tipos = [{"id": "col-" + t["id"], "cor": t["cor"], "icone": t["icone"], "nome": texto_idioma(t["nome"], cod),
+              "singular": texto_idioma(t["singular"], cod), "grupo": "col"} for t in col["tipos"]]
+    itens = []
+    for i in col["itens"]:
+        try:
+            item = {"id": str(i["id"]), "cat": "col-" + i["tipo"], "x": round(float(i["x"]), 5),
+                    "y": round(float(i["y"]), 5), "nome": str(i["nome"]), "desc": texto_idioma(i.get("local"), cod)}
+            if cod != "en" and i.get("aprox"):          # o formulário pede o texto em inglês
+                item["desc_en"] = texto_idioma(i.get("local"), "en")
+        except (KeyError, TypeError, ValueError):
+            print(f"  ! colecionável ignorado (faltam id/tipo/x/y): {i.get('nome', i)}")
+            continue
+        if i.get("aprox"):
+            item["aprox"] = True
+        if i.get("itens"):
+            item["itens"] = [str(x) for x in i["itens"]]
+        if i.get("fontes"):
+            item["fontes"] = i["fontes"]
+        itens.append(item)
+    return {"tipos": tipos, "itens": itens}
 
 
 def poster_secao(mapa, textos, prefixo):
@@ -1488,6 +1545,8 @@ def config_mapa(mapa, cod, textos, prefixo, com_pagina=()):
         "pontos": pontos,
         "rotulos": rotulos,
         "escudos": escudos,
+        "colecionaveis": config_colecionaveis(mapa, cod),
+        "repo": REPO_GITHUB,
         "poster": ([{"src": f"{prefixo}map-data/poster/{c['src']}", "w": c["w"]} for c in mapa["poster"]["mapa"]]
                    if mapa.get("poster") else []),
         "categorias": categorias,
@@ -1497,7 +1556,9 @@ def config_mapa(mapa, cod, textos, prefixo, com_pagina=()):
             ("marcar", "mp25"), ("visitados", "mp27"), ("aprox", "mp28"), ("aproximar", "mp29"),
             ("oficial", "mp33"), ("descritivo", "mp34"), ("comunidade", "mp35"), ("fontes", "mp38"),
             ("verRegiao", "mp32"), ("fonteMapa", "mp41"), ("fontePoster", "mp49"),
-            ("poster", "mp42"), ("redesenho", "mp50"))},
+            ("poster", "mp42"), ("redesenho", "mp50"), ("colecionaveis", "mp51"), ("coletar", "mp52"),
+            ("coletado", "mp53"), ("coletados", "mp54"), ("tesouros", "mp55"), ("aproxCol", "mp56"),
+            ("notaCol", "mp57"))},
     }
     return json.dumps(config, ensure_ascii=False).replace("</", "<\\/")
 
